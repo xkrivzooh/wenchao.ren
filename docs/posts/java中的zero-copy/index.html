@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>java中的zero copy ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="在web应用程序中，我们经常会在server和client之间传输数据。比如server发数据给client，server首先将数据从硬盘读出之后，然后原封不动的通过socket传输给client，大致原理如下：
+File.read(fileDesc, buf, len); Socket.send(socket, buf, len);  下面的例子展示了传统的数据复制实现
+import java.io.DataOutputStream; import java.io.FileInputStream; import java.io.IOException; import java.net.Socket; import java.net.UnknownHostException; public class TraditionalClient { public static void main(String[] args) { int port = 2000; String server = &amp;quot;localhost&amp;quot;; Socket socket = null; String lineToBeSent; DataOutputStream output = null; FileInputStream inputStream = null; int ERROR = 1; // connect to server try { socket = new Socket(server, port); System.out.println(&amp;quot;Connected with server &amp;quot; &#43; socket." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/java%E4%B8%AD%E7%9A%84zero-copy/'>java中的zero copy</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>在web应用程序中，我们经常会在server和client之间传输数据。比如server发数据给client，server首先将数据从硬盘读出之后，然后原封不动的通过socket传输给client，大致原理如下：</p>
+<pre><code class="language-java">File.read(fileDesc, buf, len);
+Socket.send(socket, buf, len);
+</code></pre>
+<p>下面的例子展示了传统的数据复制实现</p>
+<pre><code class="language-java">import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TraditionalClient {
+
+
+	public static void main(String[] args) {
+
+		int port = 2000;
+		String server = &quot;localhost&quot;;
+		Socket socket = null;
+		String lineToBeSent;
+
+		DataOutputStream output = null;
+		FileInputStream inputStream = null;
+		int ERROR = 1;
+
+
+		// connect to server
+		try {
+			socket = new Socket(server, port);
+			System.out.println(&quot;Connected with server &quot; +
+					socket.getInetAddress() +
+					&quot;:&quot; + socket.getPort());
+		}
+		catch (UnknownHostException e) {
+			System.out.println(e);
+			System.exit(ERROR);
+		}
+		catch (IOException e) {
+			System.out.println(e);
+			System.exit(ERROR);
+		}
+
+		try {
+			String fname = &quot;sendfile/NetworkInterfaces.c&quot;;
+			inputStream = new FileInputStream(fname);
+
+			output = new DataOutputStream(socket.getOutputStream());
+			long start = System.currentTimeMillis();
+			byte[] b = new byte[4096];
+			long read = 0, total = 0;
+			while ((read = inputStream.read(b)) &gt;= 0) {
+				total = total + read;
+				output.write(b);
+			}
+			System.out.println(&quot;bytes send--&quot; + total + &quot; and totaltime--&quot; + (System.currentTimeMillis() - start));
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
+
+		try {
+			output.close();
+			socket.close();
+			inputStream.close();
+		}
+		catch (IOException e) {
+			System.out.println(e);
+		}
+	}
+}
+</code></pre>
+<p>这种操作看起来可能不会怎么消耗CPU，但是实际上它是低效的。因为传统的 Linux 操作系统的标准 I/O 接口是基于数据拷贝操作的，即 I/O 操作会导致数据在操作系统内核地址空间的缓冲区和应用程序地址空间定义的缓冲区之间进行传输。如下图：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190314131146.png" alt="Traditional data copying approach"></p>
+<ul>
+<li>数据首先被从磁盘读取到内核的<code>read buffer</code>中</li>
+<li>然后在从内核的<code>read buffer</code>中复制到应用程序的buffer中</li>
+<li>然后在从应用程序的buffer中复制到内核的<code>socket buffer</code>中</li>
+<li>最后在从内核的<code>socket buffer</code>中复制到网卡中</li>
+</ul>
+<p>然后其中涉及了4次上下文切换：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190314131533.png" alt="Traditional context switches"></p>
+<p>分析上面的描述，我们可以看到<code>kernel buffer</code>其实在这个过程中充当了一个<code>ahead cache</code>。之所以引入这个<code>kernel buffer</code>其实是在很多的情况下是可以减少磁盘 I/O 的操作，进而提升效率的。</p>
+<ul>
+<li>比如对于读请求，如果我们所请求的数据的大小小于<code>kernel buffer</code>并且如果要读取的数据已经存放在操作系统的高速缓冲存储器中，那么就不需要再进行实际的物理磁盘 I/O 操作。直接从<code>kernel buffer</code>中读取就好了。</li>
+<li>对于写请求：利用这个<code>ahead cache</code>可以实现异步写操作</li>
+</ul>
+<p>但是没有银弹，这样会带来一个问题就是，如果当我们请求的数据量的大小远大于<code>kernel buffer</code>的大小的话，这种情况下<code>kernel buffer</code>的存在反而会导致数据在<code>kernel buffer</code>和<code>用户缓冲区</code>之间多次复制。</p>
+<h2 id="java中的zero-copy">java中的zero copy</h2>
+<p>如果我们想在java中使用zero copy，我们一般会用<code>java.nio.channels.FileChannel</code>类中的<code>transferTo()</code>方法。下面是它的描述：</p>
+<pre><code class="language-java">  /**
+     * Transfers bytes from this channel's file to the given writable byte
+     * channel.
+     *
+     * &lt;p&gt; An attempt is made to read up to &lt;tt&gt;count&lt;/tt&gt; bytes starting at
+     * the given &lt;tt&gt;position&lt;/tt&gt; in this channel's file and write them to the
+     * target channel.  An invocation of this method may or may not transfer
+     * all of the requested bytes; whether or not it does so depends upon the
+     * natures and states of the channels.  Fewer than the requested number of
+     * bytes are transferred if this channel's file contains fewer than
+     * &lt;tt&gt;count&lt;/tt&gt; bytes starting at the given &lt;tt&gt;position&lt;/tt&gt;, or if the
+     * target channel is non-blocking and it has fewer than &lt;tt&gt;count&lt;/tt&gt;
+     * bytes free in its output buffer.
+     *
+     * &lt;p&gt; This method does not modify this channel's position.  If the given
+     * position is greater than the file's current size then no bytes are
+     * transferred.  If the target channel has a position then bytes are
+     * written starting at that position and then the position is incremented
+     * by the number of bytes written.
+     *
+     * &lt;p&gt; This method is potentially much more efficient than a simple loop
+     * that reads from this channel and writes to the target channel.  Many
+     * operating systems can transfer bytes directly from the filesystem cache
+     * to the target channel without actually copying them.  &lt;/p&gt;
+     *
+     * @param  position
+     *         The position within the file at which the transfer is to begin;
+     *         must be non-negative
+     *
+     * @param  count
+     *         The maximum number of bytes to be transferred; must be
+     *         non-negative
+     *
+     * @param  target
+     *         The target channel
+     *
+     * @return  The number of bytes, possibly zero,
+     *          that were actually transferred
+     *
+     * @throws IllegalArgumentException
+     *         If the preconditions on the parameters do not hold
+     *
+     * @throws  NonReadableChannelException
+     *          If this channel was not opened for reading
+     *
+     * @throws  NonWritableChannelException
+     *          If the target channel was not opened for writing
+     *
+     * @throws  ClosedChannelException
+     *          If either this channel or the target channel is closed
+     *
+     * @throws  AsynchronousCloseException
+     *          If another thread closes either channel
+     *          while the transfer is in progress
+     *
+     * @throws  ClosedByInterruptException
+     *          If another thread interrupts the current thread while the
+     *          transfer is in progress, thereby closing both channels and
+     *          setting the current thread's interrupt status
+     *
+     * @throws  IOException
+     *          If some other I/O error occurs
+     */
+    public abstract long transferTo(long position, long count,
+                                    WritableByteChannel target)
+        throws IOException;
+</code></pre>
+<p><code>transferTo()</code>方法把数据从file channel传输到指定的writable byte channel。它需要底层的操作系统支持zero copy。在UNIX和各种Linux中，会执行系统调用<code>sendfile()</code>，该命令把数据从一个文件描述符传输到另一个文件描述符(Linux中万物皆文件)：</p>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
+</code></pre>
+<p>因此传统的方式中的</p>
+<pre><code class="language-java">File.read(fileDesc, buf, len);
+Socket.send(socket, buf, len);
+</code></pre>
+<p>可以被<code>transferTo()</code>替代。下面的图展示了使用<code>transferTo()</code>, 也就是zero copy技术后的流程：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190314134601.png" alt=" Data copy with transferTo()"></p>
+<p><img src="http://7niucdn.wenchao.ren/20190314134614.png" alt="Context switching with transferTo()"></p>
+<ul>
+<li><code>transferTo()</code>方法使文件内容被DMA引擎复制到读缓冲区中。 然后，内核将数据复制到与输出套接字关联的内核缓冲区中。</li>
+<li>第三个副本发生在DMA引擎将数据从内核套接字缓冲区传递到协议引擎时。</li>
+</ul>
+<p>这是一个很明显的进步：我们把context switch的次数从4次减少到了2次，同时也把data copy的次数从4次降低到了3次(而且其中只有一次占用了CPU，另外两次由DMA完成)。但是，要做到zero copy，这还差得远。</p>
+<p>如果网卡支持<code>gather operation</code>，我们可以通过kernel进一步减少数据的拷贝操作。在2.4及以上版本的linux内核中，开发者修改了<code>socket buffer descriptor</code>来适应这一需求。这个方法不仅减少了context switch，还消除了和CPU有关的数据拷贝。使用层面的使用方法没有变，但是内部原理却发生了变化：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190314134919.png" alt="Data copies when transferTo() and gather operations are used"></p>
+<ul>
+<li><code>transferTo()</code>方法使文件内容被DMA引擎复制到内核缓冲区中。</li>
+<li>没有数据被复制到套接字缓冲区中。 相反，只有具有有关数据位置和长度信息的描述符才会附加到套接字缓冲区。 DMA引擎将数据直接从内核缓冲区传递到协议引擎，从而消除了剩余的最终CPU副本。</li>
+</ul>
+<p>下面这个例子展示了如何使用<code>transferTo()</code>：</p>
+<pre><code class="language-java">import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.nio.channels.FileChannel;
+import java.nio.channels.SocketChannel;
+
+public class TransferToClient {
+	
+	public static void main(String[] args) throws IOException{
+		TransferToClient sfc = new TransferToClient();
+		sfc.testSendfile();
+	}
+	public void testSendfile() throws IOException {
+	    String host = &quot;localhost&quot;;
+	    int port = 9026;
+	    SocketAddress sad = new InetSocketAddress(host, port);
+	    SocketChannel sc = SocketChannel.open();
+	    sc.connect(sad);
+	    sc.configureBlocking(true);
+
+	    String fname = &quot;sendfile/NetworkInterfaces.c&quot;;
+	    long fsize = 183678375L, sendzise = 4094;
+	    
+	    // FileProposerExample.stuffFile(fname, fsize);
+	    FileChannel fc = new FileInputStream(fname).getChannel();
+            long start = System.currentTimeMillis();
+	    long nsent = 0, curnset = 0;
+	    curnset =  fc.transferTo(0, fsize, sc);
+	    System.out.println(&quot;total bytes transferred--&quot;+curnset+&quot; and time taken in MS--&quot;+(System.currentTimeMillis() - start));
+	    //fc.close();
+	  }
+}
+</code></pre>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-zerocopy1/index.html">Linux 中的零拷贝技术，第 1 部分</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-zerocopy2/index.html">Linux 中的零拷贝技术，第 2 部分</a></li>
+<li><a href="https://developer.ibm.com/articles/j-zerocopy/">Efficient data transfer through zero copy</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/java/">java</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

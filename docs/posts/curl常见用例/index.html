@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>curl常见用例 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="整理一下curl的常见用法，避免我用到一些我没记住的用例时在去到处找.
+http method curl -XGET http://www.baidu.com curl -XGET &amp;lsquo;http://www.baidu.com?a=b&amp;amp;c=d&#39; curl -XPOST http://www.baidu.com
+常见POST JSON POST curl --header &amp;quot;Content-Type: application/json&amp;quot; \ --X POST \ -d &#39;{&amp;quot;username&amp;quot;:&amp;quot;xyz&amp;quot;,&amp;quot;password&amp;quot;:&amp;quot;xyz&amp;quot;}&#39; \ http://localhost:3000/api/login  设置cookie
+curl -i -H &amp;quot;Application/json&amp;quot; -H &amp;quot;Content-type: application/json&amp;quot; -v --cookie &amp;quot;userName=xxx&amp;quot; -XPOST &#39;http://domain.com&#39; -d &#39; { &amp;quot;code&amp;quot;:&amp;quot;typecode2&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;typename2&amp;quot;, &amp;quot;remark&amp;quot;:&amp;quot;remark&amp;quot;, &amp;quot;structures&amp;quot;:[ { “dimensionType&amp;quot;:2 }, { &amp;quot;dimensionType&amp;quot;: 3 } ] }&#39;  也可以吧body放置在文件中post
+curl -d &amp;quot;@data.json&amp;quot; -X POST http://localhost:3000/data  然后data.json文件中写json，比如：
+{ &amp;quot;key1&amp;quot;:&amp;quot;value1&amp;quot;, &amp;quot;key2&amp;quot;:&amp;quot;value2&amp;quot; }  FORM POST application/x-www-form-urlencoded is the default:" />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/curl%E5%B8%B8%E8%A7%81%E7%94%A8%E4%BE%8B/'>curl常见用例</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>整理一下curl的常见用法，避免我用到一些我没记住的用例时在去到处找.</p>
+<h2 id="http-method">http method</h2>
+<p>curl -XGET <a href="http://www.baidu.com">http://www.baidu.com</a>
+curl -XGET &lsquo;<a href="http://www.baidu.com?a=b&amp;c=d'">http://www.baidu.com?a=b&amp;c=d'</a>
+curl -XPOST <a href="http://www.baidu.com">http://www.baidu.com</a></p>
+<h3 id="常见post">常见POST</h3>
+<h4 id="json-post">JSON POST</h4>
+<pre><code class="language-bash">curl --header &quot;Content-Type: application/json&quot; \
+  --X POST \
+  -d '{&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;}' \
+  http://localhost:3000/api/login
+</code></pre>
+<p>设置cookie</p>
+<pre><code class="language-bash">curl -i -H &quot;Application/json&quot; -H &quot;Content-type: application/json&quot; -v --cookie &quot;userName=xxx&quot; -XPOST 'http://domain.com' -d '
+{
+  &quot;code&quot;:&quot;typecode2&quot;,
+  &quot;name&quot;: &quot;typename2&quot;,
+  &quot;remark&quot;:&quot;remark&quot;,
+  &quot;structures&quot;:[
+    {
+      “dimensionType&quot;:2
+    },
+    {
+      &quot;dimensionType&quot;: 3
+    }
+  ]
+}'
+</code></pre>
+<p>也可以吧body放置在文件中post</p>
+<pre><code class="language-bash">curl -d &quot;@data.json&quot; -X POST http://localhost:3000/data
+</code></pre>
+<p>然后data.json文件中写json，比如：</p>
+<pre><code class="language-json">{
+  &quot;key1&quot;:&quot;value1&quot;,
+  &quot;key2&quot;:&quot;value2&quot;
+}
+</code></pre>
+<h4 id="form-post">FORM POST</h4>
+<p><code>application/x-www-form-urlencoded</code> is the default:</p>
+<pre><code class="language-bash">curl -d &quot;param1=value1&amp;param2=value2&quot; -X POST http://localhost:3000/data
+curl -d &quot;param1=value1&amp;param2=value2&quot; -H &quot;Content-Type: application/x-www-form-urlencoded&quot; -X POST http://localhost:3000/data
+curl -d &quot;@data.txt&quot; -X POST http://localhost:3000/data
+</code></pre>
+<h2 id="文件下载">文件下载</h2>
+<p>使用-o保存文件，类似于 wget 命令，比如下载 README 文本保存为 readme.txt 文件。如果你需要自定义文件名，可以使用-O自定使用 url 中的文件名。</p>
+<pre><code class="language-bash">curl -o readme.txt https://mirrors.nju.edu.cn/kali/README
+</code></pre>
+<p>下载文件会显示下载状态，如数据量大小、传输速度、剩余时间等。可以使用-s参数禁用进度表。</p>
+<pre><code class="language-bash">curl -o readme.txt https://mirrors.nju.edu.cn/kali/README -s
+</code></pre>
+<p>也可以使用&ndash;process-bar参数让进度表显示为进度条。</p>
+<pre><code class="language-bash"> curl -o readme.txt https://mirrors.nju.edu.cn/kali/README --progress-bar
+</code></pre>
+<h3 id="断点续传下载">断点续传下载</h3>
+<p>cURL 作为强大的代名词，断点续传自然手到擒来，使用-C -参数即可。下面是断点续传下载 ubuntu20.04 镜像的例子</p>
+<pre><code class="language-bash">$ curl -O https://mirrors.nju.edu.cn/ubuntu-releases/20.04/ubuntu-20.04-desktop-amd64.iso --progress-bar
+##                                                                                               1.7%
+^C
+$ curl -C - -O https://mirrors.nju.edu.cn/ubuntu-releases/20.04/ubuntu-20.04-desktop-amd64.iso --progress-bar
+###                                                                                              2.4%
+^C
+$ curl -C - -O https://mirrors.nju.edu.cn/ubuntu-releases/20.04/ubuntu-20.04-desktop-amd64.iso --progress-bar
+###                                                                                               2.7%
+^C
+</code></pre>
+<h3 id="下载限速">下载限速</h3>
+<p>使用 <code>--limit-rate</code></p>
+<pre><code class="language-bash">curl -C - -O https://mirrors.nju.edu.cn/ubuntu-releases/20.04/ubuntu-20.04-desktop-amd64.iso --limit-rate 100k
+</code></pre>
+<h3 id="从ftp下载">从FTP下载</h3>
+<pre><code class="language-bash">curl -u user:password -O ftp://ftp_server/path/to/file/
+</code></pre>
+<h2 id="显示response-header">显示response header</h2>
+<p>使用 <code>-i</code> 参数显示 Response Headers 信息。使用 <code>-I</code> 可以只显示 Response Headers 信息。</p>
+<pre><code class="language-bash">$ curl -I http://wttr.in
+HTTP/1.1 200 OK
+Server: nginx/1.10.3
+Date: Sat, 30 May 2020 09:57:03 GMT
+Content-Type: text/plain; charset=utf-8
+Content-Length: 8678
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+</code></pre>
+<p>但是换是推荐使用<code>-v</code>，这样请求和响应的header都会有了</p>
+<h2 id="文件长传">文件长传</h2>
+<pre><code class="language-bash">curl -F profile=@portrait.jpg https://example.com/upload
+curl -F 'file=@&quot;localfile&quot;;filename=&quot;nameinpost&quot;' example.com/upload
+</code></pre>
+<h2 id="网址通配">网址通配</h2>
+<p>cURL 可以实现多个网址的匹配，你可以使用 {} 结合逗号分割来标识使用 url 中的某一段，也可以使用 [] 来表示范围参数。</p>
+<pre><code class="language-bash"># 请求 www.baidu.com 和  pan.baidu.com 和 fanyi.baidu.com
+$ curl http://{www,pan,fanyi}.baidu.com
+# 虚构网址1-10开头的baidu.com，然后请求
+$ curl http://[1-10].baidu.com
+# 虚构网址a-z开头的baidu.com，然后请求
+$ curl http://[a-z].baidu.com
+</code></pre>
+<h2 id="curl-常见参数">curl 常见参数</h2>
+<ul>
+<li>-#, &ndash;progress-bar Make curl display a simple progress bar instead of the more informational standard meter.</li>
+<li>-b, &ndash;cookie &lt;name=data&gt; Supply cookie with request. If no =, then specifies the cookie file to use (see -c).</li>
+<li>-c, &ndash;cookie-jar <file name> File to save response cookies to.</li>
+<li>-d, &ndash;data <data> Send specified data in POST request. Details provided below.</li>
+<li>-f, &ndash;fail Fail silently (don&rsquo;t output HTML error form if returned).</li>
+<li>-F, &ndash;form &lt;name=content&gt; Submit form data.</li>
+<li>-H, &ndash;header <header> Headers to supply with request.</li>
+<li>-i, &ndash;include Include HTTP headers in the output.</li>
+<li>-I, &ndash;head Fetch headers only.</li>
+<li>-k, &ndash;insecure Allow insecure connections to succeed.</li>
+<li>-L, &ndash;location Follow redirects.</li>
+<li>-o, &ndash;output <file> Write output to . Can use &ndash;create-dirs in conjunction with this to create any directories specified in the -o path.</li>
+<li>-O, &ndash;remote-name Write output to file named like the remote file (only writes to current directory).</li>
+<li>-s, &ndash;silent Silent (quiet) mode. Use with -S to force it to show errors.</li>
+<li>-v, &ndash;verbose Provide more information (useful for debugging).</li>
+<li>-w, &ndash;write-out <format> Make curl display information on stdout after a completed transfer. See man page for more details on available variables. Convenient way to force curl to append a newline to - output: -w &ldquo;\n&rdquo; (can add to ~/.curlrc).</li>
+<li>-X, &ndash;request The request method to use.</li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/linux/">linux</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

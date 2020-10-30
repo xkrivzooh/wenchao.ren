@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>spring on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/spring/</link>
+    <description>Recent content in spring on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 08 Aug 2019 00:29:14 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何在spring中自定义xml标签并解析</title>
+      <link>https://wenchao.ren/posts/%E5%A6%82%E4%BD%95%E5%9C%A8spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89xml%E6%A0%87%E7%AD%BE%E5%B9%B6%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Thu, 08 Aug 2019 00:29:14 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%A6%82%E4%BD%95%E5%9C%A8spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89xml%E6%A0%87%E7%AD%BE%E5%B9%B6%E8%A7%A3%E6%9E%90/</guid>
+      <description>如果大家使用过dubbo那么大概率看见过&amp;lt;dubbo:application ...&amp;gt;类似的配置。这其实就是一种xml标签的自定义，当然dubbo的实现中也会有自己的解析。
+这篇文章主要就说一下xml标签的自定义和解析。本篇文章中的代码仓库地址为：https://github.com/xkrivzooh/spring-define-and-parse-example
+大家按照上面的demo例子跑一下就会明白完整流程。其中有一些注意点我列了一下：
+ .xsd文件中的targetNamespace定义了以后，后续其他的比如xmlns的值，spring.handlers以及spring.schemas中的值需要对应上 xsd:element定义的就是将来会在xml文件中用到的元素，例如&amp;lt;dubbo:application&amp;gt;中的application xsd:attribute定义的就是模型类中的属性，例如&amp;lt;dubbo:application name=&amp;quot;xxx&amp;quot;&amp;gt;中的name，并且可以指定属性类型，进而起到检测的作用（当我们定义的是int，如果在xml中的值是非int型的，直接会报错）。 通常为每一个xsd:element都要注册一个BeanDefinitionParser。 person-demo.xml中的&amp;lt;AnyStringYouWant:person name=&amp;quot;name1&amp;quot; age=&amp;quot;1&amp;quot;/&amp;gt;中的AnyStringYouWant你可以随意替换  </description>
+    </item>
+    
+    <item>
+      <title>构造函数中使用Spring  @Value注解</title>
+      <link>https://wenchao.ren/posts/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8spring-value%E6%B3%A8%E8%A7%A3/</link>
+      <pubDate>Tue, 23 Jul 2019 20:39:04 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8spring-value%E6%B3%A8%E8%A7%A3/</guid>
+      <description>如果想在构造函数中使用的@value注解的话，demo如下：
+// File: sample/Message.groovy package sample import org.springframework.beans.factory.annotation.* import org.springframework.stereotype.* @Component class Message { final String text // Use @Autowired to get @Value to work. @Autowired Message( // Refer to configuration property // app.message.text to set value for // constructor argument message. @Value(&#39;${app.message.text}&#39;) final String text) { this.text = text } }  </description>
+    </item>
+    
+    <item>
+      <title>为Spring boot项目增加Servlet</title>
+      <link>https://wenchao.ren/posts/%E4%B8%BAspring-boot%E9%A1%B9%E7%9B%AE%E5%A2%9E%E5%8A%A0servlet/</link>
+      <pubDate>Fri, 15 Feb 2019 20:08:30 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%B8%BAspring-boot%E9%A1%B9%E7%9B%AE%E5%A2%9E%E5%8A%A0servlet/</guid>
+      <description>为Spring boot项目增加Servlet有好多种方式
+方式1 Just add a bean for the servlet. It&amp;rsquo;ll get mapped to /{beanName}/.
+@Bean public Servlet foo() { return new FooServlet(); }  Note that if you actually want it mapped to /something/* rather than /something/ you will need to use ServletRegistrationBean
+方式2 使用ServletRegistrationBean
+@Bean public ServletRegistrationBean servletRegistrationBean(){ return new ServletRegistrationBean(new FooServlet(),&amp;quot;/someOtherUrl/*&amp;quot;); }  如果想增加多个的话，就类似下面的方式
+@Bean public ServletRegistrationBean axisServletRegistrationBean() { ServletRegistrationBean registration = new ServletRegistrationBean(new AxisServlet(), &amp;quot;/services/*&amp;quot;); registration.addUrlMappings(&amp;quot;*.jws&amp;quot;); return registration; } @Bean public ServletRegistrationBean adminServletRegistrationBean() { return new ServletRegistrationBean(new AdminServlet(), &amp;quot;/servlet/AdminServlet&amp;quot;); }  方式3 通过实现WebApplicationInitializer或者ServletContextInitializer或者ServletContainerInitializer接口</description>
+    </item>
+    
+    <item>
+      <title>Spring的AntPathMatcher是个好东西</title>
+      <link>https://wenchao.ren/posts/spring%E7%9A%84antpathmatcher%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/</link>
+      <pubDate>Wed, 23 Jan 2019 00:30:17 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/spring%E7%9A%84antpathmatcher%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/</guid>
+      <description>经常需要在各种中做一些模式匹配，正则表达式虽然是个好东西，但是Ant风格的匹配情况也非常的多。 这种情况下使用正则表达式不一定方便，而Spring提供的AntPathMatcher确可以帮助我们简化很多。
+位于Spring-core中的org.springframework.util.AntPathMatcher使用起来非常简单：
+public class AntPathMatcherTest { private AntPathMatcher pathMatcher = new AntPathMatcher(); @Test public void test() { pathMatcher.setCachePatterns(true); pathMatcher.setCaseSensitive(true); pathMatcher.setTrimTokens(true); pathMatcher.setPathSeparator(&amp;quot;/&amp;quot;); Assert.assertTrue(pathMatcher.match(&amp;quot;a&amp;quot;, &amp;quot;a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;a*&amp;quot;, &amp;quot;ab&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;a*/**/a&amp;quot;, &amp;quot;ab/asdsa/a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;a*/**/a&amp;quot;, &amp;quot;ab/asdsa/asdasd/a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;*&amp;quot;, &amp;quot;a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;*/*&amp;quot;, &amp;quot;a/a&amp;quot;)); } }  </description>
+    </item>
+    
+    <item>
+      <title>跨域资源共享以及Spring MVC的支持</title>
+      <link>https://wenchao.ren/posts/%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB%E4%BB%A5%E5%8F%8Aspring-mvc%E7%9A%84%E6%94%AF%E6%8C%81/</link>
+      <pubDate>Wed, 23 Jan 2019 00:15:28 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB%E4%BB%A5%E5%8F%8Aspring-mvc%E7%9A%84%E6%94%AF%E6%8C%81/</guid>
+      <description>本来想写文章详细整理一下「跨域资源共享，以及在Spring MVC中如何实现」，但是发现网站上已经有很多文章总结了， 相信我在怎么写也和绝大多数文章的差别不大，所以我选中了5篇比较不错的文章（地址在文章参考资料中）作为引用。 所以读者直接看引用的这几篇文章就好了。
+##参考资料
+ 浏览器同源政策及其规避方法 跨域资源共享 CORS 详解 Cross-origin resource sharing Enabling Cross Origin Requests for a RESTful Web Service CORS support in Spring Framework  </description>
+    </item>
+    
+  </channel>
+</rss>

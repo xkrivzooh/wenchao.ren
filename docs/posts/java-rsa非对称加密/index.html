@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>Java RSA非对称加密 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="最近的一个项目中，agent和master双方需要远程通信，但是需要双方认证以及传输的信息加密，因此就选择了RSA这个非对称加密算法实现了netty的handler。
+##实现思路 简要的描述一下实现思路：
+ 首先生成一对公钥和私钥 所有的master都使用这个私钥进行加密、解密 所有的agent都使用这个公钥进行加密和解密 master发给agent的信息，使用私钥加密，master收到agent的信息，使用私钥解密 agent发给master的信息，使用公钥加密，agent收到master的信息，使用公钥解密 无论是agent还是master，对收到的信息，只要解密失败，那么就丢弃  这样相当于实现了agent和master的认证，以及消息的加密传输。挺有意思的。 ##生成公钥私钥
+###使用java代码生成：
+private static final String RSA = &amp;quot;RSA&amp;quot;; public static KeyPair buildKeyPair() throws NoSuchAlgorithmException { final int keySize = 2048; KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA); keyPairGenerator.initialize(keySize); return keyPairGenerator.genKeyPair(); } KeyPair keyPair = buildKeyPair(); PublicKey pubKey = keyPair.getPublic(); PrivateKey privateKey = keyPair.getPrivate();  ###shell生成 我在这个项目实现中，是别生成了公钥文件和私钥文件，作为了工程的配置文件来用的，因此使用了shell的命令：
+ssh-keygen -t rsa -b 2048 -C &amp;quot;any string&amp;quot; openssl pkcs8 -topk8 -inform PEM -outform DER -in id_rsa -out private_key." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/java-rsa%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/'>Java RSA非对称加密</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>最近的一个项目中，agent和master双方需要远程通信，但是需要双方认证以及传输的信息加密，因此就选择了RSA这个非对称加密算法实现了netty的handler。</p>
+<p>##实现思路
+简要的描述一下实现思路：</p>
+<ul>
+<li>首先生成一对公钥和私钥</li>
+<li>所有的master都使用这个私钥进行加密、解密</li>
+<li>所有的agent都使用这个公钥进行加密和解密</li>
+<li>master发给agent的信息，使用私钥加密，master收到agent的信息，使用私钥解密</li>
+<li>agent发给master的信息，使用公钥加密，agent收到master的信息，使用公钥解密</li>
+<li>无论是agent还是master，对收到的信息，只要解密失败，那么就丢弃</li>
+</ul>
+<p>这样相当于实现了agent和master的认证，以及消息的加密传输。挺有意思的。
+##生成公钥私钥</p>
+<p>###使用java代码生成：</p>
+<pre><code class="language-java">   private static final String RSA = &quot;RSA&quot;;
+    public static KeyPair buildKeyPair() throws NoSuchAlgorithmException {
+        final int keySize = 2048;
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA);
+        keyPairGenerator.initialize(keySize);
+        return keyPairGenerator.genKeyPair();
+    }
+    KeyPair keyPair = buildKeyPair();
+    PublicKey pubKey = keyPair.getPublic();
+    PrivateKey privateKey = keyPair.getPrivate();
+</code></pre>
+<p>###shell生成
+我在这个项目实现中，是别生成了公钥文件和私钥文件，作为了工程的配置文件来用的，因此使用了shell的命令：</p>
+<pre><code class="language-bash">ssh-keygen -t rsa -b 2048 -C &quot;any string&quot;
+openssl pkcs8 -topk8 -inform PEM -outform DER -in id_rsa -out private_key.der -nocrypt
+openssl rsa -in id_rsa -pubout -outform DER -out public_key.der
+</code></pre>
+<p>命令解释：</p>
+<ul>
+<li>第一条命令会生成2048位的rsa的公钥和私钥文件。这个2048可以自己修改，但是最小是1024，位数越大，加密越好，但是加密和解密的速度会更慢。在生成的过程中会询问你文件的路径，我是存放在了当前目录，因此当前目录下会有：<code>id_rsa</code>和<code>id_rsa.pub</code>这两个文件。</li>
+<li>第二条命令生成java程序可用的私钥文件，其实就是将<code>id_rsa</code>转换为<code>PKCS#8</code>格式，这样java程序能够读取它</li>
+<li>第三条命令生成java程序可用的公钥文件，其实以DER格式输出公钥部分，这样java程序可用读取它</li>
+</ul>
+<p>这3条命令执行以后，当前目录下会有4个文件：</p>
+<pre><code>id_rsa          id_rsa.pub      private_key.der public_key.der
+
+</code></pre>
+<p>我们程序中使用的是后面2个，将其放在代码的<code>resources</code>目录下。
+###RSA实现
+关于rsa的java实现，直接给出代码吧：</p>
+<pre><code class="language-java">package com.qunar.qcloudagent.common.encrypt;
+import com.google.common.base.Throwables;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+public class RSAUtil {
+    private static final String RSA = &quot;RSA&quot;;
+    private static final PrivateKey PRIVATE_KEY = readPrivateKey(
+            RSAUtil.class.getResource(&quot;/&quot;).getPath().concat(&quot;private_key.der&quot;));
+    private static Cipher cipher;
+    private final static PublicKey PUBLIC_KEY = readPublicKey(
+            RSAUtil.class.getResource(&quot;/&quot;).getPath().concat(&quot;public_key.der&quot;));
+    static {
+        try {
+            cipher = Cipher.getInstance(RSA);
+        } catch (Exception e) {
+            throw Throwables.propagate(e);
+        }
+    }
+    public static byte[] encryptWithPrivateKey(byte[] message) throws Exception {
+        cipher.init(Cipher.ENCRYPT_MODE, PRIVATE_KEY);
+        return blockCipher(message, Cipher.ENCRYPT_MODE);
+    }
+    public static byte[] decryptWithPrivateKey(byte[] encrypted) throws Exception {
+        cipher.init(Cipher.DECRYPT_MODE, PRIVATE_KEY);
+        return blockCipher(encrypted, Cipher.DECRYPT_MODE);
+    }
+    public static byte[] encryptWithPublicKey(byte[] message) throws Exception {
+        cipher.init(Cipher.ENCRYPT_MODE, PUBLIC_KEY);
+        return blockCipher(message, Cipher.ENCRYPT_MODE);
+    }
+    public static byte[] decryptWithPublicKey(byte[] encrypted) throws Exception {
+        cipher.init(Cipher.DECRYPT_MODE, PUBLIC_KEY);
+        return blockCipher(encrypted, Cipher.DECRYPT_MODE);
+    }
+    private static PublicKey readPublicKey(String filename) {
+        try {
+            byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+            KeyFactory kf = KeyFactory.getInstance(RSA);
+            return kf.generatePublic(spec);
+        } catch (Exception e) {
+            throw Throwables.propagate(e);
+        }
+    }
+    private static PrivateKey readPrivateKey(String filename) {
+        try {
+            byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+            KeyFactory kf = KeyFactory.getInstance(RSA);
+            return kf.generatePrivate(spec);
+        } catch (Exception e) {
+            throw Throwables.propagate(e);
+        }
+    }
+    /**
+     * 具体为啥这么做，请看文章：{@see http://coding.westreicher.org/?p=23}
+     */
+    private static byte[] blockCipher(byte[] bytes, int mode) throws IllegalBlockSizeException, BadPaddingException {
+        // string initialize 2 buffers.
+        // scrambled will hold intermediate results
+        byte[] scrambled = new byte[0];
+        // toReturn will hold the total result
+        byte[] toReturn = new byte[0];
+        // if we encrypt we use 100 byte long blocks. Decryption requires 128 byte long blocks (because of RSA)
+        int length = (mode == Cipher.ENCRYPT_MODE) ? 100 : 128;
+        // another buffer. this one will hold the bytes that have to be modified in this step
+        byte[] buffer = new byte[length];
+        for (int i = 0; i &lt; bytes.length; i++) {
+            // if we filled our buffer array we have our block ready for de- or encryption
+            if ((i &gt; 0) &amp;&amp; (i % length == 0)) {
+                //execute the operation
+                scrambled = cipher.doFinal(buffer);
+                // add the result to our total result.
+                toReturn = append(toReturn, scrambled);
+                // here we calculate the length of the next buffer required
+                int newlength = length;
+                // if newlength would be longer than remaining bytes in the bytes array we shorten it.
+                if (i + length &gt; bytes.length) {
+                    newlength = bytes.length - i;
+                }
+                // clean the buffer array
+                buffer = new byte[newlength];
+            }
+            // copy byte into our buffer.
+            buffer[i % length] = bytes[i];
+        }
+        // this step is needed if we had a trailing buffer. should only happen when encrypting.
+        // example: we encrypt 110 bytes. 100 bytes per run means we &quot;forgot&quot; the last 10 bytes. they are in the buffer array
+        scrambled = cipher.doFinal(buffer);
+        // final step before we can return the modified data.
+        toReturn = append(toReturn, scrambled);
+        return toReturn;
+    }
+    private static byte[] append(byte[] toReturn, byte[] scrambled) {
+        byte[] destination = new byte[toReturn.length + scrambled.length];
+        System.arraycopy(toReturn, 0, destination, 0, toReturn.length);
+        System.arraycopy(scrambled, 0, destination, toReturn.length, scrambled.length);
+        return destination;
+    }
+}
+</code></pre>
+<p>关于上面的代码有一点需要指出的是：<strong>RSA加密明文最大长度117字节，解密要求密文最大长度为128字节，所以在加密和解密的过程中需要分块进行。 RSA加密对明文的长度是有限制的，如果加密数据过大会抛出如下异常：Exception in thread &ldquo;main&rdquo; javax.crypto.IllegalBlockSizeException: Data must not be longer than 117 bytes</strong>。因此上面的<code>blockCipher</code>是用来专门处理这种情况的。</p>
+<p>##参考文章</p>
+<ul>
+<li><a href="http://coding.westreicher.org/?p=23">http://coding.westreicher.org/?p=23</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/java/">java</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

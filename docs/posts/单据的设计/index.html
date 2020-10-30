@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>单据的设计 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="本文主要是初步记录一下关于单据零散的想法，看看是否可以形成一套可行的方法论。
+单据实体 单据这个实体，其实从抽象的层面来说，它其实描述了一次行为：
+ 谁，在什么时间点，用了什么样的成本，对什么目标产生了一次什么样的行为
+ 如果让我们来对上面这句话进行解析，其实可以发现它可以拆分为下面几块：
+ 谁 时间信息 成本 行为描述 行为目标  下面我们来一次分析这个问题。
+谁 一般订单的发起者其实都是【用户】，当然这个用户并不一定是C端用户。而用户的信息如何描述呢？一般的公司都会有【用户中心】，或者【供应商管理系统】等等的来描述【用户】的信息。做的好的公司也会有【用户画像】
+时间信息 时间信息一般分为2类：
+ 行为动作的产生时间  比如用户的下单时间   行为动作所带来的影响发生的时间  用户购买的商品的出库时间 用户购买的商品的送货时间 用户购买的商品的预计收货时间 前者是用户主动产生的，后者其实对用户来说是被动的。    成本信息 用户在下订单的时候往往都会消耗一定的成本，这个成本并不一定是金钱。可能是：
+ 金钱 积分 优惠券 &amp;hellip;  ##行为描述
+行为描述主要是用来解释行为，比如：
+ 购买行为 退货行为  不同的行为会有不同的属性信息，比如购买行为会有购买的数量，购买服务的持续时间等。
+行为目标 行为的目标可以是物理实体，比如商品（一瓶可乐），也可以是虚拟实体，比如一次服务。
+ 商品 服务 流量 &amp;hellip;  而具体的目标也会有一大套自己的模型和属性。比如商品的sku就是一套很经典的模型。
+单据本身的信息 单据本身也需要一些自己的属性信息：
+ 单号 单据类型 状态机  关于单据号的设计可以很有讲究，一般会有如下的考虑：
+ 单据号的形式，长度 是否有业务含义  无 有   业务含义的具体信息 业务含义占单据号的长度 是否连续（可遍历） 单据创建时间 单据生成的serverIP 路由信息 分库分表的依据 其他路由形式 单据数量增长对单据号的影响 单据号长度的划分 每秒最大单据数量预估 关于路由信息也有一个需要注意的点，就是要尽量做到数据分布平衡。  单据流程 单据的流程一般有正向流程和逆向流程。考虑到解耦和业务复杂度不可控导致的变数，一般情况下建议正向和逆向分开设计和实现。然后通过单号等信息进行关联。" />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/%E5%8D%95%E6%8D%AE%E7%9A%84%E8%AE%BE%E8%AE%A1/'>单据的设计</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>本文主要是初步记录一下关于单据零散的想法，看看是否可以形成一套可行的方法论。</p>
+<h2 id="单据实体">单据实体</h2>
+<p>单据这个实体，其实从抽象的层面来说，它其实描述了一次行为：</p>
+<blockquote>
+<p>谁，在什么时间点，用了什么样的成本，对什么目标产生了一次什么样的行为</p>
+</blockquote>
+<p>如果让我们来对上面这句话进行解析，其实可以发现它可以拆分为下面几块：</p>
+<ul>
+<li>谁</li>
+<li>时间信息</li>
+<li>成本</li>
+<li>行为描述</li>
+<li>行为目标</li>
+</ul>
+<p>下面我们来一次分析这个问题。</p>
+<h2 id="谁">谁</h2>
+<p>一般订单的发起者其实都是【用户】，当然这个用户并不一定是C端用户。而用户的信息如何描述呢？一般的公司都会有【用户中心】，或者【供应商管理系统】等等的来描述【用户】的信息。做的好的公司也会有【用户画像】</p>
+<h2 id="时间信息">时间信息</h2>
+<p>时间信息一般分为2类：</p>
+<ul>
+<li>行为动作的产生时间
+<ul>
+<li>比如用户的下单时间</li>
+</ul>
+</li>
+<li>行为动作所带来的影响发生的时间
+<ul>
+<li>用户购买的商品的出库时间</li>
+<li>用户购买的商品的送货时间</li>
+<li>用户购买的商品的预计收货时间
+前者是用户主动产生的，后者其实对用户来说是被动的。</li>
+</ul>
+</li>
+</ul>
+<h2 id="成本信息">成本信息</h2>
+<p>用户在下订单的时候往往都会消耗一定的成本，这个成本并不一定是金钱。可能是：</p>
+<ul>
+<li>金钱</li>
+<li>积分</li>
+<li>优惠券</li>
+<li>&hellip;</li>
+</ul>
+<p>##行为描述</p>
+<p>行为描述主要是用来解释行为，比如：</p>
+<ul>
+<li>购买行为</li>
+<li>退货行为</li>
+</ul>
+<p>不同的行为会有不同的属性信息，比如购买行为会有购买的数量，购买服务的持续时间等。</p>
+<h2 id="行为目标">行为目标</h2>
+<p>行为的目标可以是物理实体，比如商品（一瓶可乐），也可以是虚拟实体，比如一次服务。</p>
+<ul>
+<li>商品</li>
+<li>服务</li>
+<li>流量</li>
+<li>&hellip;</li>
+</ul>
+<p>而具体的目标也会有一大套自己的模型和属性。比如商品的sku就是一套很经典的模型。</p>
+<h2 id="单据本身的信息">单据本身的信息</h2>
+<p>单据本身也需要一些自己的属性信息：</p>
+<ul>
+<li>单号</li>
+<li>单据类型</li>
+<li>状态机</li>
+</ul>
+<p>关于单据号的设计可以很有讲究，一般会有如下的考虑：</p>
+<ul>
+<li>单据号的形式，长度</li>
+<li>是否有业务含义
+<ul>
+<li>无</li>
+<li>有</li>
+</ul>
+</li>
+<li>业务含义的具体信息</li>
+<li>业务含义占单据号的长度</li>
+<li>是否连续（可遍历）</li>
+<li>单据创建时间</li>
+<li>单据生成的serverIP</li>
+<li>路由信息</li>
+<li>分库分表的依据</li>
+<li>其他路由形式</li>
+<li>单据数量增长对单据号的影响</li>
+<li>单据号长度的划分</li>
+<li>每秒最大单据数量预估</li>
+<li>关于路由信息也有一个需要注意的点，就是要尽量做到数据分布平衡。</li>
+</ul>
+<h2 id="单据流程">单据流程</h2>
+<p>单据的流程一般有正向流程和逆向流程。考虑到解耦和业务复杂度不可控导致的变数，一般情况下建议正向和逆向分开设计和实现。然后通过单号等信息进行关联。</p>
+<ul>
+<li>正向流程
+<ul>
+<li>订单正常生产到配送的过程</li>
+</ul>
+</li>
+<li>逆向流程
+<ul>
+<li>逆向流程则指订单发生取消、退货等情况时引发的订单流程过程。</li>
+</ul>
+</li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/%E6%9D%82%E8%B0%88/">杂谈</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>系统设计 on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</link>
+    <description>Recent content in 系统设计 on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 03 Jun 2020 00:37:35 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从Netty的ResourceLeakDetector#Lavel的设计的一些感想</title>
+      <link>https://wenchao.ren/posts/%E4%BB%8Enetty%E7%9A%84resourceleakdetector-lavel%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/</link>
+      <pubDate>Wed, 03 Jun 2020 00:37:35 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BB%8Enetty%E7%9A%84resourceleakdetector-lavel%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/</guid>
+      <description>Netty中的ResourceLeakDetector#Level有4个级别：
+ DISABLED 这种模式下不进行泄露监控。 SIMPLE 这种模式下以1/128的概率抽取ByteBuf进行泄露监控。 ADVANCED 在SIMPLE的基础上，每一次对ByteBuf的调用都会尝试记录调用轨迹，消耗较大 PARANOID 在ADVANCED的基础上，对每一个ByteBuf都进行泄露监控，消耗最大。  一般而言，在项目的初期使用SIMPLE模式进行监控，如果没有问题一段时间后就可以关闭。否则升级到ADVANCED或者PARANOID模式尝试确认泄露位置。
+结合自己做中间件开发的一些感触吧：
+ client端新增加的功能，最好都有一个对应的开关，便于出问题的时候及时调整，给自己留个后路 client的功能尽量支持动态升级和降级，非核心功能不要影响业务功能，分清楚主次。 client端的功能代码必要的时候一定需要辅有排查问题的辅助代码 非核心功能，能异步就异步，尽可能快，异步处理的时候，尤其是异步回调的时候，一定要风清楚代码是在哪个线程池中执行的。  </description>
+    </item>
+    
+    <item>
+      <title>集群调用容错的套路</title>
+      <link>https://wenchao.ren/posts/%E9%9B%86%E7%BE%A4%E8%B0%83%E7%94%A8%E5%AE%B9%E9%94%99%E7%9A%84%E5%A5%97%E8%B7%AF/</link>
+      <pubDate>Tue, 26 Mar 2019 00:33:17 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E9%9B%86%E7%BE%A4%E8%B0%83%E7%94%A8%E5%AE%B9%E9%94%99%E7%9A%84%E5%A5%97%E8%B7%AF/</guid>
+      <description>在日常的工作和系统设计中，我们经常会使用RPC调用，而我们所部署的服务一般也都是集群模式。我们知道在分布式系统架构中，因为有很多的可能性，比如服务发布重启，网络抖动等问题，都可能会导致RPC调用失败，一般情况下我们的集群调用设计都需要有一定的容错策略。本篇文章就总结一下常见的集群调用容错套路：
+ Failover Cluster Failfast Cluster Failsafe Cluster Failback Cluster Forking Cluster Broadcast Cluster  Failover Cluster Failover Cluster模式就是 失败自动切换，当出现失败，重试其它服务器，这种一般通常用于幂等操作，比如读操作，但重试会带来更长延迟。一般实现这种模式的时候，需要注意的是重试的时候优先剔除刚刚出问题的节点，优先选择其余节点。
+Failfast Cluster Failfast Cluster是快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。
+Failsafe Cluster Failfast Cluster是失败安全，出现异常时，直接忽略，就是fire and forget。比如一些场景下写入审计日志等操作，失败了也就失败了，可以忍受。
+Failback Cluster Failback Cluster是失败自动恢复，异步记录失败请求，定时重发。通常用于消息通知操作。
+Forking Cluster Forking Cluster 并行调用多个服务器，只要其中一个成功即返回。这种通常用于实时性要求较高的读操作，但需要浪费更多服务资源。
+Broadcast Cluster Broadcast Cluster是广播调用。就是广播请求到所有提供者，逐个调用，任意一台报错则报错，通常用于通知所有提供者更新缓存或日志等本地资源信息。</description>
+    </item>
+    
+    <item>
+      <title>如何设计密码重置功能</title>
+      <link>https://wenchao.ren/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E5%8A%9F%E8%83%BD/</link>
+      <pubDate>Mon, 18 Feb 2019 18:50:35 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E5%8A%9F%E8%83%BD/</guid>
+      <description>密码重置功能或者说密码找回功能是互联网行业的一项基本功能，本篇文章主要总结一下完成这个功能需要注意的一些点，主要遵循以下几条原则：
+ 密码要「安全的」存储，我个人一般推荐bcrypt加密算法，当然PBKDF2和scrypt也很不错。 密码找回功能，不能告诉用户原来密码，而是应该让用户重置密码。  尽量不要采用预先分配一个密码，然后告诉用户这个初始密码再让用户去修改的办法。 而是应该发给用户一个有时效性的链接，让用户在规定的时间内，通过这个连接来重置密码。 避免前后端明文传递密码   密码找回的时候，因为需要知道找回谁的密码，所以需要一个身份标识，一般建议采用邮箱或者手机号，需要注意的是，无论这个身份是否存在，都不能页面提示 这个身份是否存在，避免被扫描。而是应该无论用户输入邮箱还是电话，都正常发验证码。如果用户瞎填，他自然收不到验证码。建议在邮件内容中提示是正在重置xxx网站的密码。 同时为了避免机器人，在重置密码提交form时需要增加验证码环节 尽可能让用户在正确填写验证码以后，在验证一下一些问题。比如一些用户提前设置的问题，如果没有的话，可以根据具体的业务，比如登录地点，上次登录时间，xxx是你的朋友么等等的问题。  </description>
+    </item>
+    
+  </channel>
+</rss>

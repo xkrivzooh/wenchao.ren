@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>如何设计密码重置功能 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="密码重置功能或者说密码找回功能是互联网行业的一项基本功能，本篇文章主要总结一下完成这个功能需要注意的一些点，主要遵循以下几条原则：
+ 密码要「安全的」存储，我个人一般推荐bcrypt加密算法，当然PBKDF2和scrypt也很不错。 密码找回功能，不能告诉用户原来密码，而是应该让用户重置密码。  尽量不要采用预先分配一个密码，然后告诉用户这个初始密码再让用户去修改的办法。 而是应该发给用户一个有时效性的链接，让用户在规定的时间内，通过这个连接来重置密码。 避免前后端明文传递密码   密码找回的时候，因为需要知道找回谁的密码，所以需要一个身份标识，一般建议采用邮箱或者手机号，需要注意的是，无论这个身份是否存在，都不能页面提示 这个身份是否存在，避免被扫描。而是应该无论用户输入邮箱还是电话，都正常发验证码。如果用户瞎填，他自然收不到验证码。建议在邮件内容中提示是正在重置xxx网站的密码。 同时为了避免机器人，在重置密码提交form时需要增加验证码环节 尽可能让用户在正确填写验证码以后，在验证一下一些问题。比如一些用户提前设置的问题，如果没有的话，可以根据具体的业务，比如登录地点，上次登录时间，xxx是你的朋友么等等的问题。  " />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E5%8A%9F%E8%83%BD/'>如何设计密码重置功能</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p><code>密码重置</code>功能或者说<code>密码找回</code>功能是互联网行业的一项基本功能，本篇文章主要总结一下完成这个功能需要注意的一些点，主要遵循以下几条原则：</p>
+<ul>
+<li>密码要「安全的」存储，我个人一般推荐<code>bcrypt</code>加密算法，当然<code>PBKDF2</code>和<code>scrypt</code>也很不错。</li>
+<li>密码找回功能，不能告诉用户原来密码，而是应该让用户重置密码。
+<ul>
+<li>尽量不要采用预先分配一个密码，然后告诉用户这个初始密码再让用户去修改的办法。</li>
+<li>而是应该发给用户一个有时效性的链接，让用户在规定的时间内，通过这个连接来重置密码。</li>
+<li>避免前后端明文传递密码</li>
+</ul>
+</li>
+<li>密码找回的时候，因为需要知道找回谁的密码，所以需要一个身份标识，一般建议采用邮箱或者手机号，需要注意的是，无论这个身份是否存在，都不能页面提示
+这个身份是否存在，避免被扫描。而是应该无论用户输入邮箱还是电话，都正常发验证码。如果用户瞎填，他自然收不到验证码。建议在邮件内容中提示是正在重置xxx网站的密码。</li>
+<li>同时为了避免机器人，在重置密码提交form时需要增加验证码环节</li>
+<li>尽可能让用户在正确填写验证码以后，在验证一下一些问题。比如一些用户提前设置的问题，如果没有的话，可以根据具体的业务，比如登录地点，上次登录时间，xxx是你的朋友么等等的问题。</li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">系统设计</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nginx on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/nginx/</link>
+    <description>Recent content in nginx on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 25 Sep 2019 13:02:31 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>正向代理和反向代理</title>
+      <link>https://wenchao.ren/posts/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Wed, 25 Sep 2019 13:02:31 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</guid>
+      <description>经常会听到正向代理和反向代理的说法，那么具体怎么区分呢？
+正向代理 正向代理，是在用户端的。
+比如需要访问某些国外网站，我们可能需要购买vpn。并且vpn是在我们的用户浏览器端设置的(并不是在远端的服务器设置)。浏览器先访问vpn地址，vpn地址转发请求，并最后将请求结果原路返回来。
+反向代理 有正向代理，就有反向代理，反向代理是作用在服务器端的，是一个虚拟ip(VIP)。对于用户的一个请求，会转发到多个后端处理器中的一台来处理该具体请求。
+区别  正向代理:客户端 &amp;lt;一&amp;gt; 代理 一&amp;gt;服务端 反向代理:客户端 一&amp;gt;代理 &amp;lt;一&amp;gt; 服务端  正向代理和反向代理的区别在于 代理的对象不一样,正向代理的代理对象是客户端,反向代理的代理对象是服务端
+参考资料  正向代理和反向代理的配置示例  </description>
+    </item>
+    
+    <item>
+      <title>nginx开启gzip</title>
+      <link>https://wenchao.ren/posts/nginx%E5%BC%80%E5%90%AFgzip/</link>
+      <pubDate>Wed, 27 Feb 2019 11:05:07 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/nginx%E5%BC%80%E5%90%AFgzip/</guid>
+      <description>前几天看到一个nginx的文章，突然想到我还没有为我的博客的nginx开启gzip压缩呢。所以今天就弄了一下。
+下面是我在nginx配置中增加的开启gzip相关的配置：
+nginx增加gzip配置 #gzip gzip on; gzip_min_length 1k; gzip_buffers 4 32k; gzip_comp_level 4; gzip_types text/plain application/javascript application/x-javascript text/javascript text/xml text/css; gzip_vary on; gzip_disable &amp;quot;MSIE [1-6]\.&amp;quot;;  然后重新使得nginx加载配置:
+/usr/sbin/nginx -s reload  gzip指令描述  gzip on 这个指令用来控制开启或者关闭gzip模块，默认值为gzip off代表默认不开启gzip压缩 gzip_min_length 1k 置允许压缩的页面最小字节数，页面字节数从header头中的Content-Length中进行获取。默认值: 0 ，不管页面多大都压缩 gzip_buffers 4 32k 设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。 例如 4 4k 代表以4k为单位，按照原始数据大小以4k为单位的4倍申请内存。 4 8k 代表以8k为单位，按照原始数据大小以8k为单位的4倍申请内存默认值: gzip_buffers 4 4k/8k 如果没有设置，默认值是申请跟原始数据相同大小的内存空间去存储gzip压缩结果。 gzip_comp_level 4 gzip压缩级别，压缩级别 1-9，级别越高压缩率越大，当然压缩时间也就越长（传输快但比较消耗cpu）。默认值：1 gzip_types text/plain application/javascript application/x-javascript text/javascript text/xml text/css 压缩类型，匹配MIME类型进行压缩.默认值: gzip_types text/html 也就是默认不对js/css文件进行压缩。需要注意的是此处不能使用通配符，比如:text/*,无论是否指定text/html, 这种类型的都会被压缩。 gzip_vary on 和http头有关系，加个vary头，给代理服务器用的，有的浏览器支持压缩，有的不支持，所以避免浪费不支持的也压缩，所以根据客户端的HTTP头来判断，是否需要压缩 gzip_disable &amp;quot;MSIE [1-6]\.</description>
+    </item>
+    
+    <item>
+      <title>使用Let&#39;s Encrypt配置nginx证书</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8let-s-encrypt%E9%85%8D%E7%BD%AEnginx%E8%AF%81%E4%B9%A6/</link>
+      <pubDate>Thu, 27 Dec 2018 19:14:44 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8let-s-encrypt%E9%85%8D%E7%BD%AEnginx%E8%AF%81%E4%B9%A6/</guid>
+      <description>Automatically enable HTTPS on your website with EFF&amp;rsquo;s Certbot, deploying Let&amp;rsquo;s Encrypt certificates
+主要参考：https://certbot.eff.org/lets-encrypt/centosrhel7-nginx
+操作起来很简单，主要用到了下面的命令：
+sudo yum install nginx sudo certbot --nginx sudo certbot renew --dry-run 0 0 1 * * certbot renew --post-hook &amp;quot;/usr/sbin/nginx -s reload&amp;quot;  </description>
+    </item>
+    
+  </channel>
+</rss>

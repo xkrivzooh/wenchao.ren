@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>js on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/js/</link>
+    <description>Recent content in js on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 12 Jun 2020 11:52:31 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/js/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用nvm管理本地的node的版本</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8nvm%E7%AE%A1%E7%90%86%E6%9C%AC%E5%9C%B0%E7%9A%84node%E7%9A%84%E7%89%88%E6%9C%AC/</link>
+      <pubDate>Fri, 12 Jun 2020 11:52:31 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8nvm%E7%AE%A1%E7%90%86%E6%9C%AC%E5%9C%B0%E7%9A%84node%E7%9A%84%E7%89%88%E6%9C%AC/</guid>
+      <description>类似于java可以使用jenv来管理本地的多个jdk的版本一样，node可以使用nvm来管理自己本地的多个版本的node。 本文章参考了下面2篇文章：
+ Mac 使用 nvm 管理多版本 node nvm：安裝、切換不同 Node.js 版本的管理器  为了便于查看我直接简单整理一下。
+如果想卸载之前的node, 第一篇文章中的
+$ sudo npm uninstall npm -g $ sudo rm -rf /usr/local/lib/node /usr/local/lib/node_modules /var/db/receipts/org.nodejs.* $ sudo rm -rf /usr/local/include/node /Users/$USER/.npm $ sudo rm /usr/local/bin/node  里面的/var/db/receipts/org.nodejs.*在我的mac上已经没有这个目录了，记得调整一下。
+安装nvm使用brew install nvm就行。然后根据brew的安装提示可以在.zshrc（linux的任何可以export的地方）增加：
+# nvm配置 export NVM_DIR=&amp;quot;$HOME/.nvm&amp;quot; [ -s &amp;quot;/usr/local/opt/nvm/nvm.sh&amp;quot; ] &amp;amp;&amp;amp; . &amp;quot;/usr/local/opt/nvm/nvm.sh&amp;quot; # This loads nvm [ -s &amp;quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&amp;quot; ] &amp;amp;&amp;amp; . &amp;quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&amp;quot; # This loads nvm bash_completion%  nvm常用指令：</description>
+    </item>
+    
+    <item>
+      <title>js避免快速点击</title>
+      <link>https://wenchao.ren/posts/js%E9%81%BF%E5%85%8D%E5%BF%AB%E9%80%9F%E7%82%B9%E5%87%BB/</link>
+      <pubDate>Thu, 29 Aug 2019 20:50:40 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/js%E9%81%BF%E5%85%8D%E5%BF%AB%E9%80%9F%E7%82%B9%E5%87%BB/</guid>
+      <description>通过JavaScript避免按钮快速被点击，有一般都是通过修改状态，然后延迟恢复状态来弄的，demo如下：
+onRefresh: function () { $(&amp;quot;button[name=&#39;refresh&#39;]&amp;quot;).attr(&#39;disabled&#39;, true); $(&#39;#jar-debug-table&#39;).bootstrapTable(&#39;removeAll&#39;); getAllClass(); setTimeout(function () { $(&amp;quot;button[name=&#39;refresh&#39;]&amp;quot;).attr(&#39;disabled&#39;, false); }, 3000); }  </description>
+    </item>
+    
+    <item>
+      <title>推荐一些前端组件</title>
+      <link>https://wenchao.ren/posts/%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E5%89%8D%E7%AB%AF%E7%BB%84%E4%BB%B6/</link>
+      <pubDate>Mon, 08 Jul 2019 13:02:25 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E5%89%8D%E7%AB%AF%E7%BB%84%E4%BB%B6/</guid>
+      <description>我个人的前端水平其实是很挫的，但是据我所知很多公司的内部系统大多数是没有前端fe同学支持的，一般都是自己写的，这个时候一个文档健全，demo完善，上手简单的的前端组件库可以说是一大利器。因此这篇文章推荐一下我最近使用的比较不错的前端组件
+bizcharts 官方地址：https://bizcharts.net/index
+基于商业场景下的数据可视化解决方案，BizCharts主打电商业务图表可视化，沉淀电商业务线的可视化规范。在 React 项目中实现常见图表和自定义图表。
+bizcharts支持桌面端和移动端，demo非常的丰富。与其是有现成的例子可以直接修改使用, 比如它的图标示例:
+iceworks 官方地址：https://ice.work/iceworks
+iceworks：让前端工程变的轻松便捷
+参考资料  bizcharts iceworks  </description>
+    </item>
+    
+  </channel>
+</rss>

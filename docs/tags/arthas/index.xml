@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>arthas on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/arthas/</link>
+    <description>Recent content in arthas on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 29 May 2020 20:04:55 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/arthas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>借助arthas排查重复类的问题</title>
+      <link>https://wenchao.ren/posts/%E5%80%9F%E5%8A%A9arthas%E6%8E%92%E6%9F%A5%E9%87%8D%E5%A4%8D%E7%B1%BB%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 29 May 2020 20:04:55 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%80%9F%E5%8A%A9arthas%E6%8E%92%E6%9F%A5%E9%87%8D%E5%A4%8D%E7%B1%BB%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>现象描述 业务反馈他们的项目运行时出现Jackson中的com.fasterxml.jackson.databind.deser.SettableBeanProperty类的版本不对，和他们在pom中指定的版本不一致，这种问题一般都是因为项目的依赖（包括间接依赖）中，存在某些依赖有shade包，如果这些shade包打包的时候忘记修改package，那么就经常会出现这种问题。
+解决思路 这种问题其实只要确定jvm加载的这个com.fasterxml.jackson.databind.deser.SettableBeanProperty到底来自哪个jar就可以帮助我们确定问题根源，而借助Arthas可以快速解决这个问题：
+ 使用Arthas连接具体环境的具体机器上的应用 在console中输入如下的命令： sc -fd com.fasterxml.jackson.databind.deser.SettableBeanProperty 查看console的输出，看其中的 code-source就可以指定这个类来自哪个jar了  ## 安装arthas curl -L https://alibaba.github.io/arthas/install.sh | sh ## $PID为自己项目运行的pid，注意修改， 此处使用tomcat用户是因为我们的程序是tomcat用户运行的 sudo -u tomcat -EH ./as.sh $PID ## arthas attach成功以后在console中输入 sc -fd com.fasterxml.jackson.databind.deser.SettableBeanProperty  下面贴一个sc命令的样例输出：
+class-info com.fasterxml.jackson.databind.deser.impl.SetterlessProperty code-source /data/w/www/data-bbb-sea.aaa.com/webapps/ROOT/WEB-INF/lib/jackson-databind-2.10.3.jar name com.fasterxml.jackson.databind.deser.impl.SetterlessProperty isInterface false isAnnotation false isEnum false isAnonymousClass false isArray false isLocalClass false isMemberClass false isPrimitive false isSynthetic false simple-name SetterlessProperty modifier final,public annotation interfaces super-class +-com.fasterxml.jackson.databind.deser.SettableBeanProperty +-com.fasterxml.jackson.databind.introspect.ConcreteBeanPropertyBase +-java.</description>
+    </item>
+    
+  </channel>
+</rss>

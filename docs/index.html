@@ -137,8 +137,338 @@
     </div>
 </div>
 
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/chrome-%E5%92%8Cie%E9%A6%96%E9%A1%B5%E8%A2%AB%E5%8A%AB%E6%8C%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/'>chrome 和ie首页被劫持的解决办法</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>最近家里台式机的电脑的chrome和ie的首页被劫持，现象就是打开浏览器后地址栏为：http://kb1.gndh888.top， 然后过几秒就跳转到hao123网站。
+这次的浏览器劫持比我之前遇到的劫持更恶心，之前的劫持通过360或者qq软件管家fix一下就解决了，这次的劫持这2个工具都没起作用，我也 按照网上的一些教程看注册表，看chrome的启动参数等等的都没有发现问题。
+一开始的临时解法是对chrome.exe重命名一下，比如重命名为chrome11.exe虽然就不会出现这个问题，但是这样属于治标不治本。恶心了一周时间。 后来看到有人说使用火绒恶意木马专杀工具， 我其实没抱希望测试了一下，发现居然可以解决这个问题。
+火绒恶意木马专杀工具(直接下载), 修复完重启一下，然后运行了一下解决了。......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.10.19</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/">杂记</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/avro-schema%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/'>avro schema的基本知识</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>官方文档：https://avro.apache.org/docs/current/spec.html#json_encoding
+
+Schema 定义 Avro Schema使用JSON表示的话，会是下面三种类型之一：
+ 一个JSON字符串，命名已定义的类型 一个JSON对象，类似于：{&quot;type&quot;: &quot;typeName&quot; ...attributes...} 一个JSON array，代表union类型   基本类型 
+Avro Schema的基本类型有：
+ null 类似于java的null boolean，对应java中的boolean int 对应java中的int long 对应java中的long float 对应java中的float double 对应java中的double bytes 对应java中的byte string 对应java中的java.lang.String  
+复杂类型
+Avro支持六种复杂类型：records, enums, arrays, maps, unions and fixed.
+
+Records Record类似于java中的Object，我们用来表示对象。它支持3个属性：
+ name 一个JSON String，用来标识record的名称（必须项）大多数时候都是java中的class名称 namespace 一个JSON String用来限定name的范围，大多数时候都是java中的package名称 doc 一个JSON String，用来对这个record进行描述信息，（可选性） aliases 一个JSON array。用来提供别名（可选性） fields 一个JSON array，用来列出record的字段。（必须项）每个字段有如下的属性：  name 一个JSON String，用来标识字段名称 doc 一个JSON String，用来解释字段 type 字段的类型，一个Schema。 default 字段的默认值，字段的默认值取决于字段的类型。如果字段类型的一个union类型的话，那么字段的类型就取决于union中的第一个schema的类型。针对bytes和fixed类型的字段，字段的默认值都会是JSON String。where Unicode code points 0-255 are mapped to unsigned 8-bit byte values 0-255.......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.07.24</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/avro/">avro</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/%E5%8F%8C%E6%8C%87%E9%92%88%E6%8A%80%E5%B7%A7/'>双指针技巧</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>双指针有两类：
+ 快慢指针  一般用于解决链表相关的问题，如判断链表是否存在环   左右指针  一般用于解决数组相关的问题，如二分查找    
+快慢指针 
+快慢指针一般都初始化指向链表的头结点 head，前进时快指针 fast 在前，慢指针 slow 在后，巧妙解决一些链表中的问题。
+
+判断链表中是否存在环 因为单链表的特点是每个节点只知道下一个节点，所以一个指针的话无法判断链表中是否含有环的。
+使用快慢指针的思想解决链表中是否存在环的问题，其实是非常简单的，快慢指针初始时都指向链表头结点，慢指针每次前进一步，快指针每次前进两步。
+ 如果链表不存在环，那么快指针最终会运行到链表的终端节点 如果链表存在环，那么快指针会多跑一会然后追上慢指针，此时说明链表存在环。  boolean hasCycle(ListNode head) { ListNode fast = head; ListNode slow = head; while(fast != null &amp;&amp; fast.next != null) { fast = fast.next.next; slow = slow.next; if (fast == slow) { return true; } } return false; }......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.07.24</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/leetcode/">leetcode</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%80%E8%88%AC%E8%A7%A3%E6%B3%95/'>二分查找一般解法</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>二分查找模板 二分查找一般容易犯错的地方有3个：
+ 应该给mid加1还是应该减1，还是不加不减 上层的while循环里面的条件应该是left &lt; right 还是 left &lt;= right 计算mid时，最好是采用mid = left + (right - left)/2而不是mid = (left + right) /2。因为这样可以避免int溢出。  
+二分查找的一般框架为：
+int binarySearch(int[] nums, int target) { int left = 0; int right = nums.length ...; while(...) { int mid = left + (right - left) / 2; if (nums[mid] == target) { ... } else if (nums[mid] &lt; target) { ... } else if (nums[mid] &gt; target) { .......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.07.24</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/leetcode/">leetcode</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/leetcode-28-%E5%AE%9E%E7%8E%B0strstr/'>leetcode-28 实现strStr()</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>题目描述:
+给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回 -1。
+来源：力扣（LeetCode） 链接：https://leetcode-cn.com/problems/implement-strstr 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+我的第一版答案：
+class Solution { public int strStr(String haystack, String needle) { if (haystack == null) return 0; if (needle == null) return 0; int haystackLength = haystack.length(); int needleLength = needle.length(); if (needleLength &gt; haystackLength) { return -1; } for (int i = 0; i &lt; (haystack.length() - needleLength + 1); i++) { int j =0; while(j &lt; needleLength) { if (haystack.......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.06.18</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/leetcode/">leetcode</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/%E4%BD%BF%E7%94%A8nvm%E7%AE%A1%E7%90%86%E6%9C%AC%E5%9C%B0%E7%9A%84node%E7%9A%84%E7%89%88%E6%9C%AC/'>使用nvm管理本地的node的版本</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>类似于java可以使用jenv来管理本地的多个jdk的版本一样，node可以使用nvm来管理自己本地的多个版本的node。 本文章参考了下面2篇文章：
+ Mac 使用 nvm 管理多版本 node nvm：安裝、切換不同 Node.js 版本的管理器  为了便于查看我直接简单整理一下。
+如果想卸载之前的node, 第一篇文章中的
+$ sudo npm uninstall npm -g $ sudo rm -rf /usr/local/lib/node /usr/local/lib/node_modules /var/db/receipts/org.nodejs.* $ sudo rm -rf /usr/local/include/node /Users/$USER/.npm $ sudo rm /usr/local/bin/node  里面的/var/db/receipts/org.nodejs.*在我的mac上已经没有这个目录了，记得调整一下。
+安装nvm使用brew install nvm就行。然后根据brew的安装提示可以在.zshrc（linux的任何可以export的地方）增加：
+# nvm配置 export NVM_DIR=&quot;$HOME/.nvm&quot; [ -s &quot;/usr/local/opt/nvm/nvm.sh&quot; ] &amp;&amp; . &quot;/usr/local/opt/nvm/nvm.sh&quot; # This loads nvm [ -s &quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&quot; ] &amp;&amp; . &quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&quot; # This loads nvm bash_completion%  nvm常用指令：......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.06.12</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/js/">js</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/intellij-idea%E9%85%8D%E7%BD%AEmaven%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/'>Intellij IDEA配置maven环境变量</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>有时候项目中会使用到tools.jar，一般我们会在maven的pom文件中配置：
+&lt;dependency&gt; &lt;groupId&gt;com.sun&lt;/groupId&gt; &lt;artifactId&gt;tools&lt;/artifactId&gt; &lt;version&gt;1.8&lt;/version&gt; &lt;scope&gt;system&lt;/scope&gt; &lt;systemPath&gt;${JAVA_HOME}/lib/tools.jar&lt;/systemPath&gt; &lt;/dependency&gt;  一般公司的服务器上的jAVA_HOME是固定的，而大家电脑上的JAVA_HOME很可能不一样，那么在使用maven clean命令的时候很可能会出现下面的异常：
+/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/bin/java -Dvisualvm.id=106646863982958 -Dmaven.multiModuleProjectDirectory=/Users/xkrivzooh/IdeaProjects/bistoury &quot;-Dmaven.home=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3&quot; &quot;-Dclassworlds.conf=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/bin/m2.conf&quot; &quot;-Dmaven.ext.class.path=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven-event-listener.jar&quot; &quot;-javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=49260:/Applications/IntelliJ IDEA.app/Contents/bin&quot; -Dfile.encoding=UTF-8 -classpath &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds.license:/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds-2.6.0.jar&quot; org.codehaus.classworlds.Launcher -Didea.version2020.1.1 --update-snapshots clean [INFO] Scanning for projects... [ERROR] [ERROR] Some problems were encountered while processing the POMs: [ERROR] 'dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${JAVA_HOME}/lib/tools.jar @ line 133, column 16 @ [ERROR] The build could not read 1 project -&gt; [Help 1] [ERROR] [ERROR] The project com.......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.06.04</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/idea/">idea</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/curl%E5%B8%B8%E8%A7%81%E7%94%A8%E4%BE%8B/'>curl常见用例</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>整理一下curl的常见用法，避免我用到一些我没记住的用例时在去到处找.
+http method curl -XGET http://www.baidu.com curl -XGET &lsquo;http://www.baidu.com?a=b&amp;c=d' curl -XPOST http://www.baidu.com
+常见POST JSON POST curl --header &quot;Content-Type: application/json&quot; \ --X POST \ -d '{&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;}' \ http://localhost:3000/api/login  设置cookie
+curl -i -H &quot;Application/json&quot; -H &quot;Content-type: application/json&quot; -v --cookie &quot;userName=xxx&quot; -XPOST 'http://domain.com' -d ' { &quot;code&quot;:&quot;typecode2&quot;, &quot;name&quot;: &quot;typename2&quot;, &quot;remark&quot;:&quot;remark&quot;, &quot;structures&quot;:[ { “dimensionType&quot;:2 }, { &quot;dimensionType&quot;: 3 } ] }'  也可以吧body放置在文件中post
+curl -d &quot;@data.json&quot; -X POST http://localhost:3000/data  然后data.json文件中写json，比如：
+{ &quot;key1&quot;:&quot;value1&quot;, &quot;key2&quot;:&quot;value2&quot; }  FORM POST application/x-www-form-urlencoded is the default:......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.06.04</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/linux/">linux</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post animated fadeInDown">
+    <div class="post_title">
+        <h2><a href='/posts/%E4%B8%8D%E5%9C%A8%E8%A6%81netty%E7%9A%84pinple%E7%9A%84%E7%BA%BF%E7%A8%8B%E4%B8%AD%E4%B9%B1%E8%AE%BE%E7%BD%AE%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5/'>不在要Netty的Pinple的线程中乱设置拒绝策略</a></h2>
+    </div>
+    
+    <div class="list">
+        <div class="post_content markdown">
+            <p>之前给业务同学排查问题时发现我们的Trace服务的某个地方当Trace的量特别大时，一个线程池会对业务层抛出RejectedExecutionException， 于是热心的我就顺手给这个地方加了一个RejectedExecutionHandler的实现，在这个里面加一个监控，然后就没了。这样是没问题的，但是 「手贱」的我看到本文件中另外一个地方的线程池也没有设置拒绝策略。他之前的代码如下：
+String name = nettyClientConfig.getString(nameKey); String workerExecutorName = StringUtils.hasText(name) ? String.format(&quot;%s.NettyClientCodecThread&quot;, name) : &quot;NettyClientCodecThread&quot;; ThreadFactory threadFactory = new DefaultThreadFactory(workerExecutorName, false); this.defaultEventExecutorGroup = new DefaultEventExecutorGroup(threadSize, threadFactory);  我修改之后为：
+String name = nettyClientConfig.getString(nameKey); String workerExecutorName = StringUtils.hasText(name) ? String.format(&quot;%s.NettyClientCodecThread&quot;, name) : &quot;NettyClientCodecThread&quot;; ThreadFactory threadFactory = new NamedThreadFactory(workerExecutorName, false); int maxPendingTasks = nettyClientConfig.getInteger(maxPendingTasksKey, 100); this.defaultEventExecutorGroup = new DefaultEventExecutorGroup(threadSize, threadFactory, maxPendingTasks, (task, executor) -&gt; Metrics.counter(&quot;NettyClientCodecThread.rejected.counter&quot;).get().inc());  心想着老子又做了一回活雷锋。但是后来这个改动坑了一波，因为这个defaultEventExecutorGroup线程池是在Netty的pipeline中使用的：
+Bootstrap handler = this.bootstrap.group(this.eventLoopGroupSelector).channel(useEpoll() ? EpollSocketChannel.......</p>
+        </div>
+    </div>
+    
+    <div class="post_footer">
+        <div class="meta">
+            <div class="info">
+                <span class="field">
+                    <i class="ri-map-pin-time-line"></i>
+                    <span class="date">2020.06.03</span>
+                </span>
+                
+                <span class="field tags">
+                    <i class="ri-stack-line"></i>
+                    
+                    <a href="https://wenchao.ren/tags/java/">java</a>
+                    
+                    <a href="https://wenchao.ren/tags/netty/">netty</a>
+                    
+                </span>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="pagination">
+    
+    
+    
+    <a href="/page/2/" class="next">
+        Next
+    </a>
+    
     
 </div>
         </div>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>为Spring boot项目增加Servlet ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="为Spring boot项目增加Servlet有好多种方式
+方式1 Just add a bean for the servlet. It&amp;rsquo;ll get mapped to /{beanName}/.
+@Bean public Servlet foo() { return new FooServlet(); }  Note that if you actually want it mapped to /something/* rather than /something/ you will need to use ServletRegistrationBean
+方式2 使用ServletRegistrationBean
+@Bean public ServletRegistrationBean servletRegistrationBean(){ return new ServletRegistrationBean(new FooServlet(),&amp;quot;/someOtherUrl/*&amp;quot;); }  如果想增加多个的话，就类似下面的方式
+@Bean public ServletRegistrationBean axisServletRegistrationBean() { ServletRegistrationBean registration = new ServletRegistrationBean(new AxisServlet(), &amp;quot;/services/*&amp;quot;); registration.addUrlMappings(&amp;quot;*.jws&amp;quot;); return registration; } @Bean public ServletRegistrationBean adminServletRegistrationBean() { return new ServletRegistrationBean(new AdminServlet(), &amp;quot;/servlet/AdminServlet&amp;quot;); }  方式3 通过实现WebApplicationInitializer或者ServletContextInitializer或者ServletContainerInitializer接口" />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/%E4%B8%BAspring-boot%E9%A1%B9%E7%9B%AE%E5%A2%9E%E5%8A%A0servlet/'>为Spring boot项目增加Servlet</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>为Spring boot项目增加Servlet有好多种方式</p>
+<h2 id="方式1">方式1</h2>
+<p>Just add a bean for the servlet. It&rsquo;ll get mapped to <code>/{beanName}/</code>.</p>
+<pre><code class="language-java">@Bean
+public Servlet foo() {
+    return new FooServlet();
+}
+</code></pre>
+<p>Note that if you actually want it mapped to <code>/something/*</code> rather than <code>/something/</code> you will need to use <code>ServletRegistrationBean</code></p>
+<h2 id="方式2">方式2</h2>
+<p>使用<code>ServletRegistrationBean</code></p>
+<pre><code class="language-java">@Bean
+public ServletRegistrationBean servletRegistrationBean(){
+    return new ServletRegistrationBean(new FooServlet(),&quot;/someOtherUrl/*&quot;);
+}
+</code></pre>
+<p>如果想增加多个的话，就类似下面的方式</p>
+<pre><code class="language-java"> @Bean
+   public ServletRegistrationBean axisServletRegistrationBean() {
+      ServletRegistrationBean registration = new ServletRegistrationBean(new AxisServlet(), &quot;/services/*&quot;);
+      registration.addUrlMappings(&quot;*.jws&quot;);
+      return registration;
+   }
+
+   @Bean
+   public ServletRegistrationBean adminServletRegistrationBean() {
+      return new ServletRegistrationBean(new AdminServlet(), &quot;/servlet/AdminServlet&quot;);
+   }
+</code></pre>
+<h2 id="方式3">方式3</h2>
+<p>通过实现<code>WebApplicationInitializer</code>或者<code>ServletContextInitializer</code>或者<code>ServletContainerInitializer</code>接口</p>
+<pre><code class="language-java">@Configuration
+public class ConfigureWeb implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
+
+  @Override
+  public void onStartup(ServletContext servletContext) throws ServletException {
+      registerServlet(servletContext);
+  }
+
+  private void registerServlet(ServletContext servletContext) {
+      log.debug(&quot;register Servlet&quot;);
+      ServletRegistration.Dynamic serviceServlet = servletContext.addServlet(&quot;ServiceConnect&quot;, new ServiceServlet());
+
+      serviceServlet.addMapping(&quot;/api/ServiceConnect/*&quot;);
+      serviceServlet.setAsyncSupported(true);
+      serviceServlet.setLoadOnStartup(2);
+  }
+}
+</code></pre>
+<h2 id="方式4">方式4</h2>
+<p>如果使用内嵌的server的话，那么还可以使用<code>@WebServlet</code> <a href="https://docs.oracle.com/javaee/7/api/javax/servlet/annotation/WebServlet.html">WebServlet</a></p>
+<blockquote>
+<p>Annotation used to declare a servlet.</p>
+</blockquote>
+<blockquote>
+<p>This annotation is processed by the container at deployment time, and the corresponding servlet made available at the specified URL patterns.</p>
+</blockquote>
+<pre><code class="language-java">@WebServlet(urlPatterns = &quot;/example&quot;)
+public class ExampleServlet extends HttpServlet
+</code></pre>
+<p>然后增加注解<code>@ServletComponentScan</code>:</p>
+<pre><code class="language-java">@ServletComponentScan
+@EntityScan(basePackageClasses = { ExampleApp.class, Jsr310JpaConverters.class })
+@SpringBootApplication
+public class ExampleApp 
+</code></pre>
+<p>Please note that @ServletComponentScan will work only with embedded server:</p>
+<blockquote>
+<p>Enables scanning for Servlet components (filters, servlets, and listeners). Scanning is only performed when using an embedded web server.</p>
+</blockquote>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/20915528/how-can-i-register-a-secondary-servlet-with-spring-boot">How can I register a secondary servlet with Spring Boot?</a></li>
+<li><a href="https://www.baeldung.com/spring-servletcomponentscan">The @ServletComponentScan Annotation in Spring Boot</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/spring/">spring</a>
+                                    
+                                    <a href="https://wenchao.ren/tags/java/">java</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

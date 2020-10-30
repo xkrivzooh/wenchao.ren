@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>avro on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/avro/</link>
+    <description>Recent content in avro on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 24 Jul 2020 19:54:29 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/avro/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>avro schema的基本知识</title>
+      <link>https://wenchao.ren/posts/avro-schema%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 24 Jul 2020 19:54:29 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/avro-schema%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/</guid>
+      <description>官方文档：https://avro.apache.org/docs/current/spec.html#json_encoding
+
+Schema 定义 Avro Schema使用JSON表示的话，会是下面三种类型之一：
+ 一个JSON字符串，命名已定义的类型 一个JSON对象，类似于：{&amp;quot;type&amp;quot;: &amp;quot;typeName&amp;quot; ...attributes...} 一个JSON array，代表union类型   基本类型 
+Avro Schema的基本类型有：
+ null 类似于java的null boolean，对应java中的boolean int 对应java中的int long 对应java中的long float 对应java中的float double 对应java中的double bytes 对应java中的byte string 对应java中的java.lang.String  
+复杂类型
+Avro支持六种复杂类型：records, enums, arrays, maps, unions and fixed.
+
+Records Record类似于java中的Object，我们用来表示对象。它支持3个属性：
+ name 一个JSON String，用来标识record的名称（必须项）大多数时候都是java中的class名称 namespace 一个JSON String用来限定name的范围，大多数时候都是java中的package名称 doc 一个JSON String，用来对这个record进行描述信息，（可选性） aliases 一个JSON array。用来提供别名（可选性） fields 一个JSON array，用来列出record的字段。（必须项）每个字段有如下的属性：  name 一个JSON String，用来标识字段名称 doc 一个JSON String，用来解释字段 type 字段的类型，一个Schema。 default 字段的默认值，字段的默认值取决于字段的类型。如果字段类型的一个union类型的话，那么字段的类型就取决于union中的第一个schema的类型。针对bytes和fixed类型的字段，字段的默认值都会是JSON String。where Unicode code points 0-255 are mapped to unsigned 8-bit byte values 0-255.</description>
+    </item>
+    
+  </channel>
+</rss>

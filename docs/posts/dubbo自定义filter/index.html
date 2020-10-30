@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>dubbo自定义filter ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="dubbo的扩展性是特别的好，本篇文章通过例子来说明如何自定义dubbo的filter。为了文章完整性，贴一下官网对于filter的一些说明。
+扩展说明 服务提供方和服务消费方调用过程拦截，Dubbo 本身的大多功能均基于此扩展点实现，每次远程方法执行，该拦截都会被执行，请注意对性能的影响。
+约定：
+ 用户自定义 filter 默认在内置 filter 之后。 特殊值 default，表示缺省扩展点插入的位置。比如：filter=&amp;quot;xxx,default,yyy&amp;quot;，表示 xxx`` 在缺省 filter 之前，yyy在缺省filter` 之后。 特殊符号 -，表示剔除。比如：filter=&amp;quot;-foo1&amp;quot;，剔除添加缺省扩展点 foo1。比如：filter=&amp;quot;-default&amp;quot;，剔除添加所有缺省扩展点。 provider 和 service 同时配置的 filter 时，累加所有 filter，而不是覆盖。比如：&amp;lt;dubbo:provider filter=&amp;quot;xxx,yyy&amp;quot;/&amp;gt; 和 &amp;lt;dubbo:service filter=&amp;quot;aaa,bbb&amp;quot; /&amp;gt;，则 xxx,yyy,aaa,bbb 均会生效。如果要覆盖，需配置：&amp;lt;dubbo:service filter=&amp;quot;-xxx,-yyy,aaa,bbb&amp;quot; /&amp;gt;  扩展接口 org.apache.dubbo.rpc.Filter
+扩展配置 &amp;lt;!-- 消费方调用过程拦截 --&amp;gt; &amp;lt;dubbo:reference filter=&amp;quot;xxx,yyy&amp;quot; /&amp;gt; &amp;lt;!-- 消费方调用过程缺省拦截器，将拦截所有reference --&amp;gt; &amp;lt;dubbo:consumer filter=&amp;quot;xxx,yyy&amp;quot;/&amp;gt; &amp;lt;!-- 提供方调用过程拦截 --&amp;gt; &amp;lt;dubbo:service filter=&amp;quot;xxx,yyy&amp;quot; /&amp;gt; &amp;lt;!-- 提供方调用过程缺省拦截器，将拦截所有service --&amp;gt; &amp;lt;dubbo:provider filter=&amp;quot;xxx,yyy&amp;quot;/&amp;gt;  已知扩展  org.apache.dubbo.rpc.filter.EchoFilter org.apache.dubbo.rpc.filter.GenericFilter org.apache.dubbo.rpc.filter.GenericImplFilter org.apache.dubbo.rpc.filter.TokenFilter org." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/dubbo%E8%87%AA%E5%AE%9A%E4%B9%89filter/'>dubbo自定义filter</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>dubbo的扩展性是特别的好，本篇文章通过例子来说明如何自定义dubbo的filter。为了文章完整性，贴一下官网对于filter的一些说明。</p>
+<h2 id="扩展说明">扩展说明</h2>
+<p>服务提供方和服务消费方调用过程拦截，Dubbo 本身的大多功能均基于此扩展点实现，每次远程方法执行，该拦截都会被执行，请注意对性能的影响。</p>
+<p>约定：</p>
+<ul>
+<li>用户自定义 filter 默认在内置 filter 之后。</li>
+<li>特殊值 <code>default</code>，表示缺省扩展点插入的位置。比如：<code>filter=&quot;xxx,default,yyy&quot;</code>，表示 <code>xxx`` 在缺省 </code>filter<code> 之前，</code>yyy<code>在缺省</code>filter` 之后。</li>
+<li>特殊符号 <code>-</code>，表示剔除。比如：<code>filter=&quot;-foo1&quot;</code>，剔除添加缺省扩展点 <code>foo1</code>。比如：<code>filter=&quot;-default&quot;</code>，剔除添加所有缺省扩展点。</li>
+<li><strong>provider 和 service 同时配置的 filter 时，累加所有 filter，而不是覆盖</strong>。比如：<code>&lt;dubbo:provider filter=&quot;xxx,yyy&quot;/&gt;</code> 和 <code>&lt;dubbo:service filter=&quot;aaa,bbb&quot; /&gt;</code>，则 <code>xxx,yyy,aaa,bbb</code> 均会生效。如果要覆盖，需配置：<code>&lt;dubbo:service filter=&quot;-xxx,-yyy,aaa,bbb&quot; /&gt;</code></li>
+</ul>
+<h2 id="扩展接口">扩展接口</h2>
+<p><code>org.apache.dubbo.rpc.Filter</code></p>
+<h2 id="扩展配置">扩展配置</h2>
+<pre><code class="language-xml">&lt;!-- 消费方调用过程拦截 --&gt;
+&lt;dubbo:reference filter=&quot;xxx,yyy&quot; /&gt;
+&lt;!-- 消费方调用过程缺省拦截器，将拦截所有reference --&gt;
+&lt;dubbo:consumer filter=&quot;xxx,yyy&quot;/&gt;
+&lt;!-- 提供方调用过程拦截 --&gt;
+&lt;dubbo:service filter=&quot;xxx,yyy&quot; /&gt;
+&lt;!-- 提供方调用过程缺省拦截器，将拦截所有service --&gt;
+&lt;dubbo:provider filter=&quot;xxx,yyy&quot;/&gt;
+</code></pre>
+<h2 id="已知扩展">已知扩展</h2>
+<ul>
+<li>org.apache.dubbo.rpc.filter.EchoFilter</li>
+<li>org.apache.dubbo.rpc.filter.GenericFilter</li>
+<li>org.apache.dubbo.rpc.filter.GenericImplFilter</li>
+<li>org.apache.dubbo.rpc.filter.TokenFilter</li>
+<li>org.apache.dubbo.rpc.filter.AccessLogFilter</li>
+<li>org.apache.dubbo.rpc.filter.CountFilter</li>
+<li>org.apache.dubbo.rpc.filter.ActiveLimitFilter</li>
+<li>org.apache.dubbo.rpc.filter.ClassLoaderFilter</li>
+<li>org.apache.dubbo.rpc.filter.ContextFilter</li>
+<li>org.apache.dubbo.rpc.filter.ConsumerContextFilter</li>
+<li>org.apache.dubbo.rpc.filter.ExceptionFilter</li>
+<li>org.apache.dubbo.rpc.filter.ExecuteLimitFilter</li>
+<li>org.apache.dubbo.rpc.filter.DeprecatedFilter</li>
+</ul>
+<h2 id="官网扩展示例">官网扩展示例</h2>
+<p>Maven 项目结构：</p>
+<pre><code class="language-java">src
+ |-main
+    |-java
+        |-com
+            |-xxx
+                |-XxxFilter.java (实现Filter接口)
+    |-resources
+        |-META-INF
+            |-dubbo
+                |-org.apache.dubbo.rpc.Filter (纯文本文件，内容为：xxx=com.xxx.XxxFilter)
+</code></pre>
+<p>XxxFilter.java：</p>
+<pre><code class="language-java">package com.xxx;
+ 
+import org.apache.dubbo.rpc.Filter;
+import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.Invocation;
+import org.apache.dubbo.rpc.Result;
+import org.apache.dubbo.rpc.RpcException;
+ 
+public class XxxFilter implements Filter {
+    public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException {
+        // before filter ...
+        Result result = invoker.invoke(invocation);
+        // after filter ...
+        return result;
+    }
+}
+</code></pre>
+<p>然后配置dubbo spi：
+META-INF/dubbo/org.apache.dubbo.rpc.Filter：
+<code>xxx=com.xxx.XxxFilter</code></p>
+<h2 id="实际例子">实际例子</h2>
+<p>比如希望dubbo consumer在请求dubbo provider的时候，自动携带自己的jar的版本信息，那么就可以写一个<code>JarVersionAttachFilter</code></p>
+<pre><code class="language-java">package com.xxxx.xx.xx.rpc.dubbo.filter;
+
+import java.util.Map;
+
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.extension.Activate;
+import com.alibaba.dubbo.rpc.Filter;
+import com.alibaba.dubbo.rpc.Invocation;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.Result;
+import com.alibaba.dubbo.rpc.RpcException;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.xxx.common.util.JarUtils;
+import com.xxx.common.util.Safes;
+import com.xxx.xxx.xxx.rpc.dubbo.DubboConstants;
+
+import org.springframework.util.StringUtils;
+
+@Activate(group = {Constants.CONSUMER}, order = -1)
+public class JarVersionAttachFilter implements Filter {
+
+	private LoadingCache&lt;Class&lt;?&gt;, String&gt; versionMapping = CacheBuilder.newBuilder().maximumSize(1024).build(new CacheLoader&lt;Class&lt;?&gt;, String&gt;() {
+		@Override
+		public String load(Class&lt;?&gt; key) throws Exception {
+			return Safes.of(JarUtils.getVersion(key, null));
+		}
+	});
+
+	@Override
+	public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException {
+		Map&lt;String, String&gt; attachments = invocation.getAttachments();
+		String version = versionMapping.getUnchecked(invoker.getInterface());
+		if (StringUtils.hasText(version)) {
+			attachments.put(DubboConstants.JAR_VERSION_NAME, version);
+		}
+		return invoker.invoke(invocation);
+	}
+}
+</code></pre>
+<p>然后在dubbo的spi文件中写入：<code>jarattach=com.xxxx.xx.xx.rpc.dubbo.filter.JarVersionAttachFilter</code>就好了。这样当consumer发起请求的时候，会自动携带自己的jar的版本信息</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="http://dubbo.apache.org/zh-cn/docs/dev/impls/filter.html">dubbo官方文档-调用拦截扩展</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/dubbo/">dubbo</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

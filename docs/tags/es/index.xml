@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>es on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/es/</link>
+    <description>Recent content in es on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 09 Aug 2019 10:49:39 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/es/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于elasticsearch的access log</title>
+      <link>https://wenchao.ren/posts/%E5%85%B3%E4%BA%8Eelasticsearch%E7%9A%84access-log/</link>
+      <pubDate>Fri, 09 Aug 2019 10:49:39 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%85%B3%E4%BA%8Eelasticsearch%E7%9A%84access-log/</guid>
+      <description>今天才知道原来elasticsearch其实并没有传统意义上的access log。我这里说的传统意义 上的access log是指类似于tomcat，nginx等的access log。 我们公司在访问elasticsearch的时候，java语言相关的使用的公司封装的（其实是我封装的） elasticsearch client，在这个封装的client里面，实现了传统意义上的类似于dubbo-consumer-access.log 一样的东西，记录了请求时间，traceId，请求的参数信息，请求是否成功的状态，响应时间，响应的内容等等 的信息。但是在elasticsearch的server端其实是并没有这些内容的。 Google了一下，发现elasticsearch其实并没有access log这个功能。但是elasticsearch缺提供了slow log的这个功能。 虽然说slow log和access log其实是两种不同的东西，但是在一定程度上slow log其实可以做到access log的一部分功能。
+elasticsearch的slow log 这个日志的目的是捕获那些超过指定时间阈值的查询和索引请求。这个日志用来追踪由用户产生的很慢的请求很有用。 默认情况，慢日志是不开启的。要开启它，需要定义具体动作（query，fetch 还是 index），你期望的事件记录等级（ WARN 、 DEBUG 等），以及时间阈值。
+query query阶段的配置，日志记录在_index_isearch_slowlog.log结尾的文件中，下面的日志级别可以根据实际 的需求来选择，如果想关闭某个配置的话，使用#号注释，或者设置值为-1就行。当然需要重启elasticsearch 以使得配置修改生效。
+ index.search.slowlog.threshold.query.warn: 10s #超过10秒的query产生1个warn日志 index.search.slowlog.threshold.query.info: 5s #超过5秒的query产生1个info日志 index.search.slowlog.threshold.query.debug: 2s #超过2秒的query产生1个debug日志 index.search.slowlog.threshold.query.trace: 500ms #超过500毫秒的query产生1个trace日志  fetch fetch阶段的配置
+ index.search.slowlog.threshold.fetch.warn: 1s index.search.slowlog.threshold.fetch.info: 800ms index.search.slowlog.threshold.fetch.debug: 500ms index.search.slowlog.threshold.fetch.trace: 200ms  index 索引阶段的配置
+ index.indexing.slowlog.threshold.index.warn: 10s ##索引数据超过10秒产生一个warn日志 index.indexing.slowlog.threshold.index.info: 5s ##索引数据超过5秒产生一个info日志 index.indexing.slowlog.threshold.index.debug: 2s ##索引数据超过2秒产生一个ddebug日志 index.</description>
+    </item>
+    
+    <item>
+      <title>不规范的查询导致elasticsearch StackOverflowError</title>
+      <link>https://wenchao.ren/posts/%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%AF%BC%E8%87%B4elasticsearch-stackoverflowerror/</link>
+      <pubDate>Tue, 06 Aug 2019 19:04:33 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%B8%8D%E8%A7%84%E8%8C%83%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%AF%BC%E8%87%B4elasticsearch-stackoverflowerror/</guid>
+      <description>昨天我们公司的elasticsearch的集群有几个节点出现了StackOverflowError，然后es进程退出的问题。最终排查发现导致es节点出现下面的异常：
+[2019-08-05T20:31:35,367][ERROR][o.e.b.ElasticsearchUncaughtExceptionHandler] [order6] fatal error in thread [elasticsearch[order6][search][T#38]], exiting java.lang.StackOverflowError: null at org.apache.lucene.store.DataInput.readVLong(DataInput.java:184) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11] at org.apache.lucene.store.DataInput.readVLong(DataInput.java:169) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11] at org.apache.lucene.util.fst.FST.readUnpackedNodeTarget(FST.java:931) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11] at org.apache.lucene.util.fst.FST.readNextRealArc(FST.java:1143) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11] at org.apache.lucene.util.fst.FST.readFirstRealTargetArc(FST.java:992) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11] at org.apache.lucene.util.fst.FST.findTargetArc(FST.java:1270) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11] at org.apache.lucene.util.fst.FST.findTargetArc(FST.java:1186) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11] at org.</description>
+    </item>
+    
+    <item>
+      <title>优化Elasticsearch的写入</title>
+      <link>https://wenchao.ren/posts/%E4%BC%98%E5%8C%96elasticsearch%E7%9A%84%E5%86%99%E5%85%A5/</link>
+      <pubDate>Thu, 17 Jan 2019 19:47:44 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BC%98%E5%8C%96elasticsearch%E7%9A%84%E5%86%99%E5%85%A5/</guid>
+      <description>我们这边因为需要对trace系统的数据做一些高级查询，所以会将Span的可能会被用作搜索条件的信息写入elasticsearch中。 由于trace系统的数据量比较大，虽然trace系统本身的设计会有采样率这个东西来降低trace采集的数据量，但是本身还是 比较大的数据量。所以需要对es的写入做一些优化。这篇文章记录一下我们的优化项
+分析我们场景的特点：
+ 写请求特别大 读请求很少，实时性要求低 trace系统对数据的可靠性要求低，但是要求写入及时（数据的价值会随着时间而降低）  贴一下我们优化以后的template设置：
+{ &amp;quot;order&amp;quot;: 0, &amp;quot;index_patterns&amp;quot;: [ &amp;quot;trace.advanced.query-*&amp;quot; ], &amp;quot;settings&amp;quot;: { &amp;quot;index&amp;quot;: { &amp;quot;refresh_interval&amp;quot;: &amp;quot;120s&amp;quot;, &amp;quot;number_of_shards&amp;quot;: &amp;quot;10&amp;quot;, &amp;quot;translog&amp;quot;: { &amp;quot;flush_threshold_size&amp;quot;: &amp;quot;1024mb&amp;quot;, &amp;quot;sync_interval&amp;quot;: &amp;quot;120s&amp;quot;, &amp;quot;durability&amp;quot;: &amp;quot;async&amp;quot; }, &amp;quot;number_of_replicas&amp;quot;: &amp;quot;0&amp;quot; } }, &amp;quot;mappings&amp;quot;: {}, &amp;quot;aliases&amp;quot;: {} }  主要的优化步骤：
+ 关闭副本，设置number_of_replicas为0 在我们的场景下数据丢了是可以忍受的 调大translog.flush_threshold_size，我们设置的为1024mb 调大translog.sync_interval为120s 我们容许数据丢失，设置async模式  因为我们目前的es集群性能是足够的，所以并没有完全按照参考文章将 ELASTICSEARCH 写入速度优化到极限中的所有项目都优化。推荐大家阅读这个参考文章，比我写的好多了。
+参考资料  将 ELASTICSEARCH 写入速度优化到极限  </description>
+    </item>
+    
+    <item>
+      <title>org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available</title>
+      <link>https://wenchao.ren/posts/org-elasticsearch-client-transport-nonodeavailableexception-none-of-the-configured-nodes-are-available/</link>
+      <pubDate>Mon, 14 Jan 2019 23:18:14 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/org-elasticsearch-client-transport-nonodeavailableexception-none-of-the-configured-nodes-are-available/</guid>
+      <description>问题描述 今天在操作es的过程中出现了异常:
+org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available  而我创建es client的代码也很简单，核心是：
+Settings settings = Settings.builder() .put(&amp;quot;cluster.name&amp;quot;, esClusterInfo.getClusterName()) .put(&amp;quot;client.transport.sniff&amp;quot;, true) //自动嗅探整个集群的状态，把集群中其他ES节点的ip添加到本地的客户端列表中 .build();  我的排查步骤 记录一下我当时的排查过程：
+ 看异常第一反应是集群有问题，但是排查集群的节点以后，发现集群的节点都是没问题的。 而后开始检查settings中设置的cluster.name的是否正确发现也是正确的 google发现很多人是因为将es集群的端口写错，也就是9300错写为9200，但是检查我的数据以后发现也是没问题的。 而后开始怀疑我设置的client.transport.sniff的缘故，因为这个参数的作用是：   使客户端去嗅探整个集群的状态，把集群中其它机器的ip地址加到客户端中。这样做的好处是，一般你不用手动设置集群里所有集群的ip到连接客户端，它会自动帮你添加，并且自动发现新加入集群的机器
+ 但是这个参数有一个问题就是：
+ 当ES服务器监听（publish_address ）使用内网服务器IP，而访问（bound_addresses ）使用外网IP时，不要设置client.transport.sniff为true。不设置client.transport.sniff时，默认为false(关闭客户端去嗅探整个集群的状态)。因为在自动发现时会使用内网IP进行通信，导致无法连接到ES服务器。因此此时需要直接使用addTransportAddress方法把集群中其它机器的ip地址加到客户端中。
+ 但是检查我的环境，发现我的环境全部是内网，所以设置不设置这个client.transport.sniff是没区别的。
+最后持续google许久，也没发现问题，喝杯茶刷了一会手机突然想起印象中es client的版本和es集群的版本不一致也有可能 出问题，于是google了一波es 版本不一致这个关键字，果然是因为版本不一致导致的。
+ES client和ES集群版本不一致的问题 我遇到的这个问题是es集群的版本比我使用的es client的版本低，相当于我使用高版本的client去访问低版本的集群，所以出现org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available问题。
+因此我们平时需要注意es的版本问题。</description>
+    </item>
+    
+  </channel>
+</rss>

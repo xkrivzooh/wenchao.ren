@@ -17,5 +17,173 @@
  博客使用的静态生成工具从Hexo迁移到了Hugo 博客使用的图床从七牛迁移到了GitHub上 顺带还了一个博客皮肤（基于zozo），并自己定制了一下 顺带使用GitHub的workflow来自动化博客的部署。  历史的博客文章我会慢慢的迁移过来。</description>
     </item>
     
+    <item>
+      <title>chrome 和ie首页被劫持的解决办法</title>
+      <link>https://wenchao.ren/posts/chrome-%E5%92%8Cie%E9%A6%96%E9%A1%B5%E8%A2%AB%E5%8A%AB%E6%8C%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Mon, 19 Oct 2020 17:42:43 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/chrome-%E5%92%8Cie%E9%A6%96%E9%A1%B5%E8%A2%AB%E5%8A%AB%E6%8C%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <description>最近家里台式机的电脑的chrome和ie的首页被劫持，现象就是打开浏览器后地址栏为：http://kb1.gndh888.top， 然后过几秒就跳转到hao123网站。
+这次的浏览器劫持比我之前遇到的劫持更恶心，之前的劫持通过360或者qq软件管家fix一下就解决了，这次的劫持这2个工具都没起作用，我也 按照网上的一些教程看注册表，看chrome的启动参数等等的都没有发现问题。
+一开始的临时解法是对chrome.exe重命名一下，比如重命名为chrome11.exe虽然就不会出现这个问题，但是这样属于治标不治本。恶心了一周时间。 后来看到有人说使用火绒恶意木马专杀工具， 我其实没抱希望测试了一下，发现居然可以解决这个问题。
+火绒恶意木马专杀工具(直接下载), 修复完重启一下，然后运行了一下解决了。</description>
+    </item>
+    
+    <item>
+      <title>brew操作mysql</title>
+      <link>https://wenchao.ren/posts/brew%E6%93%8D%E4%BD%9Cmysql/</link>
+      <pubDate>Mon, 11 Mar 2019 12:16:40 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/brew%E6%93%8D%E4%BD%9Cmysql/</guid>
+      <description> 安装mysql brew install mysql 启动mysql brew services start mysql  停止mysql brew services stop mysql 重启mysql brew services restart mysql  在我的机器上，my.cnf文件的位置在：/usr/local/etc/my.cnf，默认情况下里面的内容为：
+# Default Homebrew MySQL server config [mysqld] # Only allow connections from localhost bind-address = 127.0.0.1  </description>
+    </item>
+    
+    <item>
+      <title>谈谈缓存</title>
+      <link>https://wenchao.ren/posts/%E8%B0%88%E8%B0%88%E7%BC%93%E5%AD%98/</link>
+      <pubDate>Mon, 18 Feb 2019 23:09:08 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E8%B0%88%E8%B0%88%E7%BC%93%E5%AD%98/</guid>
+      <description>本文谈谈缓存相关的问题，主要从下面几个点来出发，但是主要谈分布式缓存。
+ 为什么需要用缓存？ 缓存的原理是什么？ 有哪几种类的缓存？ 分布式缓存一般存在哪些问题？  缓存一致性问题 先操作数据库，还是先操作缓存 缓存应该淘汰还是应该修改 缓存不一致应该怎么解？ 缓存并发更新问题 缓存穿透问题 缓存雪崩 缓存的「无底洞」现象    为什么需要用缓存 一般我们使用缓存，其实都是为了加速数据访问。
+缓存的原理是什么 因为缓存是为了加速数据访问。而为了达到这个目的，往往是采用了下面的思路：
+ 将数据缓存在更高速的读取设备上。比如cpu的寄存器 将数据提前运算并加载，可以减少同样数据的获取步骤，进而提升效率，大多数应用级的cache都是基于这种思路。 将数据放置在距离用户更近的地点，可以加快数据获取速度。比如CDN就是这种思路。  有哪几类缓存 常见的缓存有下面几类：
+  CDN(Content Delivery Network 内容分发网络)。
+ CND的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布更接近用户的网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。一般会缓存图片，css js甚至视频。    反向代理缓存
+ 反向代理位于应用服务器机房，处理所有对WEB服务器的请求。 如果用户请求的页面在代理服务器上有缓冲的话，代理服务器直接将缓冲内容发送给用户。如果没有缓冲则先向WEB服务器发出请求，取回数据，本地缓存后再发送给用户。通过降低向WEB服务器的请求数，从而降低了WEB服务器的负载。这种缓存一般都是缓存一些静态资源，比如css js和图片。比如常见的nginx就可以用来干这个事情。    应用本地缓存
+ 指的是在应用中的缓存组件，其最大的优点是应用和cache是在同一个进程内部，请求缓存非常快速，没有过多的网络开销。比如常见的guava cache。    分布式缓存
+ 指的是与应用分离的缓存组件或服务，其最大的优点是自身就是一个独立的应用，与本地应用隔离，多个应用可直接的共享缓存。    分布式缓存一般存在哪些问题？ 缓存一致性问题 一个最简单的场景，应用架构为Spring MVC + redis缓存 + mysql存储。如果保证redis缓存和mysql数据库的数据一致性呢？</description>
+    </item>
+    
+    <item>
+      <title>谈谈程序员成长</title>
+      <link>https://wenchao.ren/posts/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E6%88%90%E9%95%BF/</link>
+      <pubDate>Fri, 15 Feb 2019 02:33:17 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E6%88%90%E9%95%BF/</guid>
+      <description>本篇文章主要侧重的是程序员的硬技能方面的，不涉及软技能。
+关于程序员的成长，网上有很多人都在谈，也有很多的文章，我也看过许多，个人感觉写的最好的是下面2个文章，建议大家阅读。
+ 如何快速成长为技术大牛？阿里资深技术专家的总结亮了！ 张一鸣：10年面试2000人，我发现混的好的人，全都有同一个特质。  我此处整理一下：
+误区 拜大牛为师  大牛很忙，不太可能单独给你开小灶 大牛不多，不太可能每个团队都有技术大牛，只能说团队里面会有比你水平高的人，即使他每天给你开小灶，最终你也只能提升到他的水平  综合上述的几个原因，我认为对于大部分人来说，要想成为技术大牛，首先还是要明白“主要靠自己”这个道理，适当的时候可以通过请教大牛或者和大牛探讨来提升自己，但大部分时间还是自己系统性、有针对性的提升。
+业务代码一样很牛逼 有人认为写业务代码一样可以很牛逼，理由是业务代码一样可以有各种技巧，例如可以使用封装和抽象使得业务代码更具可扩展性，可以通过和产品多交流以便更好的理解和实现业务，日志记录好了问题定位效率可以提升10倍等等。
+业务代码一样有技术含量，这点是肯定的，业务代码中的技术是每个程序员的基础，但只是掌握了这些技巧，并不能成为技术大牛，就像游戏中升级打怪一样，开始打小怪，经验值很高，越到后面经验值越少，打小怪已经不能提升经验值了，这个时候就需要打一些更高级的怪，刷一些有挑战的副本了，成为技术大牛的路也是类似的，你要 不断的提升自己的水平，然后面临更大的挑战，通过应对这些挑战从而使自己水平更上一级，然后如此往复。所以我认为：业务代码都写不好的程序员肯定无法成为技术大牛，但只把业务代码写好的程序员也还不能成为技术大牛。
+上班太忙没时间自己学习 很多人认为自己没有成为技术大牛并不是自己不聪明，也不是自己不努力，而是中国的这个环境下，技术人员加班都太多了，导致自己没有额外的时间进行学习。
+这个理由有一定的客观性，毕竟和欧美相比，我们的加班确实要多一些，但这个因素只是一个需要克服的问题，并不是不可逾越的鸿沟，毕竟我们身边还是有那么多的大牛也是在中国这个环境成长起来的。
+我认为有几个误区导致了这种看法的形成：
+1）上班做的都是重复工作，要想提升必须自己额外去学习 2）学习需要大段的连续时间
+正确的做法 做的更多，做的比你主管安排给你的任务更多。 要想有机会，首先你得从人群中冒出来，要想冒出来，你就必须做到与众不同，要做到与众不同，你就要做得更多！不分哪些是我该做的、哪些不是我该做的
+怎么做得更多呢？可以从以下几个方面着手：
+ 熟悉更多业务，不管是不是你负责的；熟悉更多代码，不管是不是你写的 熟悉端到端 比如说你负责web后台开发，但实际上用户发起一个http请求，要经过很多中间步骤才到你的服务器（例如浏览器缓存、DNS、nginx等），服务器一般又会经过很多处理才到你写的那部分代码（路由、权限等）这整个流程中的很多系统或者步骤，绝大部分人是不可能去参与写代码的，但掌握了这些知识对你的综合水平有很大作用，例如方案设计、线上故障处理这些更加有含金量的技术工作都需要综合技术水平。 “系统性”、“全局性”、“综合性”这些字眼看起来比较虚，但其实都是技术大牛的必备的素质，要达到这样的境界，必须去熟悉更多系统、业务、代码。 自学 以垃圾回收为例，我自己平时就抽时间学习了这些知识，学了1年都没用上，但后来用上了几次，每次都解决了卡死的大问题，而有的同学，写了几年的java代码，对于stop-the-world是什么概念都不知道，更不用说去优化了。  这一点和张一鸣说的是完全吻合的：
+ 我工作时，不分哪些是我该做的、哪些不是我该做的 我做事从不设边界  做的更好 要知道这个世界上没有完美的东西，你负责的系统和业务，总有不合理和可以改进的地方，这些“不合理”和“可改进”的地方，都是更高级别的怪物，打完后能够增加更多的经验值。识别出这些地方，并且给出解决方案，然后向主管提出，一次不行两次，多提几次，只要有一次落地了，这就是你的机会。
+多练 在做职业等级沟通的时候，发现有很多同学确实也在尝试Do more、Do better，但在执行的过程中，几乎每个人都遇到同一个问题：光看不用效果很差，怎么办？
+例如：
+ 学习了jvm的垃圾回收，但是线上比较少出现FGC导致的卡顿问题，就算出现了，恢复业务也是第一位的，不太可能线上出现问题然后让每个同学都去练一下手，那怎么去实践这些jvm的知识和技能呢？ Netty我也看了，也了解了Reactor的原理，但是我不可能参与Netty开发，怎么去让自己真正掌握Reactor异步模式呢？ 看了《高性能MySQL》，但是线上的数据库都是DBA管理的，测试环境的数据库感觉又是随便配置的，我怎么去验证这些技术呢？ 框架封装了DAL层，数据库的访问我们都不需要操心，我们怎么去了解分库分表实现？  诸如此类问题还有很多，我这里分享一下个人的经验，其实就是3个词：learning、trying、teaching！
+Learning 这个是第一阶段，看书、google、看视频、看别人的博客都可以，但要注意一点是 “系统化”，特别是一些基础性的东西，例如JVM原理、Java编程、网络编程，HTTP协议等等，这些基础技术不能只通过google或者博客学习，我的做法一般是先完整的看完一本书全面的了解，然后再通过google、视频、博客去有针对性的查找一些有疑问的地方，或者一些技巧。
+Trying 这个步骤就是解答前面提到的很多同学的疑惑的关键点，形象来说就是“自己动手丰衣足食”，也就是自己去尝试搭建一些模拟环境，自己写一些测试程序。例如：
+ Jvm垃圾回收：可以自己写一个简单的测试程序，分配内存不释放，然后调整各种jvm启动参数，再运行的过程中使用jstack、jstat等命令查看jvm的堆内存分布和垃圾回收情况。这样的程序写起来很简单，简单一点的就几行，复杂一点的也就几十行。 Reactor原理：自己真正去尝试写一个Reactor模式的Demo，不要以为这个很难，最简单的Reactor模式代码量（包括注释）不超过200行（可以参考Doug Lee的PPT）。自己写完后，再去看看netty怎么做，一对比理解就更加深刻了。 MySQL：既然有线上的配置可以参考，那可以直接让DBA将线上配置发给我们（注意去掉敏感信息），直接学习；然后自己搭建一个MySQL环境，用线上的配置启动；要知道很多同学用了很多年MySQL，但是连个简单的MySQL环境都搭不起来。 框架封装了DAL层：可以自己用JDBC尝试去写一个分库分表的简单实现，然后与框架的实现进行对比，看看差异在哪里。 用浏览器的工具查看HTTP缓存实现，看看不同种类的网站，不同类型的资源，具体是如何控制缓存的；也可以自己用Python写一个简单的HTTP服务器，模拟返回各种HTTP Headers来观察浏览器的反应。  当然，如果能够在实际工作中使用，效果会更好，毕竟实际的线上环境和业务复杂度不是我们写个模拟程序就能够模拟的，但这样的机会可遇不可求，大部分情况我们还真的只能靠自己模拟，然后等到真正业务要用的时候，能够信手拈来。</description>
+    </item>
+    
+    <item>
+      <title>谈谈面试</title>
+      <link>https://wenchao.ren/posts/%E8%B0%88%E8%B0%88%E9%9D%A2%E8%AF%95/</link>
+      <pubDate>Fri, 15 Feb 2019 01:55:51 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E8%B0%88%E8%B0%88%E9%9D%A2%E8%AF%95/</guid>
+      <description>今晚看到了这篇文章最近面试Java后端开发的感受, 深有感触，感觉写的特别好，有感而发，所以打断写这么一篇文章，来谈谈我的经验吧。
+面试是一个综合评分的过程 首先一定要认识到面试是个综合评分的过程，不一定仅仅是考察面试者的技术能力，很多时候都会有一定（甚至很大）的运气成分，这一点其实很像公司内部的 晋级答辩一样，这一点一定要深刻理解。比如碰上一个性格不错，有礼貌的面试官，通过的可能性大多数情况下都会比全程绷着脸，接N个电话的面试官好一些。 所以即便最后最差情况，面试没过，不一定代表你能力不行，可能是技能和工作要求不匹配啊，可能是运气不行啊，说不定换一个面试官就过了等等的，都是可能 的，所以首先要正确看待面试这个环节。
+面试前 不可否认的是，跳槽可能（基本）是互联网行业涨薪最快的手段了。而跳槽以后的薪资，虽然会在一定程度上参考上一家公司的薪资水平，但是只要你在面试阶段 的表现能够表现出：【上一家公司在薪资方面亏了我，我其实更值钱】这种情况的话，一般情况下，新公司在初步评级，以及你在和HR的薪资谈判过程，会占有很大 的主动性，所以面试期间的表现很重要。
+为了面试期间表现的好，那么一定是需要提前准备的。虽然我不太喜欢突击准备，更喜欢平时多留心留意。但是不可否认面试其实是一个异常情况出现概率很大的事情。指不定面试官会问到哪里，所以面试者首先一定要尽可能的准备充分，并且有意的在简历以及在面试过程中，留下一些【坑】来引导面试官跟随自己提前准备好 的计划来面试，这样可以减少面试过程中异常情况发生。
+简历不要瞎编，项目经验不要瞎编，一定要能自圆其说，最起码写在简历上面的要不怕被人问，如果被人三两句问住那就不好了，所以尽可能的多考虑一下面试官 会问什么，同时也百度一下最近的面试题，自己也做做相关的面试题。
+面试期间 面试期间要注意的东西其实很多时候是表达能力。不能茶壶里面煮饺子，倒不出来。
+尽量提前演练几下，提前想好如果面试官问xxx的时候，怎么回答，这样就不至于太仓促了。另外贴一下这篇文章最近面试Java后端开发的感受中提到的一些注意点，我觉的写的挺好的：
+ 别让人感觉你只会山寨别人的代码 单机版够用？适当了解些分布式 别就知道增删改查，得了解性能优化 围绕数据结构和性能优化准备面试题 至少了解如何看日志排查问题 通读一段底层代码，作为加分项 把上述技能嵌入到你做过的项目里  我总结了一下主要突出下面2个方面：
+大家都能做的事情，你做的比别人好 首先普通的事情能做，这是最基本的要求，活都不会干，怎么可能面试通过呢。其次一定要让别人觉的大家都能做的事情，你已经做的比别人好了。就如同上面提到的那篇文章说的：别让人感觉你只会山寨别人的代码。要能发现当前的不足和并给出解决方案。如果和大多数人的水平差不多了，在这点就没法体现出你的优势了。
+举几个例子：
+ 都在用Spring + Mybatis + mysql架构，现有的系统的问题在哪，你做了哪些改进和优化 线上出现问题了，你如何更快速的排查出来了呢？有没有自己的一套方法论和问题QA集 现有项目代码存在安全漏洞，你是否主动发现并fix上线了呢？ 项目有delay了，是否主动推动了呢？  别人不知道的你知道，别人干不了的你可以 别人不知道的你知道，别人干不了的你可以，这才是你真正和HR谈价钱的资本。所以一定要注重这个表达。当然了很少出现别人完全不知道的和别人完全干不了的情况，所以很多的时候是需要扩展知识的深度和广度
+比如：
+ 熟悉Nginx dubbo redis等的原理和底层 比如熟悉业界的cloud native等  最后希望大家都能找到好工作，拿到好工资</description>
+    </item>
+    
+    <item>
+      <title>Mac privoxy&#43;Shadowsocks&#43;iTerm2走代理</title>
+      <link>https://wenchao.ren/posts/mac-privoxy-shadowsocks-iterm2%E8%B5%B0%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Fri, 15 Feb 2019 00:12:33 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mac-privoxy-shadowsocks-iterm2%E8%B5%B0%E4%BB%A3%E7%90%86/</guid>
+      <description>本篇文章讲述如何通过Shadowsocks和privoxy让mac的终端terminal可以翻墙
+首先下载安装privoxy
+brew install privoxy  默认就会启动privoxy，可通过以下终端命令查看privoxy进程是否启动成功：
+ps aux | grep privoxy  然后配置privoxy，配置文件在/usr/local/etc/privoxy/config, 在文件末尾的listen-address 127.0.0.1:8118的下一行增加： forward-socks5 / 127.0.0.1:1086 .，其中1086是shadowsocks的本地Sock5监听端口
+终端执行以下两条命令即可访问privoxy：
+export http_proxy=&#39;http://localhost:8118&#39; export https_proxy=&#39;http://localhost:8118&#39;  一般建议将这2个命令增加到zsh的.zshrc文件中去。
+至于terminal中ping google失败的问题，请参考请问如何在ss代理下ping通google.com?, 其实此时已经termianl可以访问外网了，不信的话试试：
+~ » curl -I -XGET https://www.google.com HTTP/1.1 200 Connection established HTTP/2 200 date: Thu, 14 Feb 2019 16:18:17 GMT expires: -1 cache-control: private, max-age=0 content-type: text/html; charset=ISO-8859-1 p3p: CP=&amp;quot;This is not a P3P policy! See g.co/p3phelp for more info.&amp;quot; server: gws x-xss-protection: 1; mode=block x-frame-options: SAMEORIGIN set-cookie: 1P_JAR=2019-02-14-16; expires=Sat, 16-Mar-2019 16:18:17 GMT; path=/; domain=.</description>
+    </item>
+    
+    <item>
+      <title>ShadowsocksX-NG 1.8.2设置kcptun</title>
+      <link>https://wenchao.ren/posts/shadowsocksx-ng-1-8-2%E8%AE%BE%E7%BD%AEkcptun/</link>
+      <pubDate>Fri, 01 Feb 2019 17:54:00 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/shadowsocksx-ng-1-8-2%E8%AE%BE%E7%BD%AEkcptun/</guid>
+      <description>在自己的mac上升级了一下ShadowsocksX-NG到1.8.2版本。发现无法使用了，检查发现新版本中没有设置kcptun的地方了，
+新版本在【服务器设置】的地方
+ 插件输入框中写kcptun 插件选项写：key=【此处为自己的key】;crypt=aes;mode=fast2;mtu=1350;sndwnd=2048;rcvwnd=2048;datashard=10;parityshard=3;dscp=0  检查发现kcptun会自动打开
+~ » ps -ef | grep kcp 501 31273 31272 0 5:52PM ?? 0:00.37 plugins/kcptun  参考资料
+ 1.8.2 kcptun 自带的和1.7.1不同，如何打开kcptun #926  </description>
+    </item>
+    
+    <item>
+      <title>stop using TLS-SNI-01 with Certbot</title>
+      <link>https://wenchao.ren/posts/stop-using-tls-sni-01-with-certbot/</link>
+      <pubDate>Mon, 28 Jan 2019 12:12:21 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/stop-using-tls-sni-01-with-certbot/</guid>
+      <description>今天收到一个来自letsencrypt的邮件：Action required: Let&#39;s Encrypt certificate renewals，简单的说就是Let’s Encrypt移除了对TLS-SNI-01的支持。 所以我就按照他们的指示，修改了一下我的certbot配置。操作步骤如下:
+检查certbot的版本大于0.28 使用命令certbot --version来检查命令。我检查的时候发现我的版本比0.28低，所以我需要升级一下：
+[root@VM_43_49_centos workspace]# certbot --version certbot 0.26.1 sudo yum upgrade certbot  我在使用sudo yum upgrade certbot以后，测试版本出现下面的异常：
+[root@VM_43_49_centos workspace]# certbot --version Traceback (most recent call last): File &amp;quot;/usr/bin/certbot&amp;quot;, line 5, in &amp;lt;module&amp;gt; from pkg_resources import load_entry_point File &amp;quot;/usr/lib/python2.7/site-packages/pkg_resources.py&amp;quot;, line 3011, in &amp;lt;module&amp;gt; parse_requirements(__requires__), Environment() File &amp;quot;/usr/lib/python2.7/site-packages/pkg_resources.py&amp;quot;, line 626, in resolve raise DistributionNotFound(req) pkg_resources.DistributionNotFound: acme&amp;gt;=0.29.0 [root@VM_43_49_centos workspace]# yum list | grep acme Repository epel is listed more than once in the configuration  所以我还需要升级一下</description>
+    </item>
+    
+    <item>
+      <title>RBAC权限系统设计</title>
+      <link>https://wenchao.ren/posts/rbac%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Wed, 23 Jan 2019 00:18:31 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/rbac%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</guid>
+      <description>##Role Based Access Control
+ Role-based access control (RBAC) is a method of regulating access to computer or network resources based on the roles of individual users within an enterprise. In this context, access is the ability of an individual user to perform a specific task, such as view, create, or modify a file.
+ (The National Institute of Standards and Technology，美国国家标准与技术研究院)标准RBAC模型由4个部件模型组成，这4个部件模型分别是：
+ 基本模型RBAC0(Core RBAC） 角色分级模型RBAC1(Hierarchal RBAC) 角色限制模型RBAC2(Constraint RBAC) 统一模型RBAC3(Combines RBAC)  关于这四个区别，建议大家直接看本文参考资料中第二个链接：标准RBAC模型由4个部件模型，这篇文章说的很清楚。</description>
+    </item>
+    
+    <item>
+      <title>使用七牛做博客图床</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8%E4%B8%83%E7%89%9B%E5%81%9A%E5%8D%9A%E5%AE%A2%E5%9B%BE%E5%BA%8A/</link>
+      <pubDate>Wed, 23 Jan 2019 00:13:07 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8%E4%B8%83%E7%89%9B%E5%81%9A%E5%8D%9A%E5%AE%A2%E5%9B%BE%E5%BA%8A/</guid>
+      <description>经过对比了国内的一些图床以后，最后还是选择了七牛做图床。免费版的对于我这个小博客完全就够用了。 操作方式如下：
+  首先注册七牛账号，然后并认证。认证方式我选择的是支付宝认证。
+  然后创建一个空间
+  在「对象管理」-&amp;gt;「存储资源列表」-&amp;gt;「添加」
+  这块会生成一个测试域名，这个域名绝大多数情况下就够用了
+  然后推荐使用极简图床，配置好自己的空间信息就可以使用了
+  配置的时候域名写自己之前空间的测试域名就好了。至于空间名称就写自己之前创建的空间的名称
+  AK和SK在「个人面板」-&amp;gt;「密匙管理」中可以找到
+  </description>
+    </item>
+    
+    <item>
+      <title>Mac外接4k显示器选1080p字体发虚</title>
+      <link>https://wenchao.ren/posts/mac%E5%A4%96%E6%8E%A54k%E6%98%BE%E7%A4%BA%E5%99%A8%E9%80%891080p%E5%AD%97%E4%BD%93%E5%8F%91%E8%99%9A/</link>
+      <pubDate>Wed, 19 Dec 2018 22:28:30 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mac%E5%A4%96%E6%8E%A54k%E6%98%BE%E7%A4%BA%E5%99%A8%E9%80%891080p%E5%AD%97%E4%BD%93%E5%8F%91%E8%99%9A/</guid>
+      <description>MacBook外接4K显示器使用HDMI数据线选择缩放模式，然后选择1080p，会出现外接显示器字体发虚的问题，一般有下面几种的排查方式：
+ 检查数据线，尽量使用DP接口 hdmi数据线的话，尽量使用原厂的，亲测淘宝便宜的数据线会出现显示器内有小颗粒闪烁的问题，我之前还以为是显示器的问题。 mac系统没有开启hidpi模式，此时安装神器https://pan.baidu.com/share/link?shareid=31306&amp;amp;uk=1679854806&amp;amp;errno=0&amp;amp;errmsg=Auth%20Login%20Sucess&amp;amp;&amp;amp;bduss=&amp;amp;ssnerror=0&amp;amp;traceid=, 打开然后，选择1080P(HIDPI)就好了。  </description>
+    </item>
+    
   </channel>
 </rss>

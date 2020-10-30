@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/java/</link>
+    <description>Recent content in java on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 03 Jun 2020 21:15:38 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>不在要Netty的Pinple的线程中乱设置拒绝策略</title>
+      <link>https://wenchao.ren/posts/%E4%B8%8D%E5%9C%A8%E8%A6%81netty%E7%9A%84pinple%E7%9A%84%E7%BA%BF%E7%A8%8B%E4%B8%AD%E4%B9%B1%E8%AE%BE%E7%BD%AE%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5/</link>
+      <pubDate>Wed, 03 Jun 2020 21:15:38 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%B8%8D%E5%9C%A8%E8%A6%81netty%E7%9A%84pinple%E7%9A%84%E7%BA%BF%E7%A8%8B%E4%B8%AD%E4%B9%B1%E8%AE%BE%E7%BD%AE%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5/</guid>
+      <description>之前给业务同学排查问题时发现我们的Trace服务的某个地方当Trace的量特别大时，一个线程池会对业务层抛出RejectedExecutionException， 于是热心的我就顺手给这个地方加了一个RejectedExecutionHandler的实现，在这个里面加一个监控，然后就没了。这样是没问题的，但是 「手贱」的我看到本文件中另外一个地方的线程池也没有设置拒绝策略。他之前的代码如下：
+String name = nettyClientConfig.getString(nameKey); String workerExecutorName = StringUtils.hasText(name) ? String.format(&amp;quot;%s.NettyClientCodecThread&amp;quot;, name) : &amp;quot;NettyClientCodecThread&amp;quot;; ThreadFactory threadFactory = new DefaultThreadFactory(workerExecutorName, false); this.defaultEventExecutorGroup = new DefaultEventExecutorGroup(threadSize, threadFactory);  我修改之后为：
+String name = nettyClientConfig.getString(nameKey); String workerExecutorName = StringUtils.hasText(name) ? String.format(&amp;quot;%s.NettyClientCodecThread&amp;quot;, name) : &amp;quot;NettyClientCodecThread&amp;quot;; ThreadFactory threadFactory = new NamedThreadFactory(workerExecutorName, false); int maxPendingTasks = nettyClientConfig.getInteger(maxPendingTasksKey, 100); this.defaultEventExecutorGroup = new DefaultEventExecutorGroup(threadSize, threadFactory, maxPendingTasks, (task, executor) -&amp;gt; Metrics.counter(&amp;quot;NettyClientCodecThread.rejected.counter&amp;quot;).get().inc());  心想着老子又做了一回活雷锋。但是后来这个改动坑了一波，因为这个defaultEventExecutorGroup线程池是在Netty的pipeline中使用的：
+Bootstrap handler = this.bootstrap.group(this.eventLoopGroupSelector).channel(useEpoll() ? EpollSocketChannel.</description>
+    </item>
+    
+    <item>
+      <title>从Netty的ResourceLeakDetector#Lavel的设计的一些感想</title>
+      <link>https://wenchao.ren/posts/%E4%BB%8Enetty%E7%9A%84resourceleakdetector-lavel%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/</link>
+      <pubDate>Wed, 03 Jun 2020 00:37:35 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BB%8Enetty%E7%9A%84resourceleakdetector-lavel%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/</guid>
+      <description>Netty中的ResourceLeakDetector#Level有4个级别：
+ DISABLED 这种模式下不进行泄露监控。 SIMPLE 这种模式下以1/128的概率抽取ByteBuf进行泄露监控。 ADVANCED 在SIMPLE的基础上，每一次对ByteBuf的调用都会尝试记录调用轨迹，消耗较大 PARANOID 在ADVANCED的基础上，对每一个ByteBuf都进行泄露监控，消耗最大。  一般而言，在项目的初期使用SIMPLE模式进行监控，如果没有问题一段时间后就可以关闭。否则升级到ADVANCED或者PARANOID模式尝试确认泄露位置。
+结合自己做中间件开发的一些感触吧：
+ client端新增加的功能，最好都有一个对应的开关，便于出问题的时候及时调整，给自己留个后路 client的功能尽量支持动态升级和降级，非核心功能不要影响业务功能，分清楚主次。 client端的功能代码必要的时候一定需要辅有排查问题的辅助代码 非核心功能，能异步就异步，尽可能快，异步处理的时候，尤其是异步回调的时候，一定要风清楚代码是在哪个线程池中执行的。  </description>
+    </item>
+    
+    <item>
+      <title>Lettuce一定要打开redis集群拓扑刷新功能</title>
+      <link>https://wenchao.ren/posts/lettuce%E4%B8%80%E5%AE%9A%E8%A6%81%E6%89%93%E5%BC%80redis%E9%9B%86%E7%BE%A4%E6%8B%93%E6%89%91%E5%88%B7%E6%96%B0%E5%8A%9F%E8%83%BD/</link>
+      <pubDate>Wed, 03 Jun 2020 00:21:22 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/lettuce%E4%B8%80%E5%AE%9A%E8%A6%81%E6%89%93%E5%BC%80redis%E9%9B%86%E7%BE%A4%E6%8B%93%E6%89%91%E5%88%B7%E6%96%B0%E5%8A%9F%E8%83%BD/</guid>
+      <description>在使用Lettuce访问Redis的时候，一定要记得打开它的Redis 集群拓扑刷新功能，否则他压根就不存在高可用。因为他的集群拓扑刷新功能是默认没开启的。
+ RedisCluster集群模式下master宕机主从切换期间Lettuce连接Redis无法使用报错Redis command timed out的问题 SpringBoot2.X与redis Lettuce集成踩坑 SpringBoot2.1.X使用Redis连接池Lettuce踩坑  上面的3个文章其实说的就是这个事情，在redis集群拓扑结构发生变化，比如Redis的master挂掉了后，lettuce的client端就会长时间不能恢复。因此可以通过下面的配置打开拓扑刷新功能：
+//默认超时时间, lettuce默认超时时间为60s太长了，此处默认设置为15s private Long timeoutInMillis = Duration.ofSeconds(15).toMillis(); static ClusterClientOptions.Builder initDefaultClusterClientOptions(ClusterClientOptions.Builder builder) { ClusterTopologyRefreshOptions defaultClusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder() //开启集群拓扑结构周期性刷新，和默认参数保持一致 .enablePeriodicRefresh(60, TimeUnit.SECONDS) //开启针对{@link RefreshTrigger}中所有类型的事件的触发器 .enableAllAdaptiveRefreshTriggers() //和默认一样，30s超时，避免短时间大量出现刷新拓扑的事件 .adaptiveRefreshTriggersTimeout(30, TimeUnit.SECONDS) //和默认一样重连5次先，然后在刷新集群拓扑 .refreshTriggersReconnectAttempts(5) .build(); return builder // 配置用于开启自适应刷新和定时刷新。如自适应刷新不开启，Redis集群变更时将会导致连接异常 .topologyRefreshOptions(defaultClusterTopologyRefreshOptions) //默认就是重连的，显示定义一下 .autoReconnect(true) //和默认一样最大重定向5次，避免极端情况无止境的重定向 .maxRedirects(5) //Accept commands when auto-reconnect is enabled, reject commands when auto-reconnect is disabled. .disconnectedBehavior(ClientOptions.DisconnectedBehavior.DEFAULT) .socketOptions(SocketOptions.builder().keepAlive(true).tcpNoDelay(true).build()) //取消校验集群节点的成员关系 .validateClusterNodeMembership(false); } public static ClusterClientOptions.Builder getDefaultClusterClientOptionBuilder() { return initDefaultClusterClientOptions(ClusterClientOptions.</description>
+    </item>
+    
+    <item>
+      <title>Netty如何检测ByteBuf没有release</title>
+      <link>https://wenchao.ren/posts/netty%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8Bbytebuf%E6%B2%A1%E6%9C%89release/</link>
+      <pubDate>Mon, 01 Jun 2020 23:31:56 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/netty%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8Bbytebuf%E6%B2%A1%E6%9C%89release/</guid>
+      <description>Netty中的ByteBuf算是中间件开发中比较常用的API了，一般我们会使用PooledByteBuf来提升性能，但是这个玩意需要我们使用以后手动进行release，如果有时候忘记手动释放的话，会出现内存泄漏。 而且这种问题一般也没那么方便的排查。不过非常幸运的是Netty已经帮我们考虑到了这个问题，它提供了自己的检测工具:
+ ResourceLeakDetector ResourceLeakTracker  基本思想 他的实现原理很巧妙，不过我们先不着急说Netty的实现，我们先想想如果我们自己来弄，我们一般会面临下面3个问题：
+ 被检测的对象创建的时候，我们就需要知道他创建了，然后做一些操作，比如该标记就标记，该计数就计数， 对象「无用」的时候，我们也需要知道这个时刻。这里的「无用」一般我们选择对象被GC时 我们还需要一种机制来判断对象在被GC之前有没有调用某个操作，比如release或者close操作。  下面以netty 4.0.46版本来说哈。
+ 第一个问题其实很好实现，在对象的构造函数中我们就可以做这些事情，因为对象的构造函数执行的时候，就是他被创建的时候 第二个问题，Netty是利用了Java中的java.lang.ref.PhantomReference和引用队列这个东西。java.lang.ref.PhantomReference有叫虚引用也有叫做幽灵引用的，叫法无所谓，它和软引用（SoftReference）、弱引用（WeakReference）不同，它并不影响对象的生命周期，如果一个对象与java.lang.ref.PhantomReference关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。而且除过强引用之外，剩余的3种引用类型都有一个引用队列可以与之配合。当java清理调用不必要的引用后，会将这个引用本身（不是引用指向的值对象）添加到队列之中。比如你看PhantomReference的定义：  package java.lang.ref; /** * Phantom reference objects, which are enqueued after the collector * determines that their referents may otherwise be reclaimed. Phantom * references are most often used for scheduling pre-mortem cleanup actions in * a more flexible way than is possible with the Java finalization mechanism. * * &amp;lt;p&amp;gt; If the garbage collector determines at a certain point in time that the * referent of a phantom reference is &amp;lt;a * href=&amp;quot;package-summary.</description>
+    </item>
+    
+    <item>
+      <title>借助arthas排查重复类的问题</title>
+      <link>https://wenchao.ren/posts/%E5%80%9F%E5%8A%A9arthas%E6%8E%92%E6%9F%A5%E9%87%8D%E5%A4%8D%E7%B1%BB%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 29 May 2020 20:04:55 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%80%9F%E5%8A%A9arthas%E6%8E%92%E6%9F%A5%E9%87%8D%E5%A4%8D%E7%B1%BB%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>现象描述 业务反馈他们的项目运行时出现Jackson中的com.fasterxml.jackson.databind.deser.SettableBeanProperty类的版本不对，和他们在pom中指定的版本不一致，这种问题一般都是因为项目的依赖（包括间接依赖）中，存在某些依赖有shade包，如果这些shade包打包的时候忘记修改package，那么就经常会出现这种问题。
+解决思路 这种问题其实只要确定jvm加载的这个com.fasterxml.jackson.databind.deser.SettableBeanProperty到底来自哪个jar就可以帮助我们确定问题根源，而借助Arthas可以快速解决这个问题：
+ 使用Arthas连接具体环境的具体机器上的应用 在console中输入如下的命令： sc -fd com.fasterxml.jackson.databind.deser.SettableBeanProperty 查看console的输出，看其中的 code-source就可以指定这个类来自哪个jar了  ## 安装arthas curl -L https://alibaba.github.io/arthas/install.sh | sh ## $PID为自己项目运行的pid，注意修改， 此处使用tomcat用户是因为我们的程序是tomcat用户运行的 sudo -u tomcat -EH ./as.sh $PID ## arthas attach成功以后在console中输入 sc -fd com.fasterxml.jackson.databind.deser.SettableBeanProperty  下面贴一个sc命令的样例输出：
+class-info com.fasterxml.jackson.databind.deser.impl.SetterlessProperty code-source /data/w/www/data-bbb-sea.aaa.com/webapps/ROOT/WEB-INF/lib/jackson-databind-2.10.3.jar name com.fasterxml.jackson.databind.deser.impl.SetterlessProperty isInterface false isAnnotation false isEnum false isAnonymousClass false isArray false isLocalClass false isMemberClass false isPrimitive false isSynthetic false simple-name SetterlessProperty modifier final,public annotation interfaces super-class +-com.fasterxml.jackson.databind.deser.SettableBeanProperty +-com.fasterxml.jackson.databind.introspect.ConcreteBeanPropertyBase +-java.</description>
+    </item>
+    
+    <item>
+      <title>Unexpected end of ZLIB input stream</title>
+      <link>https://wenchao.ren/posts/unexpected-end-of-zlib-input-stream/</link>
+      <pubDate>Sat, 04 Apr 2020 01:19:53 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/unexpected-end-of-zlib-input-stream/</guid>
+      <description>前几天在项目开发是遇到了这个Unexpected end of ZLIB input stream异常。异常出现的位置：
+Caused by: java.io.EOFException: Unexpected end of ZLIB input stream at java.util.zip.InflaterInputStream.fill(InflaterInputStream.java:240) at java.util.zip.InflaterInputStream.read(InflaterInputStream.java:158) at java.util.zip.GZIPInputStream.read(GZIPInputStream.java:117) at java.util.zip.InflaterInputStream.read(InflaterInputStream.java:122)  之前一开始没太想清楚，以为是我写的GzipFilter出现了问题，后来吃了个午饭才恍然大悟，是client端的数据传输有点问题。简单抽象一下场景就是client通过http接口给server上报 一些数据，这些数据使用了gzip来进行压缩。问题出现在这个gzip压缩这快。我看来看看早期的有问题的代码：
+private byte[] buildRequestBody(List&amp;lt;LoggerEntity&amp;gt; loggerEntities) { try { try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) { gzipOutputStream.write(JSON.writeValueAsBytes(loggerEntities)); return byteArrayOutputStream.toByteArray(); } } catch (IOException e) { throw new RuntimeException(e); } }  先说一下上面的代码是有问题的，问题在于try-with-resource里面的try中的2行代码，因为很可能gzipOutputStream没写完然后就已经return了。因此此处有两种处理办法，
+第一种就是在try里面对gzipOutputStream进行close:
+private byte[] buildRequestBody(List&amp;lt;LoggerEntity&amp;gt; loggerEntities) { try { try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) { gzipOutputStream.</description>
+    </item>
+    
+    <item>
+      <title>mybatis层面限制SQL注入</title>
+      <link>https://wenchao.ren/posts/mybatis%E5%B1%82%E9%9D%A2%E9%99%90%E5%88%B6sql%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Fri, 03 Jan 2020 18:33:23 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mybatis%E5%B1%82%E9%9D%A2%E9%99%90%E5%88%B6sql%E6%B3%A8%E5%85%A5/</guid>
+      <description>最近根据公司的要求需要限制一波SQL注入的问题，因为公司有自己的数据库访问层组件，使用的数据库连接池为druid。 其实在druid的com.alibaba.druid.wall.WallFilter中提供了对sql依赖注入的检查，但是最终有下面几个原因我们没有 在druid层面来解决这个问题：
+ 我们依赖的druid版本1.0.8太低了，查看了一下druid后面不少版本的改进，对sql解析这块有大量的优化，因此贸然升级一个版本风险有点高 我们想修改一下WallConfig的配置，但是在1.0.8版本的druid中不太好获取WallConfig这个类的实例，高版本的druid优化了这个问题。而且在druid中MySqlWallProvider类是在com.alibaba.druid.wall.spipackage下面定义的，但是在WallFilter#init()方法中缺并没有使用spi等方式来拿这个类。 我们想最小化改动，尽量减少测试成本  在上面3个原因的考虑下，我们放弃了这种方案，转而将目光放在了公司统一使用的Mybatis上。
+在Mybatis的org.apache.ibatis.scripting.xmltags.TextSqlNode中有一个字段为injectionFilter。
+public class TextSqlNode implements SqlNode { private String text; private Pattern injectionFilter; //...其他代码省略 private static class BindingTokenParser implements TokenHandler { private DynamicContext context; private Pattern injectionFilter; public BindingTokenParser(DynamicContext context, Pattern injectionFilter) { this.context = context; this.injectionFilter = injectionFilter; } @Override public String handleToken(String content) { Object parameter = context.getBindings().get(&amp;quot;_parameter&amp;quot;); if (parameter == null) { context.getBindings().put(&amp;quot;value&amp;quot;, null); } else if (SimpleTypeRegistry.isSimpleType(parameter.getClass())) { context.</description>
+    </item>
+    
+    <item>
+      <title>缩短class路径</title>
+      <link>https://wenchao.ren/posts/%E7%BC%A9%E7%9F%ADclass%E8%B7%AF%E5%BE%84/</link>
+      <pubDate>Fri, 27 Dec 2019 19:31:50 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E7%BC%A9%E7%9F%ADclass%E8%B7%AF%E5%BE%84/</guid>
+      <description>如果有时候在打印一些class日志时，经常会遇到class full name太长的问题，这个时候可以借助logback中的ch.qos.logback.classic.pattern.TargetLengthBasedClassNameAbbreviator来缩短输出。 ​</description>
+    </item>
+    
+    <item>
+      <title>AttachNotSupportedException和jstack失败的常见原因</title>
+      <link>https://wenchao.ren/posts/attachnotsupportedexception%E5%92%8Cjstack%E5%A4%B1%E8%B4%A5%E7%9A%84%E5%B8%B8%E8%A7%81%E5%8E%9F%E5%9B%A0/</link>
+      <pubDate>Fri, 27 Dec 2019 19:15:21 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/attachnotsupportedexception%E5%92%8Cjstack%E5%A4%B1%E8%B4%A5%E7%9A%84%E5%B8%B8%E8%A7%81%E5%8E%9F%E5%9B%A0/</guid>
+      <description>最近在公司升级Bistoury Agent时发现，有不少应用出AttachNotSupportedException异常：
+com.sun.tools.attach.AttachNotSupportedException: Unable to open socket file: target process not responding or HotSpot VM not loaded at sun.tools.attach.LinuxVirtualMachine.&amp;lt;init&amp;gt;(LinuxVirtualMachine.java:106) ~[tools.jar:na] at sun.tools.attach.LinuxAttachProvider.attachVirtualMachine(LinuxAttachProvider.java:78) ~[tools.jar:na] at com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:250) ~[tools.jar:na] at qunar.tc.bistoury.commands.arthas.ArthasStarter.attachAgent(ArthasStarter.java:74) ~[bistoury-commands-1.4.22.jar:na] at qunar.tc.bistoury.commands.arthas.ArthasStarter.start(ArthasStarter.java:57) ~[bistoury-commands-1.4.22.jar:na] at qunar.tc.bistoury.commands.arthas.ArthasEntity.start(ArthasEntity.java:82) [bistoury-commands-1.4.22.jar:na]  但是这样应用的行为和监控指标都是特别正常的，此时如果给这些应用使用:sudo -u tomcat jstack [pid]（备注我们的应用是tomcat用户运行的）的话，会发现jstack 使用出问题，一个例子为：
+sudo -u tomcat /home/w/java/default/bin/jstack 691167 691167: Unable to open socket file: target process not responding or HotSpot VM not loaded The -F option can be used when the target process is not responding  然后查看tomcat的catalina.</description>
+    </item>
+    
+    <item>
+      <title>git移除对部分文件的追踪</title>
+      <link>https://wenchao.ren/posts/git%E7%A7%BB%E9%99%A4%E5%AF%B9%E9%83%A8%E5%88%86%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%BD%E8%B8%AA/</link>
+      <pubDate>Fri, 27 Dec 2019 19:09:44 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/git%E7%A7%BB%E9%99%A4%E5%AF%B9%E9%83%A8%E5%88%86%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%BD%E8%B8%AA/</guid>
+      <description>如果不小心将某些不需要被git管理的文件加入了git中，取消的办法如下：
+ 在当前目录下.gitignore文件里面加入不需要进行版本控制器的文件 执行git rm -r --cached 文件名命令 执行gti commit &amp;amp;&amp;amp; git push提交修改  </description>
+    </item>
+    
+    <item>
+      <title>gc Roots对象有哪些</title>
+      <link>https://wenchao.ren/posts/gc-roots%E5%AF%B9%E8%B1%A1%E6%9C%89%E5%93%AA%E4%BA%9B/</link>
+      <pubDate>Tue, 03 Sep 2019 12:07:27 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/gc-roots%E5%AF%B9%E8%B1%A1%E6%9C%89%E5%93%AA%E4%BA%9B/</guid>
+      <description>JVM的垃圾自动回收是我们经常说的一个话题，这里的垃圾的含义是：
+ 内存中已经不再被使用到的对象就是垃圾
+ 要进行垃圾回收，如何判断一个对象是否可以被回收？ 一般有两种办法：
+ 引用计数法  实现简单，但是没法解决对象之间的循环引用问题   枚举根节点做可达性分析  通过一系列名为“GC Roots”的对象作为起始点，从“GC Roots”对象开始向下搜索，如果一个对象到“GC Roots”没有任何引用链相连，说明此对象可以被回收    常见的常见的GC Root有如下：
+ 通过System Class Loader或者Boot Class Loader加载的class对象，通过自定义类加载器加载的class不一定是GC Root 处于激活状态的线程 栈中的对象 本地方法栈中 JNI (Native方法)的对象 JNI中的全局对象 正在被用于同步的各种锁对象 JVM自身持有的对象，比如系统类加载器等。  </description>
+    </item>
+    
+    <item>
+      <title>Synchronized的一些东西</title>
+      <link>https://wenchao.ren/posts/synchronized%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF/</link>
+      <pubDate>Mon, 02 Sep 2019 12:39:02 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/synchronized%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF/</guid>
+      <description>synchronized是Java中解决并发问题的一种最常用的方法，从语法上讲synchronized总共有三种用法：
+ 修饰普通方法 修饰静态方法 修饰代码块  synchronized 原理 为了查看synchronized的原理，我们首先反编译一下下面的代码, 这是一个synchronized修饰代码块的demo
+public class SynchronizedDemo { public void method() { synchronized (this) { System.out.println(&amp;quot;Method 1 start&amp;quot;); } } }  从上面截图可以看到，synchronized的实现依赖2个指令：
+ monitorenter monitorexit  但是从上面的截图可以看到有一个monitorenter和2个monitorexit，这里之所以有2个monitorexit是因为synchronized的锁释放有2种情况：
+ 方法正常执行完毕synchronized的范围，也就是正常情况下的锁释放 synchronized圈起来的范围内的代码执行抛出异常，导致锁释放  monitorenter 关于这个指令，jvm中的描述为：
+ Each object is associated with a monitor. A monitor is locked if and only if it has an owner. The thread that executes monitorenter attempts to gain ownership of the monitor associated with objectref, as follows:</description>
+    </item>
+    
+    <item>
+      <title>ThreadPoolExecutor相关</title>
+      <link>https://wenchao.ren/posts/threadpoolexecutor%E7%9B%B8%E5%85%B3/</link>
+      <pubDate>Fri, 30 Aug 2019 12:42:06 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/threadpoolexecutor%E7%9B%B8%E5%85%B3/</guid>
+      <description>java中的线程池相关的东西抛不开ThreadPoolExecutor，本文就简单的说说这个ThreadPoolExecutor。
+先看一个ThreadPoolExecutor的demo，然后我们说说它的相关参数
+import java.util.concurrent.LinkedBlockingQueue; import java.util.concurrent.RejectedExecutionHandler; import java.util.concurrent.ThreadPoolExecutor; import java.util.concurrent.TimeUnit; public class Test { private static ThreadPoolExecutor threadPoolExecutor; public static void main(String[] args) { threadPoolExecutor = new ThreadPoolExecutor( 4, 8, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue&amp;lt;&amp;gt;(100), new RejectedExecutionHandler() { @Override public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) { } }); System.out.println(threadPoolExecutor.getCorePoolSize()); //4 System.out.println(threadPoolExecutor.getMaximumPoolSize()); //8 System.out.println(threadPoolExecutor.getPoolSize());//0 boolean b = threadPoolExecutor.prestartCoreThread(); System.out.println(threadPoolExecutor.getCorePoolSize());//4 System.out.println(threadPoolExecutor.getMaximumPoolSize());//8 System.out.println(threadPoolExecutor.getPoolSize());//1 int i = threadPoolExecutor.prestartAllCoreThreads(); System.out.println(threadPoolExecutor.getCorePoolSize());//4 System.out.println(threadPoolExecutor.getMaximumPoolSize());//8 System.out.println(threadPoolExecutor.getPoolSize());//4 } }  参数介绍 ThreadPoolExecutor的几个参数是必须要清楚的：</description>
+    </item>
+    
+    <item>
+      <title>如何在spring中自定义xml标签并解析</title>
+      <link>https://wenchao.ren/posts/%E5%A6%82%E4%BD%95%E5%9C%A8spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89xml%E6%A0%87%E7%AD%BE%E5%B9%B6%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Thu, 08 Aug 2019 00:29:14 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%A6%82%E4%BD%95%E5%9C%A8spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89xml%E6%A0%87%E7%AD%BE%E5%B9%B6%E8%A7%A3%E6%9E%90/</guid>
+      <description>如果大家使用过dubbo那么大概率看见过&amp;lt;dubbo:application ...&amp;gt;类似的配置。这其实就是一种xml标签的自定义，当然dubbo的实现中也会有自己的解析。
+这篇文章主要就说一下xml标签的自定义和解析。本篇文章中的代码仓库地址为：https://github.com/xkrivzooh/spring-define-and-parse-example
+大家按照上面的demo例子跑一下就会明白完整流程。其中有一些注意点我列了一下：
+ .xsd文件中的targetNamespace定义了以后，后续其他的比如xmlns的值，spring.handlers以及spring.schemas中的值需要对应上 xsd:element定义的就是将来会在xml文件中用到的元素，例如&amp;lt;dubbo:application&amp;gt;中的application xsd:attribute定义的就是模型类中的属性，例如&amp;lt;dubbo:application name=&amp;quot;xxx&amp;quot;&amp;gt;中的name，并且可以指定属性类型，进而起到检测的作用（当我们定义的是int，如果在xml中的值是非int型的，直接会报错）。 通常为每一个xsd:element都要注册一个BeanDefinitionParser。 person-demo.xml中的&amp;lt;AnyStringYouWant:person name=&amp;quot;name1&amp;quot; age=&amp;quot;1&amp;quot;/&amp;gt;中的AnyStringYouWant你可以随意替换  </description>
+    </item>
+    
+    <item>
+      <title>java 常见的OOM case</title>
+      <link>https://wenchao.ren/posts/java-%E5%B8%B8%E8%A7%81%E7%9A%84oom-case/</link>
+      <pubDate>Tue, 06 Aug 2019 18:32:50 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java-%E5%B8%B8%E8%A7%81%E7%9A%84oom-case/</guid>
+      <description>OOM是java.lang.OutOfMemoryError异常的简称，在日常工作中oom还算是比较常见的一种问题吧。出现OOM意味着jvm已经无法满足新对象对内存的申请了，本文整理了一下oom的常见case和一般情况下的解决方法。
+处理OOM问题，绝大多数情况下jmap和MAT工具可以解决99%的问题。
+Java heap space 表现现象为：
+java.lang.OutOfMemoryError: Java heap space  可能的原因  内存泄漏 堆大小设置不合理 JVM处理引用不及时，导致内存无法释放 代码中可能存在大对象分配  解决办法  一般情况下，都是先通过jmap命令，把堆内存dump下来，使用mat工具分析一下，检查是否因为代码问题，存在内存泄露 也可能是下游服务出问题，导致内存中的数据不能很快的处理掉，进而引起oom 调整-Xmx参数，加大堆内存 还有一点容易被忽略，检查是否有大量的自定义的 Finalizable 对象，也有可能是框架内部提供的，考虑其存在的必要性  PermGen space 永久代是HotSot虚拟机对方法区的具体实现，存放了被虚拟机加载的类信息、常量、静态变量、JIT编译后的代码等。
+一般情况下的异常表现为：
+java.lang. OutOfMemoryError : PermGen space  可能的原因  在Java7之前，频繁的错误使用String.intern()方法 运行期间生成了大量的代理类，导致方法区被撑爆，无法卸载  解决办法  检查是否永久代空间是否设置的过小 检查代码中是否存错误的创建过多的代理类  Metaspace JDK8后，元空间替换了永久带，元空间使用的是本地内存，还有其它细节变化：
+ 字符串常量由永久代转移到堆中 和永久代相关的JVM参数已移除  一般情况下的异常表现为：
+java.lang.OutOfMemoryError: Metaspace  可能的原因 类似PermGen space
+解决办法  通过命令行设置 -XX: MaxMetaSpaceSize 增加 metaspace 大小，或者取消-XX: maxmetsspacedize 其他类似PermGen space  unable to create new native Thread 这种情况的一般表现为：</description>
+    </item>
+    
+    <item>
+      <title>使用maven-shade-plugin解决依赖冲突</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8maven-shade-plugin%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81/</link>
+      <pubDate>Thu, 01 Aug 2019 13:00:38 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8maven-shade-plugin%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81/</guid>
+      <description>一般遇到一些比较复杂恶心的依赖冲突，传统的通过dependencyManagement和exclusion有时候是解不了的。这种问题最常见的是netty相关的。 这种情况下我们可以使用maven-shade-plugin插件。
+比如我这边的一个case是我们依赖的redisson需要4.1.36.Final的netty，而我们公司其他的组件必须依赖4.0.46.Final的netty，而这2个版本的netty 是不兼容的，因此我当时就使用了maven-shade-plugin插件来解决这个问题。
+因为我们公司内部的netty都是4.0.46.Final，因此我专门搞了一个redisson-shade的maven module，这个module只有pom.xml文件，在这个module中我们依赖 redisson，然后将redisson内部依赖的netty的package路径进行修改, 然后其他的module通过依赖redisson-shade的maven module就好了。
+pom.xml文件内容为:
+&amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.redisson&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;redisson&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt; &amp;lt;build&amp;gt; &amp;lt;plugins&amp;gt; &amp;lt;plugin&amp;gt; &amp;lt;groupId&amp;gt;org.apache.maven.plugins&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;maven-shade-plugin&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.2.1&amp;lt;/version&amp;gt; &amp;lt;executions&amp;gt; &amp;lt;execution&amp;gt; &amp;lt;phase&amp;gt;package&amp;lt;/phase&amp;gt; &amp;lt;goals&amp;gt; &amp;lt;goal&amp;gt;shade&amp;lt;/goal&amp;gt; &amp;lt;/goals&amp;gt; &amp;lt;configuration&amp;gt; &amp;lt;relocations&amp;gt; &amp;lt;relocation&amp;gt; &amp;lt;pattern&amp;gt;io.netty&amp;lt;/pattern&amp;gt; &amp;lt;shadedPattern&amp;gt;com.xxx.io.netty.redisson&amp;lt;/shadedPattern&amp;gt; &amp;lt;/relocation&amp;gt; &amp;lt;/relocations&amp;gt; &amp;lt;/configuration&amp;gt; &amp;lt;/execution&amp;gt; &amp;lt;/executions&amp;gt; &amp;lt;/plugin&amp;gt; &amp;lt;/plugins&amp;gt; &amp;lt;finalName&amp;gt;redisson-shade&amp;lt;/finalName&amp;gt; &amp;lt;/build&amp;gt;  在上面的pom中，在package阶段，会把redisson依赖的netty的package路径从io.netty修改为com.xxx.io.netty.redisson。这样就解决了依赖冲突问题。
+不过我是在同一个工程中搞多个maven module来弄的，因此本地测试时候，一般都需要专门搞一个测试工程，这个算是一个麻烦点。</description>
+    </item>
+    
+    <item>
+      <title>maven scope介绍</title>
+      <link>https://wenchao.ren/posts/maven-scope%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Thu, 01 Aug 2019 12:03:33 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/maven-scope%E4%BB%8B%E7%BB%8D/</guid>
+      <description>maven的scope有下面6种：
+ test compile 默认scope runntime provided system import  下面我们分别说一下每个scope的含义
+test scope为test表示依赖项目仅仅参与测试相关的工作，包括测试代码的编译，执行，test scope的依赖项不具有传递性，仅适用于测试和执行类路径。
+一般像我们使用的junit的测试相关的jar都是使用test scope的，比如：
+&amp;lt;!-- https://mvnrepository.com/artifact/junit/junit --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;junit&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;junit&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.12&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt;  compile maven的scope默认就是compile，什么都不配置也就是意味着compile。compile表示被依赖项目需要参与当前项目的编译，当然后续的测试，运行周期也参与其中 ，是一个比较强的依赖。打包的时候通常需要包含进去，具有依赖传递性。
+比如：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;commons-lang&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;commons-lang&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.6&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;  runntime runntime表示被依赖项目无需参与项目的编译，不过后期的测试和运行周期需要其参与。与compile相比，跳过编译而已，说实话在终端的项目（非开源，企业内部系统）中，和compile区别不是很大。compile只需要知道接口就足够了。mysql jdbc驱动架包就是一个很好的例子，一般scope为runntime。另外runntime的依赖通常和optional搭配使用，optional为true。我可以用A实现，也可以用B实现。
+比较常见的mysql-connector-java一般就设置为runtime scope：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;6.0.6&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;runtime&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt;  provider provided意味着打包的时候可以不用包进去，别的设施(比如jdk或者其他的Web Container)会提供。事实上该依赖理论上可以参与编译，测试，运行等周期。相当于compile，但是在打包阶段做了exclude的动作。 provider scope的一个很好的用例是部署在某个容器（如tomcat）中的Web应用程序，其中容器本身已经提供了一些库。比如常见的servlet-api一般就是provider的：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;javax.servlet&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;servlet-api&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.5&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;provided&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt;  system 从参与度来说，也provided相同，不过被依赖项不会从maven仓库抓，而是从本地文件系统拿，一定需要配合systemPath属性使用。需要记住的重要一点是，如果不存在依赖关系或者位于与systemPath指向的位置不同的位置，则在不同的计算机上构建具有系统范围依赖关系的项目可能会失败：
+一个例子：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.baeldung&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;custom-dependency&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.3.2&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;system&amp;lt;/scope&amp;gt; &amp;lt;systemPath&amp;gt;${project.basedir}/libs/custom-dependency-1.3.2.jar&amp;lt;/systemPath&amp;gt; &amp;lt;/dependency&amp;gt;  import 此范围已在Maven 2.</description>
+    </item>
+    
+    <item>
+      <title>构造函数中使用Spring  @Value注解</title>
+      <link>https://wenchao.ren/posts/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8spring-value%E6%B3%A8%E8%A7%A3/</link>
+      <pubDate>Tue, 23 Jul 2019 20:39:04 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8spring-value%E6%B3%A8%E8%A7%A3/</guid>
+      <description>如果想在构造函数中使用的@value注解的话，demo如下：
+// File: sample/Message.groovy package sample import org.springframework.beans.factory.annotation.* import org.springframework.stereotype.* @Component class Message { final String text // Use @Autowired to get @Value to work. @Autowired Message( // Refer to configuration property // app.message.text to set value for // constructor argument message. @Value(&#39;${app.message.text}&#39;) final String text) { this.text = text } }  </description>
+    </item>
+    
+    <item>
+      <title>bloom filter</title>
+      <link>https://wenchao.ren/posts/bloom-filter/</link>
+      <pubDate>Mon, 22 Jul 2019 12:53:50 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/bloom-filter/</guid>
+      <description>当系统设计中出现多级缓存结构时，为了防止大量不存在的key值击穿高速缓存（比如主存），去直接访问低速缓存（如本地磁盘），我们一般需要将这部分key值，直接拦截在高速缓存阶段。这里，当然可以使用普通的hash table，也可以使用bitmap，但是这两种方式都比较耗费内存，当面对海量key值时，问题会变得更加严重。这时，就该介绍我们的主角bloom filter出场了。
+一般的，bloom filter用于判断一个key值是否在一个set中，拥有比hash table/bitmap更好的空间经济性。如果bloom filter指示一个key值“不在”一个set中，那么这个判断是100%准确的。这样的特性，非常适合于上述的缓存场景。
+bloom filter原理   首先估计要判断的set中的元素个数N，然后选定k个独立的哈希函数。根据N和k，选定一个长度为M的bit array。
+  遍历set中的N个元素
+ 对每个元素，使用k个哈希函数，得到k个哈希值（一般为一个大整数） 将上述bit array中，k个哈希值所对应的bit置1    对于需要判断的key值
+ 使用k个哈希函数，得到k个哈希值 如果k个哈希值所对应的bit array中的值均为1，则判断此值在set中“可能”存在；否则，判定“一定”不存在    根据上面的原理我们其实可以看到，bloom filter有以下特点：
+ 比较节省空间 bloom的识别准确率和数据大小，k个哈希函数有关 如果bloom filter判断key不存在，那么就一定不存在，100%不存在。 如果bloom filter判断key存在，那么可能存在，也可能不存在  bloom filter优缺点 优点：   插入、查找都是常数时间
+  多个hash函数之间互相独立，可以并行计算
+  不需要存储元素本身，从而带来空间效率优势，以及一些保密上的优势
+  bloom filter的bitmap可以进行交、并、差运算
+  缺点：  判断元素是否在集合中的结果其实是不准确的 bloom filter中的元素是不能删除的  bloom filter的实际使用 guava bloom filter guava中提供了bloom filter的一种实现:com.</description>
+    </item>
+    
+    <item>
+      <title>使用阿里云maven镜像加速</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91maven%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/</link>
+      <pubDate>Mon, 08 Jul 2019 12:42:09 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91maven%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/</guid>
+      <description>maven是一个好东西，但是默认情况下，maven使用的是中央仓央是：http://repo1.maven.org/maven2和http://uk.maven.org/maven2。这两个镜像在国内 访问其实是比较慢的，因此我们需要尽可能使用国内同步好的镜像。
+我在国内选择的是阿里云的镜像：公共代理库
+maven的配置为：打开maven的配置文件(windows机器一般在maven安装目录的conf/settings.xml)，在&amp;lt;mirrors&amp;gt;&amp;lt;/mirrors&amp;gt;标签中添加mirror子节点:
+&amp;lt;mirror&amp;gt; &amp;lt;id&amp;gt;aliyunmaven&amp;lt;/id&amp;gt; &amp;lt;mirrorOf&amp;gt;*&amp;lt;/mirrorOf&amp;gt; &amp;lt;name&amp;gt;阿里云公共仓库&amp;lt;/name&amp;gt; &amp;lt;url&amp;gt;https://maven.aliyun.com/repository/public&amp;lt;/url&amp;gt; &amp;lt;/mirror&amp;gt;  其他的如gradle的配置指南请参见公共代理库中描述的那样操作就好了。
+但是一般情况下在公司开发的时候，公司也会有自己的maven镜像仓库，这个时候搞多个mirror就好了。
+参考资料：  Maven镜像地址大全  </description>
+    </item>
+    
+    <item>
+      <title>java.nio.ByteBuffer</title>
+      <link>https://wenchao.ren/posts/java-nio-bytebuffer/</link>
+      <pubDate>Tue, 02 Apr 2019 19:50:21 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java-nio-bytebuffer/</guid>
+      <description>Java NIO Buffers用于和NIO Channel交互。 我们从Channel中读取数据到buffers里，从Buffer把数据写入到Channels。Buffer本质上就是一块内存区，可以用来写入数据，并在稍后读取出来。这块内存被NIO Buffer包裹起来，对外提供一系列的读写方便开发的接口。java中java.nio.Buffer的常见实现类如下，不过我们这里只说一下ByteBuffer这个实现。
+Buffer的重要属性 Buffer缓冲区实质上就是一块内存，用于写入数据，也供后续再次读取数据，为了便于理解，你可以把它理解为一个字节数组。它有有四个重要属性：
+public abstract class Buffer { // Invariants: mark &amp;lt;= position &amp;lt;= limit &amp;lt;= capacity private int mark = -1; private int position = 0; private int limit; private int capacity; }   capacity  这个属性表示这个Buffer最多能放多少数据，在创建buffer的时候指定。int类型。   position 下一个要读写的元素位置（从0开始），当使用buffer的相对位置进行读/写操作时，读/写会从这个下标进行，并在操作完成后，buffer会更新下标的值。  写模式：当写入数据到Buffer的时候需要从一个确定的位置开始，默认初始化时这个位置position为0，一旦写入了数据比如一个字节，整形数据，那么position的值就会指向数据之后的一个单元，position最大可以到capacity-1. 读模式：当从Buffer读取数据时，也需要从一个确定的位置开始。buffer从写入模式变为读取模式时，position会归0，每次读取后，position向后移动。   limit 在Buffer上进行的读写操作都不能越过这个limit。  写模式：limit的含义是我们所能写入的最大数据量，它等同于buffer的容量capacity 读模式：limit则代表我们所能读取的最大数据量，他的值等同于写模式下position的位置。换句话说，您可以读取与写入数量相同的字节数。   mark  一个临时存放的位置下标，用户选定的position的前一个位置或-1。  调用mark()会将mark设为当前的position的值，以后调用reset()会将position属性设 置为mark的值。mark的值总是小于等于position的值，如果将position的值设的比mark小，当前的mark值会被抛弃掉。      注：</description>
+    </item>
+    
+    <item>
+      <title>java中的zero copy</title>
+      <link>https://wenchao.ren/posts/java%E4%B8%AD%E7%9A%84zero-copy/</link>
+      <pubDate>Thu, 14 Mar 2019 13:52:46 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E4%B8%AD%E7%9A%84zero-copy/</guid>
+      <description>在web应用程序中，我们经常会在server和client之间传输数据。比如server发数据给client，server首先将数据从硬盘读出之后，然后原封不动的通过socket传输给client，大致原理如下：
+File.read(fileDesc, buf, len); Socket.send(socket, buf, len);  下面的例子展示了传统的数据复制实现
+import java.io.DataOutputStream; import java.io.FileInputStream; import java.io.IOException; import java.net.Socket; import java.net.UnknownHostException; public class TraditionalClient { public static void main(String[] args) { int port = 2000; String server = &amp;quot;localhost&amp;quot;; Socket socket = null; String lineToBeSent; DataOutputStream output = null; FileInputStream inputStream = null; int ERROR = 1; // connect to server try { socket = new Socket(server, port); System.out.println(&amp;quot;Connected with server &amp;quot; + socket.</description>
+    </item>
+    
+    <item>
+      <title>Iterable和Iterator结合使用的一个小例子</title>
+      <link>https://wenchao.ren/posts/iterable%E5%92%8Citerator%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E4%BE%8B%E5%AD%90/</link>
+      <pubDate>Mon, 11 Mar 2019 12:19:25 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/iterable%E5%92%8Citerator%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E4%BE%8B%E5%AD%90/</guid>
+      <description>这篇文章主要是记录一下使用Iterable和Iterator用作迭代处理的一个例子。基于这种模式可以很方便的实现 流式处理
+public class Array&amp;lt;T&amp;gt; implements Iterable&amp;lt;T&amp;gt; { T[] values; // this contains the actual elements of the array // Constructor that takes a &amp;quot;raw&amp;quot; array and stores it public Array(T[] values) { this.values = values; } // This is a private class that implements iteration over the elements // of the list. It is not accessed directly by the user, but is used in // the iterator() method of the Array class.</description>
+    </item>
+    
+    <item>
+      <title>Guava CacheLoader中当load方法返回null</title>
+      <link>https://wenchao.ren/posts/guava-cacheloader%E4%B8%AD%E5%BD%93load%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9Enull/</link>
+      <pubDate>Mon, 11 Mar 2019 12:18:40 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/guava-cacheloader%E4%B8%AD%E5%BD%93load%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9Enull/</guid>
+      <description>Guava LoadingCache在实际工作中用的还是比较频繁的。但是最近在review代码时，发现有些同学在使用CacheLoader时没有注意到 CacheLoader#load方法的注释：
+/** * Computes or retrieves the value corresponding to {@code key}. * * @param key the non-null key whose value should be loaded * @return the value associated with {@code key}; &amp;lt;b&amp;gt;must not be null&amp;lt;/b&amp;gt; * @throws Exception if unable to load the result * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is * treated like any other {@code Exception} in all respects except that, when it is caught, * the thread&#39;s interrupt status is set */ public abstract V load(K key) throws Exception;  源码中明确指出了这个方法不能返回null。但是在review代码时发现很多同学没注意到到这个，而在部分情况下存在返回null的情况。 一般使用Optional封装一下就好了。</description>
+    </item>
+    
+    <item>
+      <title>java日志不打印异常栈</title>
+      <link>https://wenchao.ren/posts/java%E6%97%A5%E5%BF%97%E4%B8%8D%E6%89%93%E5%8D%B0%E5%BC%82%E5%B8%B8%E6%A0%88/</link>
+      <pubDate>Mon, 11 Mar 2019 12:15:10 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E6%97%A5%E5%BF%97%E4%B8%8D%E6%89%93%E5%8D%B0%E5%BC%82%E5%B8%B8%E6%A0%88/</guid>
+      <description>问题描述 今天在排查一个问题的时候发现在日志输出中，只有异常的Message,并没有详细的异常堆栈。
+问题解释 对于这个问题的官方解释为:
+ The compiler in the server VM now provides correct stack backtraces for all &amp;ldquo;cold&amp;rdquo; built-in exceptions. For performance purposes, when such an exception is thrown a few times, the method may be recompiled. After recompilation, the compiler may choose a faster tactic using preallocated exceptions that do not provide a stack trace. To disable completely the use of preallocated exceptions, use this new flag: -XX:-OmitStackTraceInFastThrow.</description>
+    </item>
+    
+    <item>
+      <title>log4j-api-2.11.1.jar ClassFormatException</title>
+      <link>https://wenchao.ren/posts/log4j-api-2-11-1-jar-classformatexception/</link>
+      <pubDate>Fri, 08 Mar 2019 17:02:13 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/log4j-api-2-11-1-jar-classformatexception/</guid>
+      <description>今天在部署系统的时候tomcat出现下面的异常信息：
+Mar 08, 2019 4:18:05 PM org.apache.catalina.startup.ContextConfig processAnnotationsJar SEVERE: Unable to process Jar entry [META-INF/versions/9/module-info.class] from Jar [jar:file:/xxxxx/webapps/ROOT/WEB-INF/lib/log4j-api-2.11.1.jar!/] for annotations org.apache.tomcat.util.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19 at org.apache.tomcat.util.bcel.classfile.Constant.readConstant(Constant.java:133) at org.apache.tomcat.util.bcel.classfile.ConstantPool.&amp;lt;init&amp;gt;(ConstantPool.java:60) at org.apache.tomcat.util.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:209) at org.apache.tomcat.util.bcel.classfile.ClassParser.parse(ClassParser.java:119) at org.apache.catalina.startup.ContextConfig.processAnnotationsStream(ContextConfig.java:2134) at org.apache.catalina.startup.ContextConfig.processAnnotationsJar(ContextConfig.java:2010) at org.apache.catalina.startup.ContextConfig.processAnnotationsUrl(ContextConfig.java:1976) at org.apache.catalina.startup.ContextConfig.processAnnotations(ContextConfig.java:1961) at org.apache.catalina.startup.ContextConfig.webConfig(ContextConfig.java:1319) at org.apache.catalina.startup.ContextConfig.configureStart(ContextConfig.java:878) at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:376) at org.apache.catalina.util.LifecycleSupport.fireLifecycleEvent(LifecycleSupport.java:119) at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:90) at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5322) at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150) at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901) at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877) at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:633) at org.apache.catalina.startup.HostConfig.deployDirectory(HostConfig.java:1120) at org.apache.catalina.startup.HostConfig$DeployDirectory.run(HostConfig.java:1678) at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) at java.</description>
+    </item>
+    
+    <item>
+      <title>java Unsafe介绍</title>
+      <link>https://wenchao.ren/posts/java-unsafe%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Mon, 04 Mar 2019 19:34:03 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java-unsafe%E4%BB%8B%E7%BB%8D/</guid>
+      <description>Unsafe类对于并发编程来说是个很重要的类，J.U.C里的源码到处充斥着这个类的方法调用。
+这个类的最大的特点在于，它提供了硬件级别的CAS原子操作。CAS可以说是实现了最轻量级的锁，当多个线程尝试使用CAS同时更新同一个变量时，只有其中的一个线程能成功地更新变量的值，而其他的线程将失败。然而，失败的线程并不会被挂起。
+CAS操作包含了三个操作数： 需要读写的内存位置，进行比较的原值，拟写入的新值。
+在Unsafe类中，实现CAS操作的方法是： compareAndSwapXXX
+例如:
+public native boolean compareAndSwapObject(Object obj, long offset, Object expect, Object update);   obj是我们要操作的目标对象 offset表示了目标对象中，对应的属性的内存偏移量 expect是进行比较的原值 update是拟写入的新值。   所以该方法实现了对目标对象obj中的某个成员变量（field）进行CAS操作的功能。
+那么，要怎么获得目标field的内存偏移量offset呢？ Unsafe类为我们提供了一个方法：
+public native long objectFieldOffset(Field field);  该方法的参数是我们要进行CAS操作的field对象，要怎么获得这个field对象呢？最直接的办法就是通过反射了：
+Class&amp;lt;?&amp;gt; k = FutureTask.class; Field stateField = k.getDeclaredField(&amp;quot;state&amp;quot;);  这样一波下来，我们就能对FutureTask的state属性进行CAS操作了o(￣▽￣)o
+除了compareAndSwapObject，Unsafe类还提供了更为具体的对int和long类型的CAS操作：
+public native boolean compareAndSwapInt(Object obj, long offset, int expect, int update); public native boolean compareAndSwapLong(Object obj, long offset, long expect, long update);  从方法签名可以看出，这里只是把目标field的类型限定成int和long类型，而不是通用的Object.</description>
+    </item>
+    
+    <item>
+      <title>FutureTask使用和源码解析</title>
+      <link>https://wenchao.ren/posts/futuretask%E4%BD%BF%E7%94%A8%E5%92%8C%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Mon, 04 Mar 2019 18:45:29 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/futuretask%E4%BD%BF%E7%94%A8%E5%92%8C%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description>本篇文章说一下java.util.concurrent中的FutureTask。 FutureTask是一个同步工具类，它实现了Future语义，表示了一种抽象的可生成结果的计算。在包括线程池在内的许多工具类中都会用到，弄懂它的实现将有利于我们更加深入地理解Java异步操作实现。
+下面是FutureTask的类图：
+在分析它的源码之前, 我们需要先了解一些预备知识。本篇我们先来看看FutureTask中所使用到的接口：Runnable、Callable、Future、RunnableFuture以及所使用到的工具类Executors，Unsafe。
+FutureTask所使用到的接口 Runnable 创建线程最重要的是传递一个run()方法, 这个run方法定义了这个线程要做什么事情, 它被抽象成了Runnable接口:
+@FunctionalInterface public interface Runnable { public abstract void run(); }  从这里可以看出Runnable最大的问题有下面2个：
+ 没有返回值，我们不能从里面返回相关的处理结果 不能抛出checked exception  而这2个问题，导致我们很多时候使用Runnable其实都会丧失很多的灵活性。而为了解决这两个问题，JDK提供了Callable。
+Callable @FunctionalInterface public interface Callable&amp;lt;V&amp;gt; { /** * Computes a result, or throws an exception if unable to do so. * * @return computed result * @throws Exception if unable to compute a result */ V call() throws Exception; }  对于Runnable可以知道，Callable解决了Runnable的两个最大的问题。但是Callable自己带来了一个问题：就是如何获取返回值。</description>
+    </item>
+    
+    <item>
+      <title>类加载器那些事儿（一）</title>
+      <link>https://wenchao.ren/posts/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF%E4%B8%80/</link>
+      <pubDate>Thu, 28 Feb 2019 13:40:49 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF%E4%B8%80/</guid>
+      <description>在之前的文章《Java类的生命周期》我们谈了一下类的生命周期。 在这篇文章中，我们谈谈java的类加载器哪些事情。从下面的JVM架构图可以看到
+class Loader subSystem负责管理和维护java类的生命周期的前三个阶段:
+ 加载 链接 初始化  当我们编写一个java的源文件后，我们对这个xxx.java编译会得到xxx.class的字节码文件，因为jvm只能运行字节码文件。为了能够使用这个class字节码文件，我们就会用到java中的ClassLoader。 而我们这篇文章就来说说java类加载器的那些事情。
+ClassLoader是什么 ClassLoader顾名思义就是用来加载Class的。它负责将Class的字节码形式转换成内存形式的Class对象。
+类的加载方式比较灵活，我们最常用的加载方式有下面几种：
+ 一种是根据类的全路径名找到相应的class文件，然后从class文件中读取文件内容； 另一种是从jar文件中读取 从网络中获取，比如早期的Applet 基于字节码生成技术生成的代理类  字节码的本质就是一个字节数组（byte[]），它有特定的复杂的内部格式。因为字节码文件有一定的格式，而且由ClassLoader进行加载，那么我们其实可以通过定制ClassLoader来实现字节码加密，原理很简单：
+ 加密：对java源代码进行编译得到字节码文件，然后使用某种算法对字节码文件进行加密 解密：定制的ClassLoader会先使用加密算法对应的解密算法对加密的字节码文件进行解密，然后使用在正常加载jvm标准的字节码格式文件。  3个重要的ClassLoader 在上面的JVM架构图中，我们可以看到在类的加载阶段有3个重要的ClassLoader，下面分别介绍一下这3个比较重要的ClassLoader。
+启动类加载器(BootstrapClassLoader) 这个类加载器负责加载JVM运行时核心类， 将&amp;lt;JAVA_HOME&amp;gt;\lib目录下的核心类库或-Xbootclasspath参数指定的路径下的jar包加载到虚拟机内存中,这个 ClassLoader比较特殊，它是由C/C++代码实现的，我们将它称之为「根加载器」。此类加载器并不继承于java.lang.ClassLoader,不能被java程序直接调用。
+注意必由于虚拟机是按照文件名识别加载jar包的，如rt.jar，如果文件名不被虚拟机识别，即使把jar包丢到lib目录下也是没有作用的(出于安全考虑，Bootstrap启动类加载器只加载包名为java、javax、sun等开头的类)。
+扩展类加载器(ExtensionClassLoader) 这个类加载器sun.misc.Launcher$ExtClassLoader由Java语言实现的，是Launcher的静态内部类, 它负责加载&amp;lt;JAVA_HOME&amp;gt;/lib/ext目录下或者由系统变量-Djava.ext.dir指定位路径中的类库，开发者可以直接使用使用这个类加载器。
+常见的比如 swing 系列、内置的 js 引擎、xml 解析器等等都是由这个类加载器加载的， 这些库名通常以javax开头，它们的jar包位于&amp;lt;JAVA_HOME&amp;gt;\lib\ext目录下的类库。
+//ExtClassLoader类中获取路径的代码 private static File[] getExtDirs() { //加载&amp;lt;JAVA_HOME&amp;gt;/lib/ext目录中的类库 String s = System.getProperty(&amp;quot;java.ext.dirs&amp;quot;); File[] dirs; if (s != null) { StringTokenizer st = new StringTokenizer(s, File.pathSeparator); int count = st.</description>
+    </item>
+    
+    <item>
+      <title>Java类的生命周期</title>
+      <link>https://wenchao.ren/posts/java%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</link>
+      <pubDate>Wed, 27 Feb 2019 21:06:42 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</guid>
+      <description>当我们编写一个java的源文件后，经过编译会生成一个后缀名为class的文件，这种文件叫做字节码文件，只有这种字节码文件才能够在java虚拟机中运行。 java类的生命周期就是指一个class文件从加载到卸载的全过程
+我们看一下下面的jvm架构图，这个图太经典了，希望大家收藏这个图。 一个java类的完整的生命周期会经历下面五个阶段， 当然也有在加载或者连接之后没有被初始化就直接被使用的情况，如上图所示
+ 加载 连接 初始化 使用 卸载  对象基本上都是在jvm的堆区中创建，在创建对象之前，会触发类加载（加载、连接、初始化），当类初始化完成后，根据类信息在堆区中实例化类对象，初始化非静态变量、非静态代码以及默认构造方法，当对象使用完之后会在合适的时候被jvm垃圾收集器回收。
+对象的生命周期只是类的生命周期中使用阶段的主动引用的一种情况（下面有提主动引用的含义）。而类的整个生命周期则要比对象的生命周期长的多。
+加载 加载阶段是类的生命周期中的第一个阶段, 在加载阶段，jvm就是找到需要加载的类并把类的信息加载到jvm的方法区中，然后在堆区中实例化一个java.lang.Class对象，作为方法区中这个类的信息的入口。
+类的加载方式比较灵活，我们最常用的加载方式有下面几种：
+ 一种是根据类的全路径名找到相应的class文件，然后从class文件中读取文件内容； 另一种是从jar文件中读取 从网络中获取，比如早期的Applet 基于字节码生成技术生成的代理类  对于加载的时机，各个虚拟机的做法并不一样，但是有一个原则，就是当jvm“预期”到一个类将要被使用时，就会在使用它之前对这个类进行加载。比如说，在一段代码中出现了一个类的名字，jvm在执行这段代码之前并不能确定这个类是否会被使用到，于是，有些jvm会在执行前就加载这个类，而有些则在真正需要用的时候才会去加载它，这取决于具体的jvm实现。我们常用的hotspot虚拟机是采用的后者，就是说当真正用到一个类的时候才对它进行加载。
+链接 链接阶段。有一点需要注意的是有时：链接阶段并不会等加载阶段完全完成之后才开始，而是交叉进行，可能一个类只加载了一部分之后，连接阶段就已经开始了。但是这两个阶段总的开始时间和完成时间总是固定的：加载阶段总是在连接阶段之前开始，连接阶段总是在加载阶段完成之后完成。
+连接阶段完成之后会根据使用的情况（直接引用还是被动引用）来选择是否对类进行初始化。
+这个阶段的主要任务就是做一些加载后的验证工作以及一些初始化前的准备工作，可以细分为三个步骤：
+ 验证  当一个类被加载之后，必须要验证一下这个类是否合法，比如这个类是不是符合字节码的格式、变量与方法是不是有重复、数据类型是不是有效、继承与实现是否合乎标准等等。总之，这个阶段的目的就是保证加载的类是能够被jvm所运行。   准备  准备阶段的工作就是为类的静态变量分配内存并设为jvm默认的初值，对于非静态的变量，则不会为它们分配内存。有一点需要注意，这时候，静态变量的初值为jvm默认的初值，而不是我们在程序中设定的初值。jvm默认的初值是这样的：  基本类型（int、long、short、char、byte、boolean、float、double）的默认值为0。 引用类型的默认值为null。 常量的默认值为我们程序中设定的值，比如我们在程序中定义final static int a = 100，则准备阶段中a的初值就是100。     解析  这一阶段的任务就是把常量池中的符号引用转换为直接引用。在解析阶段，jvm会将所有的类或接口名、字段名、方法名转换为具体的内存地址。  符号引用：简单的理解就是字符串，比如引用一个类，java.util.ArrayList 这就是一个符号引用，字符串引用的对象不一定被加载。 直接引用：指针或者地址偏移量。引用对象一定在内存（已经加载）      初始化 如果一个类被直接引用，就会触发类的初始化。在java中，直接引用的情况有：
+ 通过new关键字实例化对象、读取或设置类的静态变量、调用类的静态方法。 通过反射方式执行以上三种行为。 初始化子类的时候，会触发父类的初始化。 作为程序入口直接运行时（也就是直接调用main方法）。  除了以上四种情况，其他使用类的方式叫做被动引用，而被动引用不会触发类的初始化。</description>
+    </item>
+    
+    <item>
+      <title>几个有意思的java小题目</title>
+      <link>https://wenchao.ren/posts/%E5%87%A0%E4%B8%AA%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84java%E5%B0%8F%E9%A2%98%E7%9B%AE/</link>
+      <pubDate>Fri, 22 Feb 2019 19:56:10 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%87%A0%E4%B8%AA%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84java%E5%B0%8F%E9%A2%98%E7%9B%AE/</guid>
+      <description>null + String 写出下面代码执行结果:
+// 1. 打印 null String String s = null; System.out.println(s); String str = null; str = str + &amp;quot;!&amp;quot;; System.out.println(str);  这个片段程序不会出现NPE，正常输出：
+null null!  我一开始以为第二个输出会抛出NPE。google了一下，看到了这篇文章Java String 对 null 对象的容错处理, 里面有解释：
+对于代码片段：
+String s = null; s = s + &amp;quot;!&amp;quot;; System.out.print(s);  编译器生成的字节码为：
+L0 LINENUMBER 27 L0 ACONST_NULL ASTORE 1 L1 LINENUMBER 28 L1 NEW java/lang/StringBuilder DUP INVOKESPECIAL java/lang/StringBuilder.&amp;lt;init&amp;gt; ()V ALOAD 1 INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder; LDC &amp;quot;!</description>
+    </item>
+    
+    <item>
+      <title>Java中的堆和栈</title>
+      <link>https://wenchao.ren/posts/java%E4%B8%AD%E7%9A%84%E5%A0%86%E5%92%8C%E6%A0%88/</link>
+      <pubDate>Fri, 15 Feb 2019 20:37:45 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E4%B8%AD%E7%9A%84%E5%A0%86%E5%92%8C%E6%A0%88/</guid>
+      <description>堆和栈都是Java用来在RAM中存放数据的地方。
+堆   Java的堆是一个运行时数据区，类的对象从堆中分配空间。这些对象通过new等指令建立，通过垃圾回收器来销毁。
+  堆的优势是可以动态地分配内存空间，需要多少内存空间不必事先告诉编译器，因为它是在运行时动态分配的。但缺点是，由于需要在运行时动态分配内存，所以存取速度较慢。
+  堆内存满的时候抛出java.lang.OutOfMemoryError: Java Heap Space错误
+  可以使用-Xms和-Xmx JVM选项定义开始的大小和堆内存的最大值
+  存储在堆中的对象是全局可以被其他线程访问的
+  栈  栈中主要存放一些基本数据类型的变量（byte，short，int，long，float，double，boolean，char）和对象的引用，但对象本身不存放在栈中，而是存放在堆（new 出来的对象）或者常量池中(对象可能在常量池里)（字符串常量对象存放在常量池中。）。 栈的优势是，存取速度比堆快，栈数据可以共享。但缺点是，存放在栈中的数据占用多少内存空间需要在编译时确定下来，缺乏灵活性。 当栈内存满的时候，Java抛出java.lang.StackOverFlowError 和堆内存比，栈内存要小的多 明确使用了内存分配规则（LIFO） 可以使用-Xss定义栈的大小 栈内存不能被其他线程所访问。  静态域 存放静态成员（static定义的）
+常量池 存放字符串常量和基本类型常量（public static final）
+举例说明栈数据可以共享 String 可以用以下两种方式来创建：
+String str1 = newString(&amp;quot;abc&amp;quot;); String str2 = &amp;quot;abc&amp;quot;;  第一种使用new来创建的对象，它存放在堆中。每调用一次就创建一个新的对象。
+第二种是先在栈中创建对象的引用str2，然后查找栈中有没有存放“abc”，如果没有，则将“abc”存放进栈，并将str2指向“abc”，如果已经有“abc”， 则直接将str2指向“abc”。
+public static void main(String[] args) { String str1 = newString(&amp;quot;abc&amp;quot;); String str2 = newString(&amp;quot;abc&amp;quot;); System.out.println(str1 == str2); }  输出结果为：false</description>
+    </item>
+    
+    <item>
+      <title>java中创建Completed future</title>
+      <link>https://wenchao.ren/posts/java%E4%B8%AD%E5%88%9B%E5%BB%BAcompleted-future/</link>
+      <pubDate>Fri, 15 Feb 2019 20:25:53 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E4%B8%AD%E5%88%9B%E5%BB%BAcompleted-future/</guid>
+      <description>在Java中如何创建Completed future呢？
+Java8中可以Future future = CompletableFuture.completedFuture(value); Guava中可以Futures.immediateFuture(value) Apache commons Lang中可以Future&amp;lt;T&amp;gt; future = ConcurrentUtils.constantFuture(T myValue);</description>
+    </item>
+    
+    <item>
+      <title>为Spring boot项目增加Servlet</title>
+      <link>https://wenchao.ren/posts/%E4%B8%BAspring-boot%E9%A1%B9%E7%9B%AE%E5%A2%9E%E5%8A%A0servlet/</link>
+      <pubDate>Fri, 15 Feb 2019 20:08:30 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%B8%BAspring-boot%E9%A1%B9%E7%9B%AE%E5%A2%9E%E5%8A%A0servlet/</guid>
+      <description>为Spring boot项目增加Servlet有好多种方式
+方式1 Just add a bean for the servlet. It&amp;rsquo;ll get mapped to /{beanName}/.
+@Bean public Servlet foo() { return new FooServlet(); }  Note that if you actually want it mapped to /something/* rather than /something/ you will need to use ServletRegistrationBean
+方式2 使用ServletRegistrationBean
+@Bean public ServletRegistrationBean servletRegistrationBean(){ return new ServletRegistrationBean(new FooServlet(),&amp;quot;/someOtherUrl/*&amp;quot;); }  如果想增加多个的话，就类似下面的方式
+@Bean public ServletRegistrationBean axisServletRegistrationBean() { ServletRegistrationBean registration = new ServletRegistrationBean(new AxisServlet(), &amp;quot;/services/*&amp;quot;); registration.addUrlMappings(&amp;quot;*.jws&amp;quot;); return registration; } @Bean public ServletRegistrationBean adminServletRegistrationBean() { return new ServletRegistrationBean(new AdminServlet(), &amp;quot;/servlet/AdminServlet&amp;quot;); }  方式3 通过实现WebApplicationInitializer或者ServletContextInitializer或者ServletContainerInitializer接口</description>
+    </item>
+    
+    <item>
+      <title>MAT对象之间的差异浅堆和保留堆</title>
+      <link>https://wenchao.ren/posts/mat%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E5%B7%AE%E5%BC%82%E6%B5%85%E5%A0%86%E5%92%8C%E4%BF%9D%E7%95%99%E5%A0%86/</link>
+      <pubDate>Mon, 11 Feb 2019 16:45:26 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mat%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E5%B7%AE%E5%BC%82%E6%B5%85%E5%A0%86%E5%92%8C%E4%BF%9D%E7%95%99%E5%A0%86/</guid>
+      <description>原文地址：SHALLOW HEAP, RETAINED HEAP
+更贴切的标题应该是Difference between Eclipse MAT objects Shallow Heap and Retained Heap
+Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It comes quite handy when you are trying to debug memory related problems. In Eclipse MAT two types of object sizes are reported:
+ Shallow Heap Retained Heap  In this article lets study the difference between them. Let’s study how are they calculated?</description>
+    </item>
+    
+    <item>
+      <title>RuntimeException in Action for tag [rollingPolicy] java.lang.IndexOutOfBoundsException: No group 1</title>
+      <link>https://wenchao.ren/posts/runtimeexception-in-action-for-tag-rollingpolicy-java-lang-indexoutofboundsexception-no-group-1/</link>
+      <pubDate>Tue, 29 Jan 2019 11:09:20 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/runtimeexception-in-action-for-tag-rollingpolicy-java-lang-indexoutofboundsexception-no-group-1/</guid>
+      <description>今天一个同事咨询我，他们使用logback发布的时候出现下面的异常：
+20:46:27,244 |-ERROR in ch.qos.logback.core.joran.spi.Interpreter@36:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IndexOutOfBoundsException: No group 1 at java.lang.IndexOutOfBoundsException: No group 1 at at java.util.regex.Matcher.group(Matcher.java:538) at at ch.qos.logback.core.rolling.helper.FileFilterUtil.extractCounter(FileFilterUtil.java:109) at at ch.qos.logback.core.rolling.helper.FileFilterUtil.findHighestCounter(FileFilterUtil.java:93) at at ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP.computeCurrentPeriodsHighestCounterValue(SizeAndTimeBasedFNATP.java:65) at at ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP.start(SizeAndTimeBasedFNATP.java:49) at at ch.qos.logback.core.rolling.TimeBasedRollingPolicy.start(TimeBasedRollingPolicy.java:90) at at ch.qos.logback.core.joran.action.NestedComplexPropertyIA.end(NestedComplexPropertyIA.java:167) at at ch.qos.logback.core.joran.spi.Interpreter.callEndAction(Interpreter.java:317) at at ch.qos.logback.core.joran.spi.Interpreter.endElement(Interpreter.java:196) at at ch.qos.logback.core.joran.spi.Interpreter.endElement(Interpreter.java:182) at at ch.qos.logback.core.joran.spi.EventPlayer.play(EventPlayer.java:62) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:149) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:135) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:99) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:49) at at ch.qos.logback.classic.util.ContextInitializer.configureByResource(ContextInitializer.java:75) at at ch.</description>
+    </item>
+    
+    <item>
+      <title>Error:java: 无效的标记: -version 解决</title>
+      <link>https://wenchao.ren/posts/error-java-%E6%97%A0%E6%95%88%E7%9A%84%E6%A0%87%E8%AE%B0-version-%E8%A7%A3%E5%86%B3/</link>
+      <pubDate>Fri, 25 Jan 2019 15:05:36 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/error-java-%E6%97%A0%E6%95%88%E7%9A%84%E6%A0%87%E8%AE%B0-version-%E8%A7%A3%E5%86%B3/</guid>
+      <description>使用最新版Intellij IDEA以后，编译项目出现Error:java: 无效的标记: -version 解决
+后来排查发现是因为公司的super-pom中的maven-compiler-plugin的configuration有如下的配置：
+&amp;lt;compilerArgs&amp;gt; - &amp;lt;arg&amp;gt;-J-Duser.country=US&amp;lt;/arg&amp;gt; - &amp;lt;arg&amp;gt;-version&amp;lt;/arg&amp;gt; &amp;lt;/compilerArgs&amp;gt;  而这个配置会和新版本的idea冲突。把pom中的这个配置删除就好了</description>
+    </item>
+    
+    <item>
+      <title>Spring的AntPathMatcher是个好东西</title>
+      <link>https://wenchao.ren/posts/spring%E7%9A%84antpathmatcher%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/</link>
+      <pubDate>Wed, 23 Jan 2019 00:30:17 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/spring%E7%9A%84antpathmatcher%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/</guid>
+      <description>经常需要在各种中做一些模式匹配，正则表达式虽然是个好东西，但是Ant风格的匹配情况也非常的多。 这种情况下使用正则表达式不一定方便，而Spring提供的AntPathMatcher确可以帮助我们简化很多。
+位于Spring-core中的org.springframework.util.AntPathMatcher使用起来非常简单：
+public class AntPathMatcherTest { private AntPathMatcher pathMatcher = new AntPathMatcher(); @Test public void test() { pathMatcher.setCachePatterns(true); pathMatcher.setCaseSensitive(true); pathMatcher.setTrimTokens(true); pathMatcher.setPathSeparator(&amp;quot;/&amp;quot;); Assert.assertTrue(pathMatcher.match(&amp;quot;a&amp;quot;, &amp;quot;a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;a*&amp;quot;, &amp;quot;ab&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;a*/**/a&amp;quot;, &amp;quot;ab/asdsa/a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;a*/**/a&amp;quot;, &amp;quot;ab/asdsa/asdasd/a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;*&amp;quot;, &amp;quot;a&amp;quot;)); Assert.assertTrue(pathMatcher.match(&amp;quot;*/*&amp;quot;, &amp;quot;a/a&amp;quot;)); } }  </description>
+    </item>
+    
+    <item>
+      <title>Spring中Enum的依赖注入</title>
+      <link>https://wenchao.ren/posts/spring%E4%B8%ADenum%E7%9A%84%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Wed, 23 Jan 2019 00:17:48 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/spring%E4%B8%ADenum%E7%9A%84%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</guid>
+      <description>Spring 依赖注入很简单，没什么值得细说的。但是我之前遇到了一个场景，需要在一个Enum类中注入某一个service。 说实话之前没有遇到过这种情况。虽然我不赞同Enum类有过多的逻辑，但是没有办法，现实就是那么残酷。而且Enum确实可以通过一些手段来注入其他发service的。 比如下面的代码中，为EnumClass枚举类注入OtherService服务，代码示例如下：
+public enum EnumClass { A(1), B(2); EnumClass(int id) { this.id = id; } private int id; private OtherService otherService; public int getId() { return id; } public OtherService getOtherService() { return otherService; } public void setOtherService(OtherService otherService) { this.otherService = otherService; } public ResponseType func(){ //use otherService do somethings return new ResponseType(); } @Component public static class EnumClassInner { @Autowired private OtherService otherService; @PostConstruct public void postConstruct() { for (EnumClass aEnum : EnumSet.</description>
+    </item>
+    
+    <item>
+      <title>git还原到之前版本</title>
+      <link>https://wenchao.ren/posts/git%E8%BF%98%E5%8E%9F%E5%88%B0%E4%B9%8B%E5%89%8D%E7%89%88%E6%9C%AC/</link>
+      <pubDate>Tue, 22 Jan 2019 10:54:41 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/git%E8%BF%98%E5%8E%9F%E5%88%B0%E4%B9%8B%E5%89%8D%E7%89%88%E6%9C%AC/</guid>
+      <description>命令行操作：
+ git log 查看之前的commit的id，找到想要还原的版本 git reset --hard 44bd896bb726be3d3815f1f25d738a9cd402a477 还原到之前的某个版本 git push -f origin master 强制push到远程  </description>
+    </item>
+    
+    <item>
+      <title>java中的日期pattern</title>
+      <link>https://wenchao.ren/posts/java%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9Fpattern/</link>
+      <pubDate>Mon, 21 Jan 2019 19:54:40 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9Fpattern/</guid>
+      <description>经常搞混java中的日期pattern，比如经常记混H和h的区别，所以专门整理一下，便于我以后查找
+yyyy：年 MM：月 dd：日 hh：1~12小时制(1-12) HH：24小时制(0-23) mm：分 ss：秒 S：毫秒 E：星期几 D：一年中的第几天 F：一月中的第几个星期(会把这个月总共过的天数除以7) w：一年中的第几个星期 W：一月中的第几星期(会根据实际情况来算) a：上下午标识 k：和HH差不多，表示一天24小时制(1-24)。 K：和hh差不多，表示一天12小时制(0-11)。 z：表示时区 ```java 常用pattern： ```java yyyy-MM-dd HH:mm:ss.SSS yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS&#39;Z&#39;  常用时区：
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = &amp;quot;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS&#39;Z&#39;&amp;quot;, timezone = &amp;quot;GMT+8&amp;quot;)  日期和字符串互转：
+private final static DateTimeFormatter fmt1 = DateTimeFormat.forPattern(&amp;quot;yyyy-MM-dd HH:mm:ss.SSS&amp;quot;); DateTime dateTime = DateTime.parse(date, fmt1) new DateTime().toString(&amp;quot;yyyy-MM-dd HH:mm:ss.SSS&amp;quot;) org.joda.time#Days  </description>
+    </item>
+    
+    <item>
+      <title>Slow startup Tomcat because of SecureRandom</title>
+      <link>https://wenchao.ren/posts/slow-startup-tomcat-because-of-securerandom/</link>
+      <pubDate>Tue, 04 Dec 2018 13:51:59 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/slow-startup-tomcat-because-of-securerandom/</guid>
+      <description>今天在新机器上启动tomcat应用的时候，发现巨慢，检查日志发现有如下信息：
+Jan 09, 2018 8:44:35 PM org.apache.catalina.util.SessionIdGenerator createSecureRandom INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [239,939] milliseconds.  这块初始化SecureRandom用了239,939毫秒，之前没遇到这个问题。查了一下发现在官方wiki https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source
+ Entropy Source Tomcat 7+ heavily relies on SecureRandom class to provide random values for its session ids and in other places. Depending on your JRE it can cause delays during startup if entropy source that is used to initialize SecureRandom is short of entropy. You will see warning in the logs when this happens, e.</description>
+    </item>
+    
+    <item>
+      <title>Spring RestTemplate parse gzip response</title>
+      <link>https://wenchao.ren/posts/spring-resttemplate-parse-gzip-response/</link>
+      <pubDate>Tue, 04 Dec 2018 13:45:26 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/spring-resttemplate-parse-gzip-response/</guid>
+      <description>假设http://10.89.xx.xx:8080/_/metrics接口返回的数据格式是gzip格式 他的Response Headers信息如下
+HTTP/1.1 200 OK Server: Apache-Coyote/1.1 Content-Encoding: gzip Content-Type: text/plain;charset=UTF-8 Transfer-Encoding: chunked Date: Thu, 28 Dec 2017 08:13:53 GMT  如果我们使用Spring RestTemplate想直接拿到String形式的返回，而不是byte[]格式，那么可以使用如下的方式：
+import org.springframework.http.HttpStatus; import org.springframework.http.ResponseEntity; import org.springframework.http.client.HttpComponentsClientHttpRequestFactory; import org.springframework.web.client.RestTemplate; import org.apache.http.impl.client.HttpClientBuilder; public static void main(String[] args) { HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory( HttpClientBuilder.create().build()); RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory); ResponseEntity&amp;lt;String&amp;gt; responseEntity = restTemplate.getForEntity(&amp;quot;http://10.89.xx.xxx:8080/_/metrics&amp;quot;, String.class); HttpStatus statusCode = responseEntity.getStatusCode(); System.out.println(responseEntity.getBody()); }  </description>
+    </item>
+    
+    <item>
+      <title>Java RSA非对称加密</title>
+      <link>https://wenchao.ren/posts/java-rsa%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/</link>
+      <pubDate>Tue, 04 Dec 2018 13:40:50 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java-rsa%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/</guid>
+      <description>最近的一个项目中，agent和master双方需要远程通信，但是需要双方认证以及传输的信息加密，因此就选择了RSA这个非对称加密算法实现了netty的handler。
+##实现思路 简要的描述一下实现思路：
+ 首先生成一对公钥和私钥 所有的master都使用这个私钥进行加密、解密 所有的agent都使用这个公钥进行加密和解密 master发给agent的信息，使用私钥加密，master收到agent的信息，使用私钥解密 agent发给master的信息，使用公钥加密，agent收到master的信息，使用公钥解密 无论是agent还是master，对收到的信息，只要解密失败，那么就丢弃  这样相当于实现了agent和master的认证，以及消息的加密传输。挺有意思的。 ##生成公钥私钥
+###使用java代码生成：
+private static final String RSA = &amp;quot;RSA&amp;quot;; public static KeyPair buildKeyPair() throws NoSuchAlgorithmException { final int keySize = 2048; KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA); keyPairGenerator.initialize(keySize); return keyPairGenerator.genKeyPair(); } KeyPair keyPair = buildKeyPair(); PublicKey pubKey = keyPair.getPublic(); PrivateKey privateKey = keyPair.getPrivate();  ###shell生成 我在这个项目实现中，是别生成了公钥文件和私钥文件，作为了工程的配置文件来用的，因此使用了shell的命令：
+ssh-keygen -t rsa -b 2048 -C &amp;quot;any string&amp;quot; openssl pkcs8 -topk8 -inform PEM -outform DER -in id_rsa -out private_key.</description>
+    </item>
+    
+    <item>
+      <title>自己实现LRU Cache</title>
+      <link>https://wenchao.ren/posts/%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0lru-cache/</link>
+      <pubDate>Tue, 04 Dec 2018 13:24:56 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0lru-cache/</guid>
+      <description>今天闲的无事，写一个LRU的缓存练练手，不过提前说好哈，最好的办法是直接使用Guava中的方法：
+import com.google.common.cache.CacheBuilder; import java.util.concurrent.ConcurrentMap; public class GuavaLRUCache { public static void main(String[] args) { ConcurrentMap&amp;lt;String, String&amp;gt; cache = CacheBuilder.newBuilder() .maximumSize(2L) .&amp;lt;String, String&amp;gt;build().asMap(); cache.put(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;); cache.put(&amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;); System.out.println(cache); cache.put(&amp;quot;a&amp;quot;, &amp;quot;d&amp;quot;); System.out.println(cache); cache.put(&amp;quot;c&amp;quot;, &amp;quot;d&amp;quot;); System.out.println(cache); } }  如果自己实现的话，就比较挫了：
+public class LRUCache&amp;lt;K, V&amp;gt; { private final int limit; private final Map&amp;lt;K, V&amp;gt; cache; private final Deque&amp;lt;K&amp;gt; deque; private final ReentrantLock reentrantLock = new ReentrantLock(); private static final int DEFAULT_CAPACITY = 16; private static final float DEFAULT_LOAD_FACTOR = 0.</description>
+    </item>
+    
+  </channel>
+</rss>

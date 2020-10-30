@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kettle on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/kettle/</link>
+    <description>Recent content in kettle on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 03 Jan 2020 18:30:12 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/kettle/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kettle缺少libwebkitgtk-1.0的问题</title>
+      <link>https://wenchao.ren/posts/kettle%E7%BC%BA%E5%B0%91libwebkitgtk-1-0%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 03 Jan 2020 18:30:12 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/kettle%E7%BC%BA%E5%B0%91libwebkitgtk-1-0%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>前几天在搭建kettle集群的时候出现Kettle缺少libwebkitgtk-1.0的问题，我司的server系统为centos7，google了一下发现centos7的解决办法还是和 kettle软件提示的解决办法还是有点区别的。因此记录一下。
+[blibee@1.d.fd.dev.bj1.wormpex.com /home/w/kettle/data-integration]$ sudo ./carte.sh ./pwd/carte-config-master-15000.xml ####################################################################### WARNING: no libwebkitgtk-1.0 detected, some features will be unavailable Consider installing the package with apt-get or yum. e.g. &#39;sudo apt-get install libwebkitgtk-1.0-0&#39; #######################################################################  解决办法：
+sudo wget ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/home:/matthewdva:/build:/EPEL:/el7/RHEL_7/x86_64/webkitgtk-2.4.9-1.el7.x86_64.rpm sudo yum install webkitgtk-2.4.9-1.el7.x86_64.rpm  </description>
+    </item>
+    
+  </channel>
+</rss>

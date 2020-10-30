@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>Spark 通用数据访问 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="##Data abstractions RDD is the core abstraction in Apache Spark. It is an immutable, fault-tolerant distributed collection of statically typed objects that are usually stored in-memory. DataFrame abstraction is built on top of RDD and it adds “named” columns. Moreover, the Catalyst optimizer, under the hood, compiles the operations and generates JVM bytecode for efficient execution.
+ However, the named columns approach gives rise to a new problem. Static type information is no longer available to the compiler, and hence we lose the advantage of compile-time type safety." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/spark-%E9%80%9A%E7%94%A8%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/'>Spark 通用数据访问</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>##Data abstractions
+<strong>RDD</strong> is the core abstraction in Apache Spark. It is an immutable, fault-tolerant distributed collection of statically typed objects that are usually stored in-memory.
+<strong>DataFrame</strong> abstraction is built on top of RDD and it adds “named” columns. Moreover, the Catalyst optimizer, under the hood, compiles the operations and generates JVM bytecode for efficient execution.</p>
+<blockquote>
+  However, the named columns approach gives rise to a new problem. Static type information is no longer available to the compiler, and hence we lose the advantage of compile-time type safety.
+</blockquote>
+<strong>Dataset</strong> API was introduced to combine the best traits from both RDDs and DataFrames plus some more features of its own. Datasets provide row and column data abstraction similar to the DataFrames, but with a structure defined on top of them. This structure may be defined by a case class in Scala or a class in Java. They provide type safety and lambda functions like RDDs. So, they support both typed methods such as <code>map</code> and <code>groupByKey</code> as well as untyped methods such as <code>select</code> and <code>groupBy</code>. In addition to the <strong>Catalyst optimizer</strong>, Datasets leverage in-memory encoding provided by the <strong>Tungsten execution engine</strong>, which improves performance even further.
+DataFrames are just untyped Datasets.
+<p>##unified data access platform
+The intention behind this unified platform is that it not only lets you combine the static and streaming data together, but also allows various different kinds of operations on the data in a unified way!</p>
+<p>###DataFrames
+The DataFrame API brings two features with it:</p>
+<ul>
+<li>Built-in support for a variety of data formats-</li>
+<li>A more robust and feature-rich DSL with functions designed for common tasks-</li>
+</ul>
+<p>####RDDs versus DataFrames</p>
+<ul>
+<li>
+<p>Similarities</p>
+</li>
+<li>
+<p>Both are fault-tolerant, partitioned data abstractions in Spark-</p>
+</li>
+<li>
+<p>Both can handle disparate data sources-</p>
+</li>
+<li>
+<p>Both are lazily evaluated (execution happens when an output operation is performed on them), thereby having the ability to take the most optimized execution plan-</p>
+</li>
+<li>
+<p>Both APIs are available in all four languages: Scala, Python, Java, and R-</p>
+</li>
+<li>
+<p>Differences</p>
+</li>
+<li>
+<p>DataFrames are a higher-level abstraction than RDDs-</p>
+</li>
+<li>
+<p>The definition of RDD implies defining a Directed Acyclic Graph (DAG) whereas defining a DataFrame leads to the creation of an Abstract Syntax Tree (AST). An AST will be utilized and optimized by the Spark SQL catalyst engine.-</p>
+</li>
+<li>
+<p>RDD is a general data structure abstraction whereas a DataFrame is a specialized data structure to deal with two-dimensional, table-like data.-</p>
+</li>
+</ul>
+<p>####DataFrame Example</p>
+<pre><code class="language-scala">//Chapter 3 Introduction to DataFrames - Scala example code
+//Creating DataFrames from RDDs
+//Create a list of colours
+Scala&gt; val colors = List(&quot;white&quot;,&quot;green&quot;,&quot;yellow&quot;,&quot;red&quot;,&quot;brown&quot;,&quot;pink&quot;)
+//Distribute a local collection to form an RDD
+//Apply map function on that RDD to get another RDD containing colour, length tuples
+Scala&gt; val color_df = sc.parallelize(colors).map(x
+          =&gt; (x,x.length)).toDF(&quot;color&quot;,&quot;length&quot;)
+Scala&gt; color_df
+res0: org.apache.spark.sql.DataFrame = [color: string, length: int]
+Scala&gt; color_df.dtypes   //Note the implicit type inference
+res1: Array[(String, String)] = Array((color,StringType), (length,IntegerType))
+Scala&gt; color_df.show() ()//Final output as expected. Order need not be the same as shown
++------+------+
+| color|length|
++------+------+
+| white|     5|
+| green|     5|
+|yellow|     6|
+|   red|     3|
+| brown|     5|
+|  pink|     4|
++------+------+
+//Creating DataFrames from JSON
+//Pass the source json data file path
+//Note: SQLCONTEXT is deprecated in Spark 2+ so use spark as entry point
+// or create sqlContext as shown
+//val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+Scala&gt; val df = spark.read.json(&quot;./authors.json&quot;)
+Scala&gt; df.show() //json parsed; Column names and data types inferred implicitly
++----------+---------+
+|first_name|last_name|
++----------+---------+
+|      Mark|    Twain|
+|   Charles|  Dickens|
+|    Thomas|    Hardy|
++----------+---------+
+//The following example assumes MYSQL is already running and the required library is imported
+//Launch shell with driver-class-path as a command line argument
+spark-shell --driver-class-path /usr/share/java/mysql-connector-java.jar
+//Pass the connection parameters
+scala&gt; val peopleDF = sqlContext.read.format(&quot;jdbc&quot;).options(
+           Map(&quot;url&quot; -&gt; &quot;jdbc:mysql://localhost&quot;,
+               &quot;dbtable&quot; -&gt; &quot;test.people&quot;,
+               &quot;user&quot; -&gt; &quot;root&quot;,
+               &quot;password&quot; -&gt; &quot;mysql&quot;)).load()
+peopleDF: org.apache.spark.sql.DataFrame = [first_name: string, last_name: string, gender: string, dob: date, occupation: string, person_id: int]
+//Retrieve table data as a DataFrame
+scala&gt; peopleDF.show()
++----------+---------+------+----------+----------+---------+
+|first_name|last_name|gender|       dob|occupation|person_id|
++----------+---------+------+----------+----------+---------+
+|    Thomas|    Hardy|     M|1840-06-02|    Writer|      101|
+|     Emily|   Bronte|     F|1818-07-30|    Writer|      102|
+| Charlotte|   Bronte|     F|1816-04-21|    Writer|      103|
+|   Charles|  Dickens|     M|1812-02-07|    Writer|      104|
++----------+---------+------+----------+----------+---------+
+//Creating DataFrames from Apache Parquet
+//Write DataFrame contents into Parquet format
+scala&gt; peopleDF.write.parquet(&quot;writers.parquet&quot;)
+//Read Parquet data into another DataFrame
+scala&gt; val writersDF = sqlContext.read.parquet(&quot;writers.parquet&quot;)
+writersDF: org.apache.spark.sql.DataFrame = [first_name: string, last_name: string, gender: string, dob: date, occupation: string, person_id: int]
+//DataFrame operations
+//Create a local collection of colors first
+Scala&gt; val colors = List(&quot;white&quot;,&quot;green&quot;,&quot;yellow&quot;,&quot;red&quot;,&quot;brown&quot;,&quot;pink&quot;)
+//Distribute a local collection to form an RDD
+//Apply map function on that RDD to get another RDD containing color, length tuples and convert that RDD to a DataFrame
+Scala&gt; val color_df = sc.parallelize(colors).map(x
+          =&gt; (x,x.length)).toDF(&quot;color&quot;,&quot;length&quot;)
+//Check the object type
+Scala&gt; color_df
+res0: org.apache.spark.sql.DataFrame = [color: string, length: int]
+//Check the schema
+Scala&gt; color_df.dtypes
+res1: Array[(String, String)] = Array((color,StringType), (length,IntegerType))
+//Check row count
+Scala&gt; color_df.count()
+res4: Long = 6
+//Look at the table contents. You can limit displayed rows by passing parameter to show
+Scala&gt; color_df.show()
++------+------+
+| color|length|
++------+------+
+| white|     5|
+| green|     5|
+|yellow|     6|
+|   red|     3|
+| brown|     5|
+|  pink|     4|
++------+------+
+//List out column names
+Scala&gt; color_df.columns
+res5: Array[String] = Array(color, length)
+//Drop a column. The source DataFrame color_df remains the same.
+//Spark returns a new DataFrame which is being passed to show
+Scala&gt; color_df.drop(&quot;length&quot;).show()
++------+
+| color|
++------+
+| white|
+| green|
+|yellow|
+|   red|
+| brown|
+|  pink|
++------+
+//Convert to JSON format
+Scala&gt; color_df.toJSON.first()
+res9: String = {“color”:”white”,”length”:5}
+//filter operation is similar to WHERE clause in SQL
+//You specify conditions to select only desired columns and rows
+//Output of filter operation is another DataFrame object that is usually passed on to some more operations
+//The following example selects the colors having a length of four or five only and label the column as “mid_length”
+filter
+------
+Scala&gt; color_df.filter(color_df(&quot;length&quot;).between(4,5)).select(
+         color_df(&quot;color&quot;).alias(&quot;mid_length&quot;)).show()
++----------+
+|mid_length|
++----------+
+|     white|
+|     green|
+|     brown|
+|      pink|
++----------+
+//This example uses multiple filter criteria. Notice the not equal to operator having double equal to symbols
+Scala&gt; color_df.filter(color_df(&quot;length&quot;) &gt; 4).filter(color_df(&quot;color&quot;)!== &quot;white&quot;).show()
++------+------+
+| color|length|
++------+------+
+| green|     5|
+|yellow|     6|
+| brown|     5|
++------+------+
+//Sort the data on one or more columns
+sort
+----
+//A simple single column sorting in default (ascending) order
+Scala&gt; color_df.sort(&quot;color&quot;).show()
++------+------+
+| color|length|
++------+------+
+| brown|     5|
+| green|     5|
+|  pink|     4|
+|   red|     3|
+| white|     5|
+|yellow|     6|
++------+------+
+//First filter colors of length more than 4 and then sort on multiple columns
+//The filtered rows are sorted first on the column length in default ascending order. Rows with same length are sorted on color in descending order
+Scala&gt; color_df.filter(color_df(&quot;length&quot;)&gt;=4).sort($&quot;length&quot;, $&quot;color&quot;.desc).show()
++------+------+
+| color|length|
++------+------+
+|  pink|     4|
+| white|     5|
+| green|     5|
+| brown|     5|
+|yellow|     6|
++------+------+
+//You can use orderBy instead, which is an alias to sort.
+scala&gt; color_df.orderBy(&quot;length&quot;,&quot;color&quot;).take(4)
+res19: Array[org.apache.spark.sql.Row] = Array([red,3], [pink,4], [brown,5], [green,5])
+//Alternative syntax, for single or multiple columns
+scala&gt; color_df.sort(color_df(&quot;length&quot;).desc, color_df(&quot;color&quot;).asc).show()
++------+------+
+| color|length|
++------+------+
+|yellow|     6|
+| brown|     5|
+| green|     5|
+| white|     5|
+|  pink|     4|
+|   red|     3|
++------+------+
+//All the examples until now have been acting on one row at a time, filtering or transforming or reordering.
+//The following example deals with regrouping the data.
+//These operations require “wide dependency” and often involve shuffling.
+groupBy
+-------
+Scala&gt; color_df.groupBy(&quot;length&quot;).count().show()
++------+-----+
+|length|count|
++------+-----+
+|     3|    1|
+|     4|    1|
+|     5|    3|
+|     6|    1|
++------+-----+
+//Data often contains missing information or null values.
+//The following json file has names of famous authors. Firstname data is missing in one row.
+dropna
+------
+Scala&gt; val df1 = sqlContext.read.json(&quot;./authors_missing.json&quot;)
+Scala&gt; df1.show()
++----------+---------+
+|first_name|last_name|
++----------+---------+
+|      Mark|    Twain|
+|   Charles|  Dickens|
+|      null|    Hardy|
++----------+---------+
+//Let us drop the row with incomplete information
+Scala&gt; val df2 = df1.na.drop()
+Scala&gt; df2.show()  //Unwanted row is dropped
++----------+---------+
+|first_name|last_name|
++----------+---------+
+|      Mark|    Twain|
+|   Charles|  Dickens|
++----------+---------+
+</code></pre>
+<p>###Datasets
+Apache Spark Datasets are an extension of the DataFrame API that provide a <strong>type-safe</strong> object-oriented programming interface. DataFrame becomes a generic, untyped Dataset; or a <strong>Dataset is a DataFrame with an added structure</strong>.
+The unification of Datasets and DataFrames applies to Scala and Java API only.
+At the core of Dataset abstraction are the encoders. These encoders translate between JVM objects and Spark&rsquo;s internal Tungsten binary format. This internal representation bypasses JVM&rsquo;s memory management and garbage collection. Spark has its own C-style memory access that is specifically written to address the kind of workflows it supports. The resultant internal representations take less memory and have efficient memory management. Compact memory representation leads to reduced network load during shuffle operations. The encoders generate compact byte code that directly operates on serialized objects without de-serializing, thereby enhancing performance. Knowing the schema early on results in a more optimal layout in memory when caching Datasets.
+###Creating Datasets from JSON
+Datasets can be created from JSON files, similar to DataFrames. Note that a JSON file may contain several records, but each record has to be on one line.If your source JSON has newlines, you have to programmatically remove them.
+###Datasets API&rsquo;s limitations</p>
+<ul>
+<li>While querying the dataset, the selected fields should be given specific data types as in the case class, or else the output will become a DataFrame. An example is：-</li>
+</ul>
+<p>[code lang=&ldquo;scala&rdquo;]
+auth.select(col(&ldquo;first_name&rdquo;).as[String]).
+[/code]</p>
+<ul>
+<li>Python and R are inherently dynamic in nature, and hence typed Datasets do not fit in.-</li>
+</ul>
+<p>####Datasets Example</p>
+<pre><code class="language-scala">// Chapter 4 Unified Data Access - Scala example code
+Datasets
+---------
+Example 1: Create a Dataset from a simple collection
+scala&gt; val ds1 = List.range(1,5).toDS()
+ds1: org.apache.spark.sql.Dataset[Int] = [value: int]
+//Perform an action
+scala&gt; ds1.collect()
+res3: Array[Int] = Array(1, 2, 3, 4)
+//Create from an RDD
+scala&gt; val colors = List(&quot;red&quot;,&quot;orange&quot;,&quot;blue&quot;,&quot;green&quot;,&quot;yellow&quot;)
+scala&gt; val color_ds = sc.parallelize(colors).map(x =&gt;
+     (x,x.length)).toDS()
+//Add a case class
+case class Color(var color: String, var len: Int)
+val color_ds = sc.parallelize(colors).map(x =&gt;
+     Color(x,x.length)).toDS()
+//Examine the structure
+scala&gt; color_ds.dtypes
+res26: Array[(String, String)] = Array((color,StringType), (len,IntegerType))
+scala&gt; color_ds.schema
+res25: org.apache.spark.sql.types.StructType = StructType(StructField(color,StringType,true),
+StructField(len,IntegerType,false))
+//Examine the execution plan
+scala&gt; color_ds.explain()
+== Physical Plan ==
+Scan ExistingRDD[color#57,len#58]
+//Convert the Dataset to a DataFrame
+scala&gt; val color_df = color_ds.toDF()
+color_df: org.apache.spark.sql.DataFrame = [color: string, len: int]
+Example 2: Convert the dataset to a DataFrame
+scala&gt; color_df.show()
++------+---+
+| color|len|
++------+---+
+|   red|  3|
+|orange|  6|
+|  blue|  4|
+| green|  5|
+|yellow|  6|
++------+---+
+Example 3: Convert a DataFrame to a Dataset
+//Construct a DataFrame first
+scala&gt; val color_df = sc.parallelize(colors).map(x =&gt;
+            (x,x.length)).toDF(&quot;color&quot;,&quot;len&quot;)
+color_df: org.apache.spark.sql.DataFrame = [color: string, len: int]
+//Convert the DataFrame to a Dataset with a given Structure
+scala&gt; val ds_from_df = color_df.as[Color]
+ds_from_df: org.apache.spark.sql.Dataset[Color] = [color: string, len: int]
+//Check the execution plan
+scala&gt; ds_from_df.explain
+== Physical Plan ==
+WholeStageCodegen
+:  +- Project [_1#102 AS color#105,_2#103 AS len#106]
+:     +- INPUT
++- Scan ExistingRDD[_1#102,_2#103]
+//Example 4:  Create a Dataset from json
+//Set filepath
+scala&gt; val file_path = &quot;&lt;Your parh&gt;/authors.json&quot;
+file_path: String = &lt;Your path&gt;/authors.json
+//Create case class to match schema
+scala&gt; case class Auth(first_name: String, last_name: String,books: Array[String])
+defined class Auth
+//Create dataset from json using case class
+//Note that the json document should have one record per line
+scala&gt; val auth = spark.read.json(file_path).as[Auth]
+auth: org.apache.spark.sql.Dataset[Auth] = [books: array&lt;string&gt;, firstName: string ... 1 more field]
+//Look at the data
+scala&gt; auth.show()
++--------------------+----------+---------+
+|               books|first_name|last_name|
++--------------------+----------+---------+
+|                null|      Mark|    Twain|
+|                null|   Charles|  Dickens|
+|[Jude the Obscure...|    Thomas|    Hardy|
++--------------------+----------+---------+
+//Try explode to see array contents on separate lines
+scala&gt; auth.select(explode($&quot;books&quot;) as &quot;book&quot;,
+            $&quot;first_name&quot;,$&quot;last_name&quot;).show(2,false)
++------------------------+----------+---------+
+|book                    |first_name|last_name|
++------------------------+----------+---------+
+|Jude the Obscure        |Thomas    |Hardy    |
+|The Return of the Native|Thomas    |Hardy    |
++------------------------+----------+---------+
+</code></pre>
+<p>##Spark SQL</h2>
+Spark SQL is a Spark module for structured data processing.We&rsquo;ll be focusing on window operations, which have been just introduced in Spark 2.0. They address sliding window operations.
+<em>For example, if you want to report the average peak temperature every day in the past seven days, then you are operating on a sliding window of seven days until today. Here is an example that computes average sales per month for the past three months. The data file contains 24 observations showing monthly sales for two products, P1 and P2.</em>
+The Catalyst optimizer contains libraries for representing trees and applying rules to transform the trees. These tree transformations are applied to create the most optimized logical and physical execution plans. In the final phase, it generates Java bytecode using a special feature of the Scala language called <strong>quasiquotes</strong>.
+The optimizer also enables external developers to extend the optimizer by adding data-source-specific rules that result in pushing operations to external systems, or support for new data types.
+The Catalyst optimizer arrives at the most optimized plan to execute the operations on hand. The actual execution and related improvements are provided by the Tungsten engine. The goal of Tungsten is to improve the memory and CPU efficiency of Spark backend execution. The following are some salient features of this engine:</p>
+<ul>
+<li>Reducing the memory footprint and eliminating garbage collection overheads by bypassing (off-heap) Java memory management.-</li>
+<li>Code generation fuses across multiple operators and too many virtual function calls are avoided. The generated code looks like hand-optimized code.-</li>
+<li>Memory layout is in columnar, in-memory parquet format because that enables vectorized processing and is also closer to usual data access operations.-</li>
+<li>In-memory encoding using encoders. Encoders use runtime code generation to build custom byte code for faster and compact serialization and deserialization. Many operations can be performed in-place without deserialization because they are already in Tungsten binary format.-</li>
+</ul>
+<p>####Example</p>
+<pre><code class="language-scala">//Example 5: Window example with moving average computation
+scala&gt; import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.expressions.Window
+//Create a DataFrame containing monthly sales data for two products
+scala&gt; val monthlySales = spark.read.options(Map({&quot;header&quot;-&gt;&quot;true&quot;},{&quot;inferSchema&quot; -&gt; &quot;true&quot;})).
+                            csv(&quot;&lt;Your path&gt;/MonthlySales.csv&quot;)
+monthlySales: org.apache.spark.sql.DataFrame = [Product: string, Month: int ... 1 more field]
+//Prepare WindowSpec to create a 3 month sliding window for a product
+//Negative subscript denotes rows above current row
+scala&gt; val w = Window.partitionBy(monthlySales(&quot;Product&quot;)).orderBy(monthlySales(&quot;Month&quot;)).rangeBetween(-2,0)
+w: org.apache.spark.sql.expressions.WindowSpec = org.apache.spark.sql.expressions.WindowSpec@3cc2f15
+//Define compute on the sliding window, a moving average in this case
+scala&gt; val f = avg(monthlySales(&quot;Sales&quot;)).over(w)
+f: org.apache.spark.sql.Column = avg(Sales) OVER (PARTITION BY Product ORDER BY Month ASC RANGE BETWEEN 2 PRECEDING AND CURRENT ROW)
+//Apply the sliding window and compute. Examine the results
+scala&gt; monthlySales.select($&quot;Product&quot;,$&quot;Sales&quot;,$&quot;Month&quot;,bround(f,2).alias(&quot;MovingAvg&quot;)).
+                    orderBy($&quot;Product&quot;,$&quot;Month&quot;).show(6)
++-------+-----+-----+---------+
+|Product|Sales|Month|MovingAvg|
++-------+-----+-----+---------+
+|     P1|   66|    1|     66.0|
+|     P1|   24|    2|     45.0|
+|     P1|   54|    3|     48.0|
+|     P1|    0|    4|     26.0|
+|     P1|   56|    5|    36.67|
+|     P1|   34|    6|     30.0|
++-------+-----+-----+---------+
+</code></pre>
+<p>##Structured Streaming</h2>
+Apache Spark 2.0 has the first version of the higher level stream processing API called the <strong>Structured Streaming</strong> engine. This scalable and fault-tolerant engine leans on the Spark SQL API to simplify the development of real-time, continuous big data applications. It is probably the first successful attempt in unifying the batch and streaming computation.
+At a technical level, Structured Streaming leans on the Spark SQL API, which extends DataFrames/Datasets,
+##The Spark streaming programming model</h2>
+The idea is to treat the real-time data stream as a table that is continuously being appended
+Structured Streaming provides three output modes:</p>
+<ul>
+<li><strong>Append</strong>: In the external storage, only the new rows appended to the result table since the last trigger will be written. This is applicable only on queries where existing rows in the result table cannot change (for example, a map on an input stream).-</li>
+<li><strong>Complete</strong>: In the external storage, the entire updated result table will be written as is.-</li>
+<li><strong>Update</strong>: In the external storage, only the rows that were updated in the result table since the last trigger will be changed. This mode works for output sinks that can be updated in place, such as a MySQL table.-</li>
+</ul>
+<p>####Example</p>
+<pre><code class="language-scala">//Example 6: Streaming example
+//Understand nc
+// Netcat or nc is a networking utility that can be used for creating TCP/UDP connections
+// -k Forces nc to stay listening for another connection after its current connection is completed.
+// -l Used to specify that nc should listen for an incoming connection
+//             rather than initiate a connection to a remote host.
+//Run system activity report to collect memory usage in one terminal window
+// The following command shows memory utilization for every 2 seconds, 20 times
+// It diverts the output to the given port and you can check raw output from the browser
+//sar -r 2 20 | nc -lk 9999
+//In spark-shell window, do the following
+//Read stream
+scala&gt; val myStream = spark.readStream.format(&quot;socket&quot;).
+                       option(&quot;host&quot;,&quot;localhost&quot;).
+                       option(&quot;port&quot;,9999).load()
+myStream: org.apache.spark.sql.DataFrame = [value: string]
+//Filter out unwanted lines and then extract free memory part as a float
+//Drop missing values, if any
+scala&gt; val myDF = myStream.filter($&quot;value&quot;.contains(&quot;IST&quot;)).
+               select(substring($&quot;value&quot;,15,9).cast(&quot;float&quot;).as(&quot;memFree&quot;)).
+               na.drop().select($&quot;memFree&quot;)
+myDF: org.apache.spark.sql.DataFrame = [memFree: float]
+//Define an aggregate function
+scala&gt; val avgMemFree = myDF.select(avg(&quot;memFree&quot;))
+avgMemFree: org.apache.spark.sql.DataFrame = [avg(memFree): double]
+//Create StreamingQuery handle that writes on to the console
+scala&gt; val query = avgMemFree.writeStream.
+          outputMode(&quot;complete&quot;).
+          format(&quot;console&quot;).
+          start()
+query: org.apache.spark.sql.streaming.StreamingQuery = Streaming Query - query-0 [state = ACTIVE]
+Batch: 0
+-------------------------------------------
++-----------------+
+|     avg(memFree)|
++-----------------+
+|4116531.380952381|
++-----------------+
+....
+</code></pre>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/spark/">spark</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

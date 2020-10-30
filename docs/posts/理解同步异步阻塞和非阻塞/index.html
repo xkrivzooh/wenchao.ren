@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>理解同步、异步、阻塞和非阻塞 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="关于同步、异步、阻塞和非阻塞这个概念性问题，这可能是非常容易混淆的概念之一，特别是那些刚开始解除网络编程的人来说。本篇文章争取来说清楚这个问题，如果有错误之处，恳请批评指正。
+写在前面 首先大家心中需要有以下的清晰认知：
+ 阻塞操作不等于同步（blocking operation does NOT equal to synchronous） 非阻塞操作不等于异步（non-blocking operation does NOT equal to asynchronous）  事实上，同步异步于阻塞和非阻塞没有什么直接的关联关系。
+同步和异步 同步和异步关注的是 通信机制 (communication mechanism)
+ 同步是指在发出一个function调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到调用结果了。这个结果可能是一个正确的期望结果，也可能是因为异常原因（比如超时）导致的失败结果。换句话说，就是由调用者主动等待这个调用的结果。   Synchronous is, when we started a function call, the call will not return anything until it gets the result, the function needs to finish everything before it can give anything to us.
+  异步是调用在发出之后，本次调用过程就直接返回了，并没有同时没有返回结果。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在调用发出后，被调用者通过状态变化、事件通知等机制来通知调用者，或通过回调函数处理这个调用。   Asynchronous does not need to wait for the function completes its operation, once we call it, it returns immediately without any result, the function uses callback function (or other notification method) to &amp;ldquo;notify&amp;rdquo; us to get the value after it completes execution." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E9%98%BB%E5%A1%9E%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E/'>理解同步、异步、阻塞和非阻塞</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>关于同步、异步、阻塞和非阻塞这个概念性问题，这可能是非常容易混淆的概念之一，特别是那些刚开始解除网络编程的人来说。本篇文章争取来说清楚这个问题，如果有错误之处，恳请批评指正。</p>
+<h2 id="写在前面">写在前面</h2>
+<p>首先大家心中需要有以下的清晰认知：</p>
+<ul>
+<li><strong>阻塞操作不等于同步</strong>（blocking operation does NOT equal to synchronous）</li>
+<li><strong>非阻塞操作不等于异步</strong>（non-blocking operation does NOT equal to asynchronous）</li>
+</ul>
+<p>事实上，同步异步于阻塞和非阻塞没有什么直接的关联关系。</p>
+<h2 id="同步和异步">同步和异步</h2>
+<p>同步和异步关注的是 <strong>通信机制</strong> (communication mechanism)</p>
+<ul>
+<li><strong>同步</strong>是指在发出一个<em>function调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到调用结果了。这个结果可能是一个正确的期望结果，也可能是因为异常原因（比如超时）导致的失败结果。换句话说，就是由<em>调用者</em>主动等待这个<em>调用</em>的结果。</li>
+</ul>
+<blockquote>
+<p>Synchronous is, when we started a function call, the call will not return anything until it gets the result, the function needs to finish everything before it can give anything to us.</p>
+</blockquote>
+<ul>
+<li><strong>异步</strong>是<em>调用</em>在发出之后，本次调用过程就直接返回了，并没有同时没有返回结果。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在<em>调用</em>发出后，<em>被调用者</em>通过状态变化、事件通知等机制来通知调用者，或通过回调函数处理这个调用。</li>
+</ul>
+<blockquote>
+<p>Asynchronous does not need to wait for the function completes its operation, once we call it, it returns immediately without any result, the function uses callback function (or other notification method) to &ldquo;notify&rdquo; us to get the value after it completes execution.</p>
+</blockquote>
+<h2 id="阻塞和非阻塞">阻塞和非阻塞</h2>
+<p>阻塞和非阻塞关注的是 <strong>程序在等待调用结果（消息、返回值）时的状态.</strong></p>
+<blockquote>
+<p>Unlike synchronous/asynchronous, blocking/non-blocking focuses on the status of the program while waiting for the result from the function call.</p>
+</blockquote>
+<ul>
+<li><strong>阻塞</strong>调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回</li>
+</ul>
+<blockquote>
+<p>A blocking operation <strong>hangs up</strong> current thread before it gets the result, in other words, a blocking operation will let the current thread wait for the result returns, even if the target function will use a callback function to notify client side to fetch the result, the thread on the client side will still be blocked until it gets the returned result.</p>
+</blockquote>
+<ul>
+<li><strong>非阻塞</strong>是指在不能立刻得到结果之前，该调用不会阻塞当前线程。</li>
+</ul>
+<blockquote>
+<p>the non-blocking operation will <strong>not hang up</strong> the current thread if no result returned immediately.</p>
+</blockquote>
+<p>对unix操作系统来讲：</p>
+<ul>
+<li>阻塞式I/O(默认)，非阻塞式I/O(nonblock)，I/O复用(select/poll/epoll)都属于同步I/O，因为它们在操作系统将数据由内核缓冲区复制到用户空间缓冲区时都是阻塞的(不能干别的事)。</li>
+<li>只有异步I/O模型(AIO)是符合异步I/O操作的含义的，即在数据准备完成以后，由内核空间拷贝回用户缓冲区后再通知通知用户进程，而用户进程在等待通知的这段时间里可以干别的事。</li>
+</ul>
+<p>前几天看到了下面的代码片段，我觉的写的挺好的，复制一下：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190329000237.png" alt="http://7niucdn.wenchao.ren/20190329000237.png"></p>
+<p>接下来我会写一篇介绍unix IO模型的文章，在这篇文章中，我会具体谈谈不同的IO模型。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://www.linkedin.com/pulse/reactive-rest-services-spring-boot-aliaksandr-liakh">Reactive REST services with Spring Boot</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/%E6%9D%82%E8%B0%88/">杂谈</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

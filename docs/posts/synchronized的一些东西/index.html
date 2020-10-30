@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>Synchronized的一些东西 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="synchronized是Java中解决并发问题的一种最常用的方法，从语法上讲synchronized总共有三种用法：
+ 修饰普通方法 修饰静态方法 修饰代码块  synchronized 原理 为了查看synchronized的原理，我们首先反编译一下下面的代码, 这是一个synchronized修饰代码块的demo
+public class SynchronizedDemo { public void method() { synchronized (this) { System.out.println(&amp;quot;Method 1 start&amp;quot;); } } }  从上面截图可以看到，synchronized的实现依赖2个指令：
+ monitorenter monitorexit  但是从上面的截图可以看到有一个monitorenter和2个monitorexit，这里之所以有2个monitorexit是因为synchronized的锁释放有2种情况：
+ 方法正常执行完毕synchronized的范围，也就是正常情况下的锁释放 synchronized圈起来的范围内的代码执行抛出异常，导致锁释放  monitorenter 关于这个指令，jvm中的描述为：
+ Each object is associated with a monitor. A monitor is locked if and only if it has an owner. The thread that executes monitorenter attempts to gain ownership of the monitor associated with objectref, as follows:" />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/synchronized%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF/'>Synchronized的一些东西</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p><code>synchronized</code>是Java中解决并发问题的一种最常用的方法，从语法上讲synchronized总共有三种用法：</p>
+<ul>
+<li>修饰普通方法</li>
+<li>修饰静态方法</li>
+<li>修饰代码块</li>
+</ul>
+<h2 id="synchronized-原理">synchronized 原理</h2>
+<p>为了查看synchronized的原理，我们首先反编译一下下面的代码, 这是一个synchronized修饰代码块的demo</p>
+<pre><code class="language-java">public class SynchronizedDemo {
+    public void method() {
+        synchronized (this) {
+            System.out.println(&quot;Method 1 start&quot;);
+        }
+    }
+}
+</code></pre>
+<p><img src="http://7niucdn.wenchao.ren/20190902124248.png" alt="http://7niucdn.wenchao.ren/20190902124248.png"></p>
+<p>从上面截图可以看到，synchronized的实现依赖2个指令：</p>
+<ul>
+<li>monitorenter</li>
+<li>monitorexit</li>
+</ul>
+<p>但是从上面的截图可以看到有一个<code>monitorenter</code>和2个<code>monitorexit</code>，这里之所以有2个<code>monitorexit</code>是因为<code>synchronized</code>的锁释放有2种情况：</p>
+<ul>
+<li>方法正常执行完毕<code>synchronized</code>的范围，也就是正常情况下的锁释放</li>
+<li><code>synchronized</code>圈起来的范围内的代码执行抛出异常，导致锁释放</li>
+</ul>
+<h3 id="monitorenter">monitorenter</h3>
+<p>关于这个指令，jvm中的描述为：</p>
+<blockquote>
+<p>Each object is associated with a monitor. A monitor is locked if and only if it has an owner. The thread that executes monitorenter attempts to gain ownership of the monitor associated with objectref, as follows:</p>
+</blockquote>
+<blockquote>
+<p>• If the entry count of the monitor associated with objectref is zero, the thread enters the monitor and sets its entry count to one. The thread is then the owner of the monitor.
+• If the thread already owns the monitor associated with objectref, it reenters the monitor, incrementing its entry count.
+• If another thread already owns the monitor associated with objectref, the thread blocks until the monitor&rsquo;s entry count is zero, then tries again to gain ownership.</p>
+</blockquote>
+<p>翻译一下大概为：</p>
+<p>每个对象有一个监视器锁（<code>monitor</code>）。当monitor被占用时就会处于锁定状态，线程执行<code>monitorenter</code>指令时尝试获取monitor的所有权，过程如下：</p>
+<ul>
+<li>如果monitor的进入数为0，则该线程进入monitor，然后将进入数设置为1，该线程即为monitor的所有者。</li>
+<li>如果线程已经占有该monitor，只是重新进入，则进入monitor的进入数加1.</li>
+<li>如果其他线程已经占用了monitor，则该线程进入阻塞状态，直到monitor的进入数为0，再重新尝试获取monitor的所有权。</li>
+</ul>
+<h3 id="monitorexit">monitorexit</h3>
+<blockquote>
+<p>The thread that executes monitorexit must be the owner of the monitor associated with the instance referenced by objectref.
+The thread decrements the entry count of the monitor associated with objectref. If as a result the value of the entry count is zero, the thread exits the monitor and is no longer its owner. Other threads that are blocking to enter the monitor are allowed to attempt to do so.</p>
+</blockquote>
+<p>翻译一下为：</p>
+<blockquote>
+<p>执行monitorexit的线程必须是objectref所对应的monitor的所有者。
+指令执行时，monitor的进入数减1，如果减1后进入数为0，那线程退出monitor，不再是这个monitor的所有者。其他被这个monitor阻塞的线程可以尝试去获取这个 monitor 的所有权。</p>
+</blockquote>
+<p>通过这两段描述，我们应该能很清楚的看出Synchronized的实现原理，Synchronized的语义底层是通过一个monitor的对象来完成，其实<code>wait/notify</code>等方法也依赖于monitor对象，这就是为什么只有在同步的块或者方法中才能调用wait/notify等方法，否则会抛出<code>java.lang.IllegalMonitorStateException</code>的异常的原因。</p>
+<p>上面的demo是使用synchronized修饰代码块的demo，下面我们看一个使用synchronized修饰方法的demo：</p>
+<pre><code class="language-java">public class SynchronizedMethod {
+    public synchronized void method() {
+        System.out.println(&quot;Hello World!&quot;);
+    }
+}
+</code></pre>
+<p>我们继续对这个类进行反编译：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190902125437.png" alt="http://7niucdn.wenchao.ren/20190902125437.png"></p>
+<p>从反编译的结果来看，方法的同步并没有通过指令<code>monitorenter</code>和<code>monitorexit</code>来完成（虽然理论上其实也可以通过这两条指令来实现），不过相对于普通方法，其常量池中多了<code>ACC_SYNCHRONIZED</code>标示符。JVM就是根据该标示符来实现方法的同步的：</p>
+<ul>
+<li>当方法调用时，调用指令将会检查方法的 <code>ACC_SYNCHRONIZED</code> 访问标志是否被设置，如果设置了，执行线程将先获取monitor，获取成功之后才能执行方法体，方法执行完后再释放monitor。</li>
+<li>在方法执行期间，其他任何线程都无法再获得同一个<code>monitor</code>对象。 其实本质上没有区别，只是方法的同步是一种隐式的方式来实现，无需通过字节码来完成。</li>
+</ul>
+<h2 id="观城模型">观城模型</h2>
+<h2 id="synchronized-锁升级">Synchronized 锁升级</h2>
+<p>这四种锁是指锁的状态，专门针对<code>synchronized</code>的。在介绍这四种锁状态之前还需要介绍一些额外的知识。</p>
+<p>首先为什么Synchronized能实现线程同步？在回答这个问题之前我们需要了解两个重要的概念：<strong>Java对象头</strong>和 <strong>Monitor</strong>。</p>
+<h3 id="java对象头">Java对象头</h3>
+<p>synchronized是悲观锁，在操作同步资源之前需要给同步资源先加锁，这把锁就是存在Java对象头里的，而Java对象头又是什么呢？
+我们以Hotspot虚拟机为例，<strong>Hotspot的对象头主要包括两部分数据：Mark Word（标记字段）、Klass Pointer（类型指针）</strong>。如下面的一个示例：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190903122107.png" alt="java object示意图"></p>
+<p>我们以64位虚拟机来说，object header的结构为：</p>
+<pre><code class="language-java">|------------------------------------------------------------------------------------------------------------|--------------------|
+|                                            Object Header (128 bits)                                        |        State       |
+|------------------------------------------------------------------------------|-----------------------------|--------------------|
+|                                  Mark Word (64 bits)                         |    Klass Word (64 bits)     |                    |
+|------------------------------------------------------------------------------|-----------------------------|--------------------|
+| unused:25 | identity_hashcode:31 | unused:1 | age:4 | biased_lock:1 | lock:2 |    OOP to metadata object   |       Normal       |
+|------------------------------------------------------------------------------|-----------------------------|--------------------|
+| thread:54 |       epoch:2        | unused:1 | age:4 | biased_lock:1 | lock:2 |    OOP to metadata object   |       Biased       |
+|------------------------------------------------------------------------------|-----------------------------|--------------------|
+|                       ptr_to_lock_record:62                         | lock:2 |    OOP to metadata object   | Lightweight Locked |
+|------------------------------------------------------------------------------|-----------------------------|--------------------|
+|                     ptr_to_heavyweight_monitor:62                   | lock:2 |    OOP to metadata object   | Heavyweight Locked |
+|------------------------------------------------------------------------------|-----------------------------|--------------------|
+|                                                                     | lock:2 |    OOP to metadata object   |    Marked for GC   |
+|------------------------------------------------------------------------------|-----------------------------|--------------------|
+</code></pre>
+<h4 id="mark-word">Mark Word</h4>
+<p><code>Mark Word</code>默认存储:</p>
+<ul>
+<li>对象的HashCode</li>
+<li>分代年龄</li>
+<li>锁标志位信息</li>
+</ul>
+<p>这些信息都是与对象自身定义无关的数据，所以<code>Mark Word</code>被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据。它会根据对象的状态复用自己的存储空间，也就是说在运行期间<code>Mark Word</code>里存储的数据会随着锁标志位的变化而变化。</p>
+<p><img src="http://7niucdn.wenchao.ren/20190903122601.png" alt=""></p>
+<h4 id="klass-point">Klass Point</h4>
+<p>Klass Point：对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。</p>
+<h3 id="monitor">Monitor</h3>
+<p>Monitor可以理解为一个同步工具或一种同步机制，通常被描述为一个对象。每一个Java对象就有一把看不见的锁，称为内部锁或者Monitor锁。
+Monitor是线程私有的数据结构，每一个线程都有一个可用<code>monitor record</code>列表，同时还有一个全局的可用列表。每一个被锁住的对象都会和一个monitor关联，同时monitor中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用。</p>
+<p>synchronized通过Monitor来实现线程同步，Monitor是依赖于底层的操作系统的<code>Mutex Lock（互斥锁）</code>来实现的线程同步。</p>
+<p>synchronized最初实现同步的方式是<code>阻塞或唤醒一个Java线程需要操作系统切换CPU状态来完成，这种状态转换需要耗费处理器时间。如果同步代码块中的内容过于简单，状态转换消耗的时间有可能比用户代码执行的时间还要长</code>，这就是JDK 6之前synchronized效率低的原因。<strong>这种依赖于操作系统Mutex Lock所实现的锁我们称之为“重量级锁”</strong>，JDK 6中为了减少获得锁和释放锁带来的性能消耗，引入了“偏向锁”和“轻量级锁”。</p>
+<p>所以目前 <strong>锁一共有4种状态，级别从低到高依次是：无锁、偏向锁、轻量级锁和重量级锁。锁状态只能升级不能降级</strong>。</p>
+<p>下面是出四种锁状态对应的的Mark Word内容，然后再分别讲解四种锁状态的思路以及特点：</p>
+<p><img src="http://7niucdn.wenchao.ren/20190903124139.png" alt=""></p>
+<p><img src="http://7niucdn.wenchao.ren/20190903122952.png" alt=""></p>
+<p>上下两幅图对照着看，我们就能够清楚的知道在不同的锁状态下，mack word区域存储的内容的不同了。</p>
+<h3 id="无锁">无锁</h3>
+<p>无锁没有对资源进行锁定，所有的线程都能访问并修改同一个资源，但同时只有一个线程能修改成功。</p>
+<p>无锁的特点就是修改操作在循环内进行，线程会不断的尝试修改共享资源。如果没有冲突就修改成功并退出，否则就会继续循环尝试。如果有多个线程修改同一个值，必定会有一个线程能修改成功，而其他修改失败的线程会不断重试直到修改成功。CAS原理及应用即是无锁的实现。无锁无法全面代替有锁，但无锁在某些场合下的性能是非常高的。</p>
+<h3 id="偏向锁">偏向锁</h3>
+<p>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁，降低获取锁的代价。</p>
+<p><strong>在大多数情况下，锁总是由同一线程多次获得，不存在多线程竞争，所以出现了偏向锁。其目标就是在只有一个线程执行同步代码块时能够提高性能。</strong>，也就是说偏向锁一般是一个线程的事情</p>
+<p>当一个线程访问同步代码块并获取锁时，会在Mark Word里存储锁偏向的线程ID。在线程进入和退出同步块时不再通过CAS操作来加锁和解锁，而是检测Mark Word里是否存储着指向当前线程的偏向锁。<strong>引入偏向锁是为了在无多线程竞争的情况下尽量减少不必要的轻量级锁执行路径，因为轻量级锁的获取及释放依赖多次CAS原子指令，而偏向锁只需要在置换ThreadID的时候依赖一次CAS原子指令即可。</strong></p>
+<p><strong>偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，线程不会主动释放偏向锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有字节码正在执行），它会首先暂停拥有偏向锁的线程，判断锁对象是否处于被锁定状态。撤销偏向锁后恢复到无锁（标志位为“01”）或轻量级锁（标志位为“00”）的状态。</strong></p>
+<p><strong>偏向锁在JDK 6及以后的JVM里是默认启用的</strong>。可以通过JVM参数关闭偏向锁：<code>-XX:-UseBiasedLocking=false</code>，关闭之后程序默认会进入轻量级锁状态。</p>
+<h3 id="轻量级锁">轻量级锁</h3>
+<p>**轻量级锁是指当锁是偏向锁的时候，被另外的线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，从而提高性能。**因此一般情况下轻量级锁大多数是2个线程的事情。</p>
+<p>在代码进入同步块的时候，如果同步对象锁状态为无锁状态（锁标志位为“01”状态，是否为偏向锁为“0”），虚拟机首先将在当前线程的栈帧中建立一个名为锁记录（<code>Lock Record</code>）的空间，用于存储锁对象目前的Mark Word的拷贝，然后拷贝对象头中的Mark Word复制到锁记录中。</p>
+<p>拷贝成功后，虚拟机将使用CAS操作尝试将对象的Mark Word更新为指向Lock Record的指针，并将Lock Record里的owner指针指向对象的Mark Word。</p>
+<ul>
+<li>如果这个更新动作成功了，那么这个线程就拥有了该对象的锁，并且对象Mark Word的锁标志位设置为“00”，表示此对象处于轻量级锁定状态。</li>
+<li>如果轻量级锁的更新操作失败了，虚拟机首先会检查对象的Mark Word是否指向当前线程的栈帧，如果是就说明当前线程已经拥有了这个对象的锁，那就可以直接进入同步块继续执行，否则说明多个线程竞争锁。</li>
+</ul>
+<p>若当前只有一个等待线程，则该线程通过自旋进行等待。但是当自旋超过一定的次数，或者一个线程在持有锁，一个在自旋，又有第三个来访时，轻量级锁升级为重量级锁。</p>
+<h3 id="重量级锁">重量级锁</h3>
+<p>升级为重量级锁时，锁标志的状态值变为“10”，此时Mark Word中存储的是指向重量级锁的指针，此时等待锁的线程都会进入阻塞状态。</p>
+<p>整体的锁状态升级流程如下：</p>
+<p>无锁  -&gt;   偏向锁   -&gt; 轻量级锁   -&gt;    重量级锁</p>
+<p><img src="http://7niucdn.wenchao.ren/20190903124238.png" alt=""></p>
+<p>综上，<strong>偏向锁通过对比Mark Word解决加锁问题，避免执行CAS操作。而轻量级锁是通过用CAS操作和自旋来解决加锁问题，避免线程阻塞和唤醒而影响性能。重量级锁是将除了拥有锁的线程以外的线程都阻塞。</strong></p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://gist.github.com/arturmkrtchyan/43d6135e8a15798cc46c">java object header</a></li>
+<li><a href="http://zhongmingmao.me/2019/08/15/java-performance-synchronized-opt/">Java性能 &ndash; synchronized锁升级优化</a></li>
+<li><a href="https://tech.meituan.com/2018/11/15/java-lock.html">不可不说的Java“锁”事</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/java/">java</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

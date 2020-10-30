@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>中间件 on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/</link>
+    <description>Recent content in 中间件 on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 30 Mar 2019 10:58:06 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>确保数据落盘</title>
+      <link>https://wenchao.ren/posts/%E7%A1%AE%E4%BF%9D%E6%95%B0%E6%8D%AE%E8%90%BD%E7%9B%98/</link>
+      <pubDate>Sat, 30 Mar 2019 10:58:06 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E7%A1%AE%E4%BF%9D%E6%95%B0%E6%8D%AE%E8%90%BD%E7%9B%98/</guid>
+      <description>在之前的文章《unix IO模型》我们曾经提到过，用户空间，内核空间，缓存IO等概念。关于这些概念，大家可以阅读这篇文章，在本篇文章中，我们就不在涉及这些概念了。
+IO缓冲机制 大家需要有一个认知就是我们平时写的程序，在将数据到文件中时，其实数据不会立马写入磁盘中进行持久化存储的，而是会经过层层缓存，如下图所示：
+其中这每层缓存都有自己的刷新时机，每层缓存都刷新后才会写入磁盘进行持久化存储。这些缓存的存在目的本意都是为了加速读写操作，因为如果每次读写都对应真实磁盘操作，那么读写的效率会大大降低。但是同样带来的坏处是如果期间发生掉电或者别的故障，还未写入磁盘的数据就丢失了。对于数据安全敏感的应用，比如数据库，比如交易程序，这是无法忍受的。所以操作系统提供了保证文件落盘的机制。
+在上面这图中说明了操作系统到磁盘的数据流，以及经过的缓冲区。首先数据会先存在于应用的内存空间，如果调用库函数写入，库函数可能还会把数据缓存在库函数所维护的缓冲区空间中，比如C标准库stdio提供的方法就会进行缓存，目的是为了减少系统调用的次数。这两个缓存都是在用户空间中的。库函数缓存flush时，会调用write系统调用将数据写入内核空间，内核同样维护了一个页缓存（page cache），操作系统会在合适的时间把脏页的数据写入磁盘。即使是写入磁盘了，磁盘也可能维护了一个缓存，在这个时候掉电依然会丢失数据的，只有写入了磁盘的持久存储物理介质上，数据才是真正的落盘了，是安全的。
+比如在网络套接字上侦听连接并将从每个客户端接收的数据写入文件的应用程序。 在关闭连接之前，服务器确保将接收到的数据写入稳定存储器，并向客户端发送此类确认，请看下面的简化代码(代码中已经注释)：
+int sock_read(int sockfd, FILE *outfp, size_t nrbytes) { int ret; size_t written = 0; //example of an application buffer char *buf = malloc(MY_BUF_SIZE); if (!buf) return -1; //take care of reading the data from the socket //and writing it to the file stream while (written &amp;lt; nrbytes) { ret = read(sockfd, buf, MY_BUF_SIZE); if (ret =&amp;lt; 0) { if (errno == EINTR) continue; return ret; } written += ret; ret = fwrite((void *)buf, ret, 1, outfp); if (ret !</description>
+    </item>
+    
+    <item>
+      <title>集群调用容错的套路</title>
+      <link>https://wenchao.ren/posts/%E9%9B%86%E7%BE%A4%E8%B0%83%E7%94%A8%E5%AE%B9%E9%94%99%E7%9A%84%E5%A5%97%E8%B7%AF/</link>
+      <pubDate>Tue, 26 Mar 2019 00:33:17 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E9%9B%86%E7%BE%A4%E8%B0%83%E7%94%A8%E5%AE%B9%E9%94%99%E7%9A%84%E5%A5%97%E8%B7%AF/</guid>
+      <description>在日常的工作和系统设计中，我们经常会使用RPC调用，而我们所部署的服务一般也都是集群模式。我们知道在分布式系统架构中，因为有很多的可能性，比如服务发布重启，网络抖动等问题，都可能会导致RPC调用失败，一般情况下我们的集群调用设计都需要有一定的容错策略。本篇文章就总结一下常见的集群调用容错套路：
+ Failover Cluster Failfast Cluster Failsafe Cluster Failback Cluster Forking Cluster Broadcast Cluster  Failover Cluster Failover Cluster模式就是 失败自动切换，当出现失败，重试其它服务器，这种一般通常用于幂等操作，比如读操作，但重试会带来更长延迟。一般实现这种模式的时候，需要注意的是重试的时候优先剔除刚刚出问题的节点，优先选择其余节点。
+Failfast Cluster Failfast Cluster是快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。
+Failsafe Cluster Failfast Cluster是失败安全，出现异常时，直接忽略，就是fire and forget。比如一些场景下写入审计日志等操作，失败了也就失败了，可以忍受。
+Failback Cluster Failback Cluster是失败自动恢复，异步记录失败请求，定时重发。通常用于消息通知操作。
+Forking Cluster Forking Cluster 并行调用多个服务器，只要其中一个成功即返回。这种通常用于实时性要求较高的读操作，但需要浪费更多服务资源。
+Broadcast Cluster Broadcast Cluster是广播调用。就是广播请求到所有提供者，逐个调用，任意一台报错则报错，通常用于通知所有提供者更新缓存或日志等本地资源信息。</description>
+    </item>
+    
+  </channel>
+</rss>

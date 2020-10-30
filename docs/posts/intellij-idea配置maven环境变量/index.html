@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>Intellij IDEA配置maven环境变量 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="有时候项目中会使用到tools.jar，一般我们会在maven的pom文件中配置：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.sun&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;tools&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.8&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;system&amp;lt;/scope&amp;gt; &amp;lt;systemPath&amp;gt;${JAVA_HOME}/lib/tools.jar&amp;lt;/systemPath&amp;gt; &amp;lt;/dependency&amp;gt;  一般公司的服务器上的jAVA_HOME是固定的，而大家电脑上的JAVA_HOME很可能不一样，那么在使用maven clean命令的时候很可能会出现下面的异常：
+/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/bin/java -Dvisualvm.id=106646863982958 -Dmaven.multiModuleProjectDirectory=/Users/xkrivzooh/IdeaProjects/bistoury &amp;quot;-Dmaven.home=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3&amp;quot; &amp;quot;-Dclassworlds.conf=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/bin/m2.conf&amp;quot; &amp;quot;-Dmaven.ext.class.path=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven-event-listener.jar&amp;quot; &amp;quot;-javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=49260:/Applications/IntelliJ IDEA.app/Contents/bin&amp;quot; -Dfile.encoding=UTF-8 -classpath &amp;quot;/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds.license:/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds-2.6.0.jar&amp;quot; org.codehaus.classworlds.Launcher -Didea.version2020.1.1 --update-snapshots clean [INFO] Scanning for projects... [ERROR] [ERROR] Some problems were encountered while processing the POMs: [ERROR] &#39;dependencies.dependency.systemPath&#39; for com.sun:tools:jar must specify an absolute path but is ${JAVA_HOME}/lib/tools.jar @ line 133, column 16 @ [ERROR] The build could not read 1 project -&amp;gt; [Help 1] [ERROR] [ERROR] The project com." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/intellij-idea%E9%85%8D%E7%BD%AEmaven%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/'>Intellij IDEA配置maven环境变量</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>有时候项目中会使用到tools.jar，一般我们会在maven的pom文件中配置：</p>
+<pre><code class="language-xml">	&lt;dependency&gt;
+			&lt;groupId&gt;com.sun&lt;/groupId&gt;
+			&lt;artifactId&gt;tools&lt;/artifactId&gt;
+			&lt;version&gt;1.8&lt;/version&gt;
+			&lt;scope&gt;system&lt;/scope&gt;
+			&lt;systemPath&gt;${JAVA_HOME}/lib/tools.jar&lt;/systemPath&gt;
+		&lt;/dependency&gt;
+</code></pre>
+<p>一般公司的服务器上的jAVA_HOME是固定的，而大家电脑上的JAVA_HOME很可能不一样，那么在使用<code>maven clean</code>命令的时候很可能会出现下面的异常：</p>
+<pre><code class="language-java">/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/bin/java -Dvisualvm.id=106646863982958 -Dmaven.multiModuleProjectDirectory=/Users/xkrivzooh/IdeaProjects/bistoury &quot;-Dmaven.home=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3&quot; &quot;-Dclassworlds.conf=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/bin/m2.conf&quot; &quot;-Dmaven.ext.class.path=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven-event-listener.jar&quot; &quot;-javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=49260:/Applications/IntelliJ IDEA.app/Contents/bin&quot; -Dfile.encoding=UTF-8 -classpath &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds.license:/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds-2.6.0.jar&quot; org.codehaus.classworlds.Launcher -Didea.version2020.1.1 --update-snapshots clean
+[INFO] Scanning for projects...
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[ERROR] 'dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${JAVA_HOME}/lib/tools.jar @ line 133, column 16
+ @ 
+[ERROR] The build could not read 1 project -&gt; [Help 1]
+[ERROR]   
+[ERROR]   The project com.wormpex.fd:bistoury-ui:1.0.0 (/Users/xkrivzooh/IdeaProjects/bistoury/bistoury-ui/pom.xml) has 1 error
+[ERROR]     'dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${JAVA_HOME}/lib/tools.jar @ line 133, column 16
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/ProjectBuildingException
+</code></pre>
+<p>其中的<code>'dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${JAVA_HOME}/lib/tools.jar @ line 133, column 16</code>提示我们需要一个绝对路径，那么就是${JAVA_HOME}
+没有被识别，我们可以在idea的maven中设置一下环境变量来解决这个事情:</p>
+<p><img src="http://7niucdn.wenchao.ren/20200604183613.png" alt="IDEA为maven设置环境变量"></p>
+<p>保存之后在执行一下maven clean就会发现成功了。当然了你也可以设置全局环境变量来解决这个问题。</p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/idea/">idea</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>

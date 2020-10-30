@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>leetcode on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/leetcode/</link>
+    <description>Recent content in leetcode on 被遗忘的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 24 Jul 2020 19:09:58 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>双指针技巧</title>
+      <link>https://wenchao.ren/posts/%E5%8F%8C%E6%8C%87%E9%92%88%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Fri, 24 Jul 2020 19:09:58 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%8F%8C%E6%8C%87%E9%92%88%E6%8A%80%E5%B7%A7/</guid>
+      <description>双指针有两类：
+ 快慢指针  一般用于解决链表相关的问题，如判断链表是否存在环   左右指针  一般用于解决数组相关的问题，如二分查找    
+快慢指针 
+快慢指针一般都初始化指向链表的头结点 head，前进时快指针 fast 在前，慢指针 slow 在后，巧妙解决一些链表中的问题。
+
+判断链表中是否存在环 因为单链表的特点是每个节点只知道下一个节点，所以一个指针的话无法判断链表中是否含有环的。
+使用快慢指针的思想解决链表中是否存在环的问题，其实是非常简单的，快慢指针初始时都指向链表头结点，慢指针每次前进一步，快指针每次前进两步。
+ 如果链表不存在环，那么快指针最终会运行到链表的终端节点 如果链表存在环，那么快指针会多跑一会然后追上慢指针，此时说明链表存在环。  boolean hasCycle(ListNode head) { ListNode fast = head; ListNode slow = head; while(fast != null &amp;amp;&amp;amp; fast.next != null) { fast = fast.next.next; slow = slow.next; if (fast == slow) { return true; } } return false; }</description>
+    </item>
+    
+    <item>
+      <title>二分查找一般解法</title>
+      <link>https://wenchao.ren/posts/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%80%E8%88%AC%E8%A7%A3%E6%B3%95/</link>
+      <pubDate>Fri, 24 Jul 2020 19:06:30 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%80%E8%88%AC%E8%A7%A3%E6%B3%95/</guid>
+      <description>二分查找模板 二分查找一般容易犯错的地方有3个：
+ 应该给mid加1还是应该减1，还是不加不减 上层的while循环里面的条件应该是left &amp;lt; right 还是 left &amp;lt;= right 计算mid时，最好是采用mid = left + (right - left)/2而不是mid = (left + right) /2。因为这样可以避免int溢出。  
+二分查找的一般框架为：
+int binarySearch(int[] nums, int target) { int left = 0; int right = nums.length ...; while(...) { int mid = left + (right - left) / 2; if (nums[mid] == target) { ... } else if (nums[mid] &amp;lt; target) { ... } else if (nums[mid] &amp;gt; target) { .</description>
+    </item>
+    
+    <item>
+      <title>leetcode-28 实现strStr()</title>
+      <link>https://wenchao.ren/posts/leetcode-28-%E5%AE%9E%E7%8E%B0strstr/</link>
+      <pubDate>Thu, 18 Jun 2020 23:12:42 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/leetcode-28-%E5%AE%9E%E7%8E%B0strstr/</guid>
+      <description>题目描述:
+给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回 -1。
+来源：力扣（LeetCode） 链接：https://leetcode-cn.com/problems/implement-strstr 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+我的第一版答案：
+class Solution { public int strStr(String haystack, String needle) { if (haystack == null) return 0; if (needle == null) return 0; int haystackLength = haystack.length(); int needleLength = needle.length(); if (needleLength &amp;gt; haystackLength) { return -1; } for (int i = 0; i &amp;lt; (haystack.length() - needleLength + 1); i++) { int j =0; while(j &amp;lt; needleLength) { if (haystack.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>zoopeeper Unexpected Exception: java.nio.channels.CancelledKeyException ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="在运维过程中zookeeper(版本：3.4.9)出现下面的异常：
+2019-02-18 11:12:04,043 [myid:] - ERROR [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:NIOServerCnxn@178] - Unexpected Exception: java.nio.channels.CancelledKeyException at sun.nio.ch.SelectionKeyImpl.ensureValid(SelectionKeyImpl.java:73) at sun.nio.ch.SelectionKeyImpl.interestOps(SelectionKeyImpl.java:77) at org.apache.zookeeper.server.NIOServerCnxn.sendBuffer(NIOServerCnxn.java:151) at org.apache.zookeeper.server.ZooKeeperServer.finishSessionInit(ZooKeeperServer.java:663) at org.apache.zookeeper.server.ZooKeeperServer.revalidateSession(ZooKeeperServer.java:625) at org.apache.zookeeper.server.ZooKeeperServer.reopenSession(ZooKeeperServer.java:633) at org.apache.zookeeper.server.ZooKeeperServer.processConnectRequest(ZooKeeperServer.java:926) at org.apache.zookeeper.server.NIOServerCnxn.readConnectRequest(NIOServerCnxn.java:418) at org.apache.zookeeper.server.NIOServerCnxn.readPayload(NIOServerCnxn.java:198) at org.apache.zookeeper.server.NIOServerCnxn.doIO(NIOServerCnxn.java:244) at org.apache.zookeeper.server.NIOServerCnxnFactory.run(NIOServerCnxnFactory.java:203) at java.lang.Thread.run(Thread.java:745) 2019-02-18 11:12:04,100 [myid:] - ERROR [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:NIOServerCnxn@178] - Unexpected Exception: java.nio.channels.CancelledKeyException at sun.nio.ch.SelectionKeyImpl.ensureValid(SelectionKeyImpl.java:73) at sun.nio.ch.SelectionKeyImpl.interestOps(SelectionKeyImpl.java:77) at org.apache.zookeeper.server.NIOServerCnxn.sendBuffer(NIOServerCnxn.java:151) at org.apache.zookeeper.server.ZooKeeperServer.finishSessionInit(ZooKeeperServer.java:663) at org.apache.zookeeper.server.ZooKeeperServer.revalidateSession(ZooKeeperServer.java:625) at org.apache.zookeeper.server.ZooKeeperServer.reopenSession(ZooKeeperServer.java:633) at org.apache.zookeeper.server.ZooKeeperServer.processConnectRequest(ZooKeeperServer.java:926) at org.apache.zookeeper.server.NIOServerCnxn.readConnectRequest(NIOServerCnxn.java:418) at org.apache.zookeeper.server.NIOServerCnxn.readPayload(NIOServerCnxn.java:198) at org.apache.zookeeper.server.NIOServerCnxn.doIO(NIOServerCnxn.java:244) at org.apache.zookeeper.server.NIOServerCnxnFactory.run(NIOServerCnxnFactory.java:203) at java.lang.Thread.run(Thread.java:745)  这个是这个版本的zookeeper的一个bug，具体参见：https://issues." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/zoopeeper-unexpected-exception-java-nio-channels-cancelledkeyexception/'>zoopeeper Unexpected Exception: java.nio.channels.CancelledKeyException</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>在运维过程中zookeeper(版本：3.4.9)出现下面的异常：</p>
+<pre><code class="language-java">2019-02-18 11:12:04,043 [myid:] - ERROR [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:NIOServerCnxn@178] - Unexpected Exception:
+java.nio.channels.CancelledKeyException
+    at sun.nio.ch.SelectionKeyImpl.ensureValid(SelectionKeyImpl.java:73)
+    at sun.nio.ch.SelectionKeyImpl.interestOps(SelectionKeyImpl.java:77)
+    at org.apache.zookeeper.server.NIOServerCnxn.sendBuffer(NIOServerCnxn.java:151)
+    at org.apache.zookeeper.server.ZooKeeperServer.finishSessionInit(ZooKeeperServer.java:663)
+    at org.apache.zookeeper.server.ZooKeeperServer.revalidateSession(ZooKeeperServer.java:625)
+    at org.apache.zookeeper.server.ZooKeeperServer.reopenSession(ZooKeeperServer.java:633)
+    at org.apache.zookeeper.server.ZooKeeperServer.processConnectRequest(ZooKeeperServer.java:926)
+    at org.apache.zookeeper.server.NIOServerCnxn.readConnectRequest(NIOServerCnxn.java:418)
+    at org.apache.zookeeper.server.NIOServerCnxn.readPayload(NIOServerCnxn.java:198)
+    at org.apache.zookeeper.server.NIOServerCnxn.doIO(NIOServerCnxn.java:244)
+    at org.apache.zookeeper.server.NIOServerCnxnFactory.run(NIOServerCnxnFactory.java:203)
+    at java.lang.Thread.run(Thread.java:745)
+2019-02-18 11:12:04,100 [myid:] - ERROR [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:NIOServerCnxn@178] - Unexpected Exception:
+java.nio.channels.CancelledKeyException
+    at sun.nio.ch.SelectionKeyImpl.ensureValid(SelectionKeyImpl.java:73)
+    at sun.nio.ch.SelectionKeyImpl.interestOps(SelectionKeyImpl.java:77)
+    at org.apache.zookeeper.server.NIOServerCnxn.sendBuffer(NIOServerCnxn.java:151)
+    at org.apache.zookeeper.server.ZooKeeperServer.finishSessionInit(ZooKeeperServer.java:663)
+    at org.apache.zookeeper.server.ZooKeeperServer.revalidateSession(ZooKeeperServer.java:625)
+    at org.apache.zookeeper.server.ZooKeeperServer.reopenSession(ZooKeeperServer.java:633)
+    at org.apache.zookeeper.server.ZooKeeperServer.processConnectRequest(ZooKeeperServer.java:926)
+    at org.apache.zookeeper.server.NIOServerCnxn.readConnectRequest(NIOServerCnxn.java:418)
+    at org.apache.zookeeper.server.NIOServerCnxn.readPayload(NIOServerCnxn.java:198)
+    at org.apache.zookeeper.server.NIOServerCnxn.doIO(NIOServerCnxn.java:244)
+    at org.apache.zookeeper.server.NIOServerCnxnFactory.run(NIOServerCnxnFactory.java:203)
+    at java.lang.Thread.run(Thread.java:745)
+</code></pre>
+<p>这个是这个版本的zookeeper的一个bug，具体参见：<a href="https://issues.apache.org/jira/browse/ZOOKEEPER-1237">https://issues.apache.org/jira/browse/ZOOKEEPER-1237</a></p>
+<p>官方也给出了fix的patch:</p>
+<pre><code class="language-java">diff -uwp zookeeper-3.4.5/src/java/main/org/apache/zookeeper/server/NIOServerCnxn.java.ZK1237 zookeeper-3.4.5/src/java/main/org/apache/zookeeper/server/NIOServerCnxn.java
+--- zookeeper-3.4.5/src/java/main/org/apache/zookeeper/server/NIOServerCnxn.java.ZK1237 2012-09-30 10:53:32.000000000 -0700
++++ zookeeper-3.4.5/src/java/main/org/apache/zookeeper/server/NIOServerCnxn.java    2013-08-07 13:20:19.227152865 -0700
+@@ -150,7 +150,8 @@ public class NIOServerCnxn extends Serve
+                 // We check if write interest here because if it is NOT set,
+                 // nothing is queued, so we can try to send the buffer right
+                 // away without waking up the selector
+-                if ((sk.interestOps() &amp; SelectionKey.OP_WRITE) == 0) {
++                if (sk.isValid() &amp;&amp;
++                    (sk.interestOps() &amp; SelectionKey.OP_WRITE) == 0) {
+                     try {
+                         sock.write(bb);
+                     } catch (IOException e) {
+@@ -214,14 +215,18 @@ public class NIOServerCnxn extends Serve
+  
+                 return;
+             }
+-            if (k.isReadable()) {
++            if (k.isValid() &amp;&amp; k.isReadable()) {
+                 int rc = sock.read(incomingBuffer);
+                 if (rc &lt; 0) {
+-                    throw new EndOfStreamException(
++                    if (LOG.isDebugEnabled()) {
++                        LOG.debug(
+                             &quot;Unable to read additional data from client sessionid 0x&quot;
+                             + Long.toHexString(sessionId)
+                             + &quot;, likely client has closed socket&quot;);
+                 }
++                    close();
++                    return;
++                }
+                 if (incomingBuffer.remaining() == 0) {
+                     boolean isPayload;
+                     if (incomingBuffer == lenBuffer) { // start of next request
+@@ -242,7 +247,7 @@ public class NIOServerCnxn extends Serve
+                     }
+                 }
+             }
+-            if (k.isWritable()) {
++            if (k.isValid() &amp;&amp; k.isWritable()) {
+                 // ZooLog.logTraceMessage(LOG,
+                 // ZooLog.CLIENT_DATA_PACKET_TRACE_MASK
+                 // &quot;outgoingBuffers.size() = &quot; +
+</code></pre>
+<p>这个bug在zookeeper的3.4.10中已经解决。所以建议大家使用最新版的zookeeper</p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/zk/">zk</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+</body>
+
+</html>
