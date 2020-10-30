@@ -1,0 +1,71 @@
+baseURL = "http://127.0.0.1:1313"
+languageCode = "zh-cn"
+title = "被遗忘的博客"
+theme = "zozo"
+hjsStyle = "idea"
+disqusShortname = "rollenholt"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[params]
+  author = "xkrivzooh"
+  authorlocation = "BeiJing, China"
+  email = "me@wenchao.ren"
+  githubName = "xkrivzooh"
+  hjsStyle = "idea"
+  #subTitle = "the site subtitle"                                       # site's subTitle  # 网站二级标题
+  #footerSlogan = "My spiritual home"                                   # site's footer slogan  # 网站页脚标语
+  keywords = ["Hugo","theme","zozo"]                                  # site's keywords  # 网站关键字
+  description = "Hugo theme zozo example site."                        # site's description  # 网站描述
+  enableMathJax = false                                                 # enable mathjax  # 是否使用mathjax（数学公式）
+  enableSummary = true                                                 # display the article summary  # 是否显示文章摘要
+  mainSections = ["posts","post"]
+  custom_css = ["css/idea.css", "css/zozo.css"]
+
+[[menu.main]]                          # config your menu  # 配置菜单
+  name = "Home"
+  weight = 10
+  identifier = "home"
+  url = "/"
+[[menu.main]]
+  name = "Archive"
+  weight = 20
+  identifier = "archive"
+  url = "/posts/"
+[[menu.main]]
+  name = "Tags"
+  weight = 30
+  identifier = "tags"
+  url = "/tags/"
+[[menu.main]]
+  name = "About"
+  weight = 40
+  identifier = "about"
+  url = "/about/"
+
+[permalinks]
+  post = "/:year/:month/:title/"
+
+# Your socail's url
+[social]
+  github = "https://github.com/xkrivzooh"
+  weibo = "https://weibo.com/AnotherRobot/home"
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.renderer]
+  unsafe = true
+
+  [markup.highlight]
+    codeFences = false
+    guessSyntax = true
+    noClasses = true
+    lineNoStart = 1
+    anchorLineNos = true
+    tabWidth = 4
+    lineNumbersInTable = true
+    lineNos = true
+    style = "github"
+
