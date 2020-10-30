@@ -5,7 +5,18 @@
     <link>https://xkrivzooh.github.io/</link>
     <description>Recent content on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language><atom:link href="https://xkrivzooh.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 22 Oct 2020 20:05:47 +0800</lastBuildDate><atom:link href="https://xkrivzooh.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First</title>
+      <link>https://xkrivzooh.github.io/2020/10/first/</link>
+      <pubDate>Thu, 22 Oct 2020 20:05:47 +0800</pubDate>
+      
+      <guid>https://xkrivzooh.github.io/2020/10/first/</guid>
+      <description>Hello Hugo  aaa bbb ccc  asdasd asdadasd
+asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  </description>
+    </item>
+    
     <item>
       <title></title>
       <link>https://xkrivzooh.github.io/about/</link>
