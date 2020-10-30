@@ -83,7 +83,7 @@ code {
     font-size: 14px;
     /*background: #f7f7f7;*/
     background: #fff;
-    font-family: "ubuntu mono derivative powerline", "Ubuntu Mono", "ubuntu", "Source Code Pro", monospace, "Microsoft YaHei";
+    font-family: "Ubuntu", "Ubuntu Mono", "Ubuntu Condensed", "Source Code Pro", monospace, "Microsoft YaHei";
 }
 
 ul code,
