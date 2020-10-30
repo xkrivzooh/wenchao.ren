@@ -8,17 +8,17 @@
 	
 	
 	
-	<title>First ｜ 被遗忘的博客</title>
+	<title>从hexo迁移到hugo ｜ 被遗忘的博客</title>
 	
     
     
-    <meta name="description" content="Hello Hugo  aaa bbb ccc  asdasd asdadasd
-asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  " />
+    <meta name="description" content="最近折腾了一下博客，主要做了下面几个事情：
+ 博客使用的静态生成工具从Hexo迁移到了Hugo 博客使用的图床从七牛迁移到了GitHub上 顺带还了一个博客皮肤（基于zozo），并自己定制了一下 顺带使用GitHub的workflow来自动化博客的部署。  历史的博客文章我会慢慢的迁移过来。" />
     
 
     
     
-    <meta name="keywords" content="Hugo, theme, zozo" />
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
     
 
 	
@@ -56,7 +56,7 @@ asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  " />
             </li>
             
             <li>
-                <a href="/posts/">Archive</a>
+                <a href="/archives/">Archive</a>
             </li>
             
             <li>
@@ -104,20 +104,16 @@ asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  " />
             <div class="post_page">
                 <div class="post animate__animated animate__fadeInDown">
                     <div class="post_title post_detail_title">
-                        <h2><a href='/2020/10/first/'>First</a></h2>
+                        <h2><a href='/posts/%E4%BB%8Ehexo%E8%BF%81%E7%A7%BB%E5%88%B0hugo/'>从hexo迁移到hugo</a></h2>
                     </div>
-                    <div class="post_content markdown"><h3 id="hello-hugo">Hello Hugo</h3>
-<ol>
-<li>aaa</li>
-<li>bbb</li>
-<li>ccc</li>
-</ol>
-<h2 id="asdasd">asdasd</h2>
-<p>asdadasd</p>
-<h3 id="asdasd-1">asdasd</h3>
-<pre><code class="language-java">extension.onQueryFailed(criteriaQuery, entityClass, e);
-
-</code></pre>
+                    <div class="post_content markdown"><p>最近折腾了一下博客，主要做了下面几个事情：</p>
+<ul>
+<li>博客使用的静态生成工具从Hexo迁移到了Hugo</li>
+<li>博客使用的图床从七牛迁移到了GitHub上</li>
+<li>顺带还了一个博客皮肤（基于zozo），并自己定制了一下</li>
+<li>顺带使用GitHub的workflow来自动化博客的部署。</li>
+</ul>
+<p>历史的博客文章我会慢慢的迁移过来。</p>
 </div>
                     <div class="post_footer">
                         
@@ -126,7 +122,7 @@ asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  " />
                                 <span class="field tags">
                                     <i class="ri-stack-line"></i>
                                     
-                                    <a href="https://wenchao.ren/tags/java/">java</a>
+                                    <a href="https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/">杂记</a>
                                     
                                 </span>
                             </div>
@@ -176,6 +172,43 @@ asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  " />
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
 
 
 

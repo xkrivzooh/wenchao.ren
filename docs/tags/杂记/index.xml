@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on 被遗忘的博客</title>
-    <link>https://wenchao.ren/posts/</link>
-    <description>Recent content in Posts on 被遗忘的博客</description>
+    <title>杂记 on 被遗忘的博客</title>
+    <link>https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/</link>
+    <description>Recent content in 杂记 on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2020 19:00:50 +0800</lastBuildDate><atom:link href="https://wenchao.ren/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 30 Oct 2020 19:00:50 +0800</lastBuildDate><atom:link href="https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>从hexo迁移到hugo</title>
       <link>https://wenchao.ren/posts/%E4%BB%8Ehexo%E8%BF%81%E7%A7%BB%E5%88%B0hugo/</link>

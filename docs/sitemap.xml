@@ -3,6 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://wenchao.ren/posts/</loc>
+    <lastmod>2020-10-30T19:00:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wenchao.ren/tags/</loc>
+    <lastmod>2020-10-30T19:00:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wenchao.ren/posts/%E4%BB%8Ehexo%E8%BF%81%E7%A7%BB%E5%88%B0hugo/</loc>
+    <lastmod>2020-10-30T19:00:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/</loc>
+    <lastmod>2020-10-30T19:00:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wenchao.ren/</loc>
+    <lastmod>2020-10-30T19:00:50+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wenchao.ren/archives/</loc>
     <lastmod>2020-10-30T16:15:01+08:00</lastmod>
   </url>
@@ -13,21 +38,12 @@
   </url>
   
   <url>
-    <loc>https://wenchao.ren/</loc>
-    <lastmod>2020-10-30T16:15:01+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://wenchao.ren/about/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wenchao.ren/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://wenchao.ren/tags/</loc>
   </url>
   
 </urlset>
