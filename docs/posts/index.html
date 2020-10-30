@@ -12,12 +12,12 @@
 	
     
     
-    <meta name="description" content="Hugo theme zozo example site." />
+    <meta name="description" content="被遗忘的博客" />
     
 
     
     
-    <meta name="keywords" content="Hugo, theme, zozo" />
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
     
 
 	
@@ -57,7 +57,7 @@
             </li>
             
             <li>
-                <a href="/posts/">Archive</a>
+                <a href="/archives/">Archive</a>
             </li>
             
             <li>
@@ -109,14 +109,7 @@
                     
                     <div class="listing_item">
                         <div class="listing_post">
-                            <a href="/posts/my-first-post/">My First Post</a>
-                            <div class="post_time"><span class="date">10-30</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/posts/archives/">Archives</a>
+                            <a href="/posts/%E4%BB%8Ehexo%E8%BF%81%E7%A7%BB%E5%88%B0hugo/">从hexo迁移到hugo</a>
                             <div class="post_time"><span class="date">10-30</span></div>
                         </div>
                     </div>
@@ -143,6 +136,43 @@
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
 
 
 

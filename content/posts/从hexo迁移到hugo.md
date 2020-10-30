@@ -1,6 +1,7 @@
 ---
 title: "从hexo迁移到hugo"
 date: 2020-10-30T19:00:50+08:00
+tags: ['杂记']
 draft: false
 ---
 
