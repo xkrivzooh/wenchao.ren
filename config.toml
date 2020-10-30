@@ -1,4 +1,4 @@
-baseURL = "http://127.0.0.1:1313"
+baseURL = "https://xkrivzooh.github.io"
 languageCode = "zh-cn"
 title = "被遗忘的博客"
 theme = "zozo"

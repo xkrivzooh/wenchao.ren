@@ -40,16 +40,15 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="{{ .Site.BaseURL }}css/normalize.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ "css/zozo.css" }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ "css/zozo.css" |absURL }}" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ "css/idea.css"  }}" />
-    <script src="{{ "js/highlight.min.js" }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.6.0/dist/highlightjs-line-numbers.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ "css/idea.css" | absURL }}" />
+    <script src="{{ "js/highlight.min.js" | absURL }}"></script>
+    <script src="{{ "js/highlightjs-line-numbers.min.js" | absURL }}"></script>
     <script>hljs.initHighlightingOnLoad();
     hljs.initLineNumbersOnLoad();
     </script>
-
 
 
     <!-- custom css -->
