@@ -39,4 +39,4 @@ jobs:
           hugo --minify
       - name: Deploy
         run: |
-          rsync -av --delete doc root@wenchao.ren:/home/workspace/wenchao.ren/public
+          rsync -av --delete docs root@wenchao.ren:/home/workspace/wenchao.ren/public
