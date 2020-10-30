@@ -80,7 +80,8 @@ code {
     display: block;
     overflow-x: auto;
     color: #000;
-    font-size: 14px;
+    font-size: large;
+    line-height: normal;
     /*background: #f7f7f7;*/
     background: #fff;
     font-family: "Ubuntu Mono", "monospace", "Ubuntu Condensed", "Source Code Pro", "Microsoft YaHei";
