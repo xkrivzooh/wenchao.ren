@@ -2,7 +2,7 @@
 title: "First"
 date: 2020-10-22T20:05:47+08:00
 draft: false
-tag: java
+tags: ['java']
 ---
 
 

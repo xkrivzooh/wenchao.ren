@@ -3,6 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://xkrivzooh.github.io/tags/java/</loc>
+    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xkrivzooh.github.io/posts/my-first-post/</loc>
+    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xkrivzooh.github.io/posts/</loc>
+    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xkrivzooh.github.io/tags/</loc>
+    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xkrivzooh.github.io/</loc>
+    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xkrivzooh.github.io/posts/archives/</loc>
+    <lastmod>2020-10-30T16:15:01+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://xkrivzooh.github.io/2020/10/first/</loc>
     <lastmod>2020-10-22T20:05:47+08:00</lastmod>
   </url>
@@ -13,21 +43,12 @@
   </url>
   
   <url>
-    <loc>https://xkrivzooh.github.io/</loc>
-    <lastmod>2020-10-22T20:05:47+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://xkrivzooh.github.io/about/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://xkrivzooh.github.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://xkrivzooh.github.io/tags/</loc>
   </url>
   
 </urlset>
