@@ -10,19 +10,20 @@
                 <div class="post_title post_detail_title">
                     <h2><a href='{{ .RelPermalink }}'>{{ .Title }}</a></h2>
                 </div>
-                <div class="post_content markdown">
-                    {{ range (.Site.RegularPages.GroupByDate "2006-01") }}
+                <div class="list_with_title">
+                    {{ range (.Site.RegularPages.GroupByDate "2006") }}
                     <h3>{{ .Key }}</h3>
 
-                    <ul class="archive-list">
-                        {{ range (where .Pages "Type" "post") }}
-                        <li>
-                            {{ .PublishDate.Format "2006-01-02" }}
-                            ->
-                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                        </li>
+                    <div class="listing">
+                        {{ range (where .Pages "Type" "posts") }}
+                        <div class="listing_item">
+                            <div class="listing_post">
+                                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                                <div class="post_time"><span class="date">{{ .Date.Format "01-02" }}</span></div>
+                            </div>
+                        </div>
                         {{ end }}
-                    </ul>
+                    </div>
                     {{ end }}
                 </div>
                 <div class="post_footer">
