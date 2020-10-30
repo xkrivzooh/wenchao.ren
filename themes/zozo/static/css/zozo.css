@@ -22,7 +22,7 @@ html::-webkit-scrollbar-thumb {
 }
 
 body {
-  color: #333333;
+  color: #000000;
   font-family: "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 16px;
   width: 100%;
@@ -51,6 +51,12 @@ a:link, a:visited {
 
 a:hover, a:active {
   color: #555555;
+}
+
+.listing_post a {
+  text-decoration: blue;
+  font-weight: bold;
+  color: blue;
 }
 
 h1,
