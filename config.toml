@@ -2,7 +2,7 @@ baseURL = "https://wenchao.ren"
 languageCode = "zh-cn"
 title = "被遗忘的博客"
 theme = "zozo"
-disqusShortname = "rollenholt"
+disqusShortname = "rollenholt"  ## disqus配置
 publishDir = "docs"  ##生成内容的目录，从public改为docs。因为GitHub pages好像只能选这个
 
 
@@ -18,12 +18,12 @@ publishDir = "docs"  ##生成内容的目录，从public改为docs。因为GitHu
   hjsStyle = "idea"
   #subTitle = "the site subtitle"                                       # site's subTitle  # 网站二级标题
   #footerSlogan = "My spiritual home"                                   # site's footer slogan  # 网站页脚标语
-  keywords = ["Hugo","theme","zozo"]                                  # site's keywords  # 网站关键字
-  description = "Hugo theme zozo example site."                        # site's description  # 网站描述
-  enableMathJax = false                                                 # enable mathjax  # 是否使用mathjax（数学公式）
+  keywords = ["JAVA","Spring","IOT", "KAFKA", "python", "mysql"]                                  # site's keywords  # 网站关键字
+  description = "被遗忘的博客"                        # site's description  # 网站描述
+  enableMathJax = true                                                 # enable mathjax  # 是否使用mathjax（数学公式）
   enableSummary = true                                                 # display the article summary  # 是否显示文章摘要
   mainSections = ["posts","post"]
-  custom_css = ["css/idea.css", "css/zozo.css"]
+
 
 [[menu.main]]                          # config your menu  # 配置菜单
   name = "Home"
@@ -34,7 +34,7 @@ publishDir = "docs"  ##生成内容的目录，从public改为docs。因为GitHu
   name = "Archive"
   weight = 20
   identifier = "archive"
-  url = "/posts/"
+  url = "/archives/"
 [[menu.main]]
   name = "Tags"
   weight = 30

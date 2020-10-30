@@ -13,12 +13,12 @@
 	
     
     
-    <meta name="description" content="Hugo theme zozo example site." />
+    <meta name="description" content="被遗忘的博客" />
     
 
     
     
-    <meta name="keywords" content="Hugo, theme, zozo" />
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
     
 
 	
@@ -58,7 +58,7 @@
             </li>
             
             <li>
-                <a href="/posts/">Archive</a>
+                <a href="/archives/">Archive</a>
             </li>
             
             <li>
@@ -105,70 +105,6 @@
         <div class="content">
             
 
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/posts/my-first-post/'>My First Post</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>asdasdasda asdasd
-测试图片......</p>
-        </div>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2020.10.30</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://wenchao.ren/tags/java/">java</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/2020/10/first/'>First</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>Hello Hugo  aaa bbb ccc  asdasd asdadasd
-asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  ......</p>
-        </div>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2020.10.22</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://wenchao.ren/tags/java/">java</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div class="pagination">
     
@@ -190,6 +126,43 @@ asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  ......</p>
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
 
 
 

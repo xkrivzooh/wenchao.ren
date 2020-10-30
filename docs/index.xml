@@ -6,34 +6,14 @@
     <description>Recent content on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2020 16:25:40 +0800</lastBuildDate><atom:link href="https://wenchao.ren/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>My First Post</title>
-      <link>https://wenchao.ren/posts/my-first-post/</link>
-      <pubDate>Fri, 30 Oct 2020 16:25:40 +0800</pubDate>
-      
-      <guid>https://wenchao.ren/posts/my-first-post/</guid>
-      <description>asdasdasda asdasd
-测试图片</description>
-    </item>
-    
+    <lastBuildDate>Fri, 30 Oct 2020 16:15:01 +0800</lastBuildDate><atom:link href="https://wenchao.ren/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Archives</title>
-      <link>https://wenchao.ren/posts/archives/</link>
+      <link>https://wenchao.ren/archives/archives/</link>
       <pubDate>Fri, 30 Oct 2020 16:15:01 +0800</pubDate>
       
-      <guid>https://wenchao.ren/posts/archives/</guid>
+      <guid>https://wenchao.ren/archives/archives/</guid>
       <description>This page contains an archive of all posts.</description>
-    </item>
-    
-    <item>
-      <title>First</title>
-      <link>https://wenchao.ren/2020/10/first/</link>
-      <pubDate>Thu, 22 Oct 2020 20:05:47 +0800</pubDate>
-      
-      <guid>https://wenchao.ren/2020/10/first/</guid>
-      <description>Hello Hugo  aaa bbb ccc  asdasd asdadasd
-asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  </description>
     </item>
     
     <item>
@@ -42,10 +22,13 @@ asdasd extension.onQueryFailed(criteriaQuery, entityClass, e);  </description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://wenchao.ren/about/</guid>
-      <description>我也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥 也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥 也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥 也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥 也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-int a = 10; searchList.setGql(); Page page = new Page(pageKey); page.addChild(searchList); return page;  &amp;lt;section id=&amp;quot;main&amp;quot;&amp;gt; &amp;lt;div&amp;gt; &amp;lt;h1 id=&amp;quot;title&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/h1&amp;gt; {{ range .Data.Pages }} {{ .Render &amp;quot;summary&amp;quot;}} {{ end }} &amp;lt;/div&amp;gt; &amp;lt;/section&amp;gt;   body { font-family: &#34;Noto Sans&#34;, sans-serif; }   body { font-family: &#34;Noto Sans&#34;, sans-serif; }   body { font-family: &#34;Noto Sans&#34;, sans-serif; }   int a = 10; searchList.</description>
+      <description>欢迎访问这个被遗忘的站点
+关于这个站点 这个站点主要是一个可以记录我工作心得、阅读到比较有意思的东西、以及我自己的一些千奇百怪的想法的地方。
+如果博客标题一样，这是一个被遗忘的站点，在博客内容书写的时候都假定翻看的作者只会是我一人，所以很多的时候文章写的会比较随意。因此：
+ 如果其中某些文章解答了你的某些问题，你不用感谢我，毕竟我本意不是为了解答你的问题。 如果某些地方你没有看懂，你的留言或者邮件的咨询，我不保证一定回复。毕竟这一切都是需要时间、精力等成本的，请谅解。  文章内容不定期修改，如果收藏的话建议保持原链接。
+关于我 我其实是一个非常平庸并且慢热的人！
+我的职场履历  11年（大二）暑假在创新工场的安全宝项目组实习（项目组后来被百度收购） 12年（大三）暑假在腾讯公司(深圳)实习 13年（大四）基本都在Qunar实习 13年本科毕业~18年4月 在Qunar工作 18年4月~至今 在便利蜂工作  我的公众号 （这个公众号基本不怎么维护和使用）
+联系方式  邮箱：me#wenchao.ren 微博: https://weibo.com/AnotherRobot 之前的博客(已经废弃): http://www.cnblogs.com/rollenholt/  关于版权 本站点所有内容，版权都归我所有，除非明确授权，否则禁止一切形式的转载。</description>
     </item>
     
   </channel>

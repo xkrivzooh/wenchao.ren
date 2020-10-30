@@ -1,100 +1,42 @@
-我也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
+欢迎访问这个被遗忘的站点
 
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
+## 关于这个站点
 
+这个站点主要是一个可以记录我工作心得、阅读到比较有意思的东西、以及我自己的一些千奇百怪的想法的地方。
 
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥[道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-                               也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥](asdadsasd)
+如果博客标题一样，这是一个被遗忘的站点，在博客内容书写的时候都假定翻看的作者只会是我一人，所以很多的时候文章写的会比较随意。因此：
 
-```java
-int a = 10;
-searchList.setGql();
-Page page = new Page(pageKey);
-page.addChild(searchList);
-return page;
-```
+- 如果其中某些文章解答了你的某些问题，你不用感谢我，毕竟我本意不是为了解答你的问题。
+- 如果某些地方你没有看懂，你的留言或者邮件的咨询，我不保证一定回复。毕竟这一切都是需要时间、精力等成本的，请谅解。
 
-```java
-<section id="main">
-  <div>
-    <h1 id="title">{{ .Title }}</h1>
-    {{ range .Data.Pages }}
-      {{ .Render "summary"}}
-    {{ end }}
-  </div>
-</section>
+文章内容不定期修改，如果收藏的话建议保持原链接。
 
-```
+## 关于我
 
-<pre>
-<code class="language-css">
-body {
-  font-family: "Noto Sans", sans-serif;
-}
-</code>
-</pre>
+我其实是一个非常平庸并且慢热的人！
 
 
-<code class="language-css">
-body {
-  font-family: "Noto Sans", sans-serif;
-}
-</code>
+### 我的职场履历
 
-<pre>
-body {
-  font-family: "Noto Sans", sans-serif;
-}
-</pre>
+- 11年（大二）暑假在创新工场的[安全宝](http://www.anquanbao.com/)项目组实习（[项目组后来被百度收购](http://tech.163.com/15/0415/11/AN8520PG00094P2J.html)）
+- 12年（大三）暑假在腾讯公司(深圳)实习
+- 13年（大四）基本都在Qunar实习
+- 13年本科毕业~18年4月 在Qunar工作
+- 18年4月~至今 在便利蜂工作
+
+### 我的公众号
+
+（这个公众号基本不怎么维护和使用）
+
+![xkrivzooh](http://7niucdn.wenchao.ren/qrcode_for_gh_7c155733c121_258.jpg)
+
+### 联系方式
+
+- 邮箱：me#wenchao.ren
+- 微博: [https://weibo.com/AnotherRobot](https://weibo.com/AnotherRobot)
+- 之前的博客(已经废弃): [http://www.cnblogs.com/rollenholt/](http://www.cnblogs.com/rollenholt/)
 
 
+## 关于版权
 
-<pre>
-<code class="language-java">
-int a = 10;
-searchList.setGql();
-Page page = new Page(pageKey);
-page.addChild(searchList);
-return page;
-</code>
-</pre>
-
-```java
-int a = 10;
-searchList.setGql();
-Page page = new Page(pageKey);
-page.addChild(searchList);
-return page;
-```
-
-asdasd
-`asdas`
-
-```css
-body {
-  font-family: "Noto Sans", sans-serif;
-}
-```
-啊啊啊啊啊啊啊
-
-行内代码`int a = 10;`行内代码
-
-- 行内代码`int a = 10;`行内代码
-    - 行内代码`int a = 10;`行内代码
-        - 行内代码`int a = 10;`行内代码
-            - 行内代码`int a = 10;`行内代码
-- 行内代码`int a = 10;`行内代码
-    
-    ```java
-  {{ int 10 = 1; }}
-  ```
- 
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥也不知道甩啥
-
+本站点所有内容，版权都归我所有，**除非明确授权，否则禁止一切形式的转载**。

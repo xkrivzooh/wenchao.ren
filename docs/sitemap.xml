@@ -3,43 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://wenchao.ren/tags/java/</loc>
-    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wenchao.ren/posts/my-first-post/</loc>
-    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wenchao.ren/posts/</loc>
-    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wenchao.ren/tags/</loc>
-    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wenchao.ren/</loc>
-    <lastmod>2020-10-30T16:25:40+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wenchao.ren/posts/archives/</loc>
+    <loc>https://wenchao.ren/archives/</loc>
     <lastmod>2020-10-30T16:15:01+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://wenchao.ren/2020/10/first/</loc>
-    <lastmod>2020-10-22T20:05:47+08:00</lastmod>
+    <loc>https://wenchao.ren/archives/archives/</loc>
+    <lastmod>2020-10-30T16:15:01+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://wenchao.ren/post/</loc>
-    <lastmod>2020-10-22T20:05:47+08:00</lastmod>
+    <loc>https://wenchao.ren/</loc>
+    <lastmod>2020-10-30T16:15:01+08:00</lastmod>
   </url>
   
   <url>
@@ -49,6 +24,10 @@
   
   <url>
     <loc>https://wenchao.ren/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://wenchao.ren/tags/</loc>
   </url>
   
 </urlset>
