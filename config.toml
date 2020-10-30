@@ -4,6 +4,8 @@ title = "被遗忘的博客"
 theme = "zozo"
 hjsStyle = "idea"
 disqusShortname = "rollenholt"
+publishDir = "docs"
+
 
 [taxonomies]
   category = "categories"
