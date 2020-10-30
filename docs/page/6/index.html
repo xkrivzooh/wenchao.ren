@@ -110,20 +110,6 @@
         <h2><a href='/posts/unix-io%E6%A8%A1%E5%9E%8B/'>unix IO模型</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在之前的文章《理解同步、异步、阻塞和非阻塞》我们谈了一下关于同步、异步、阻塞和非阻塞的理解。这篇文章，我打算来谈谈unix的io模型，其中会涉及到下面的内容：
- 阻塞 I/O（blocking IO） 非阻塞 I/O（nonblocking IO） I/O 多路复用（ IO multiplexing） 异步 I/O（asynchronous IO） 信号驱动式IO模型(signal-driven IO model)  背景知识 在开始正式的介绍unix的io模型之前，我们需要科普一些背景知识，便于大家正确的理解unix io模型。
-同步、异步、阻塞和非阻塞 这些概念请查看我之前的文章《理解同步、异步、阻塞和非阻塞》
-文件描述符fd 文件描述符（File descriptor）是计算机科学中的一个术语，是一个用于表述指向文件的引用的抽象化概念。
-文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的程序编写往往会围绕着文件描述符展开。但是文件描述符这一概念往往只适用于UNIX、Linux这样的操作系统。
-用户空间（user space）与内核空间（kernel space） 学习 Linux 时，经常可以看到两个词：User space（用户空间）和 Kernel space（内核空间）。
-简单说，Kernel space 是 Linux 内核的运行空间，User space 是用户程序的运行空间。为了安全，它们是隔离的，即使用户的程序崩溃了，内核也不受影响。
-Kernel space 可以执行任意命令，调用系统的一切资源；User space 只能执行简单的运算，不能直接调用系统资源，必须通过系统接口（又称 system call），才能向内核发出指令。
-str = &quot;my string&quot; // 用户空间 x = x + 2 // 用户空间 file.write(str) // 切换到内核空间 y = x + 4 // 切换回用户空间  上面代码中，第一行和第二行都是简单的赋值运算，在 User space 执行。第三行需要写入文件，就要切换到 Kernel space，因为用户不能直接写文件，必须通过内核安排。第四行又是赋值运算，就切换回 User space。......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -149,17 +135,6 @@ str = &quot;my string&quot; // 用户空间 x = x + 2 // 用户空间 file.write
         <h2><a href='/posts/%E7%90%86%E8%A7%A3%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E9%98%BB%E5%A1%9E%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E/'>理解同步、异步、阻塞和非阻塞</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>关于同步、异步、阻塞和非阻塞这个概念性问题，这可能是非常容易混淆的概念之一，特别是那些刚开始解除网络编程的人来说。本篇文章争取来说清楚这个问题，如果有错误之处，恳请批评指正。
-写在前面 首先大家心中需要有以下的清晰认知：
- 阻塞操作不等于同步（blocking operation does NOT equal to synchronous） 非阻塞操作不等于异步（non-blocking operation does NOT equal to asynchronous）  事实上，同步异步于阻塞和非阻塞没有什么直接的关联关系。
-同步和异步 同步和异步关注的是 通信机制 (communication mechanism)
- 同步是指在发出一个function调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到调用结果了。这个结果可能是一个正确的期望结果，也可能是因为异常原因（比如超时）导致的失败结果。换句话说，就是由调用者主动等待这个调用的结果。   Synchronous is, when we started a function call, the call will not return anything until it gets the result, the function needs to finish everything before it can give anything to us.
-  异步是调用在发出之后，本次调用过程就直接返回了，并没有同时没有返回结果。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在调用发出后，被调用者通过状态变化、事件通知等机制来通知调用者，或通过回调函数处理这个调用。   Asynchronous does not need to wait for the function completes its operation, once we call it, it returns immediately without any result, the function uses callback function (or other notification method) to &ldquo;notify&rdquo; us to get the value after it completes execution.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -183,18 +158,6 @@ str = &quot;my string&quot; // 用户空间 x = x + 2 // 用户空间 file.write
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E9%9B%86%E7%BE%A4%E8%B0%83%E7%94%A8%E5%AE%B9%E9%94%99%E7%9A%84%E5%A5%97%E8%B7%AF/'>集群调用容错的套路</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在日常的工作和系统设计中，我们经常会使用RPC调用，而我们所部署的服务一般也都是集群模式。我们知道在分布式系统架构中，因为有很多的可能性，比如服务发布重启，网络抖动等问题，都可能会导致RPC调用失败，一般情况下我们的集群调用设计都需要有一定的容错策略。本篇文章就总结一下常见的集群调用容错套路：
- Failover Cluster Failfast Cluster Failsafe Cluster Failback Cluster Forking Cluster Broadcast Cluster  Failover Cluster Failover Cluster模式就是 失败自动切换，当出现失败，重试其它服务器，这种一般通常用于幂等操作，比如读操作，但重试会带来更长延迟。一般实现这种模式的时候，需要注意的是重试的时候优先剔除刚刚出问题的节点，优先选择其余节点。
-Failfast Cluster Failfast Cluster是快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。
-Failsafe Cluster Failfast Cluster是失败安全，出现异常时，直接忽略，就是fire and forget。比如一些场景下写入审计日志等操作，失败了也就失败了，可以忍受。
-Failback Cluster Failback Cluster是失败自动恢复，异步记录失败请求，定时重发。通常用于消息通知操作。
-Forking Cluster Forking Cluster 并行调用多个服务器，只要其中一个成功即返回。这种通常用于实时性要求较高的读操作，但需要浪费更多服务资源。
-Broadcast Cluster Broadcast Cluster是广播调用。就是广播请求到所有提供者，逐个调用，任意一台报错则报错，通常用于通知所有提供者更新缓存或日志等本地资源信息。......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -224,14 +187,6 @@ Broadcast Cluster Broadcast Cluster是广播调用。就是广播请求到所有
         <h2><a href='/posts/java%E4%B8%AD%E7%9A%84zero-copy/'>java中的zero copy</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在web应用程序中，我们经常会在server和client之间传输数据。比如server发数据给client，server首先将数据从硬盘读出之后，然后原封不动的通过socket传输给client，大致原理如下：
-File.read(fileDesc, buf, len); Socket.send(socket, buf, len);  下面的例子展示了传统的数据复制实现
-import java.io.DataOutputStream; import java.io.FileInputStream; import java.io.IOException; import java.net.Socket; import java.net.UnknownHostException; public class TraditionalClient { public static void main(String[] args) { int port = 2000; String server = &quot;localhost&quot;; Socket socket = null; String lineToBeSent; DataOutputStream output = null; FileInputStream inputStream = null; int ERROR = 1; // connect to server try { socket = new Socket(server, port); System.out.println(&quot;Connected with server &quot; + socket.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -255,12 +210,6 @@ import java.io.DataOutputStream; import java.io.FileInputStream; import java.io.
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/linux%E5%91%BD%E4%BB%A4-grep/'>linux命令-grep</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>常见参数说明 grep [OPTIONS] PATTERN [FILE...] grep [OPTIONS] [-e PATTERN]... [-f FILE]... [FILE...] OPTIONS: -e: 使用正则搜索 -i: 不区分大小写 -v: 查找不包含指定内容的行 -w: 按单词搜索 -c: 统计匹配到的次数 -n: 显示行号 -r: 逐层遍历目录查找 -A: 显示匹配行及前面多少行, 如: -A3, 则表示显示匹配行及前3行 -B: 显示匹配行及后面多少行, 如: -B3, 则表示显示匹配行及后3行 -C: 显示匹配行前后多少行, 如: -C3, 则表示显示批量行前后3行 --color: 匹配到的内容高亮显示 --include: 指定匹配的文件类型 --exclude: 过滤不需要匹配的文件类型  常见用法 #多文件查询 grep leo logs.log logs_back.log #查找即包含leo又包含li的行 grep leo logs.log | grep li #查找匹配leo或者匹配li的行 grep leo | li logs.log #显示匹配行前2行 grep leo logs.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -288,15 +237,6 @@ import java.io.DataOutputStream; import java.io.FileInputStream; import java.io.
         <h2><a href='/posts/mysql-binlog%E5%88%9D%E6%AD%A5%E4%BB%8B%E7%BB%8D/'>mysql binlog初步介绍</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>binlog 即二进制日志,它记录了数据库上的所有改变，并以二进制的形式保存在磁盘中； 它可以用来查看数据库的变更历史、数据库增量备份和恢复、Mysql的复制（主从数据库的复制）。
-mysql binlog解析 binlog有三种格式:
- Statement 基于SQL语句的复制(statement-based replication,SBR)， Row 基于行的复制(row-based replication,RBR)， Mixed 混合模式复制(mixed-based replication,MBR)。  在我这边mysql 5.7.20版本中默认是使用Row的, 而且默认情况下没有开启binlog
-mysql&gt; select version(); +-----------+ | version() | +-----------+ | 5.7.20 | +-----------+ 1 row in set (0.00 sec) mysql&gt; mysql&gt; mysql&gt; show variables like 'binlog_format'; +---------------+-------+ | Variable_name | Value | +---------------+-------+ | binlog_format | ROW | +---------------+-------+ 1 row in set (0.00 sec) mysql&gt; show variables like 'log_bin'; +---------------+-------+ | Variable_name | Value | +---------------+-------+ | log_bin | OFF | +---------------+-------+ 1 row in set (0.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -320,17 +260,6 @@ mysql&gt; select version(); +-----------+ | version() | +-----------+ | 5.7.20 |
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/error-1728-hy000-cannot-load-from-mysql-procs-priv-the-table-is-probably-corrupted/'>ERROR 1728 (HY000): Cannot load from mysql.procs_priv. The table is probably corrupted</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>今天在搞mysql binlog收集时，需要创建一个mysql用户，结果出现了：
-ERROR 1728 (HY000): Cannot load from mysql.procs_priv. The table is probably corrupted异常
-解决办法:
-sudo mysql_upgrade -u root -p
-注意后面的用户名和密码自己修改为自己的哈。
-~ » sudo mysql_upgrade -u root -p Password: Enter password: Checking if update is needed. Checking server version. Running queries to upgrade MySQL server. Checking system database. mysql.columns_priv OK mysql.db OK mysql.engine_cost OK mysql.event OK mysql.func OK mysql.general_log OK mysql.gtid_executed OK mysql.help_category OK mysql.help_keyword OK mysql.help_relation OK mysql.help_topic OK mysql.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -358,22 +287,6 @@ sudo mysql_upgrade -u root -p
         <h2><a href='/posts/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E6%9D%BF%E5%8A%9F%E8%83%BD/'>监控系统的模板功能</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>这篇文章主要总结整理一下最近工作中两套监控系统合并过程中使用模板功能来抽象【针对应用相关的监控】 和【针对机器相关的监控】的差异。
-背景 公司主要的监控系统主要是针对应用级别的，所有的指标都是属于App级别的，也就是想看某条监控指标数据，首先需要选定具体的APP。 然后公司也有一套针对机器相关的监控系统，因为机器相关的监控很多时候是以机器为维度的，也就是想查询某个机器的指标数据时 需要先指定具体的机器。同时由于公司业务的特殊性，也需要增加对多种终端类型（比如门店、货柜）的监控相关的功能。同时考虑到开发 、维护等成本等等的诸多因素，现在需要将两套监控系统合并。因此需要一套通用的模型来抽象这种问题。
-其中这套模式本身并不复杂，没啥好说的。
-模板功能模型 下面这个图是我当时设计的模板功能
-简单描述一下这个图：
- Endpoint可以属于多个EndpointGroup EndpointGroup可以绑定多个Template, 一个Template也可以绑定到多个EndpointGroup上面 Template会包含多个Metric数据，同时也支持继承关系，也就是子模板会继承父模板的指标数据，如果父子模板中都含有同样的 Metric的话，那么子模板的会覆盖父模板的指标数据。 Endpoint也可以直接和Template来进行绑定，而不需要通过EndpointGroup Endpoint可以直接添加Metric数据，这个主要是因为目前针对App相关的监控都是属于这种情况的。  Endpoint 因为监控指标数据可能属于一个APP，也可能属于一个机器、门店、货柜、咖啡机等。所以使用了抽象的Endpoint来描述指标的归属。
-EndpointGroup 含义很简单，之所以弄这个主要是为了做批处理，这样就不需要针对每一个Endpoint来进行操作了，一次可以操作一批。
-Template Template其实就是一些Metric的集合，支持继承功能，继承功能其实并不是必须的，可以通过组合来实现，最后我们选择了继承 的方式，主要是考虑到针对下面的场景，继承这种方式描述起来更好一些：
-所有的机器都有一些基础监控，比如针对cpu、内存的监控，我们将这些基础的指标数据使用template1来进行打包，然后如果想对所有的 dev环境的机器增加一些监控指标，这些监控指标我们使用Template2来打包
-如果使用组合的方式，需要对Endpoint或者EndpointGroup绑定Template1和Template2，而如何使用继承的话，只需要绑定Template2 就好。
-Metric 这个比较简单，所有监控系统的基本语义。......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -399,13 +312,6 @@ Metric 这个比较简单，所有监控系统的基本语义。......</p>
         <h2><a href='/posts/iterable%E5%92%8Citerator%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E4%BE%8B%E5%AD%90/'>Iterable和Iterator结合使用的一个小例子</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>这篇文章主要是记录一下使用Iterable和Iterator用作迭代处理的一个例子。基于这种模式可以很方便的实现 流式处理
-public class Array&lt;T&gt; implements Iterable&lt;T&gt; { T[] values; // this contains the actual elements of the array // Constructor that takes a &quot;raw&quot; array and stores it public Array(T[] values) { this.values = values; } // This is a private class that implements iteration over the elements // of the list. It is not accessed directly by the user, but is used in // the iterator() method of the Array class.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -429,13 +335,6 @@ public class Array&lt;T&gt; implements Iterable&lt;T&gt; { T[] values; // this c
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/guava-cacheloader%E4%B8%AD%E5%BD%93load%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9Enull/'>Guava CacheLoader中当load方法返回null</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>Guava LoadingCache在实际工作中用的还是比较频繁的。但是最近在review代码时，发现有些同学在使用CacheLoader时没有注意到 CacheLoader#load方法的注释：
-/** * Computes or retrieves the value corresponding to {@code key}. * * @param key the non-null key whose value should be loaded * @return the value associated with {@code key}; &lt;b&gt;must not be null&lt;/b&gt; * @throws Exception if unable to load the result * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is * treated like any other {@code Exception} in all respects except that, when it is caught, * the thread's interrupt status is set */ public abstract V load(K key) throws Exception;  源码中明确指出了这个方法不能返回null。但是在review代码时发现很多同学没注意到到这个，而在部分情况下存在返回null的情况。 一般使用Optional封装一下就好了。......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -490,43 +389,6 @@ public class Array&lt;T&gt; implements Iterable&lt;T&gt; { T[] values; // this c
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 

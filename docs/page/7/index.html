@@ -110,17 +110,6 @@
         <h2><a href='/posts/mysql-sleep/'>mysql sleep</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>今天看到了一个sql：
-select count(*), sleep(5) from test  第一次看到这个sleep函数，所以专门研究了一波。这个函数的语法是：SLEEP(duration), 其中duration的单位是秒
- Sleeps (pauses) for the number of seconds given by the duration argument, then returns 0. The duration may have a fractional part. If the argument is NULL or negative, SLEEP() produces a warning, or an error in strict SQL mode.
-  When sleep returns normally (without interruption), it returns 0:
- 简单的说他可以让sql在执行的时候sleep一段时间。
-mysql&gt; SELECT SLEEP(1000); +-------------+ | SLEEP(1000) | +-------------+ | 0 | +-------------+  When SLEEP() is the only thing invoked by a query that is interrupted, it returns 1 and the query itself returns no error.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -144,13 +133,6 @@ mysql&gt; SELECT SLEEP(1000); +-------------+ | SLEEP(1000) | +-------------+ | 
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/brew%E6%93%8D%E4%BD%9Cmysql/'>brew操作mysql</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p> 安装mysql brew install mysql 启动mysql brew services start mysql  停止mysql brew services stop mysql 重启mysql brew services restart mysql  在我的机器上，my.cnf文件的位置在：/usr/local/etc/my.cnf，默认情况下里面的内容为：
-# Default Homebrew MySQL server config [mysqld] # Only allow connections from localhost bind-address = 127.0.0.1  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -178,14 +160,6 @@ mysql&gt; SELECT SLEEP(1000); +-------------+ | SLEEP(1000) | +-------------+ | 
         <h2><a href='/posts/java%E6%97%A5%E5%BF%97%E4%B8%8D%E6%89%93%E5%8D%B0%E5%BC%82%E5%B8%B8%E6%A0%88/'>java日志不打印异常栈</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>问题描述 今天在排查一个问题的时候发现在日志输出中，只有异常的Message,并没有详细的异常堆栈。
-问题解释 对于这个问题的官方解释为:
- The compiler in the server VM now provides correct stack backtraces for all &ldquo;cold&rdquo; built-in exceptions. For performance purposes, when such an exception is thrown a few times, the method may be recompiled. After recompilation, the compiler may choose a faster tactic using preallocated exceptions that do not provide a stack trace. To disable completely the use of preallocated exceptions, use this new flag: -XX:-OmitStackTraceInFastThrow.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -209,13 +183,6 @@ mysql&gt; SELECT SLEEP(1000); +-------------+ | SLEEP(1000) | +-------------+ | 
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/log4j-api-2-11-1-jar-classformatexception/'>log4j-api-2.11.1.jar ClassFormatException</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>今天在部署系统的时候tomcat出现下面的异常信息：
-Mar 08, 2019 4:18:05 PM org.apache.catalina.startup.ContextConfig processAnnotationsJar SEVERE: Unable to process Jar entry [META-INF/versions/9/module-info.class] from Jar [jar:file:/xxxxx/webapps/ROOT/WEB-INF/lib/log4j-api-2.11.1.jar!/] for annotations org.apache.tomcat.util.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19 at org.apache.tomcat.util.bcel.classfile.Constant.readConstant(Constant.java:133) at org.apache.tomcat.util.bcel.classfile.ConstantPool.&lt;init&gt;(ConstantPool.java:60) at org.apache.tomcat.util.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:209) at org.apache.tomcat.util.bcel.classfile.ClassParser.parse(ClassParser.java:119) at org.apache.catalina.startup.ContextConfig.processAnnotationsStream(ContextConfig.java:2134) at org.apache.catalina.startup.ContextConfig.processAnnotationsJar(ContextConfig.java:2010) at org.apache.catalina.startup.ContextConfig.processAnnotationsUrl(ContextConfig.java:1976) at org.apache.catalina.startup.ContextConfig.processAnnotations(ContextConfig.java:1961) at org.apache.catalina.startup.ContextConfig.webConfig(ContextConfig.java:1319) at org.apache.catalina.startup.ContextConfig.configureStart(ContextConfig.java:878) at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:376) at org.apache.catalina.util.LifecycleSupport.fireLifecycleEvent(LifecycleSupport.java:119) at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:90) at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5322) at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150) at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901) at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877) at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:633) at org.apache.catalina.startup.HostConfig.deployDirectory(HostConfig.java:1120) at org.apache.catalina.startup.HostConfig$DeployDirectory.run(HostConfig.java:1678) at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) at java.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -243,22 +210,6 @@ Mar 08, 2019 4:18:05 PM org.apache.catalina.startup.ContextConfig processAnnotat
         <h2><a href='/posts/java-unsafe%E4%BB%8B%E7%BB%8D/'>java Unsafe介绍</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>Unsafe类对于并发编程来说是个很重要的类，J.U.C里的源码到处充斥着这个类的方法调用。
-这个类的最大的特点在于，它提供了硬件级别的CAS原子操作。CAS可以说是实现了最轻量级的锁，当多个线程尝试使用CAS同时更新同一个变量时，只有其中的一个线程能成功地更新变量的值，而其他的线程将失败。然而，失败的线程并不会被挂起。
-CAS操作包含了三个操作数： 需要读写的内存位置，进行比较的原值，拟写入的新值。
-在Unsafe类中，实现CAS操作的方法是： compareAndSwapXXX
-例如:
-public native boolean compareAndSwapObject(Object obj, long offset, Object expect, Object update);   obj是我们要操作的目标对象 offset表示了目标对象中，对应的属性的内存偏移量 expect是进行比较的原值 update是拟写入的新值。   所以该方法实现了对目标对象obj中的某个成员变量（field）进行CAS操作的功能。
-那么，要怎么获得目标field的内存偏移量offset呢？ Unsafe类为我们提供了一个方法：
-public native long objectFieldOffset(Field field);  该方法的参数是我们要进行CAS操作的field对象，要怎么获得这个field对象呢？最直接的办法就是通过反射了：
-Class&lt;?&gt; k = FutureTask.class; Field stateField = k.getDeclaredField(&quot;state&quot;);  这样一波下来，我们就能对FutureTask的state属性进行CAS操作了o(￣▽￣)o
-除了compareAndSwapObject，Unsafe类还提供了更为具体的对int和long类型的CAS操作：
-public native boolean compareAndSwapInt(Object obj, long offset, int expect, int update); public native boolean compareAndSwapLong(Object obj, long offset, long expect, long update);  从方法签名可以看出，这里只是把目标field的类型限定成int和long类型，而不是通用的Object.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -282,18 +233,6 @@ public native boolean compareAndSwapInt(Object obj, long offset, int expect, int
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/futuretask%E4%BD%BF%E7%94%A8%E5%92%8C%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/'>FutureTask使用和源码解析</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本篇文章说一下java.util.concurrent中的FutureTask。 FutureTask是一个同步工具类，它实现了Future语义，表示了一种抽象的可生成结果的计算。在包括线程池在内的许多工具类中都会用到，弄懂它的实现将有利于我们更加深入地理解Java异步操作实现。
-下面是FutureTask的类图：
-在分析它的源码之前, 我们需要先了解一些预备知识。本篇我们先来看看FutureTask中所使用到的接口：Runnable、Callable、Future、RunnableFuture以及所使用到的工具类Executors，Unsafe。
-FutureTask所使用到的接口 Runnable 创建线程最重要的是传递一个run()方法, 这个run方法定义了这个线程要做什么事情, 它被抽象成了Runnable接口:
-@FunctionalInterface public interface Runnable { public abstract void run(); }  从这里可以看出Runnable最大的问题有下面2个：
- 没有返回值，我们不能从里面返回相关的处理结果 不能抛出checked exception  而这2个问题，导致我们很多时候使用Runnable其实都会丧失很多的灵活性。而为了解决这两个问题，JDK提供了Callable。
-Callable @FunctionalInterface public interface Callable&lt;V&gt; { /** * Computes a result, or throws an exception if unable to do so. * * @return computed result * @throws Exception if unable to compute a result */ V call() throws Exception; }  对于Runnable可以知道，Callable解决了Runnable的两个最大的问题。但是Callable自己带来了一个问题：就是如何获取返回值。......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -321,23 +260,6 @@ Callable @FunctionalInterface public interface Callable&lt;V&gt; { /** * Compute
         <h2><a href='/posts/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF%E4%B8%80/'>类加载器那些事儿（一）</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在之前的文章《Java类的生命周期》我们谈了一下类的生命周期。 在这篇文章中，我们谈谈java的类加载器哪些事情。从下面的JVM架构图可以看到
-class Loader subSystem负责管理和维护java类的生命周期的前三个阶段:
- 加载 链接 初始化  当我们编写一个java的源文件后，我们对这个xxx.java编译会得到xxx.class的字节码文件，因为jvm只能运行字节码文件。为了能够使用这个class字节码文件，我们就会用到java中的ClassLoader。 而我们这篇文章就来说说java类加载器的那些事情。
-ClassLoader是什么 ClassLoader顾名思义就是用来加载Class的。它负责将Class的字节码形式转换成内存形式的Class对象。
-类的加载方式比较灵活，我们最常用的加载方式有下面几种：
- 一种是根据类的全路径名找到相应的class文件，然后从class文件中读取文件内容； 另一种是从jar文件中读取 从网络中获取，比如早期的Applet 基于字节码生成技术生成的代理类  字节码的本质就是一个字节数组（byte[]），它有特定的复杂的内部格式。因为字节码文件有一定的格式，而且由ClassLoader进行加载，那么我们其实可以通过定制ClassLoader来实现字节码加密，原理很简单：
- 加密：对java源代码进行编译得到字节码文件，然后使用某种算法对字节码文件进行加密 解密：定制的ClassLoader会先使用加密算法对应的解密算法对加密的字节码文件进行解密，然后使用在正常加载jvm标准的字节码格式文件。  3个重要的ClassLoader 在上面的JVM架构图中，我们可以看到在类的加载阶段有3个重要的ClassLoader，下面分别介绍一下这3个比较重要的ClassLoader。
-启动类加载器(BootstrapClassLoader) 这个类加载器负责加载JVM运行时核心类， 将&lt;JAVA_HOME&gt;\lib目录下的核心类库或-Xbootclasspath参数指定的路径下的jar包加载到虚拟机内存中,这个 ClassLoader比较特殊，它是由C/C++代码实现的，我们将它称之为「根加载器」。此类加载器并不继承于java.lang.ClassLoader,不能被java程序直接调用。
-注意必由于虚拟机是按照文件名识别加载jar包的，如rt.jar，如果文件名不被虚拟机识别，即使把jar包丢到lib目录下也是没有作用的(出于安全考虑，Bootstrap启动类加载器只加载包名为java、javax、sun等开头的类)。
-扩展类加载器(ExtensionClassLoader) 这个类加载器sun.misc.Launcher$ExtClassLoader由Java语言实现的，是Launcher的静态内部类, 它负责加载&lt;JAVA_HOME&gt;/lib/ext目录下或者由系统变量-Djava.ext.dir指定位路径中的类库，开发者可以直接使用使用这个类加载器。
-常见的比如 swing 系列、内置的 js 引擎、xml 解析器等等都是由这个类加载器加载的， 这些库名通常以javax开头，它们的jar包位于&lt;JAVA_HOME&gt;\lib\ext目录下的类库。
-//ExtClassLoader类中获取路径的代码 private static File[] getExtDirs() { //加载&lt;JAVA_HOME&gt;/lib/ext目录中的类库 String s = System.getProperty(&quot;java.ext.dirs&quot;); File[] dirs; if (s != null) { StringTokenizer st = new StringTokenizer(s, File.pathSeparator); int count = st.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -361,23 +283,6 @@ ClassLoader是什么 ClassLoader顾名思义就是用来加载Class的。它负�
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/java%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/'>Java类的生命周期</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>当我们编写一个java的源文件后，经过编译会生成一个后缀名为class的文件，这种文件叫做字节码文件，只有这种字节码文件才能够在java虚拟机中运行。 java类的生命周期就是指一个class文件从加载到卸载的全过程
-我们看一下下面的jvm架构图，这个图太经典了，希望大家收藏这个图。 一个java类的完整的生命周期会经历下面五个阶段， 当然也有在加载或者连接之后没有被初始化就直接被使用的情况，如上图所示
- 加载 连接 初始化 使用 卸载  对象基本上都是在jvm的堆区中创建，在创建对象之前，会触发类加载（加载、连接、初始化），当类初始化完成后，根据类信息在堆区中实例化类对象，初始化非静态变量、非静态代码以及默认构造方法，当对象使用完之后会在合适的时候被jvm垃圾收集器回收。
-对象的生命周期只是类的生命周期中使用阶段的主动引用的一种情况（下面有提主动引用的含义）。而类的整个生命周期则要比对象的生命周期长的多。
-加载 加载阶段是类的生命周期中的第一个阶段, 在加载阶段，jvm就是找到需要加载的类并把类的信息加载到jvm的方法区中，然后在堆区中实例化一个java.lang.Class对象，作为方法区中这个类的信息的入口。
-类的加载方式比较灵活，我们最常用的加载方式有下面几种：
- 一种是根据类的全路径名找到相应的class文件，然后从class文件中读取文件内容； 另一种是从jar文件中读取 从网络中获取，比如早期的Applet 基于字节码生成技术生成的代理类  对于加载的时机，各个虚拟机的做法并不一样，但是有一个原则，就是当jvm“预期”到一个类将要被使用时，就会在使用它之前对这个类进行加载。比如说，在一段代码中出现了一个类的名字，jvm在执行这段代码之前并不能确定这个类是否会被使用到，于是，有些jvm会在执行前就加载这个类，而有些则在真正需要用的时候才会去加载它，这取决于具体的jvm实现。我们常用的hotspot虚拟机是采用的后者，就是说当真正用到一个类的时候才对它进行加载。
-链接 链接阶段。有一点需要注意的是有时：链接阶段并不会等加载阶段完全完成之后才开始，而是交叉进行，可能一个类只加载了一部分之后，连接阶段就已经开始了。但是这两个阶段总的开始时间和完成时间总是固定的：加载阶段总是在连接阶段之前开始，连接阶段总是在加载阶段完成之后完成。
-连接阶段完成之后会根据使用的情况（直接引用还是被动引用）来选择是否对类进行初始化。
-这个阶段的主要任务就是做一些加载后的验证工作以及一些初始化前的准备工作，可以细分为三个步骤：
- 验证  当一个类被加载之后，必须要验证一下这个类是否合法，比如这个类是不是符合字节码的格式、变量与方法是不是有重复、数据类型是不是有效、继承与实现是否合乎标准等等。总之，这个阶段的目的就是保证加载的类是能够被jvm所运行。   准备  准备阶段的工作就是为类的静态变量分配内存并设为jvm默认的初值，对于非静态的变量，则不会为它们分配内存。有一点需要注意，这时候，静态变量的初值为jvm默认的初值，而不是我们在程序中设定的初值。jvm默认的初值是这样的：  基本类型（int、long、short、char、byte、boolean、float、double）的默认值为0。 引用类型的默认值为null。 常量的默认值为我们程序中设定的值，比如我们在程序中定义final static int a = 100，则准备阶段中a的初值就是100。     解析  这一阶段的任务就是把常量池中的符号引用转换为直接引用。在解析阶段，jvm会将所有的类或接口名、字段名、方法名转换为具体的内存地址。  符号引用：简单的理解就是字符串，比如引用一个类，java.util.ArrayList 这就是一个符号引用，字符串引用的对象不一定被加载。 直接引用：指针或者地址偏移量。引用对象一定在内存（已经加载）      初始化 如果一个类被直接引用，就会触发类的初始化。在java中，直接引用的情况有：
- 通过new关键字实例化对象、读取或设置类的静态变量、调用类的静态方法。 通过反射方式执行以上三种行为。 初始化子类的时候，会触发父类的初始化。 作为程序入口直接运行时（也就是直接调用main方法）。  除了以上四种情况，其他使用类的方式叫做被动引用，而被动引用不会触发类的初始化。......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -405,18 +310,6 @@ ClassLoader是什么 ClassLoader顾名思义就是用来加载Class的。它负�
         <h2><a href='/posts/%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C/'>一致性哈希</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本文谈谈一致性哈希，一致性哈希作为「负载均衡」中比较常见的一种实现，经常会有意无意的被大家使用到。我希望通过这篇文章可以使得你完全明白：
- 一致性哈希要解决的问题 一致性哈希的原理 一致性哈希的优点 一致性哈希的不适用场景 如何手动实现一致性哈希 常见开源代码中的一致性哈希实现  一致性哈希要优化的问题 一致性哈希要解决的问题，或者说目标，其实用一句话概括就是：在hash value区间有限并且可能会发生变化的情况下，相同的hash key尽可能得到同一个hash value。
-上面短短的一句话，我们可以得到一些重要信息：
-一致性哈希的原理 上面短短的
-一致性哈希负载均衡需要保证的是“相同的请求尽可能落到同一个服务器上”，注意这短短的一句描述，却包含了相当大的信息量。“相同的请求” — 什么是相同的请求？一般在使用一致性哈希负载均衡时，需要指定一个 key 用于 hash 计算
-一致性哈希的优点 相比于传统的「取模」哈希，一致性哈希减少了因为服务节点变更导致的key的映射关系失效的数量
-一致性哈希的不适用场景 ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -440,15 +333,6 @@ ClassLoader是什么 ClassLoader顾名思义就是用来加载Class的。它负�
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/nginx%E5%BC%80%E5%90%AFgzip/'>nginx开启gzip</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>前几天看到一个nginx的文章，突然想到我还没有为我的博客的nginx开启gzip压缩呢。所以今天就弄了一下。
-下面是我在nginx配置中增加的开启gzip相关的配置：
-nginx增加gzip配置 #gzip gzip on; gzip_min_length 1k; gzip_buffers 4 32k; gzip_comp_level 4; gzip_types text/plain application/javascript application/x-javascript text/javascript text/xml text/css; gzip_vary on; gzip_disable &quot;MSIE [1-6]\.&quot;;  然后重新使得nginx加载配置:
-/usr/sbin/nginx -s reload  gzip指令描述  gzip on 这个指令用来控制开启或者关闭gzip模块，默认值为gzip off代表默认不开启gzip压缩 gzip_min_length 1k 置允许压缩的页面最小字节数，页面字节数从header头中的Content-Length中进行获取。默认值: 0 ，不管页面多大都压缩 gzip_buffers 4 32k 设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。 例如 4 4k 代表以4k为单位，按照原始数据大小以4k为单位的4倍申请内存。 4 8k 代表以8k为单位，按照原始数据大小以8k为单位的4倍申请内存默认值: gzip_buffers 4 4k/8k 如果没有设置，默认值是申请跟原始数据相同大小的内存空间去存储gzip压缩结果。 gzip_comp_level 4 gzip压缩级别，压缩级别 1-9，级别越高压缩率越大，当然压缩时间也就越长（传输快但比较消耗cpu）。默认值：1 gzip_types text/plain application/javascript application/x-javascript text/javascript text/xml text/css 压缩类型，匹配MIME类型进行压缩.默认值: gzip_types text/html 也就是默认不对js/css文件进行压缩。需要注意的是此处不能使用通配符，比如:text/*,无论是否指定text/html, 这种类型的都会被压缩。 gzip_vary on 和http头有关系，加个vary头，给代理服务器用的，有的浏览器支持压缩，有的不支持，所以避免浪费不支持的也压缩，所以根据客户端的HTTP头来判断，是否需要压缩 gzip_disable &quot;MSIE [1-6]\.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -503,43 +387,6 @@ nginx增加gzip配置 #gzip gzip on; gzip_min_length 1k; gzip_buffers 4 32k; gzi
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 

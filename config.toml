@@ -20,8 +20,8 @@ publishDir = "docs"  ##生成内容的目录，从public改为docs。因为GitHu
   #footerSlogan = "My spiritual home"                                   # site's footer slogan  # 网站页脚标语
   keywords = ["JAVA","Spring","IOT", "KAFKA", "python", "mysql"]                                  # site's keywords  # 网站关键字
   description = "被遗忘的博客"                        # site's description  # 网站描述
-  enableMathJax = true                                                 # enable mathjax  # 是否使用mathjax（数学公式）
-  enableSummary = true                                                 # display the article summary  # 是否显示文章摘要
+  enableMathJax = false                                                 # enable mathjax  # 是否使用mathjax（数学公式）
+  enableSummary = false                                                 # display the article summary  # 是否显示文章摘要
   mainSections = ["posts","post"]
 
 

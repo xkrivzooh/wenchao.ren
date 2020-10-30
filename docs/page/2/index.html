@@ -110,15 +110,6 @@
         <h2><a href='/posts/%E4%BB%8Enetty%E7%9A%84resourceleakdetector-lavel%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/'>从Netty的ResourceLeakDetector#Lavel的设计的一些感想</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>Netty中的ResourceLeakDetector#Level有4个级别：
- DISABLED 这种模式下不进行泄露监控。 SIMPLE 这种模式下以1/128的概率抽取ByteBuf进行泄露监控。 ADVANCED 在SIMPLE的基础上，每一次对ByteBuf的调用都会尝试记录调用轨迹，消耗较大 PARANOID 在ADVANCED的基础上，对每一个ByteBuf都进行泄露监控，消耗最大。  一般而言，在项目的初期使用SIMPLE模式进行监控，如果没有问题一段时间后就可以关闭。否则升级到ADVANCED或者PARANOID模式尝试确认泄露位置。
-结合自己做中间件开发的一些感触吧：
- client端新增加的功能，最好都有一个对应的开关，便于出问题的时候及时调整，给自己留个后路 client的功能尽量支持动态升级和降级，非核心功能不要影响业务功能，分清楚主次。 client端的功能代码必要的时候一定需要辅有排查问题的辅助代码 非核心功能，能异步就异步，尽可能快，异步处理的时候，尤其是异步回调的时候，一定要风清楚代码是在哪个线程池中执行的。  ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -148,14 +139,6 @@
         <h2><a href='/posts/lettuce%E4%B8%80%E5%AE%9A%E8%A6%81%E6%89%93%E5%BC%80redis%E9%9B%86%E7%BE%A4%E6%8B%93%E6%89%91%E5%88%B7%E6%96%B0%E5%8A%9F%E8%83%BD/'>Lettuce一定要打开redis集群拓扑刷新功能</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在使用Lettuce访问Redis的时候，一定要记得打开它的Redis 集群拓扑刷新功能，否则他压根就不存在高可用。因为他的集群拓扑刷新功能是默认没开启的。
- RedisCluster集群模式下master宕机主从切换期间Lettuce连接Redis无法使用报错Redis command timed out的问题 SpringBoot2.X与redis Lettuce集成踩坑 SpringBoot2.1.X使用Redis连接池Lettuce踩坑  上面的3个文章其实说的就是这个事情，在redis集群拓扑结构发生变化，比如Redis的master挂掉了后，lettuce的client端就会长时间不能恢复。因此可以通过下面的配置打开拓扑刷新功能：
-//默认超时时间, lettuce默认超时时间为60s太长了，此处默认设置为15s private Long timeoutInMillis = Duration.ofSeconds(15).toMillis(); static ClusterClientOptions.Builder initDefaultClusterClientOptions(ClusterClientOptions.Builder builder) { ClusterTopologyRefreshOptions defaultClusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder() //开启集群拓扑结构周期性刷新，和默认参数保持一致 .enablePeriodicRefresh(60, TimeUnit.SECONDS) //开启针对{@link RefreshTrigger}中所有类型的事件的触发器 .enableAllAdaptiveRefreshTriggers() //和默认一样，30s超时，避免短时间大量出现刷新拓扑的事件 .adaptiveRefreshTriggersTimeout(30, TimeUnit.SECONDS) //和默认一样重连5次先，然后在刷新集群拓扑 .refreshTriggersReconnectAttempts(5) .build(); return builder // 配置用于开启自适应刷新和定时刷新。如自适应刷新不开启，Redis集群变更时将会导致连接异常 .topologyRefreshOptions(defaultClusterTopologyRefreshOptions) //默认就是重连的，显示定义一下 .autoReconnect(true) //和默认一样最大重定向5次，避免极端情况无止境的重定向 .maxRedirects(5) //Accept commands when auto-reconnect is enabled, reject commands when auto-reconnect is disabled. .disconnectedBehavior(ClientOptions.DisconnectedBehavior.DEFAULT) .socketOptions(SocketOptions.builder().keepAlive(true).tcpNoDelay(true).build()) //取消校验集群节点的成员关系 .validateClusterNodeMembership(false); } public static ClusterClientOptions.Builder getDefaultClusterClientOptionBuilder() { return initDefaultClusterClientOptions(ClusterClientOptions.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -181,15 +164,6 @@
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/netty%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8Bbytebuf%E6%B2%A1%E6%9C%89release/'>Netty如何检测ByteBuf没有release</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>Netty中的ByteBuf算是中间件开发中比较常用的API了，一般我们会使用PooledByteBuf来提升性能，但是这个玩意需要我们使用以后手动进行release，如果有时候忘记手动释放的话，会出现内存泄漏。 而且这种问题一般也没那么方便的排查。不过非常幸运的是Netty已经帮我们考虑到了这个问题，它提供了自己的检测工具:
- ResourceLeakDetector ResourceLeakTracker  基本思想 他的实现原理很巧妙，不过我们先不着急说Netty的实现，我们先想想如果我们自己来弄，我们一般会面临下面3个问题：
- 被检测的对象创建的时候，我们就需要知道他创建了，然后做一些操作，比如该标记就标记，该计数就计数， 对象「无用」的时候，我们也需要知道这个时刻。这里的「无用」一般我们选择对象被GC时 我们还需要一种机制来判断对象在被GC之前有没有调用某个操作，比如release或者close操作。  下面以netty 4.0.46版本来说哈。
- 第一个问题其实很好实现，在对象的构造函数中我们就可以做这些事情，因为对象的构造函数执行的时候，就是他被创建的时候 第二个问题，Netty是利用了Java中的java.lang.ref.PhantomReference和引用队列这个东西。java.lang.ref.PhantomReference有叫虚引用也有叫做幽灵引用的，叫法无所谓，它和软引用（SoftReference）、弱引用（WeakReference）不同，它并不影响对象的生命周期，如果一个对象与java.lang.ref.PhantomReference关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。而且除过强引用之外，剩余的3种引用类型都有一个引用队列可以与之配合。当java清理调用不必要的引用后，会将这个引用本身（不是引用指向的值对象）添加到队列之中。比如你看PhantomReference的定义：  package java.lang.ref; /** * Phantom reference objects, which are enqueued after the collector * determines that their referents may otherwise be reclaimed. Phantom * references are most often used for scheduling pre-mortem cleanup actions in * a more flexible way than is possible with the Java finalization mechanism. * * &lt;p&gt; If the garbage collector determines at a certain point in time that the * referent of a phantom reference is &lt;a * href=&quot;package-summary.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -219,15 +193,6 @@
         <h2><a href='/posts/%E5%80%9F%E5%8A%A9arthas%E6%8E%92%E6%9F%A5%E9%87%8D%E5%A4%8D%E7%B1%BB%E7%9A%84%E9%97%AE%E9%A2%98/'>借助arthas排查重复类的问题</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>现象描述 业务反馈他们的项目运行时出现Jackson中的com.fasterxml.jackson.databind.deser.SettableBeanProperty类的版本不对，和他们在pom中指定的版本不一致，这种问题一般都是因为项目的依赖（包括间接依赖）中，存在某些依赖有shade包，如果这些shade包打包的时候忘记修改package，那么就经常会出现这种问题。
-解决思路 这种问题其实只要确定jvm加载的这个com.fasterxml.jackson.databind.deser.SettableBeanProperty到底来自哪个jar就可以帮助我们确定问题根源，而借助Arthas可以快速解决这个问题：
- 使用Arthas连接具体环境的具体机器上的应用 在console中输入如下的命令： sc -fd com.fasterxml.jackson.databind.deser.SettableBeanProperty 查看console的输出，看其中的 code-source就可以指定这个类来自哪个jar了  ## 安装arthas curl -L https://alibaba.github.io/arthas/install.sh | sh ## $PID为自己项目运行的pid，注意修改， 此处使用tomcat用户是因为我们的程序是tomcat用户运行的 sudo -u tomcat -EH ./as.sh $PID ## arthas attach成功以后在console中输入 sc -fd com.fasterxml.jackson.databind.deser.SettableBeanProperty  下面贴一个sc命令的样例输出：
-class-info com.fasterxml.jackson.databind.deser.impl.SetterlessProperty code-source /data/w/www/data-bbb-sea.aaa.com/webapps/ROOT/WEB-INF/lib/jackson-databind-2.10.3.jar name com.fasterxml.jackson.databind.deser.impl.SetterlessProperty isInterface false isAnnotation false isEnum false isAnonymousClass false isArray false isLocalClass false isMemberClass false isPrimitive false isSynthetic false simple-name SetterlessProperty modifier final,public annotation interfaces super-class +-com.fasterxml.jackson.databind.deser.SettableBeanProperty +-com.fasterxml.jackson.databind.introspect.ConcreteBeanPropertyBase +-java.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -255,17 +220,6 @@ class-info com.fasterxml.jackson.databind.deser.impl.SetterlessProperty code-sou
         <h2><a href='/posts/dubbo%E5%AF%B9%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/'>dubbo对异常的一些处理</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>看了一下这个文章《Dubbo如何处理业务异常，这个一定要知道哦》，但是不赞同文章中的一些论点，这里整理一下dubbo源码中Provider端的ExceptionFilter中 对异常的处理逻辑。
-在Dubbo的provider端的com.alibaba.dubbo.rpc.filter.ExceptionFilter中，有如下几个规则：
- 如果是checked异常，直接抛出 在方法签名上有声明，直接抛出, 未在方法签名上定义的异常，在Provider端打印ERROR日志 异常类和接口类在同一jar包里，直接抛出 是JDK自带（以java.或者javax.开头）的异常，直接抛出 是Dubbo本身的异常（RpcException），直接抛出 如果以上几个规则都不满足的话，则将异常包装为RuntimeException抛给Consumer端  其中一个比较有意思的点就是如何根据一个class判断他所属的jar：
-在ExceptionFilter中的逻辑是如下的：
-// 异常类和接口类在同一jar包里，直接抛出 String serviceFile = ReflectUtils.getCodeBase(invoker.getInterface()); String exceptionFile = ReflectUtils.getCodeBase(exception.getClass()); if (serviceFile == null || exceptionFile == null || serviceFile.equals(exceptionFile)){ return result; }  其中 ReflectUtils.getCodeBase的代码如下：
-public static String getCodeBase(Class&lt;?&gt; cls) { if (cls == null) return null; ProtectionDomain domain = cls.getProtectionDomain(); if (domain == null) return null; CodeSource source = domain.getCodeSource(); if (source == null) return null; URL location = source.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -289,16 +243,6 @@ public static String getCodeBase(Class&lt;?&gt; cls) { if (cls == null) return n
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/unexpected-end-of-zlib-input-stream/'>Unexpected end of ZLIB input stream</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>前几天在项目开发是遇到了这个Unexpected end of ZLIB input stream异常。异常出现的位置：
-Caused by: java.io.EOFException: Unexpected end of ZLIB input stream at java.util.zip.InflaterInputStream.fill(InflaterInputStream.java:240) at java.util.zip.InflaterInputStream.read(InflaterInputStream.java:158) at java.util.zip.GZIPInputStream.read(GZIPInputStream.java:117) at java.util.zip.InflaterInputStream.read(InflaterInputStream.java:122)  之前一开始没太想清楚，以为是我写的GzipFilter出现了问题，后来吃了个午饭才恍然大悟，是client端的数据传输有点问题。简单抽象一下场景就是client通过http接口给server上报 一些数据，这些数据使用了gzip来进行压缩。问题出现在这个gzip压缩这快。我看来看看早期的有问题的代码：
-private byte[] buildRequestBody(List&lt;LoggerEntity&gt; loggerEntities) { try { try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) { gzipOutputStream.write(JSON.writeValueAsBytes(loggerEntities)); return byteArrayOutputStream.toByteArray(); } } catch (IOException e) { throw new RuntimeException(e); } }  先说一下上面的代码是有问题的，问题在于try-with-resource里面的try中的2行代码，因为很可能gzipOutputStream没写完然后就已经return了。因此此处有两种处理办法，
-第一种就是在try里面对gzipOutputStream进行close:
-private byte[] buildRequestBody(List&lt;LoggerEntity&gt; loggerEntities) { try { try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) { gzipOutputStream.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -326,15 +270,6 @@ private byte[] buildRequestBody(List&lt;LoggerEntity&gt; loggerEntities) { try {
         <h2><a href='/posts/mybatis%E5%B1%82%E9%9D%A2%E9%99%90%E5%88%B6sql%E6%B3%A8%E5%85%A5/'>mybatis层面限制SQL注入</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>最近根据公司的要求需要限制一波SQL注入的问题，因为公司有自己的数据库访问层组件，使用的数据库连接池为druid。 其实在druid的com.alibaba.druid.wall.WallFilter中提供了对sql依赖注入的检查，但是最终有下面几个原因我们没有 在druid层面来解决这个问题：
- 我们依赖的druid版本1.0.8太低了，查看了一下druid后面不少版本的改进，对sql解析这块有大量的优化，因此贸然升级一个版本风险有点高 我们想修改一下WallConfig的配置，但是在1.0.8版本的druid中不太好获取WallConfig这个类的实例，高版本的druid优化了这个问题。而且在druid中MySqlWallProvider类是在com.alibaba.druid.wall.spipackage下面定义的，但是在WallFilter#init()方法中缺并没有使用spi等方式来拿这个类。 我们想最小化改动，尽量减少测试成本  在上面3个原因的考虑下，我们放弃了这种方案，转而将目光放在了公司统一使用的Mybatis上。
-在Mybatis的org.apache.ibatis.scripting.xmltags.TextSqlNode中有一个字段为injectionFilter。
-public class TextSqlNode implements SqlNode { private String text; private Pattern injectionFilter; //...其他代码省略 private static class BindingTokenParser implements TokenHandler { private DynamicContext context; private Pattern injectionFilter; public BindingTokenParser(DynamicContext context, Pattern injectionFilter) { this.context = context; this.injectionFilter = injectionFilter; } @Override public String handleToken(String content) { Object parameter = context.getBindings().get(&quot;_parameter&quot;); if (parameter == null) { context.getBindings().put(&quot;value&quot;, null); } else if (SimpleTypeRegistry.isSimpleType(parameter.getClass())) { context.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -358,14 +293,6 @@ public class TextSqlNode implements SqlNode { private String text; private Patte
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/kettle%E7%BC%BA%E5%B0%91libwebkitgtk-1-0%E7%9A%84%E9%97%AE%E9%A2%98/'>Kettle缺少libwebkitgtk-1.0的问题</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>前几天在搭建kettle集群的时候出现Kettle缺少libwebkitgtk-1.0的问题，我司的server系统为centos7，google了一下发现centos7的解决办法还是和 kettle软件提示的解决办法还是有点区别的。因此记录一下。
-[blibee@1.d.fd.dev.bj1.wormpex.com /home/w/kettle/data-integration]$ sudo ./carte.sh ./pwd/carte-config-master-15000.xml ####################################################################### WARNING: no libwebkitgtk-1.0 detected, some features will be unavailable Consider installing the package with apt-get or yum. e.g. 'sudo apt-get install libwebkitgtk-1.0-0' #######################################################################  解决办法：
-sudo wget ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/home:/matthewdva:/build:/EPEL:/el7/RHEL_7/x86_64/webkitgtk-2.4.9-1.el7.x86_64.rpm sudo yum install webkitgtk-2.4.9-1.el7.x86_64.rpm  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -393,12 +320,6 @@ sudo wget ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/home
         <h2><a href='/posts/%E7%BC%A9%E7%9F%ADclass%E8%B7%AF%E5%BE%84/'>缩短class路径</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>如果有时候在打印一些class日志时，经常会遇到class full name太长的问题，这个时候可以借助logback中的ch.qos.logback.classic.pattern.TargetLengthBasedClassNameAbbreviator来缩短输出。 ​......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -422,14 +343,6 @@ sudo wget ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/home
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/attachnotsupportedexception%E5%92%8Cjstack%E5%A4%B1%E8%B4%A5%E7%9A%84%E5%B8%B8%E8%A7%81%E5%8E%9F%E5%9B%A0/'>AttachNotSupportedException和jstack失败的常见原因</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>最近在公司升级Bistoury Agent时发现，有不少应用出AttachNotSupportedException异常：
-com.sun.tools.attach.AttachNotSupportedException: Unable to open socket file: target process not responding or HotSpot VM not loaded at sun.tools.attach.LinuxVirtualMachine.&lt;init&gt;(LinuxVirtualMachine.java:106) ~[tools.jar:na] at sun.tools.attach.LinuxAttachProvider.attachVirtualMachine(LinuxAttachProvider.java:78) ~[tools.jar:na] at com.sun.tools.attach.VirtualMachine.attach(VirtualMachine.java:250) ~[tools.jar:na] at qunar.tc.bistoury.commands.arthas.ArthasStarter.attachAgent(ArthasStarter.java:74) ~[bistoury-commands-1.4.22.jar:na] at qunar.tc.bistoury.commands.arthas.ArthasStarter.start(ArthasStarter.java:57) ~[bistoury-commands-1.4.22.jar:na] at qunar.tc.bistoury.commands.arthas.ArthasEntity.start(ArthasEntity.java:82) [bistoury-commands-1.4.22.jar:na]  但是这样应用的行为和监控指标都是特别正常的，此时如果给这些应用使用:sudo -u tomcat jstack [pid]（备注我们的应用是tomcat用户运行的）的话，会发现jstack 使用出问题，一个例子为：
-sudo -u tomcat /home/w/java/default/bin/jstack 691167 691167: Unable to open socket file: target process not responding or HotSpot VM not loaded The -F option can be used when the target process is not responding  然后查看tomcat的catalina.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -484,43 +397,6 @@ sudo -u tomcat /home/w/java/default/bin/jstack 691167 691167: Unable to open soc
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 

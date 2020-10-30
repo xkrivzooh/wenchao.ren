@@ -110,17 +110,6 @@
         <h2><a href='/posts/%E5%87%A0%E4%B8%AA%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84java%E5%B0%8F%E9%A2%98%E7%9B%AE/'>几个有意思的java小题目</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>null + String 写出下面代码执行结果:
-// 1. 打印 null String String s = null; System.out.println(s); String str = null; str = str + &quot;!&quot;; System.out.println(str);  这个片段程序不会出现NPE，正常输出：
-null null!  我一开始以为第二个输出会抛出NPE。google了一下，看到了这篇文章Java String 对 null 对象的容错处理, 里面有解释：
-对于代码片段：
-String s = null; s = s + &quot;!&quot;; System.out.print(s);  编译器生成的字节码为：
-L0 LINENUMBER 27 L0 ACONST_NULL ASTORE 1 L1 LINENUMBER 28 L1 NEW java/lang/StringBuilder DUP INVOKESPECIAL java/lang/StringBuilder.&lt;init&gt; ()V ALOAD 1 INVOKEVIRTUAL java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder; LDC &quot;!......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -144,21 +133,6 @@ L0 LINENUMBER 27 L0 ACONST_NULL ASTORE 1 L1 LINENUMBER 28 L1 NEW java/lang/Strin
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E4%B8%AA%E4%BA%BA%E8%AE%A4%E4%B8%BA%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%A4%9A%E5%B9%B4%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%843%E4%B8%AA%E6%9C%80%E9%87%8D%E8%A6%81%E6%8A%80%E8%83%BD/'>个人认为的工作多年的开发者的3个最重要技能</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>不知道你觉的工作多年的开发者最重要的技能是什么？
-随着工作经历的增长，我个人越来越觉得对于开发者来说，很多时候个人的专业技能反而并不是最重要的，甚至在很多的时候是最廉价，最容易被替代的。反而是一些非专业技能确显得更加的重要。我觉的按照优先级从高到低依次为：
- 业务洞察力 技术视野 非常高执行力  业务洞察力 业务洞察力是值：在当下能够做出合理的判断，清楚Team或者公司做什么事情收益最大，很多时候是 战略层面 的问题
-我们经常会面临有无穷无尽的事情要做，有无穷无尽的事情可以做，但是
- 我们应该先做哪个呢？ 做哪些事情的收益是最大的呢？ 做哪些事情做了和没做对公司区别没那么大呢？ 甚至哪些做哪些事情是吃力不讨好的呢？  这里不是说大家要做老油条，而是要有超前的眼光，跳出仅仅作为一个代码编写员的视角，站在更高的层次来思索事情的优先级。
-那平时应该怎么做呢？
-我觉的首先要有这方面的意识，其次多了解公司各个team正在做的事情，通过新闻、自己的观察、茶前饭后的闲聊、帮其他组同事排查问题时听到的等等的手段，尽可能多的获取一些公司大的层面的一些信息，然后了解公司的一些计划，公司业务的重点发展方向，业务团队经常的痛点是什么等等的。然后基于这些信息，来辅助我们做优先级判断。
-技术视野 技术视野即技术选型能力，是 战术层面 的问题，在清楚做什么事情后，需要进一步解决怎么做的问题，也就是能够给出合理的技术选型方案：是完全基于开源的方案，还是基于开源二次开发的方案，还是完全自研的方案，同时要有一定的前瞻性，保持自己对业界技术风向的敏感度。但是一切都要结合公司实际发展情况，要务实不能务虚。不能盲目的追求高新技术，一定要把握好技术风险。
-非常高执行力 执行力是技术落地执行层面的问题，一旦技术设计方案确定后，需要能够快速完成。一般工作多年的同事的执行力往往都是比较高的，毕竟手熟。所以要注意培养自己的前两点能力。
-这3点层层递进，最重要的是先把技术战略问题思考清楚，然后再进一步解决技术战术问题，最后是快速落地执行的问题。......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -186,20 +160,6 @@ L0 LINENUMBER 27 L0 ACONST_NULL ASTORE 1 L1 LINENUMBER 28 L1 NEW java/lang/Strin
         <h2><a href='/posts/%E8%B0%88%E8%B0%88%E7%BC%93%E5%AD%98/'>谈谈缓存</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本文谈谈缓存相关的问题，主要从下面几个点来出发，但是主要谈分布式缓存。
- 为什么需要用缓存？ 缓存的原理是什么？ 有哪几种类的缓存？ 分布式缓存一般存在哪些问题？  缓存一致性问题 先操作数据库，还是先操作缓存 缓存应该淘汰还是应该修改 缓存不一致应该怎么解？ 缓存并发更新问题 缓存穿透问题 缓存雪崩 缓存的「无底洞」现象    为什么需要用缓存 一般我们使用缓存，其实都是为了加速数据访问。
-缓存的原理是什么 因为缓存是为了加速数据访问。而为了达到这个目的，往往是采用了下面的思路：
- 将数据缓存在更高速的读取设备上。比如cpu的寄存器 将数据提前运算并加载，可以减少同样数据的获取步骤，进而提升效率，大多数应用级的cache都是基于这种思路。 将数据放置在距离用户更近的地点，可以加快数据获取速度。比如CDN就是这种思路。  有哪几类缓存 常见的缓存有下面几类：
-  CDN(Content Delivery Network 内容分发网络)。
- CND的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布更接近用户的网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。一般会缓存图片，css js甚至视频。    反向代理缓存
- 反向代理位于应用服务器机房，处理所有对WEB服务器的请求。 如果用户请求的页面在代理服务器上有缓冲的话，代理服务器直接将缓冲内容发送给用户。如果没有缓冲则先向WEB服务器发出请求，取回数据，本地缓存后再发送给用户。通过降低向WEB服务器的请求数，从而降低了WEB服务器的负载。这种缓存一般都是缓存一些静态资源，比如css js和图片。比如常见的nginx就可以用来干这个事情。    应用本地缓存
- 指的是在应用中的缓存组件，其最大的优点是应用和cache是在同一个进程内部，请求缓存非常快速，没有过多的网络开销。比如常见的guava cache。    分布式缓存
- 指的是与应用分离的缓存组件或服务，其最大的优点是自身就是一个独立的应用，与本地应用隔离，多个应用可直接的共享缓存。    分布式缓存一般存在哪些问题？ 缓存一致性问题 一个最简单的场景，应用架构为Spring MVC + redis缓存 + mysql存储。如果保证redis缓存和mysql数据库的数据一致性呢？......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -223,13 +183,6 @@ L0 LINENUMBER 27 L0 ACONST_NULL ASTORE 1 L1 LINENUMBER 28 L1 NEW java/lang/Strin
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E5%8A%9F%E8%83%BD/'>如何设计密码重置功能</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>密码重置功能或者说密码找回功能是互联网行业的一项基本功能，本篇文章主要总结一下完成这个功能需要注意的一些点，主要遵循以下几条原则：
- 密码要「安全的」存储，我个人一般推荐bcrypt加密算法，当然PBKDF2和scrypt也很不错。 密码找回功能，不能告诉用户原来密码，而是应该让用户重置密码。  尽量不要采用预先分配一个密码，然后告诉用户这个初始密码再让用户去修改的办法。 而是应该发给用户一个有时效性的链接，让用户在规定的时间内，通过这个连接来重置密码。 避免前后端明文传递密码   密码找回的时候，因为需要知道找回谁的密码，所以需要一个身份标识，一般建议采用邮箱或者手机号，需要注意的是，无论这个身份是否存在，都不能页面提示 这个身份是否存在，避免被扫描。而是应该无论用户输入邮箱还是电话，都正常发验证码。如果用户瞎填，他自然收不到验证码。建议在邮件内容中提示是正在重置xxx网站的密码。 同时为了避免机器人，在重置密码提交form时需要增加验证码环节 尽可能让用户在正确填写验证码以后，在验证一下一些问题。比如一些用户提前设置的问题，如果没有的话，可以根据具体的业务，比如登录地点，上次登录时间，xxx是你的朋友么等等的问题。  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -257,13 +210,6 @@ L0 LINENUMBER 27 L0 ACONST_NULL ASTORE 1 L1 LINENUMBER 28 L1 NEW java/lang/Strin
         <h2><a href='/posts/zoopeeper-unexpected-exception-java-nio-channels-cancelledkeyexception/'>zoopeeper Unexpected Exception: java.nio.channels.CancelledKeyException</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在运维过程中zookeeper(版本：3.4.9)出现下面的异常：
-2019-02-18 11:12:04,043 [myid:] - ERROR [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:NIOServerCnxn@178] - Unexpected Exception: java.nio.channels.CancelledKeyException at sun.nio.ch.SelectionKeyImpl.ensureValid(SelectionKeyImpl.java:73) at sun.nio.ch.SelectionKeyImpl.interestOps(SelectionKeyImpl.java:77) at org.apache.zookeeper.server.NIOServerCnxn.sendBuffer(NIOServerCnxn.java:151) at org.apache.zookeeper.server.ZooKeeperServer.finishSessionInit(ZooKeeperServer.java:663) at org.apache.zookeeper.server.ZooKeeperServer.revalidateSession(ZooKeeperServer.java:625) at org.apache.zookeeper.server.ZooKeeperServer.reopenSession(ZooKeeperServer.java:633) at org.apache.zookeeper.server.ZooKeeperServer.processConnectRequest(ZooKeeperServer.java:926) at org.apache.zookeeper.server.NIOServerCnxn.readConnectRequest(NIOServerCnxn.java:418) at org.apache.zookeeper.server.NIOServerCnxn.readPayload(NIOServerCnxn.java:198) at org.apache.zookeeper.server.NIOServerCnxn.doIO(NIOServerCnxn.java:244) at org.apache.zookeeper.server.NIOServerCnxnFactory.run(NIOServerCnxnFactory.java:203) at java.lang.Thread.run(Thread.java:745) 2019-02-18 11:12:04,100 [myid:] - ERROR [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:NIOServerCnxn@178] - Unexpected Exception: java.nio.channels.CancelledKeyException at sun.nio.ch.SelectionKeyImpl.ensureValid(SelectionKeyImpl.java:73) at sun.nio.ch.SelectionKeyImpl.interestOps(SelectionKeyImpl.java:77) at org.apache.zookeeper.server.NIOServerCnxn.sendBuffer(NIOServerCnxn.java:151) at org.apache.zookeeper.server.ZooKeeperServer.finishSessionInit(ZooKeeperServer.java:663) at org.apache.zookeeper.server.ZooKeeperServer.revalidateSession(ZooKeeperServer.java:625) at org.apache.zookeeper.server.ZooKeeperServer.reopenSession(ZooKeeperServer.java:633) at org.apache.zookeeper.server.ZooKeeperServer.processConnectRequest(ZooKeeperServer.java:926) at org.apache.zookeeper.server.NIOServerCnxn.readConnectRequest(NIOServerCnxn.java:418) at org.apache.zookeeper.server.NIOServerCnxn.readPayload(NIOServerCnxn.java:198) at org.apache.zookeeper.server.NIOServerCnxn.doIO(NIOServerCnxn.java:244) at org.apache.zookeeper.server.NIOServerCnxnFactory.run(NIOServerCnxnFactory.java:203) at java.lang.Thread.run(Thread.java:745)  这个是这个版本的zookeeper的一个bug，具体参见：https://issues.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -287,23 +233,6 @@ L0 LINENUMBER 27 L0 ACONST_NULL ASTORE 1 L1 LINENUMBER 28 L1 NEW java/lang/Strin
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/java%E4%B8%AD%E7%9A%84%E5%A0%86%E5%92%8C%E6%A0%88/'>Java中的堆和栈</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>堆和栈都是Java用来在RAM中存放数据的地方。
-堆   Java的堆是一个运行时数据区，类的对象从堆中分配空间。这些对象通过new等指令建立，通过垃圾回收器来销毁。
-  堆的优势是可以动态地分配内存空间，需要多少内存空间不必事先告诉编译器，因为它是在运行时动态分配的。但缺点是，由于需要在运行时动态分配内存，所以存取速度较慢。
-  堆内存满的时候抛出java.lang.OutOfMemoryError: Java Heap Space错误
-  可以使用-Xms和-Xmx JVM选项定义开始的大小和堆内存的最大值
-  存储在堆中的对象是全局可以被其他线程访问的
-  栈  栈中主要存放一些基本数据类型的变量（byte，short，int，long，float，double，boolean，char）和对象的引用，但对象本身不存放在栈中，而是存放在堆（new 出来的对象）或者常量池中(对象可能在常量池里)（字符串常量对象存放在常量池中。）。 栈的优势是，存取速度比堆快，栈数据可以共享。但缺点是，存放在栈中的数据占用多少内存空间需要在编译时确定下来，缺乏灵活性。 当栈内存满的时候，Java抛出java.lang.StackOverFlowError 和堆内存比，栈内存要小的多 明确使用了内存分配规则（LIFO） 可以使用-Xss定义栈的大小 栈内存不能被其他线程所访问。  静态域 存放静态成员（static定义的）
-常量池 存放字符串常量和基本类型常量（public static final）
-举例说明栈数据可以共享 String 可以用以下两种方式来创建：
-String str1 = newString(&quot;abc&quot;); String str2 = &quot;abc&quot;;  第一种使用new来创建的对象，它存放在堆中。每调用一次就创建一个新的对象。
-第二种是先在栈中创建对象的引用str2，然后查找栈中有没有存放“abc”，如果没有，则将“abc”存放进栈，并将str2指向“abc”，如果已经有“abc”， 则直接将str2指向“abc”。
-public static void main(String[] args) { String str1 = newString(&quot;abc&quot;); String str2 = newString(&quot;abc&quot;); System.out.println(str1 == str2); }  输出结果为：false......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -331,13 +260,6 @@ public static void main(String[] args) { String str1 = newString(&quot;abc&quot;
         <h2><a href='/posts/java%E4%B8%AD%E5%88%9B%E5%BB%BAcompleted-future/'>java中创建Completed future</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在Java中如何创建Completed future呢？
-Java8中可以Future future = CompletableFuture.completedFuture(value); Guava中可以Futures.immediateFuture(value) Apache commons Lang中可以Future&lt;T&gt; future = ConcurrentUtils.constantFuture(T myValue);......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -361,17 +283,6 @@ Java8中可以Future future = CompletableFuture.completedFuture(value); Guava中
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E4%B8%BAspring-boot%E9%A1%B9%E7%9B%AE%E5%A2%9E%E5%8A%A0servlet/'>为Spring boot项目增加Servlet</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>为Spring boot项目增加Servlet有好多种方式
-方式1 Just add a bean for the servlet. It&rsquo;ll get mapped to /{beanName}/.
-@Bean public Servlet foo() { return new FooServlet(); }  Note that if you actually want it mapped to /something/* rather than /something/ you will need to use ServletRegistrationBean
-方式2 使用ServletRegistrationBean
-@Bean public ServletRegistrationBean servletRegistrationBean(){ return new ServletRegistrationBean(new FooServlet(),&quot;/someOtherUrl/*&quot;); }  如果想增加多个的话，就类似下面的方式
-@Bean public ServletRegistrationBean axisServletRegistrationBean() { ServletRegistrationBean registration = new ServletRegistrationBean(new AxisServlet(), &quot;/services/*&quot;); registration.addUrlMappings(&quot;*.jws&quot;); return registration; } @Bean public ServletRegistrationBean adminServletRegistrationBean() { return new ServletRegistrationBean(new AdminServlet(), &quot;/servlet/AdminServlet&quot;); }  方式3 通过实现WebApplicationInitializer或者ServletContextInitializer或者ServletContainerInitializer接口......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -401,31 +312,6 @@ Java8中可以Future future = CompletableFuture.completedFuture(value); Guava中
         <h2><a href='/posts/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E6%88%90%E9%95%BF/'>谈谈程序员成长</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本篇文章主要侧重的是程序员的硬技能方面的，不涉及软技能。
-关于程序员的成长，网上有很多人都在谈，也有很多的文章，我也看过许多，个人感觉写的最好的是下面2个文章，建议大家阅读。
- 如何快速成长为技术大牛？阿里资深技术专家的总结亮了！ 张一鸣：10年面试2000人，我发现混的好的人，全都有同一个特质。  我此处整理一下：
-误区 拜大牛为师  大牛很忙，不太可能单独给你开小灶 大牛不多，不太可能每个团队都有技术大牛，只能说团队里面会有比你水平高的人，即使他每天给你开小灶，最终你也只能提升到他的水平  综合上述的几个原因，我认为对于大部分人来说，要想成为技术大牛，首先还是要明白“主要靠自己”这个道理，适当的时候可以通过请教大牛或者和大牛探讨来提升自己，但大部分时间还是自己系统性、有针对性的提升。
-业务代码一样很牛逼 有人认为写业务代码一样可以很牛逼，理由是业务代码一样可以有各种技巧，例如可以使用封装和抽象使得业务代码更具可扩展性，可以通过和产品多交流以便更好的理解和实现业务，日志记录好了问题定位效率可以提升10倍等等。
-业务代码一样有技术含量，这点是肯定的，业务代码中的技术是每个程序员的基础，但只是掌握了这些技巧，并不能成为技术大牛，就像游戏中升级打怪一样，开始打小怪，经验值很高，越到后面经验值越少，打小怪已经不能提升经验值了，这个时候就需要打一些更高级的怪，刷一些有挑战的副本了，成为技术大牛的路也是类似的，你要 不断的提升自己的水平，然后面临更大的挑战，通过应对这些挑战从而使自己水平更上一级，然后如此往复。所以我认为：业务代码都写不好的程序员肯定无法成为技术大牛，但只把业务代码写好的程序员也还不能成为技术大牛。
-上班太忙没时间自己学习 很多人认为自己没有成为技术大牛并不是自己不聪明，也不是自己不努力，而是中国的这个环境下，技术人员加班都太多了，导致自己没有额外的时间进行学习。
-这个理由有一定的客观性，毕竟和欧美相比，我们的加班确实要多一些，但这个因素只是一个需要克服的问题，并不是不可逾越的鸿沟，毕竟我们身边还是有那么多的大牛也是在中国这个环境成长起来的。
-我认为有几个误区导致了这种看法的形成：
-1）上班做的都是重复工作，要想提升必须自己额外去学习 2）学习需要大段的连续时间
-正确的做法 做的更多，做的比你主管安排给你的任务更多。 要想有机会，首先你得从人群中冒出来，要想冒出来，你就必须做到与众不同，要做到与众不同，你就要做得更多！不分哪些是我该做的、哪些不是我该做的
-怎么做得更多呢？可以从以下几个方面着手：
- 熟悉更多业务，不管是不是你负责的；熟悉更多代码，不管是不是你写的 熟悉端到端 比如说你负责web后台开发，但实际上用户发起一个http请求，要经过很多中间步骤才到你的服务器（例如浏览器缓存、DNS、nginx等），服务器一般又会经过很多处理才到你写的那部分代码（路由、权限等）这整个流程中的很多系统或者步骤，绝大部分人是不可能去参与写代码的，但掌握了这些知识对你的综合水平有很大作用，例如方案设计、线上故障处理这些更加有含金量的技术工作都需要综合技术水平。 “系统性”、“全局性”、“综合性”这些字眼看起来比较虚，但其实都是技术大牛的必备的素质，要达到这样的境界，必须去熟悉更多系统、业务、代码。 自学 以垃圾回收为例，我自己平时就抽时间学习了这些知识，学了1年都没用上，但后来用上了几次，每次都解决了卡死的大问题，而有的同学，写了几年的java代码，对于stop-the-world是什么概念都不知道，更不用说去优化了。  这一点和张一鸣说的是完全吻合的：
- 我工作时，不分哪些是我该做的、哪些不是我该做的 我做事从不设边界  做的更好 要知道这个世界上没有完美的东西，你负责的系统和业务，总有不合理和可以改进的地方，这些“不合理”和“可改进”的地方，都是更高级别的怪物，打完后能够增加更多的经验值。识别出这些地方，并且给出解决方案，然后向主管提出，一次不行两次，多提几次，只要有一次落地了，这就是你的机会。
-多练 在做职业等级沟通的时候，发现有很多同学确实也在尝试Do more、Do better，但在执行的过程中，几乎每个人都遇到同一个问题：光看不用效果很差，怎么办？
-例如：
- 学习了jvm的垃圾回收，但是线上比较少出现FGC导致的卡顿问题，就算出现了，恢复业务也是第一位的，不太可能线上出现问题然后让每个同学都去练一下手，那怎么去实践这些jvm的知识和技能呢？ Netty我也看了，也了解了Reactor的原理，但是我不可能参与Netty开发，怎么去让自己真正掌握Reactor异步模式呢？ 看了《高性能MySQL》，但是线上的数据库都是DBA管理的，测试环境的数据库感觉又是随便配置的，我怎么去验证这些技术呢？ 框架封装了DAL层，数据库的访问我们都不需要操心，我们怎么去了解分库分表实现？  诸如此类问题还有很多，我这里分享一下个人的经验，其实就是3个词：learning、trying、teaching！
-Learning 这个是第一阶段，看书、google、看视频、看别人的博客都可以，但要注意一点是 “系统化”，特别是一些基础性的东西，例如JVM原理、Java编程、网络编程，HTTP协议等等，这些基础技术不能只通过google或者博客学习，我的做法一般是先完整的看完一本书全面的了解，然后再通过google、视频、博客去有针对性的查找一些有疑问的地方，或者一些技巧。
-Trying 这个步骤就是解答前面提到的很多同学的疑惑的关键点，形象来说就是“自己动手丰衣足食”，也就是自己去尝试搭建一些模拟环境，自己写一些测试程序。例如：
- Jvm垃圾回收：可以自己写一个简单的测试程序，分配内存不释放，然后调整各种jvm启动参数，再运行的过程中使用jstack、jstat等命令查看jvm的堆内存分布和垃圾回收情况。这样的程序写起来很简单，简单一点的就几行，复杂一点的也就几十行。 Reactor原理：自己真正去尝试写一个Reactor模式的Demo，不要以为这个很难，最简单的Reactor模式代码量（包括注释）不超过200行（可以参考Doug Lee的PPT）。自己写完后，再去看看netty怎么做，一对比理解就更加深刻了。 MySQL：既然有线上的配置可以参考，那可以直接让DBA将线上配置发给我们（注意去掉敏感信息），直接学习；然后自己搭建一个MySQL环境，用线上的配置启动；要知道很多同学用了很多年MySQL，但是连个简单的MySQL环境都搭不起来。 框架封装了DAL层：可以自己用JDBC尝试去写一个分库分表的简单实现，然后与框架的实现进行对比，看看差异在哪里。 用浏览器的工具查看HTTP缓存实现，看看不同种类的网站，不同类型的资源，具体是如何控制缓存的；也可以自己用Python写一个简单的HTTP服务器，模拟返回各种HTTP Headers来观察浏览器的反应。  当然，如果能够在实际工作中使用，效果会更好，毕竟实际的线上环境和业务复杂度不是我们写个模拟程序就能够模拟的，但这样的机会可遇不可求，大部分情况我们还真的只能靠自己模拟，然后等到真正业务要用的时候，能够信手拈来。......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -449,24 +335,6 @@ Trying 这个步骤就是解答前面提到的很多同学的疑惑的关键点�
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E8%B0%88%E8%B0%88%E9%9D%A2%E8%AF%95/'>谈谈面试</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>今晚看到了这篇文章最近面试Java后端开发的感受, 深有感触，感觉写的特别好，有感而发，所以打断写这么一篇文章，来谈谈我的经验吧。
-面试是一个综合评分的过程 首先一定要认识到面试是个综合评分的过程，不一定仅仅是考察面试者的技术能力，很多时候都会有一定（甚至很大）的运气成分，这一点其实很像公司内部的 晋级答辩一样，这一点一定要深刻理解。比如碰上一个性格不错，有礼貌的面试官，通过的可能性大多数情况下都会比全程绷着脸，接N个电话的面试官好一些。 所以即便最后最差情况，面试没过，不一定代表你能力不行，可能是技能和工作要求不匹配啊，可能是运气不行啊，说不定换一个面试官就过了等等的，都是可能 的，所以首先要正确看待面试这个环节。
-面试前 不可否认的是，跳槽可能（基本）是互联网行业涨薪最快的手段了。而跳槽以后的薪资，虽然会在一定程度上参考上一家公司的薪资水平，但是只要你在面试阶段 的表现能够表现出：【上一家公司在薪资方面亏了我，我其实更值钱】这种情况的话，一般情况下，新公司在初步评级，以及你在和HR的薪资谈判过程，会占有很大 的主动性，所以面试期间的表现很重要。
-为了面试期间表现的好，那么一定是需要提前准备的。虽然我不太喜欢突击准备，更喜欢平时多留心留意。但是不可否认面试其实是一个异常情况出现概率很大的事情。指不定面试官会问到哪里，所以面试者首先一定要尽可能的准备充分，并且有意的在简历以及在面试过程中，留下一些【坑】来引导面试官跟随自己提前准备好 的计划来面试，这样可以减少面试过程中异常情况发生。
-简历不要瞎编，项目经验不要瞎编，一定要能自圆其说，最起码写在简历上面的要不怕被人问，如果被人三两句问住那就不好了，所以尽可能的多考虑一下面试官 会问什么，同时也百度一下最近的面试题，自己也做做相关的面试题。
-面试期间 面试期间要注意的东西其实很多时候是表达能力。不能茶壶里面煮饺子，倒不出来。
-尽量提前演练几下，提前想好如果面试官问xxx的时候，怎么回答，这样就不至于太仓促了。另外贴一下这篇文章最近面试Java后端开发的感受中提到的一些注意点，我觉的写的挺好的：
- 别让人感觉你只会山寨别人的代码 单机版够用？适当了解些分布式 别就知道增删改查，得了解性能优化 围绕数据结构和性能优化准备面试题 至少了解如何看日志排查问题 通读一段底层代码，作为加分项 把上述技能嵌入到你做过的项目里  我总结了一下主要突出下面2个方面：
-大家都能做的事情，你做的比别人好 首先普通的事情能做，这是最基本的要求，活都不会干，怎么可能面试通过呢。其次一定要让别人觉的大家都能做的事情，你已经做的比别人好了。就如同上面提到的那篇文章说的：别让人感觉你只会山寨别人的代码。要能发现当前的不足和并给出解决方案。如果和大多数人的水平差不多了，在这点就没法体现出你的优势了。
-举几个例子：
- 都在用Spring + Mybatis + mysql架构，现有的系统的问题在哪，你做了哪些改进和优化 线上出现问题了，你如何更快速的排查出来了呢？有没有自己的一套方法论和问题QA集 现有项目代码存在安全漏洞，你是否主动发现并fix上线了呢？ 项目有delay了，是否主动推动了呢？  别人不知道的你知道，别人干不了的你可以 别人不知道的你知道，别人干不了的你可以，这才是你真正和HR谈价钱的资本。所以一定要注重这个表达。当然了很少出现别人完全不知道的和别人完全干不了的情况，所以很多的时候是需要扩展知识的深度和广度
-比如：
- 熟悉Nginx dubbo redis等的原理和底层 比如熟悉业界的cloud native等  最后希望大家都能找到好工作，拿到好工资......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -521,43 +389,6 @@ Trying 这个步骤就是解答前面提到的很多同学的疑惑的关键点�
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 

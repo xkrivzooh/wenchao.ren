@@ -110,19 +110,6 @@
         <h2><a href='/posts/mac-privoxy-shadowsocks-iterm2%E8%B5%B0%E4%BB%A3%E7%90%86/'>Mac privoxy&#43;Shadowsocks&#43;iTerm2走代理</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本篇文章讲述如何通过Shadowsocks和privoxy让mac的终端terminal可以翻墙
-首先下载安装privoxy
-brew install privoxy  默认就会启动privoxy，可通过以下终端命令查看privoxy进程是否启动成功：
-ps aux | grep privoxy  然后配置privoxy，配置文件在/usr/local/etc/privoxy/config, 在文件末尾的listen-address 127.0.0.1:8118的下一行增加： forward-socks5 / 127.0.0.1:1086 .，其中1086是shadowsocks的本地Sock5监听端口
-终端执行以下两条命令即可访问privoxy：
-export http_proxy='http://localhost:8118' export https_proxy='http://localhost:8118'  一般建议将这2个命令增加到zsh的.zshrc文件中去。
-至于terminal中ping google失败的问题，请参考请问如何在ss代理下ping通google.com?, 其实此时已经termianl可以访问外网了，不信的话试试：
-~ » curl -I -XGET https://www.google.com HTTP/1.1 200 Connection established HTTP/2 200 date: Thu, 14 Feb 2019 16:18:17 GMT expires: -1 cache-control: private, max-age=0 content-type: text/html; charset=ISO-8859-1 p3p: CP=&quot;This is not a P3P policy! See g.co/p3phelp for more info.&quot; server: gws x-xss-protection: 1; mode=block x-frame-options: SAMEORIGIN set-cookie: 1P_JAR=2019-02-14-16; expires=Sat, 16-Mar-2019 16:18:17 GMT; path=/; domain=.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -146,13 +133,6 @@ export http_proxy='http://localhost:8118' export https_proxy='http://localhost:8
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/linux%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E6%83%85%E5%86%B5/'>Linux查看端口占用情况</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>排查问题的时候，可能需要知道这个端口目前被哪个服务占用着，在linux中，一般会用到lsof和netstat这2个命令。比如检查80端口的占用情况
-lsof [root@VM_43_49_centos ~]# sudo lsof -i:80 COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME nginx 5358 root 6u IPv4 236554022 0t0 TCP *:http (LISTEN) nginx 5358 root 7u IPv6 236554023 0t0 TCP *:http (LISTEN) nginx 28325 nginx 6u IPv4 236554022 0t0 TCP *:http (LISTEN) nginx 28325 nginx 7u IPv6 236554023 0t0 TCP *:http (LISTEN)  netstat [root@VM_43_49_centos ~]# sudo netstat -tunlp | grep 80 tcp 0 0 0.0.0.0:80 0.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -180,15 +160,6 @@ lsof [root@VM_43_49_centos ~]# sudo lsof -i:80 COMMAND PID USER FD TYPE DEVICE S
         <h2><a href='/posts/dubbo-spi%E6%89%A9%E5%B1%95%E4%BA%8C/'>dubbo-SPI扩展(二)</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本篇文章主要描述一下dubbo的扩展点中的一些基本概念和常见的一些注解
-基本概念 扩展点(Extension Point) 扩展点其实就是一个Java的接口。比如dubbo中的LoadBalance接口其实就是一个扩展点
-@SPI(RandomLoadBalance.NAME) public interface LoadBalance { @Adaptive(&quot;loadbalance&quot;) &lt;T&gt; Invoker&lt;T&gt; select(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation) throws RpcException; }  扩展(Extension) 扩展其实扩展点的实现类。比如以扩展点LoadBalance来说，RandomLoadBalance其实就是他的一个实现类，也是一个扩展。
-package org.apache.dubbo.rpc.cluster.loadbalance; import org.apache.dubbo.common.URL; import org.apache.dubbo.rpc.Invocation; import org.apache.dubbo.rpc.Invoker; import java.util.List; import java.util.concurrent.ThreadLocalRandom; /** * random load balance. * */ public class RandomLoadBalance extends AbstractLoadBalance { public static final String NAME = &quot;random&quot;; @Override protected &lt;T&gt; Invoker&lt;T&gt; doSelect(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation) { int length = invokers.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -212,21 +183,6 @@ package org.apache.dubbo.rpc.cluster.loadbalance; import org.apache.dubbo.common
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/dubbo-spi%E6%89%A9%E5%B1%95%E4%B8%80/'>dubbo-SPI扩展(一)</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本篇文章描述一下dubbo的扩展性实现，主要有下面几个部分：
- 什么叫可扩展性 常见的扩展性的解决方案 java spi简介 为什么dubbo不采用java spi，而是自己实现一个SPI机制呢 dubbo spi基本使用 dubbo扩展点的基本概念 dubbo SPI源码阅读  本篇文章也参考了很多业界资料，详见文件结尾
-什么叫可扩展性 如同罗马不是一天建成的，任何系统都一定是从小系统不断发展成为大系统的，想要从一开始就把系统设计的足够完善是不可能的，相反的，我们应该关注当下的需求，然后再不断地对系统进行迭代。在代码层面，要求我们适当的对关注点进行抽象和隔离，在软件不断添加功能和特性时，依然能保持良好的结构和可维护性，同时允许第三方开发者对其功能进行扩展。在某些时候，软件设计者对扩展性的追求甚至超过了性能。
-在谈到软件设计时，可扩展性一直被谈起，那到底什么才是可扩展性，什么样的框架才算有良好的可扩展性呢？它必须要做到以下两点:
- 作为框架的维护者，在添加一个新功能时，只需要添加一些新代码，而不用大量的修改现有的代码，即符合开闭原则。 作为框架的使用者，在添加一个新功能时，不需要去修改框架的源码，在自己的工程中添加代码即可。  Dubbo很好的做到了上面两点。这要得益于Dubbo的微内核+插件的机制。接下来的章节中我们会慢慢揭开Dubbo扩展机制的神秘面纱。
-常见的扩展性的解决方案  Factory模式 IoC容器 OSGI容器  Dubbo作为一个框架，不希望强依赖其他的IoC容器，比如Spring，Guice。OSGI也是一个很重的实现，不适合Dubbo。最终Dubbo的实现参考了Java原生的SPI机制，但对其进行了一些扩展，以满足Dubbo的需求。
-java spi简介 SPI 全称为 Service Provider Interface，是一种服务发现机制。SPI 的本质是将接口实现类的全限定名配置在文件中，并由服务加载器读取配置文件，加载实现类。这样可以在运行时，动态为接口替换实现类。正因此特性，我们可以很容易的通过 SPI 机制为我们的程序提供拓展功能。
-本节通过一个示例演示 Java SPI 的使用方法。首先，我们定义一个接口，名称为 Robot。
-public interface Robot { void sayHello(); }  接下来定义两个实现类，分别为 OptimusPrime 和 Bumblebee。
-public class OptimusPrime implements Robot { @Override public void sayHello() { System.out.println(&quot;Hello, I am Optimus Prime.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -254,16 +210,6 @@ public class OptimusPrime implements Robot { @Override public void sayHello() { 
         <h2><a href='/posts/dubbo%E8%87%AA%E5%AE%9A%E4%B9%89filter/'>dubbo自定义filter</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>dubbo的扩展性是特别的好，本篇文章通过例子来说明如何自定义dubbo的filter。为了文章完整性，贴一下官网对于filter的一些说明。
-扩展说明 服务提供方和服务消费方调用过程拦截，Dubbo 本身的大多功能均基于此扩展点实现，每次远程方法执行，该拦截都会被执行，请注意对性能的影响。
-约定：
- 用户自定义 filter 默认在内置 filter 之后。 特殊值 default，表示缺省扩展点插入的位置。比如：filter=&quot;xxx,default,yyy&quot;，表示 xxx`` 在缺省 filter 之前，yyy在缺省filter` 之后。 特殊符号 -，表示剔除。比如：filter=&quot;-foo1&quot;，剔除添加缺省扩展点 foo1。比如：filter=&quot;-default&quot;，剔除添加所有缺省扩展点。 provider 和 service 同时配置的 filter 时，累加所有 filter，而不是覆盖。比如：&lt;dubbo:provider filter=&quot;xxx,yyy&quot;/&gt; 和 &lt;dubbo:service filter=&quot;aaa,bbb&quot; /&gt;，则 xxx,yyy,aaa,bbb 均会生效。如果要覆盖，需配置：&lt;dubbo:service filter=&quot;-xxx,-yyy,aaa,bbb&quot; /&gt;  扩展接口 org.apache.dubbo.rpc.Filter
-扩展配置 &lt;!-- 消费方调用过程拦截 --&gt; &lt;dubbo:reference filter=&quot;xxx,yyy&quot; /&gt; &lt;!-- 消费方调用过程缺省拦截器，将拦截所有reference --&gt; &lt;dubbo:consumer filter=&quot;xxx,yyy&quot;/&gt; &lt;!-- 提供方调用过程拦截 --&gt; &lt;dubbo:service filter=&quot;xxx,yyy&quot; /&gt; &lt;!-- 提供方调用过程缺省拦截器，将拦截所有service --&gt; &lt;dubbo:provider filter=&quot;xxx,yyy&quot;/&gt;  已知扩展  org.apache.dubbo.rpc.filter.EchoFilter org.apache.dubbo.rpc.filter.GenericFilter org.apache.dubbo.rpc.filter.GenericImplFilter org.apache.dubbo.rpc.filter.TokenFilter org.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -287,12 +233,6 @@ public class OptimusPrime implements Robot { @Override public void sayHello() { 
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/terminal%E5%BF%AB%E6%8D%B7%E9%94%AE/'>terminal快捷键</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>终端跳转解说图 常用快捷键 编辑  Ctrl + a – 跳到行首 Ctrl + e – 跳到行尾 Ctrl + k – 删除当前光标至行尾内容 Ctrl + u – 删除当前光标至行首内容 Ctrl + w – 删除当前光标至词首内容 Ctrl + y – 将剪切的内容粘贴在光标后 Ctrl + xx – 在行首和当前光标处(来回)移动 Alt + b – 跳到词首 Alt + f – 跳到词尾 Alt + d – 删除自光标处起的单词内容 Alt + c – 大写光标处的字符（注：该条内容与原文不同） Alt + u – 大写自光标处起的单词内容 Alt + l – 小写自光标处起的单词内容 Alt + t – 将光标处单词与上一个词交换 Ctrl + f – 向前移动一个字符(相当于按向左箭头) Ctrl + b – 向后移动一个字符(相当于按向右箭头) Ctrl + d – 删除光标后一个字符（相当于按Delete） Ctrl + h – 删除光标前一个字符（相当于按后退键） Ctrl + t – 交换光标处的两个字符  搜索  Ctrl + r – 反向搜索历史命令 Ctrl + g – 退出历史搜索模式（相当于按Esc） Ctrl + p – 上一个历史命令（相当于按向上箭头） Ctrl + n – 下一个历史命令（相当于按向下箭头） Alt + .......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -320,15 +260,6 @@ public class OptimusPrime implements Robot { @Override public void sayHello() { 
         <h2><a href='/posts/mat%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E5%B7%AE%E5%BC%82%E6%B5%85%E5%A0%86%E5%92%8C%E4%BF%9D%E7%95%99%E5%A0%86/'>MAT对象之间的差异浅堆和保留堆</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>原文地址：SHALLOW HEAP, RETAINED HEAP
-更贴切的标题应该是Difference between Eclipse MAT objects Shallow Heap and Retained Heap
-Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It comes quite handy when you are trying to debug memory related problems. In Eclipse MAT two types of object sizes are reported:
- Shallow Heap Retained Heap  In this article lets study the difference between them. Let’s study how are they calculated?......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -352,16 +283,6 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/shadowsocksx-ng-1-8-2%E8%AE%BE%E7%BD%AEkcptun/'>ShadowsocksX-NG 1.8.2设置kcptun</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在自己的mac上升级了一下ShadowsocksX-NG到1.8.2版本。发现无法使用了，检查发现新版本中没有设置kcptun的地方了，
-新版本在【服务器设置】的地方
- 插件输入框中写kcptun 插件选项写：key=【此处为自己的key】;crypt=aes;mode=fast2;mtu=1350;sndwnd=2048;rcvwnd=2048;datashard=10;parityshard=3;dscp=0  检查发现kcptun会自动打开
-~ » ps -ef | grep kcp 501 31273 31272 0 5:52PM ?? 0:00.37 plugins/kcptun  参考资料
- 1.8.2 kcptun 自带的和1.7.1不同，如何打开kcptun #926  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -389,13 +310,6 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
         <h2><a href='/posts/runtimeexception-in-action-for-tag-rollingpolicy-java-lang-indexoutofboundsexception-no-group-1/'>RuntimeException in Action for tag [rollingPolicy] java.lang.IndexOutOfBoundsException: No group 1</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>今天一个同事咨询我，他们使用logback发布的时候出现下面的异常：
-20:46:27,244 |-ERROR in ch.qos.logback.core.joran.spi.Interpreter@36:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IndexOutOfBoundsException: No group 1 at java.lang.IndexOutOfBoundsException: No group 1 at at java.util.regex.Matcher.group(Matcher.java:538) at at ch.qos.logback.core.rolling.helper.FileFilterUtil.extractCounter(FileFilterUtil.java:109) at at ch.qos.logback.core.rolling.helper.FileFilterUtil.findHighestCounter(FileFilterUtil.java:93) at at ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP.computeCurrentPeriodsHighestCounterValue(SizeAndTimeBasedFNATP.java:65) at at ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP.start(SizeAndTimeBasedFNATP.java:49) at at ch.qos.logback.core.rolling.TimeBasedRollingPolicy.start(TimeBasedRollingPolicy.java:90) at at ch.qos.logback.core.joran.action.NestedComplexPropertyIA.end(NestedComplexPropertyIA.java:167) at at ch.qos.logback.core.joran.spi.Interpreter.callEndAction(Interpreter.java:317) at at ch.qos.logback.core.joran.spi.Interpreter.endElement(Interpreter.java:196) at at ch.qos.logback.core.joran.spi.Interpreter.endElement(Interpreter.java:182) at at ch.qos.logback.core.joran.spi.EventPlayer.play(EventPlayer.java:62) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:149) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:135) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:99) at at ch.qos.logback.core.joran.GenericConfigurator.doConfigure(GenericConfigurator.java:49) at at ch.qos.logback.classic.util.ContextInitializer.configureByResource(ContextInitializer.java:75) at at ch.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -419,15 +333,6 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/stop-using-tls-sni-01-with-certbot/'>stop using TLS-SNI-01 with Certbot</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>今天收到一个来自letsencrypt的邮件：Action required: Let's Encrypt certificate renewals，简单的说就是Let’s Encrypt移除了对TLS-SNI-01的支持。 所以我就按照他们的指示，修改了一下我的certbot配置。操作步骤如下:
-检查certbot的版本大于0.28 使用命令certbot --version来检查命令。我检查的时候发现我的版本比0.28低，所以我需要升级一下：
-[root@VM_43_49_centos workspace]# certbot --version certbot 0.26.1 sudo yum upgrade certbot  我在使用sudo yum upgrade certbot以后，测试版本出现下面的异常：
-[root@VM_43_49_centos workspace]# certbot --version Traceback (most recent call last): File &quot;/usr/bin/certbot&quot;, line 5, in &lt;module&gt; from pkg_resources import load_entry_point File &quot;/usr/lib/python2.7/site-packages/pkg_resources.py&quot;, line 3011, in &lt;module&gt; parse_requirements(__requires__), Environment() File &quot;/usr/lib/python2.7/site-packages/pkg_resources.py&quot;, line 626, in resolve raise DistributionNotFound(req) pkg_resources.DistributionNotFound: acme&gt;=0.29.0 [root@VM_43_49_centos workspace]# yum list | grep acme Repository epel is listed more than once in the configuration  所以我还需要升级一下......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -482,43 +387,6 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 

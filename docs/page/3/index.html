@@ -110,13 +110,6 @@
         <h2><a href='/posts/git%E7%A7%BB%E9%99%A4%E5%AF%B9%E9%83%A8%E5%88%86%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%BD%E8%B8%AA/'>git移除对部分文件的追踪</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>如果不小心将某些不需要被git管理的文件加入了git中，取消的办法如下：
- 在当前目录下.gitignore文件里面加入不需要进行版本控制器的文件 执行git rm -r --cached 文件名命令 执行gti commit &amp;&amp; git push提交修改  ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -140,17 +133,6 @@
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/bistoury%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/'>Bistoury源码阅读-Agent启动</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>我们先以Bistoury Agent在本地启动为例子，入口类是bistoury-independent-agentmodule中的qunar.tc.bistoury.indpendent.agent.Main或者 qunar.tc.bistoury.indpendent.agent.MainTest类。一般我们测试的时候，都是通过MainTest类。
-同时通过MainTest的写法，我们其实可以看到BistouryAgent启动的几个核心配置项：
- bistoury.app.lib.class 其实就是指定一个class，然后基于这个class找它的classLoader，一般我们都会指定为公司所有项目都会有的一个基础类。 bistoury.lib.dir bistoury的lib地址 bistoury.store.path bistoury的store地址 bistoury.proxy.host Bistoury Proxy的域名  从Main类中，我们可以看到一个方法，这个方法的功能倒是没啥说的，此处可以学习一下java.lang.management.ManagementFactory的API。
-public static void log() { List&lt;String&gt; args = ManagementFactory.getRuntimeMXBean().getInputArguments(); for (String arg : args) { logger.info(&quot;Command line argument: {}&quot;, arg); } }  Bistoury Agent的核心类其实就是qunar.tc.bistoury.agent.AgentClient类。这个类主要有下面几个功能：
- 通过HTTP形式的调用{bistoury.proxy.host}/proxy/config/foragent地址获取一个BistouryProxy server的基础信息，ip，port，heartbeatSec。 此处之所以通过这种HTTP形式的调用，有几个目的：  一定程度上面的负载均衡，因为我们一般会给BistouryProxy分配一个域名，那么此处的LB其实就是依赖NGINX了。 拉取BistouryProxy的一些基础信息，目前拉取到的信息比较少，核心的只有一个heartbeatSec   建立Bistoury Agent和Bistoury Proxy之间的Netty长连接。这部分的代码主要是在qunar.tc.bistoury.agent.AgentNettyClient类中 通过一个单线程的调度线程来启动FailoverTask。也就是如果Bistoury Agent和Bistoury Proxy之间的连接失败或者连接因为其他原因断开等，那么这个线程目前会没1分钟check一下。 这里之所以每分钟check一下，而不是立即尝试，我觉的考虑主要是防止连接proxy的突发流量过大，同时Bistoury的使用其实并不是一个高频的产品，所以很多时候没必要立即恢复。当然 这样也带来一个问题，就是如果发布或是某台宕机的话，那一个agent可能就要最大1分钟才能重新可用了。  接下来我们来看看qunar.tc.bistoury.agent.AgentNettyClient的代码，这个其实就是负责和Bistoury Proxy之间的连接建立工作。有下面几个核心点，只要摸清楚这几个关键点，那么Agent启动流程的东西就全搞明白了。
- AgentInfoRefreshTask  定时给BistouryProxy发送获取Bistoury Agent相关配置信息的请求。内部是基于SingleThreadScheduledExecutor实现，默认间隔10分钟请求一次。涉及到的命令code为: qunar.tc.bistoury.remoting.protocol.CommandCode#REQ_TYPE_REFRESH_AGENT_INFO   HeartbeatTask  定时给BistouryProxy发送心跳消息。这个时间间隔是在BistouryProxy端控制的，默认是30秒心跳一次。默认心跳超时时间阈值为（30 * 2 + 30/2） 也就是75秒。不过这块的心跳请求构建的代码是有点挫的。   DefaultTaskStore  Agent端的Task管理对象。内部基于ConcurrentHashMap存储tasks。同时有一个bistoury-task-clear（单线程的scheduler）每10秒钟检查一下存储的tasks。如果某个task长时间没有完成，那么这个任务就会从ConcurrentHashMap中移除它。核心方法有：  boolean register(Task task); void finish(String id); void cancel(String id); void close();     通过SPI的方式加载所有的TaskFactory, 每一个TaskFactory都对应一个qunar.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -178,12 +160,6 @@ public static void log() { List&lt;String&gt; args = ManagementFactory.getRuntim
         <h2><a href='/posts/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97/'>dubbo源码解析系列</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>这个是dubbo源码解析系列的目录，不定时更新&hellip;......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -207,17 +183,6 @@ public static void log() { List&lt;String&gt; args = ManagementFactory.getRuntim
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/intellij-idea%E4%B8%AD%E6%90%9C%E7%B4%A2yaml%E4%B8%AD%E7%9A%84key/'>Intellij IDEA中搜索yaml中的key</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>因yaml文件相比于properties文件来结构更加清晰，所以现在无论是公司项目中还是开源的项目中，yaml文件越来越常见。 曾经的特别讨厌使用yaml文件主要是因为搜索yaml文件中的key的时候太麻烦：
-比如有下面的yaml文件：
-wsearch: zk: address: xxxxxxxx  在Idea中使用Command+Shitf+F搜索wsearch.zk.address的时候是搜索不到的
-就因为这个原因，导致我特别的厌烦yaml的配置。
-今天才发现原来在IDEA可以使用如下的方式搜索到。那就是使用Idea的Search everywhere功能。按2下shift，然后在搜索就好了：
-发现在Stack Overflow也有人问这个问题How to find specific property key in a yaml file using intellij idea?......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -245,17 +210,6 @@ wsearch: zk: address: xxxxxxxx  在Idea中使用Command+Shitf+F搜索wsearch.zk.
         <h2><a href='/posts/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/'>正向代理和反向代理</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>经常会听到正向代理和反向代理的说法，那么具体怎么区分呢？
-正向代理 正向代理，是在用户端的。
-比如需要访问某些国外网站，我们可能需要购买vpn。并且vpn是在我们的用户浏览器端设置的(并不是在远端的服务器设置)。浏览器先访问vpn地址，vpn地址转发请求，并最后将请求结果原路返回来。
-反向代理 有正向代理，就有反向代理，反向代理是作用在服务器端的，是一个虚拟ip(VIP)。对于用户的一个请求，会转发到多个后端处理器中的一台来处理该具体请求。
-区别  正向代理:客户端 &lt;一&gt; 代理 一&gt;服务端 反向代理:客户端 一&gt;代理 &lt;一&gt; 服务端  正向代理和反向代理的区别在于 代理的对象不一样,正向代理的代理对象是客户端,反向代理的代理对象是服务端
-参考资料  正向代理和反向代理的配置示例  ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -279,20 +233,6 @@ wsearch: zk: address: xxxxxxxx  在Idea中使用Command+Shitf+F搜索wsearch.zk.
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E6%95%B0%E6%8D%AE%E5%BA%93mha%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D/'>数据库MHA架构介绍</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>MHA（Master High Availability）目前在MySQL高可用方面是一个相对成熟的解决方案，它由日本人youshimaton开发，是一套优秀的作为MySQL高可用性环境下故障切换和主从提升的高可用软件。在MySQL故障切换过程中，MHA能做到0~30秒之内自动完成数据库的故障切换操作，并且在进行故障切换的过程中，MHA能最大程度上保证数据库的一致性。
-适用场景 目前MHA主要支持一主多从的架构，要搭建MHA，要求一个复制集群必须最少有3台数据库服务器，一主二从，即一台充当Master，一台充当备用Master，另一台充当从库。出于成本考虑，淘宝在此基础上进行了改造，目前淘宝开发的TMHA已经支持一主一从。
-MAH组件 MHA由两部分组成：
- MHA Manager（管理节点） MHA Node（数据节点）。  MHA Manager MHA Manager可以单独部署在一台独立的机器上管理多个master-slave集群，也可以部署在一台slave节点上。主要用来运行一些工具，比如masterha_manager工具实现自动监控MySQL Master和实现master故障切换，其它工具实现手动实现master故障切换、在线mater转移、连接检查等等。一个Manager可以管理多 个master-slave集群
-MHA Manager会定时探测集群中的master节点，当master出现故障时，它可以自动将最新的slave提升为新的master，然后将所有其他的slave重新指向新的master。整个故障转移过程对应用程序完全透明。
-MHA Node MHA Node运行在每台MySQL服务器上，类似于Agent。主要作用有：
- 保存二进制日志 如果能够访问故障master，会拷贝master的二进制日志 应用差异中继日志 从拥有最新数据的slave上生成差异中继日志，然后应用差异日志。 清除中继日志 在不停止SQL线程的情况下删除中继日志  工作原理简述 因为MHA Manager会不断的去探测master节点，因此当master出现故障时，通过对比slave之间I/O线程读取masterbinlog的位置，选取最接近的slave做为latestslave。 其它slave通过与latest slave对比生成差异中继日志。在latest slave上应用从master保存的binlog，同时将latest slave提升为master。最后在其它slave上应用相应的差异中继日志并开始从新的master开始复制。
-在MHA实现Master故障切换过程中，MHA Node会试图访问故障的master（通过SSH），如果可以访问（不是硬件故障，比如InnoDB数据文件损坏等），会保存二进制文件，以最大程度保 证数据不丢失。MHA和半同步复制一起使用会大大降低数据丢失的危险。流程如下：
- 从宕机崩溃的master保存二进制日志事件(binlog events)。 识别含有最新更新的slave。 应用差异的中继日志(relay log)到其它slave。 应用从master保存的二进制日志事件(binlog events)。 提升一个slave为新master并记录binlog file和position。 使其它的slave连接新的master进行复制。 完成切换manager主进程OFFLINE  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -320,13 +260,6 @@ MHA Node MHA Node运行在每台MySQL服务器上，类似于Agent。主要作�
         <h2><a href='/posts/pt-fingerprint-%E5%AE%89%E8%A3%85%E5%92%8C%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/'>pt-fingerprint 安装和基本使用</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>sudo wget percona.com/get/percona-toolkit.tar.gz ## 安装相关依赖 sudo yum install perl -y sudo yum install perl-DBI -y sudo yum install perl-DBD-MySQL -y sudo yum install perl-Time-HiRes -y sudo yum install perl-IO-Socket-SSL -y sudo yum install perl-Digest-MD5.x86_64 -y  初步使用
-[$ /home/w/percona/percona-toolkit-3.0.13/bin]$ ./pt-fingerprint --query &quot;select a, b, c from users where id = 500&quot; select a, b, c from users where id = ? [$ /home/w/percona/percona-toolkit-3.0.13/bin]$ ./pt-fingerprint --query &quot;update test set a =1 , b=2 where id = 3&quot; update test set a =?......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -350,16 +283,6 @@ MHA Node MHA Node运行在每台MySQL服务器上，类似于Agent。主要作�
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/gc-roots%E5%AF%B9%E8%B1%A1%E6%9C%89%E5%93%AA%E4%BA%9B/'>gc Roots对象有哪些</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>JVM的垃圾自动回收是我们经常说的一个话题，这里的垃圾的含义是：
- 内存中已经不再被使用到的对象就是垃圾
- 要进行垃圾回收，如何判断一个对象是否可以被回收？ 一般有两种办法：
- 引用计数法  实现简单，但是没法解决对象之间的循环引用问题   枚举根节点做可达性分析  通过一系列名为“GC Roots”的对象作为起始点，从“GC Roots”对象开始向下搜索，如果一个对象到“GC Roots”没有任何引用链相连，说明此对象可以被回收    常见的常见的GC Root有如下：
- 通过System Class Loader或者Boot Class Loader加载的class对象，通过自定义类加载器加载的class不一定是GC Root 处于激活状态的线程 栈中的对象 本地方法栈中 JNI (Native方法)的对象 JNI中的全局对象 正在被用于同步的各种锁对象 JVM自身持有的对象，比如系统类加载器等。  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -387,17 +310,6 @@ MHA Node MHA Node运行在每台MySQL服务器上，类似于Agent。主要作�
         <h2><a href='/posts/synchronized%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF/'>Synchronized的一些东西</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>synchronized是Java中解决并发问题的一种最常用的方法，从语法上讲synchronized总共有三种用法：
- 修饰普通方法 修饰静态方法 修饰代码块  synchronized 原理 为了查看synchronized的原理，我们首先反编译一下下面的代码, 这是一个synchronized修饰代码块的demo
-public class SynchronizedDemo { public void method() { synchronized (this) { System.out.println(&quot;Method 1 start&quot;); } } }  从上面截图可以看到，synchronized的实现依赖2个指令：
- monitorenter monitorexit  但是从上面的截图可以看到有一个monitorenter和2个monitorexit，这里之所以有2个monitorexit是因为synchronized的锁释放有2种情况：
- 方法正常执行完毕synchronized的范围，也就是正常情况下的锁释放 synchronized圈起来的范围内的代码执行抛出异常，导致锁释放  monitorenter 关于这个指令，jvm中的描述为：
- Each object is associated with a monitor. A monitor is locked if and only if it has an owner. The thread that executes monitorenter attempts to gain ownership of the monitor associated with objectref, as follows:......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -421,14 +333,6 @@ public class SynchronizedDemo { public void method() { synchronized (this) { Sys
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/threadpoolexecutor%E7%9B%B8%E5%85%B3/'>ThreadPoolExecutor相关</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>java中的线程池相关的东西抛不开ThreadPoolExecutor，本文就简单的说说这个ThreadPoolExecutor。
-先看一个ThreadPoolExecutor的demo，然后我们说说它的相关参数
-import java.util.concurrent.LinkedBlockingQueue; import java.util.concurrent.RejectedExecutionHandler; import java.util.concurrent.ThreadPoolExecutor; import java.util.concurrent.TimeUnit; public class Test { private static ThreadPoolExecutor threadPoolExecutor; public static void main(String[] args) { threadPoolExecutor = new ThreadPoolExecutor( 4, 8, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue&lt;&gt;(100), new RejectedExecutionHandler() { @Override public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) { } }); System.out.println(threadPoolExecutor.getCorePoolSize()); //4 System.out.println(threadPoolExecutor.getMaximumPoolSize()); //8 System.out.println(threadPoolExecutor.getPoolSize());//0 boolean b = threadPoolExecutor.prestartCoreThread(); System.out.println(threadPoolExecutor.getCorePoolSize());//4 System.out.println(threadPoolExecutor.getMaximumPoolSize());//8 System.out.println(threadPoolExecutor.getPoolSize());//1 int i = threadPoolExecutor.prestartAllCoreThreads(); System.out.println(threadPoolExecutor.getCorePoolSize());//4 System.out.println(threadPoolExecutor.getMaximumPoolSize());//8 System.out.println(threadPoolExecutor.getPoolSize());//4 } }  参数介绍 ThreadPoolExecutor的几个参数是必须要清楚的：......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -483,43 +387,6 @@ import java.util.concurrent.LinkedBlockingQueue; import java.util.concurrent.Rej
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 

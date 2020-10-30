@@ -110,14 +110,6 @@
         <h2><a href='/posts/%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB%E4%BB%A5%E5%8F%8Aspring-mvc%E7%9A%84%E6%94%AF%E6%8C%81/'>跨域资源共享以及Spring MVC的支持</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本来想写文章详细整理一下「跨域资源共享，以及在Spring MVC中如何实现」，但是发现网站上已经有很多文章总结了， 相信我在怎么写也和绝大多数文章的差别不大，所以我选中了5篇比较不错的文章（地址在文章参考资料中）作为引用。 所以读者直接看引用的这几篇文章就好了。
-##参考资料
- 浏览器同源政策及其规避方法 跨域资源共享 CORS 详解 Cross-origin resource sharing Enabling Cross Origin Requests for a RESTful Web Service CORS support in Spring Framework  ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -141,20 +133,6 @@
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E4%BD%BF%E7%94%A8%E4%B8%83%E7%89%9B%E5%81%9A%E5%8D%9A%E5%AE%A2%E5%9B%BE%E5%BA%8A/'>使用七牛做博客图床</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>经过对比了国内的一些图床以后，最后还是选择了七牛做图床。免费版的对于我这个小博客完全就够用了。 操作方式如下：
-  首先注册七牛账号，然后并认证。认证方式我选择的是支付宝认证。
-  然后创建一个空间
-  在「对象管理」-&gt;「存储资源列表」-&gt;「添加」
-  这块会生成一个测试域名，这个域名绝大多数情况下就够用了
-  然后推荐使用极简图床，配置好自己的空间信息就可以使用了
-  配置的时候域名写自己之前空间的测试域名就好了。至于空间名称就写自己之前创建的空间的名称
-  AK和SK在「个人面板」-&gt;「密匙管理」中可以找到
-  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -182,20 +160,6 @@
         <h2><a href='/posts/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAdubbo%E7%9A%84%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/'>本地搭建dubbo的运行环境</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本篇文章主要讲述如何在本地搭建dubbo的运行环境
-安装zk dubbo推荐使用zk来作为自己的注册中心，当然使用其余的实现来作为注册中心也是可以的。比如我之前就使用redis实现了一个注册中心。
-Dubbo 未对 Zookeeper 服务器端做任何侵入修改，只需安装原生的 Zookeeper 服务器即可， 所有注册中心逻辑适配都在调用 Zookeeper 客户端时完成。
-安装zk：
-wget http://archive.apache.org/dist/zookeeper/zookeeper-3.3.3/zookeeper-3.3.3.tar.gz tar zxvf zookeeper-3.3.3.tar.gz cd zookeeper-3.3.3 cp conf/zoo_sample.cfg conf/zoo.cfg  配置:
-vi conf/zoo.cfg  如果不需要集群，zoo.cfg 的内容如下 ：
-tickTime=2000 initLimit=10 syncLimit=5 dataDir=/home/dubbo/zookeeper-3.3.3/data clientPort=2181  如果需要集群，zoo.cfg 的内容如下(其中 data 目录和 server 地址需改成你真实部署机器的信息)
-tickTime=2000 initLimit=10 syncLimit=5 dataDir=/home/dubbo/zookeeper-3.3.3/data clientPort=2181 server.1=10.20.153.10:2555:3555 server.2=10.20.153.11:2555:3555  并在 data 目录下放置 myid 文件：
-mkdir data vi myid  myid 指明自己的 id，对应上面 zoo.cfg 中 server. 后的数字，第一台的内容为 1，第二台的内容为 2，内容如下：......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -219,13 +183,6 @@ mkdir data vi myid  myid 指明自己的 id，对应上面 zoo.cfg 中 server. �
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/git%E8%BF%98%E5%8E%9F%E5%88%B0%E4%B9%8B%E5%89%8D%E7%89%88%E6%9C%AC/'>git还原到之前版本</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>命令行操作：
- git log 查看之前的commit的id，找到想要还原的版本 git reset --hard 44bd896bb726be3d3815f1f25d738a9cd402a477 还原到之前的某个版本 git push -f origin master 强制push到远程  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -253,15 +210,6 @@ mkdir data vi myid  myid 指明自己的 id，对应上面 zoo.cfg 中 server. �
         <h2><a href='/posts/kafka-listeners-advertised-listeners/'>kafka listeners &amp; advertised.listeners</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>今天在日常使用spring-kafka消费kafka数据时发现连接不是kafka，出现下面的异常：
-2019-01-21 16:55:58,675 WARN wtraceId[] wtracer[] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] c.w.f.w.k.LogConsumerConfiguration:45 - [wcollect]batch pull data from kafka error java.lang.IllegalStateException: No entry found for connection 30 at org.apache.kafka.clients.ClusterConnectionStates.nodeState(ClusterConnectionStates.java:330) at org.apache.kafka.clients.ClusterConnectionStates.disconnected(ClusterConnectionStates.java:134) at org.apache.kafka.clients.NetworkClient.initiateConnect(NetworkClient.java:921) at org.apache.kafka.clients.NetworkClient.ready(NetworkClient.java:287) at org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient.trySend(ConsumerNetworkClient.java:474) at org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient.poll(ConsumerNetworkClient.java:255) at org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient.poll(ConsumerNetworkClient.java:236) at org.apache.kafka.clients.consumer.KafkaConsumer.pollForFetches(KafkaConsumer.java:1243) at org.apache.kafka.clients.consumer.KafkaConsumer.poll(KafkaConsumer.java:1188) at org.apache.kafka.clients.consumer.KafkaConsumer.poll(KafkaConsumer.java:1164) at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:728) at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) at java.util.concurrent.FutureTask.run(FutureTask.java) at java.lang.Thread.run(Thread.java:748)  从上面的异常中大致可以看到是初始化NetworkClient连接时出现问题，基本可以证明是连接不是kafka broker。
-后来排查发现是因为我在我本地的代码中是通过ip+port的形式访问的，而我们的kafka broker配置了下面的参数：
-############################# Socket Server Settings ############################# # The address the socket server listens on. It will get the value returned from # java.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -285,15 +233,6 @@ mkdir data vi myid  myid 指明自己的 id，对应上面 zoo.cfg 中 server. �
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/java%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9Fpattern/'>java中的日期pattern</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>经常搞混java中的日期pattern，比如经常记混H和h的区别，所以专门整理一下，便于我以后查找
-yyyy：年 MM：月 dd：日 hh：1~12小时制(1-12) HH：24小时制(0-23) mm：分 ss：秒 S：毫秒 E：星期几 D：一年中的第几天 F：一月中的第几个星期(会把这个月总共过的天数除以7) w：一年中的第几个星期 W：一月中的第几星期(会根据实际情况来算) a：上下午标识 k：和HH差不多，表示一天24小时制(1-24)。 K：和hh差不多，表示一天12小时制(0-11)。 z：表示时区 ```java 常用pattern： ```java yyyy-MM-dd HH:mm:ss.SSS yyyy-MM-dd'T'HH:mm:ss.SSS'Z'  常用时区：
-@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = &quot;yyyy-MM-dd'T'HH:mm:ss.SSS'Z'&quot;, timezone = &quot;GMT+8&quot;)  日期和字符串互转：
-private final static DateTimeFormatter fmt1 = DateTimeFormat.forPattern(&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;); DateTime dateTime = DateTime.parse(date, fmt1) new DateTime().toString(&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;) org.joda.time#Days  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -321,17 +260,6 @@ private final static DateTimeFormatter fmt1 = DateTimeFormat.forPattern(&quot;yy
         <h2><a href='/posts/%E4%BC%98%E5%8C%96elasticsearch%E7%9A%84%E5%86%99%E5%85%A5/'>优化Elasticsearch的写入</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>我们这边因为需要对trace系统的数据做一些高级查询，所以会将Span的可能会被用作搜索条件的信息写入elasticsearch中。 由于trace系统的数据量比较大，虽然trace系统本身的设计会有采样率这个东西来降低trace采集的数据量，但是本身还是 比较大的数据量。所以需要对es的写入做一些优化。这篇文章记录一下我们的优化项
-分析我们场景的特点：
- 写请求特别大 读请求很少，实时性要求低 trace系统对数据的可靠性要求低，但是要求写入及时（数据的价值会随着时间而降低）  贴一下我们优化以后的template设置：
-{ &quot;order&quot;: 0, &quot;index_patterns&quot;: [ &quot;trace.advanced.query-*&quot; ], &quot;settings&quot;: { &quot;index&quot;: { &quot;refresh_interval&quot;: &quot;120s&quot;, &quot;number_of_shards&quot;: &quot;10&quot;, &quot;translog&quot;: { &quot;flush_threshold_size&quot;: &quot;1024mb&quot;, &quot;sync_interval&quot;: &quot;120s&quot;, &quot;durability&quot;: &quot;async&quot; }, &quot;number_of_replicas&quot;: &quot;0&quot; } }, &quot;mappings&quot;: {}, &quot;aliases&quot;: {} }  主要的优化步骤：
- 关闭副本，设置number_of_replicas为0 在我们的场景下数据丢了是可以忍受的 调大translog.flush_threshold_size，我们设置的为1024mb 调大translog.sync_interval为120s 我们容许数据丢失，设置async模式  因为我们目前的es集群性能是足够的，所以并没有完全按照参考文章将 ELASTICSEARCH 写入速度优化到极限中的所有项目都优化。推荐大家阅读这个参考文章，比我写的好多了。
-参考资料  将 ELASTICSEARCH 写入速度优化到极限  ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -355,27 +283,6 @@ private final static DateTimeFormatter fmt1 = DateTimeFormat.forPattern(&quot;yy
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E5%8D%95%E6%8D%AE%E7%9A%84%E8%AE%BE%E8%AE%A1/'>单据的设计</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本文主要是初步记录一下关于单据零散的想法，看看是否可以形成一套可行的方法论。
-单据实体 单据这个实体，其实从抽象的层面来说，它其实描述了一次行为：
- 谁，在什么时间点，用了什么样的成本，对什么目标产生了一次什么样的行为
- 如果让我们来对上面这句话进行解析，其实可以发现它可以拆分为下面几块：
- 谁 时间信息 成本 行为描述 行为目标  下面我们来一次分析这个问题。
-谁 一般订单的发起者其实都是【用户】，当然这个用户并不一定是C端用户。而用户的信息如何描述呢？一般的公司都会有【用户中心】，或者【供应商管理系统】等等的来描述【用户】的信息。做的好的公司也会有【用户画像】
-时间信息 时间信息一般分为2类：
- 行为动作的产生时间  比如用户的下单时间   行为动作所带来的影响发生的时间  用户购买的商品的出库时间 用户购买的商品的送货时间 用户购买的商品的预计收货时间 前者是用户主动产生的，后者其实对用户来说是被动的。    成本信息 用户在下订单的时候往往都会消耗一定的成本，这个成本并不一定是金钱。可能是：
- 金钱 积分 优惠券 &hellip;  ##行为描述
-行为描述主要是用来解释行为，比如：
- 购买行为 退货行为  不同的行为会有不同的属性信息，比如购买行为会有购买的数量，购买服务的持续时间等。
-行为目标 行为的目标可以是物理实体，比如商品（一瓶可乐），也可以是虚拟实体，比如一次服务。
- 商品 服务 流量 &hellip;  而具体的目标也会有一大套自己的模型和属性。比如商品的sku就是一套很经典的模型。
-单据本身的信息 单据本身也需要一些自己的属性信息：
- 单号 单据类型 状态机  关于单据号的设计可以很有讲究，一般会有如下的考虑：
- 单据号的形式，长度 是否有业务含义  无 有   业务含义的具体信息 业务含义占单据号的长度 是否连续（可遍历） 单据创建时间 单据生成的serverIP 路由信息 分库分表的依据 其他路由形式 单据数量增长对单据号的影响 单据号长度的划分 每秒最大单据数量预估 关于路由信息也有一个需要注意的点，就是要尽量做到数据分布平衡。  单据流程 单据的流程一般有正向流程和逆向流程。考虑到解耦和业务复杂度不可控导致的变数，一般情况下建议正向和逆向分开设计和实现。然后通过单号等信息进行关联。......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -403,18 +310,6 @@ private final static DateTimeFormatter fmt1 = DateTimeFormat.forPattern(&quot;yy
         <h2><a href='/posts/%E5%BF%AB%E9%80%9F%E7%9A%84%E7%86%9F%E6%82%89%E9%99%8C%E7%94%9F%E7%9A%84%E7%B3%BB%E7%BB%9F/'>快速的熟悉陌生的系统</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>工作和学习过程中经常会遇到陌生的系统需要去熟悉，下面是我总结的一些自己的方法论，希望对你有所帮助。
-了解系统Overview 首先我们需要对系统有一个Overview的了解，了解的方式可以是自己摸索，找对应系统负责人，团队leader聊，也可以自己找wiki，文档等方法。我简单的总结了一下步骤：
- 熟悉系统的定位，明确系统要解决的主要问题 如果系统有对应的UI页面，比如对于web系统，可以申请系统的权限，然后登陆系统看看系统主要有哪些菜单（一般情况下菜单其实会对于系统的功能模块），每个菜单下面都有哪些菜单项，然后浏览一下每个菜单项对应的页面有哪些按钮，哪些表格，哪些表单等。这样会对系统有哪些模块、功能有一个大概的了解。 如果你幸运的话，你可以阅读系统使用手册、设计文档、需求文档等，当然大多数情况下是没有的。这个时候你其实更多的需要上一步骤对系统的大概理解，然后结合自己的工作经验，大致猜猜系统怎么设计实现的，其实对于大多数业务系统来说，看看功能模块其实是可以猜出个七七八八的系统设计和使用的情况的。当然了对于类似中间件那些系统（比如MQ，Config，Schedule）等，其实了解起来更加的迅速，因为大家基本在日常工作过程中都使用过这些系统，所以对于系统需要提供的基本功能和如何使用都比较熟悉，可能就是在系统的设计和实现上有所差异。 了解系统的上下游。上下游都是哪些团队的哪些系统？这些团队的负责人是谁？系统和上下游系统是如何交互的？交互方式是什么，交互的时机等。 了解系统的核心数据流向。清楚一个完成的数据链路是怎么样的。 如果可以的话，自己动手在系统的dev环境或者beta环境来点一点，创建一些数据，然后走走核心数据链路。 了解系统的核心监控指标。了解清楚核心监控指标，其实便于你理解系统的核心功能，并且方便日后对系统修改的时候，看看是否对核心监控指标有影响。 了解系统的部署情况。一般一个系统都会有好几个模块（module），清楚每个模块干啥的，这些模块之间的依赖关系（比如admin模块，Server模块，client模块），模块或者系统系统如何部署的，是部署在KVM上？Kubernetes上？多少个实例？多少台Server？Server啥配置？存储用的啥？MySQL？HBase？DB数据量大致多少？存储多少个G/T? 存储增长量多少？系统的QPS大致多少？ 按照上面的步骤操作完以后，相信你一定会对系统有一个明确的了解。这个时候其实你应该可以对系统的存储模型（数据模型）猜出个七七八八了，接下来可以看看系统的存储模型了，来验证我们的猜测。  阅读系统存储模型 此处说的存储模型也可以称为是数据模型。可以是MySQL表设计（有哪些表，表之间的关联关系，表的索引是哪些，唯一索引是哪些），Hbase的存储方式（rowKey是如何设计的，列簇如何弄的，有哪些列），也可以是抽象意义上的数据模型。
-阅读系统的源码 基本了解系统功能以后，知道存储模型以后，大致怎么实现其实 应该也可以猜出来了。当然了很多功能其实的实现方式会有很多种，通过阅读系统的源码我们就可以知道系统是采用的哪种方式。如果遇到和我们猜测的实现方式不一样的话，其实可以思考一下为啥不一样？两种实现方式的区别在哪，孰优孰劣。
-关于阅读源码，我整理了几个注意点
- 首先让系统在本地/dev/beta跑起来，最好在本地，这样其实对系统的运行环境可以更加熟悉。 先从从核心数据链路的最开始进行源码阅读，第一次阅读只需要关心核心链路，分支链路第一次阅读的时候请忽略。 对核心逻辑流程进行debug。因为设计的比较好的系统，往往接口和实现是分离的，而且会有多个实现，光看接口其实有时候根本不清楚走的哪个实现，这个时候就需要进行debug了。有时候一些方法实现的可能很不清晰，这个时候通过debug，或者写main方法，单元测试等手段来了解。 开业手动画出系统核心流程的关键类的调用关系 阅读系统非核心逻辑代码 尝试讲给系统的开发人员，确认你理解的是正确的。对一些感觉设计不合理的点，咨询当时那么设计的原因  解决自己的疑惑，确认可优化点 一般情况下，我们在阅读完系统代码之后，会有自己的疑惑，也会发现一些设计不合理的点（虽然可能这个设计在当时的情况下是合理的），我们可以提出自己的优化方案，然后找对应系统的产品、开发、负责人确认。
-结语 如果你完全按照上面的方式做了，还是没有对某个系统熟悉的话，那么就只能找对应系统的产品、开发、负责人具体咨询了。......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -438,13 +333,6 @@ private final static DateTimeFormatter fmt1 = DateTimeFormat.forPattern(&quot;yy
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/apachebench-ab%E5%8E%8B%E6%B5%8B%E5%B7%A5%E5%85%B7/'>ApacheBench ab压测工具</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>ab简介 ApacheBench 是 Apache服务器自带的一个web压力测试工具，简称ab。ab又是一个命令行工具，根据ab命令可以创建很多的并发访问线程，模拟多个访问者同时对某一URL地址进行访问，因此可以用来测试目标服务器的负载压力。
-安装ab sudo apt-get install apache2-utils  参数列表 Usage: ab [options] [http[s]://]hostname[:port]/path Options are: -n requests Number of requests to perform //请求链接数 -c concurrency Number of multiple requests to make at a time //表示并发数 -t timelimit Seconds to max. to spend on benchmarking This implies -n 50000 -s timeout Seconds to max. wait for each response Default is 30 seconds -b windowsize Size of TCP send/receive buffer, in bytes -B address Address to bind to when making outgoing connections -p postfile File containing data to POST.......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -499,43 +387,6 @@ private final static DateTimeFormatter fmt1 = DateTimeFormat.forPattern(&quot;yy
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 

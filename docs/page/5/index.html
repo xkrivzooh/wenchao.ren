@@ -110,15 +110,6 @@
         <h2><a href='/posts/redisson-redlock%E4%BB%A3%E7%A0%81%E9%98%85%E8%AF%BB/'>redisson redlock代码阅读</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>本文章未完，待续
-redisson redlock基本使用 RLock lock1 = redissonInstance1.getLock(&quot;lock1&quot;); RLock lock2 = redissonInstance2.getLock(&quot;lock2&quot;); RLock lock3 = redissonInstance3.getLock(&quot;lock3&quot;); RedissonRedLock lock = new RedissonRedLock(lock1, lock2, lock3); // 同时加锁：lock1 lock2 lock3 // 红锁在大部分节点上加锁成功就算成功。 lock.lock(); ... lock.unlock();  另外Redisson还通过加锁的方法提供了leaseTime的参数来指定加锁的时间。超过这个时间后锁便自动解开了。
-RedissonRedLock lock = new RedissonRedLock(lock1, lock2, lock3); // 给lock1，lock2，lock3加锁，如果没有手动解开的话，10秒钟后将会自动解开 lock.lock(10, TimeUnit.SECONDS); // 为加锁等待100秒时间，并在加锁成功10秒钟后自动解开 boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS); ... lock.unlock();  源码阅读 RedissonRedLock类继承了RedissonMultiLock，基于redlock算法，这个类重写了RedissonMultiLock的failedLocksLimit和calcLockWaitTime方法
-public class RedissonRedLock extends RedissonMultiLock { /** * Creates instance with multiple {@link RLock} objects.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -142,22 +133,6 @@ public class RedissonRedLock extends RedissonMultiLock { /** * Creates instance 
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/selectepollkqueue%E5%8C%BA%E5%88%AB/'>Select、poll、Epoll、KQueue区别</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在早期的文章《unix IO模型》中我们介绍了5种IO模型，如下图是几种IO模型的对比
-从上面的图可以看出，从左到右，越往后，阻塞越少，理论上效率也就越优。
-其中Select对应的是第三种IO模型：I/O Multiplexing IO多路复用模型，而epoll与kqueue其实和Select一样也属于I/O Multiplexing IO多路复用模型，只是相比于select来说多了一些高级特性而已，可以看做拥有了第四种模型的某些特性，比如callback的回调机制。
-IO多路复用的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select，poll，epoll，kqueue这些个function会不断的轮询所负责的所有socket，当某个socket就绪（一般是读就绪或者写就绪），就通知用户进程。
-I/O Multiplexing IO多路复用模型 当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。
-所以，I/O 多路复用的特点是通过一种机制一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪状态，select()函数就可以返回
-更详细的描述可以查看《/unix-IO模型/#I-O-多路复用（-IO-multiplexing）》
-Select int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);  select 函数监视的文件描述符分3类，分别是:
- writefds readfds exceptfds  调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。
-select的优缺点 优点  跨平台  select目前几乎在所有的平台上支持，其良好跨平台支持也是它的一个优点。    缺点  单个进程打开的文件描述是有一定限制的，它由FD_SETSIZE设置，默认值是1024，采用数组存储，虽然可以通过编译内核改变，但相对麻烦。 另外在检查数组中是否有文件描述需要读写时，采用的是线性扫描的方法，即不管这些socket是不是活跃的，我都轮询一遍，所以效率比较低  poll int poll (struct pollfd *fds, unsigned int nfds, int timeout);  不同与select使用三个位图来表示三个fdset的方式，poll使用一个 pollfd的指针实现。
-struct pollfd { int fd; /* file descriptor */ short events; /* requested events to watch */ short revents; /* returned events witnessed */ };  pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -185,14 +160,6 @@ struct pollfd { int fd; /* file descriptor */ short events; /* requested events 
         <h2><a href='/posts/intellij-idea-2019-2-%E5%AF%B9http-client%E7%9A%84%E5%8A%9F%E8%83%BD%E5%A2%9E%E5%BC%BA/'>Intellij IDEA 2019.2 对http client的功能增强</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在Intellij IDEA 2019.2中对http client的功能进行了增强，主要有2个：
- HTTP client supports cURL requestsULTIMATE HTTP client keeps cookies  HTTP client supports cURL requestsULTIMATE Now you can paste a cURL request string into the HTTP client and have the IDE automatically convert it to a full request.
-HTTP client keeps cookies Suppose you’ve made one request to authenticate on the service, and in subsequent requests you would like to call some endpoints that require additional permissions.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -218,21 +185,6 @@ HTTP client keeps cookies Suppose you’ve made one request to authenticate on t
         <h2><a href='/posts/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E8%A7%A6%E5%8F%91%E6%96%B9%E5%BC%8F/'>定时任务的常见触发方式</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>中间件项目中，经常会有下面的场景：
- client的定时重试 client定时向server端发心跳包 server端对client的判活 &hellip;  这种其实都是在某一个时间点触发一些任务，但是当任务量很大时，怎么做比较高效呢？
-比如client定时向server发心跳包，在server端如何对client进行判活呢？一般我们的做法主要有下面的几种，当任务量很大的时候我们一般都会采样环形队列/HashedWheelTimer方法。
-轮询扫描 轮询扫描是最简单的处理方式，也非常的常见：
- 用一个Map来记录每一个client最近一次请求时间last_packet_time 当client有请求包来到，实时更新这个Map 同时有一个线程来专门的不断扫描这个map，比如当检查client的last_packet_time是否超过30s，如果超过则进行超时处理  多timer触发  用一个Map来记录每一个client最近一次请求时间last_packet_time 当某个client有请求包来到，实时更新这个Map，并同时对这个client的请求包启动一个timer，30s之后触发 每个client的请求包对应的timer触发后，看Map中，查看这个client的last_packet_time是否超过30s，如果超过则进行超时处理  环形队列/HashedWheelTimer 这种方案简单描述如下：
- 环形队列，本质是一个数组，比如30s超时，就创建一个index从0到30的环形队列 环上每一个slot是一个Set，表示：任务集合 同时还有一个Map，记录某个client落在环上的哪个slot里 同时启动一个timer，每隔1s，在上述环形队列中移动一格，移动到数组最后一个元素时候，又从第一个开始，也就是：0-&gt;1-&gt;2-&gt;3…-&gt;29-&gt;30-&gt;0… 有一个Current Index指针来标识刚检测过的slot  当某client有请求包到达时：
- 从Map结构中，查找出这个client存储在哪一个slot里 从这个slot的Set结构中，删除这个client 将client重新加入到新的slot中，具体是哪一个slot呢 =&gt; Current Index指针所指向的上一个slot，因为这个slot，会被timer在30s之后扫描到 更新Map，这个client对应slot的index值  哪些元素会被超时掉呢？
-因为Current Index每秒种移动一个slot，这个slot对应的Set中所有client都应该被集体超时！如果最近30s有请求包来到，一定被放到Current Index的前一个slot了，Current Index所在的slot对应Set中所有元素，都是最近30s没有请求包来到的。所以，当没有超时时，Current Index扫到的每一个slot的Set中应该都没有元素。
-优势：
- 只需要1个timer timer每1s只需要一次触发，消耗CPU很低 批量超时，Current Index扫到的slot，Set中所有元素都应该被超时掉  ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -256,13 +208,6 @@ HTTP client keeps cookies Suppose you’ve made one request to authenticate on t
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E4%BD%BF%E7%94%A8spring-value%E6%B3%A8%E8%A7%A3/'>构造函数中使用Spring  @Value注解</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>如果想在构造函数中使用的@value注解的话，demo如下：
-// File: sample/Message.groovy package sample import org.springframework.beans.factory.annotation.* import org.springframework.stereotype.* @Component class Message { final String text // Use @Autowired to get @Value to work. @Autowired Message( // Refer to configuration property // app.message.text to set value for // constructor argument message. @Value('${app.message.text}') final String text) { this.text = text } }  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -292,22 +237,6 @@ HTTP client keeps cookies Suppose you’ve made one request to authenticate on t
         <h2><a href='/posts/bloom-filter/'>bloom filter</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>当系统设计中出现多级缓存结构时，为了防止大量不存在的key值击穿高速缓存（比如主存），去直接访问低速缓存（如本地磁盘），我们一般需要将这部分key值，直接拦截在高速缓存阶段。这里，当然可以使用普通的hash table，也可以使用bitmap，但是这两种方式都比较耗费内存，当面对海量key值时，问题会变得更加严重。这时，就该介绍我们的主角bloom filter出场了。
-一般的，bloom filter用于判断一个key值是否在一个set中，拥有比hash table/bitmap更好的空间经济性。如果bloom filter指示一个key值“不在”一个set中，那么这个判断是100%准确的。这样的特性，非常适合于上述的缓存场景。
-bloom filter原理   首先估计要判断的set中的元素个数N，然后选定k个独立的哈希函数。根据N和k，选定一个长度为M的bit array。
-  遍历set中的N个元素
- 对每个元素，使用k个哈希函数，得到k个哈希值（一般为一个大整数） 将上述bit array中，k个哈希值所对应的bit置1    对于需要判断的key值
- 使用k个哈希函数，得到k个哈希值 如果k个哈希值所对应的bit array中的值均为1，则判断此值在set中“可能”存在；否则，判定“一定”不存在    根据上面的原理我们其实可以看到，bloom filter有以下特点：
- 比较节省空间 bloom的识别准确率和数据大小，k个哈希函数有关 如果bloom filter判断key不存在，那么就一定不存在，100%不存在。 如果bloom filter判断key存在，那么可能存在，也可能不存在  bloom filter优缺点 优点：   插入、查找都是常数时间
-  多个hash函数之间互相独立，可以并行计算
-  不需要存储元素本身，从而带来空间效率优势，以及一些保密上的优势
-  bloom filter的bitmap可以进行交、并、差运算
-  缺点：  判断元素是否在集合中的结果其实是不准确的 bloom filter中的元素是不能删除的  bloom filter的实际使用 guava bloom filter guava中提供了bloom filter的一种实现:com.......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -331,18 +260,6 @@ bloom filter原理   首先估计要判断的set中的元素个数N，然后选�
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E5%89%8D%E7%AB%AF%E7%BB%84%E4%BB%B6/'>推荐一些前端组件</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>我个人的前端水平其实是很挫的，但是据我所知很多公司的内部系统大多数是没有前端fe同学支持的，一般都是自己写的，这个时候一个文档健全，demo完善，上手简单的的前端组件库可以说是一大利器。因此这篇文章推荐一下我最近使用的比较不错的前端组件
-bizcharts 官方地址：https://bizcharts.net/index
-基于商业场景下的数据可视化解决方案，BizCharts主打电商业务图表可视化，沉淀电商业务线的可视化规范。在 React 项目中实现常见图表和自定义图表。
-bizcharts支持桌面端和移动端，demo非常的丰富。与其是有现成的例子可以直接修改使用, 比如它的图标示例:
-iceworks 官方地址：https://ice.work/iceworks
-iceworks：让前端工程变的轻松便捷
-参考资料  bizcharts iceworks  ......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -370,17 +287,6 @@ iceworks：让前端工程变的轻松便捷
         <h2><a href='/posts/%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91maven%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F/'>使用阿里云maven镜像加速</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>maven是一个好东西，但是默认情况下，maven使用的是中央仓央是：http://repo1.maven.org/maven2和http://uk.maven.org/maven2。这两个镜像在国内 访问其实是比较慢的，因此我们需要尽可能使用国内同步好的镜像。
-我在国内选择的是阿里云的镜像：公共代理库
-maven的配置为：打开maven的配置文件(windows机器一般在maven安装目录的conf/settings.xml)，在&lt;mirrors&gt;&lt;/mirrors&gt;标签中添加mirror子节点:
-&lt;mirror&gt; &lt;id&gt;aliyunmaven&lt;/id&gt; &lt;mirrorOf&gt;*&lt;/mirrorOf&gt; &lt;name&gt;阿里云公共仓库&lt;/name&gt; &lt;url&gt;https://maven.aliyun.com/repository/public&lt;/url&gt; &lt;/mirror&gt;  其他的如gradle的配置指南请参见公共代理库中描述的那样操作就好了。
-但是一般情况下在公司开发的时候，公司也会有自己的maven镜像仓库，这个时候搞多个mirror就好了。
-参考资料：  Maven镜像地址大全  ......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -406,14 +312,6 @@ maven的配置为：打开maven的配置文件(windows机器一般在maven安装
         <h2><a href='/posts/java-nio-bytebuffer/'>java.nio.ByteBuffer</a></h2>
     </div>
     
-    <div class="list">
-        <div class="post_content markdown">
-            <p>Java NIO Buffers用于和NIO Channel交互。 我们从Channel中读取数据到buffers里，从Buffer把数据写入到Channels。Buffer本质上就是一块内存区，可以用来写入数据，并在稍后读取出来。这块内存被NIO Buffer包裹起来，对外提供一系列的读写方便开发的接口。java中java.nio.Buffer的常见实现类如下，不过我们这里只说一下ByteBuffer这个实现。
-Buffer的重要属性 Buffer缓冲区实质上就是一块内存，用于写入数据，也供后续再次读取数据，为了便于理解，你可以把它理解为一个字节数组。它有有四个重要属性：
-public abstract class Buffer { // Invariants: mark &lt;= position &lt;= limit &lt;= capacity private int mark = -1; private int position = 0; private int limit; private int capacity; }   capacity  这个属性表示这个Buffer最多能放多少数据，在创建buffer的时候指定。int类型。   position 下一个要读写的元素位置（从0开始），当使用buffer的相对位置进行读/写操作时，读/写会从这个下标进行，并在操作完成后，buffer会更新下标的值。  写模式：当写入数据到Buffer的时候需要从一个确定的位置开始，默认初始化时这个位置position为0，一旦写入了数据比如一个字节，整形数据，那么position的值就会指向数据之后的一个单元，position最大可以到capacity-1. 读模式：当从Buffer读取数据时，也需要从一个确定的位置开始。buffer从写入模式变为读取模式时，position会归0，每次读取后，position向后移动。   limit 在Buffer上进行的读写操作都不能越过这个limit。  写模式：limit的含义是我们所能写入的最大数据量，它等同于buffer的容量capacity 读模式：limit则代表我们所能读取的最大数据量，他的值等同于写模式下position的位置。换句话说，您可以读取与写入数量相同的字节数。   mark  一个临时存放的位置下标，用户选定的position的前一个位置或-1。  调用mark()会将mark设为当前的position的值，以后调用reset()会将position属性设 置为mark的值。mark的值总是小于等于position的值，如果将position的值设的比mark小，当前的mark值会被抛弃掉。      注：......</p>
-        </div>
-    </div>
-    
     <div class="post_footer">
         <div class="meta">
             <div class="info">
@@ -437,17 +335,6 @@ public abstract class Buffer { // Invariants: mark &lt;= position &lt;= limit &l
 <div class="post animated fadeInDown">
     <div class="post_title">
         <h2><a href='/posts/%E7%A1%AE%E4%BF%9D%E6%95%B0%E6%8D%AE%E8%90%BD%E7%9B%98/'>确保数据落盘</a></h2>
-    </div>
-    
-    <div class="list">
-        <div class="post_content markdown">
-            <p>在之前的文章《unix IO模型》我们曾经提到过，用户空间，内核空间，缓存IO等概念。关于这些概念，大家可以阅读这篇文章，在本篇文章中，我们就不在涉及这些概念了。
-IO缓冲机制 大家需要有一个认知就是我们平时写的程序，在将数据到文件中时，其实数据不会立马写入磁盘中进行持久化存储的，而是会经过层层缓存，如下图所示：
-其中这每层缓存都有自己的刷新时机，每层缓存都刷新后才会写入磁盘进行持久化存储。这些缓存的存在目的本意都是为了加速读写操作，因为如果每次读写都对应真实磁盘操作，那么读写的效率会大大降低。但是同样带来的坏处是如果期间发生掉电或者别的故障，还未写入磁盘的数据就丢失了。对于数据安全敏感的应用，比如数据库，比如交易程序，这是无法忍受的。所以操作系统提供了保证文件落盘的机制。
-在上面这图中说明了操作系统到磁盘的数据流，以及经过的缓冲区。首先数据会先存在于应用的内存空间，如果调用库函数写入，库函数可能还会把数据缓存在库函数所维护的缓冲区空间中，比如C标准库stdio提供的方法就会进行缓存，目的是为了减少系统调用的次数。这两个缓存都是在用户空间中的。库函数缓存flush时，会调用write系统调用将数据写入内核空间，内核同样维护了一个页缓存（page cache），操作系统会在合适的时间把脏页的数据写入磁盘。即使是写入磁盘了，磁盘也可能维护了一个缓存，在这个时候掉电依然会丢失数据的，只有写入了磁盘的持久存储物理介质上，数据才是真正的落盘了，是安全的。
-比如在网络套接字上侦听连接并将从每个客户端接收的数据写入文件的应用程序。 在关闭连接之前，服务器确保将接收到的数据写入稳定存储器，并向客户端发送此类确认，请看下面的简化代码(代码中已经注释)：
-int sock_read(int sockfd, FILE *outfp, size_t nrbytes) { int ret; size_t written = 0; //example of an application buffer char *buf = malloc(MY_BUF_SIZE); if (!buf) return -1; //take care of reading the data from the socket //and writing it to the file stream while (written &lt; nrbytes) { ret = read(sockfd, buf, MY_BUF_SIZE); if (ret =&lt; 0) { if (errno == EINTR) continue; return ret; } written += ret; ret = fwrite((void *)buf, ret, 1, outfp); if (ret !......</p>
-        </div>
     </div>
     
     <div class="post_footer">
@@ -502,43 +389,6 @@ int sock_read(int sockfd, FILE *outfp, size_t nrbytes) { int ret; size_t written
 <script src="https://wenchao.ren/js/fancybox.min.js"></script>
 <script src="https://wenchao.ren/js/zozo.js"></script>
 
-
-<script type="text/javascript" async
-    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                TeX: {
-                    equationNumbers: { autoNumber: "AMS" },
-                    extensions: ["AMSmath.js", "AMSsymbols.js"]
-                }
-            }
-        });
-
-        MathJax.Hub.Queue(function () {
-            
-            
-            
-            var all = MathJax.Hub.getAllJax(), i;
-            for (i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-<style>
-    code.has-jax {
-        font: inherit;
-        font-size: 100%;
-        background: inherit;
-        border: inherit;
-        color: #515151;
-    }
-</style>
 
 
 
