@@ -1,10 +1,9 @@
-baseURL = "https://xkrivzooh.github.io"
+baseURL = "https://wenchao.ren"
 languageCode = "zh-cn"
 title = "被遗忘的博客"
 theme = "zozo"
-hjsStyle = "idea"
 disqusShortname = "rollenholt"
-publishDir = "docs"
+publishDir = "docs"  ##生成内容的目录，从public改为docs。因为GitHub pages好像只能选这个
 
 
 [taxonomies]

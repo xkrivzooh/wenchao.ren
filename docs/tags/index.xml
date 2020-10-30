@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 被遗忘的博客</title>
-    <link>https://xkrivzooh.github.io/tags/</link>
+    <link>https://wenchao.ren/tags/</link>
     <description>Recent content in Tags on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2020 16:25:40 +0800</lastBuildDate><atom:link href="https://xkrivzooh.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 30 Oct 2020 16:25:40 +0800</lastBuildDate><atom:link href="https://wenchao.ren/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>java</title>
-      <link>https://xkrivzooh.github.io/tags/java/</link>
+      <link>https://wenchao.ren/tags/java/</link>
       <pubDate>Fri, 30 Oct 2020 16:25:40 +0800</pubDate>
       
-      <guid>https://xkrivzooh.github.io/tags/java/</guid>
+      <guid>https://wenchao.ren/tags/java/</guid>
       <description></description>
     </item>
     

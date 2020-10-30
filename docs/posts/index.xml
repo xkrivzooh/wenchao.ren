@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 被遗忘的博客</title>
-    <link>https://xkrivzooh.github.io/posts/</link>
+    <link>https://wenchao.ren/posts/</link>
     <description>Recent content in Posts on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2020 16:25:40 +0800</lastBuildDate><atom:link href="https://xkrivzooh.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 30 Oct 2020 16:25:40 +0800</lastBuildDate><atom:link href="https://wenchao.ren/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My First Post</title>
-      <link>https://xkrivzooh.github.io/posts/my-first-post/</link>
+      <link>https://wenchao.ren/posts/my-first-post/</link>
       <pubDate>Fri, 30 Oct 2020 16:25:40 +0800</pubDate>
       
-      <guid>https://xkrivzooh.github.io/posts/my-first-post/</guid>
+      <guid>https://wenchao.ren/posts/my-first-post/</guid>
       <description>asdasdasda asdasd
 测试图片</description>
     </item>
     
     <item>
       <title>Archives</title>
-      <link>https://xkrivzooh.github.io/posts/archives/</link>
+      <link>https://wenchao.ren/posts/archives/</link>
       <pubDate>Fri, 30 Oct 2020 16:15:01 +0800</pubDate>
       
-      <guid>https://xkrivzooh.github.io/posts/archives/</guid>
+      <guid>https://wenchao.ren/posts/archives/</guid>
       <description>This page contains an archive of all posts.</description>
     </item>
     
