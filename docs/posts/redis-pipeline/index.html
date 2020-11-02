@@ -122,14 +122,14 @@ StatefulRedisConnection&amp;lt;String, String&amp;gt; connection = client.connec
 <p>在这个过程中我们可以看到有2次网络传输，而这两次网络传输的耗时成为：<code>RTT (Round Trip Time)</code>。例如，如果 RTT 时间是250毫秒（网络连接很慢的情况下），
 即使服务端每秒能处理100k的请求量，那我们每秒最多也只能处理4个请求。如果使用的是本地环回接口，RTT 就短得多，但如如果需要连续执行多次写入，这也是一笔很大的开销。下面的图是传统的
 N次request-response的交互图：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190731125102.png" alt="传统的N次request-response的交互图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190731125102.png" alt="传统的N次request-response的交互图"></p>
 <blockquote>
 <p>一般情况下我们为了解决rtt耗时太长的问题，会采样批处理的解决方案，也就是将请求参数批量发给server端，server端处理完这些请求以后，在一次性返回结果。</p>
 </blockquote>
 <p>在redis中，已经提供了一些批量操作命令，比如mget，mset等命令。但是也有不少命令是没有批量操作命令的，但是为了解决这个问题，redis支持Pipeline。</p>
 <p>Pipeline 并不是一种新的技术或机制，很多技术上都使用过。RTT 在不同网络环境下会不同，例如同机房和同机房会比较快，跨机房跨地区会比较慢。Redis 很早就支持 Pipeline 技术，因此无论你运行的是什么版本，你都可以使用 Pipeline 操作 Redis。如果客户端和服务端的网络延时越大，那么Pipeline的效果越明显。</p>
 <p>Pipeline 能将一组 Redis 命令进行组装，通过一次 RTT 传输给 Redis，再将这组 Redis 命令按照顺序执行并将结果返回给客户端。上图没有使用 Pipeline 执行了 N 条命令，整个过程需要 N 次 RTT。下图为使用 Pipeline 执行 N 条命令，整个过程仅需要 1 次 RTT：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190731125414.png" alt="Pipeline 示意图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190731125414.png" alt="Pipeline 示意图"></p>
 <h2 id="pipeline-基本使用">Pipeline 基本使用</h2>
 <p>我比较喜欢用的lettuce中对pipeline的使用方式（Asynchronous Pipelining）如下：</p>
 <pre><code class="language-java">StatefulRedisConnection&lt;String, String&gt; connection = client.connect();

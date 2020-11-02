@@ -32,7 +32,7 @@ draft: false
 
 学习 Linux 时，经常可以看到两个词：User space（用户空间）和 Kernel space（内核空间）。
 
-![用户空间（user space）与内核空间（kernel space）](http://7niucdn.wenchao.ren/20190326130603.png)
+![用户空间（user space）与内核空间（kernel space）](http://wenchao.ren/img/2020/11/20190326130603.png)
 
 
 简单说，Kernel space 是 Linux 内核的运行空间，User space 是用户程序的运行空间。为了安全，它们是隔离的，即使用户的程序崩溃了，内核也不受影响。
@@ -98,7 +98,7 @@ y = x + 4 // 切换回用户空间
 
 **在linux中，默认情况下所有的IO操作都是blocking**，一个典型的读操作流程大概是这样：
 
-![blocking Io model](http://7niucdn.wenchao.ren/20190327002837.png)
+![blocking Io model](http://wenchao.ren/img/2020/11/20190327002837.png)
 
 
 当用户进程调用了`recvfrom`这个系统调用，kernel就开始了IO的第一个阶段：准备数据（对于网络IO来说，很多时候数据在一开始还没有到达。比如，还没有收到一个完整的UDP包。这个时候kernel就要等待足够的数据到来），而数据被拷贝到操作系统内核的缓冲区中是需要一个过程的，这个过程需要等待。而在用户进程这边，整个进程会被阻塞（当然，是进程自己选择的阻塞）。当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户空间的缓冲区以后，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。
@@ -127,7 +127,7 @@ socket设置为 NONBLOCK（非阻塞）就是告诉内核，当所请求的I/O�
 
 当对一个non-blocking socket执行读操作时，流程是这个样子：
 
-![nonblocking io model](http://7niucdn.wenchao.ren/20190327124429.png)
+![nonblocking io model](http://wenchao.ren/img/2020/11/20190327124429.png)
 
 当用户进程调用了`recvfrom`这个系统调用，如果kernel中的数据还没有准备好，那么它并不会block用户进程，而是立刻返回一个`EWOULDBLOCK` error。从用户进程角度讲 ，它发起一个read操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个`EWOULDBLOCK` error时，它就知道数据还没有准备好，于是它可以再次发送read操作。一旦kernel中的数据准备好了，并且又再次收到了用户进程的system call，那么它马上就将数据拷贝到了用户空间缓冲区，然后返回。
 
@@ -147,7 +147,7 @@ socket设置为 NONBLOCK（非阻塞）就是告诉内核，当所请求的I/O�
 
 
 
-![IO multiplexing model](http://7niucdn.wenchao.ren/20190327124225.png)
+![IO multiplexing model](http://wenchao.ren/img/2020/11/20190327124225.png)
 
 `当用户进程调用了select，那么整个进程会被block`，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。
 
@@ -169,7 +169,7 @@ socket设置为 NONBLOCK（非阻塞）就是告诉内核，当所请求的I/O�
 
 接下来我们看看linux下的asynchronous IO的流程：
 
-![asynchronous io model](http://7niucdn.wenchao.ren/20190327124830.png)
+![asynchronous io model](http://wenchao.ren/img/2020/11/20190327124830.png)
 
 用户进程发起`aio_read`调用之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它发现一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个`signal`，告诉它read操作完成了。
 
@@ -186,7 +186,7 @@ socket设置为 NONBLOCK（非阻塞）就是告诉内核，当所请求的I/O�
 
 首先我们允许 socket 进行信号驱动 I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个` SIGIO `信号，可以在信号处理函数中调用 I/O 操作函数处理数据。
 
-![signal-driven IO](http://7niucdn.wenchao.ren/20190327125102.png)
+![signal-driven IO](http://wenchao.ren/img/2020/11/20190327125102.png)
 
 但是这种IO模确用的不多，所以我这里也就不详细提它了。
 
@@ -225,7 +225,7 @@ socket设置为 NONBLOCK（非阻塞）就是告诉内核，当所请求的I/O�
 
 #### 各个IO Model的比较
 
-![各个IO Model的比较](http://7niucdn.wenchao.ren/20190327125753.png)
+![各个IO Model的比较](http://wenchao.ren/img/2020/11/20190327125753.png)
 
 前四种模型的区别是阶段1不相同，阶段2基本相同，都是将数据从内核拷贝到调用者的缓冲区。而异步 I/O 的两个阶段都不同于前四个模型。同步 I/O 操作引起请求进程阻塞，直到 I/O 操作完成。异步 I/O 操作不引起请求进程阻塞。
 

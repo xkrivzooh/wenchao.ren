@@ -108,7 +108,7 @@ public abstract class Buffer { // Invariants: mark &amp;lt;= position &amp;lt;= 
                         <h2><a href='/posts/java-nio-bytebuffer/'>java.nio.ByteBuffer</a></h2>
                     </div>
                     <div class="post_content markdown"><p>Java NIO Buffers用于和NIO Channel交互。 我们从Channel中读取数据到buffers里，从Buffer把数据写入到Channels。Buffer本质上就是一块内存区，可以用来写入数据，并在稍后读取出来。这块内存被NIO Buffer包裹起来，对外提供一系列的读写方便开发的接口。java中<code>java.nio.Buffer</code>的常见实现类如下，不过我们这里只说一下<code>ByteBuffer</code>这个实现。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190402200858.png" alt="java中java.nio.Buffer的常见实现类"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190402200858.png" alt="java中java.nio.Buffer的常见实现类"></p>
 <h2 id="buffer的重要属性">Buffer的重要属性</h2>
 <p><strong>Buffer缓冲区实质上就是一块内存</strong>，用于写入数据，也供后续再次读取数据，为了便于理解，你可以把它理解为一个字节数组。它有有四个重要属性：</p>
 <pre><code class="language-java">public abstract class Buffer {
@@ -343,16 +343,16 @@ limit is: 28
 <h2 id="图解">图解</h2>
 <h3 id="put">put</h3>
 <p>写模式下，往buffer里写一个字节，并把postion移动一位。写模式下，一般limit与capacity相等。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190402210214.png" alt="bytebuffer-put"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190402210214.png" alt="bytebuffer-put"></p>
 <h3 id="flip">flip</h3>
 <p>写完数据，需要开始读的时候，将postion复位到0，并将limit设为当前postion。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190402210241.png" alt="bytebuffer-flip"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190402210241.png" alt="bytebuffer-flip"></p>
 <h3 id="get">get</h3>
 <p>从buffer里读一个字节，并把postion移动一位。上限是limit，即写入数据的最后位置。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190402210310.png" alt="bytebuffer-get"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190402210310.png" alt="bytebuffer-get"></p>
 <h3 id="clear">clear</h3>
 <p>将position置为0，并不清除buffer内容。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190402210340.png" alt="bytebuffer-clear"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190402210340.png" alt="bytebuffer-clear"></p>
 <h2 id="example">example</h2>
 <pre><code class="language-java">import java.io.FileInputStream;
 import java.io.FileOutputStream;

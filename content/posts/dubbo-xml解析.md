@@ -10,7 +10,7 @@ draft: false
 
 本篇文章主要来看看dubbo中对应的源代码
 
-![dubbo xml解析相关的类](http://7niucdn.wenchao.ren/20190808004821.png)
+![dubbo xml解析相关的类](http://wenchao.ren/img/2020/11/20190808004821.png)
 
 如上图所示，这些类就是dubbo解析xml的相关实现的核心类，核心原理已经在之前的文章中详细描述了，如果大家在阅读dubbo代码，想看某个element的解析类的话，可以在`DubboNamespaceHandler`中来找：
 

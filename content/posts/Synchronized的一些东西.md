@@ -26,7 +26,7 @@ public class SynchronizedDemo {
 }
 ```
 
-![http://7niucdn.wenchao.ren/20190902124248.png](http://7niucdn.wenchao.ren/20190902124248.png)
+![http://wenchao.ren/img/2020/11/20190902124248.png](http://wenchao.ren/img/2020/11/20190902124248.png)
 
 从上面截图可以看到，synchronized的实现依赖2个指令：
 
@@ -79,7 +79,7 @@ public class SynchronizedMethod {
 
 我们继续对这个类进行反编译：
 
-![http://7niucdn.wenchao.ren/20190902125437.png](http://7niucdn.wenchao.ren/20190902125437.png)
+![http://wenchao.ren/img/2020/11/20190902125437.png](http://wenchao.ren/img/2020/11/20190902125437.png)
 
 从反编译的结果来看，方法的同步并没有通过指令`monitorenter`和`monitorexit`来完成（虽然理论上其实也可以通过这两条指令来实现），不过相对于普通方法，其常量池中多了`ACC_SYNCHRONIZED`标示符。JVM就是根据该标示符来实现方法的同步的：
 
@@ -99,7 +99,7 @@ public class SynchronizedMethod {
 synchronized是悲观锁，在操作同步资源之前需要给同步资源先加锁，这把锁就是存在Java对象头里的，而Java对象头又是什么呢？
 我们以Hotspot虚拟机为例，**Hotspot的对象头主要包括两部分数据：Mark Word（标记字段）、Klass Pointer（类型指针）**。如下面的一个示例：
 
-![java object示意图](http://7niucdn.wenchao.ren/20190903122107.png)
+![java object示意图](http://wenchao.ren/img/2020/11/20190903122107.png)
 
 我们以64位虚拟机来说，object header的结构为：
 
@@ -130,7 +130,7 @@ synchronized是悲观锁，在操作同步资源之前需要给同步资源先�
 
 这些信息都是与对象自身定义无关的数据，所以`Mark Word`被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据。它会根据对象的状态复用自己的存储空间，也就是说在运行期间`Mark Word`里存储的数据会随着锁标志位的变化而变化。
 
-![](http://7niucdn.wenchao.ren/20190903122601.png)
+![](http://wenchao.ren/img/2020/11/20190903122601.png)
 
 #### Klass Point
 
@@ -149,9 +149,9 @@ synchronized最初实现同步的方式是`阻塞或唤醒一个Java线程需要
 
 下面是出四种锁状态对应的的Mark Word内容，然后再分别讲解四种锁状态的思路以及特点：
 
-![](http://7niucdn.wenchao.ren/20190903124139.png)
+![](http://wenchao.ren/img/2020/11/20190903124139.png)
 
-![](http://7niucdn.wenchao.ren/20190903122952.png)
+![](http://wenchao.ren/img/2020/11/20190903122952.png)
 
  上下两幅图对照着看，我们就能够清楚的知道在不同的锁状态下，mack word区域存储的内容的不同了。
 
@@ -196,7 +196,7 @@ synchronized最初实现同步的方式是`阻塞或唤醒一个Java线程需要
 无锁  ->   偏向锁   -> 轻量级锁   ->    重量级锁
 
 
-![](http://7niucdn.wenchao.ren/20190903124238.png)
+![](http://wenchao.ren/img/2020/11/20190903124238.png)
 
 
 综上，**偏向锁通过对比Mark Word解决加锁问题，避免执行CAS操作。而轻量级锁是通过用CAS操作和自旋来解决加锁问题，避免线程阻塞和唤醒而影响性能。重量级锁是将除了拥有锁的线程以外的线程都阻塞。**

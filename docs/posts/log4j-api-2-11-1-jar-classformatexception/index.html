@@ -137,7 +137,7 @@ org.apache.tomcat.util.bcel.classfile.ClassFormatException: Invalid byte tag in 
 	at java.lang.Thread.run(Thread.java:745)
 </code></pre>
 <p>出现这个异常的原因是因为我们的服务器使用的是java8，而工程代码中依赖的<code>log4j-api-2.11.1.jar</code>有部分java9版本的字节码文件。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190308171150.png" alt="log4j-api-2.11.1.jar工程结构图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190308171150.png" alt="log4j-api-2.11.1.jar工程结构图"></p>
 <p>然后排查了发现<code>log4j-api-2.11.1.jar</code>是通过<code>elasticsearch</code>的<code>6.5.1</code>引入的。</p>
 </div>
                     <div class="post_footer">

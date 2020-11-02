@@ -126,7 +126,7 @@ public class SynchronizedDemo { public void method() { synchronized (this) { Sys
     }
 }
 </code></pre>
-<p><img src="http://7niucdn.wenchao.ren/20190902124248.png" alt="http://7niucdn.wenchao.ren/20190902124248.png"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190902124248.png" alt="http://wenchao.ren/img/2020/11/20190902124248.png"></p>
 <p>从上面截图可以看到，synchronized的实现依赖2个指令：</p>
 <ul>
 <li>monitorenter</li>
@@ -173,7 +173,7 @@ The thread decrements the entry count of the monitor associated with objectref. 
 }
 </code></pre>
 <p>我们继续对这个类进行反编译：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190902125437.png" alt="http://7niucdn.wenchao.ren/20190902125437.png"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190902125437.png" alt="http://wenchao.ren/img/2020/11/20190902125437.png"></p>
 <p>从反编译的结果来看，方法的同步并没有通过指令<code>monitorenter</code>和<code>monitorexit</code>来完成（虽然理论上其实也可以通过这两条指令来实现），不过相对于普通方法，其常量池中多了<code>ACC_SYNCHRONIZED</code>标示符。JVM就是根据该标示符来实现方法的同步的：</p>
 <ul>
 <li>当方法调用时，调用指令将会检查方法的 <code>ACC_SYNCHRONIZED</code> 访问标志是否被设置，如果设置了，执行线程将先获取monitor，获取成功之后才能执行方法体，方法执行完后再释放monitor。</li>
@@ -186,7 +186,7 @@ The thread decrements the entry count of the monitor associated with objectref. 
 <h3 id="java对象头">Java对象头</h3>
 <p>synchronized是悲观锁，在操作同步资源之前需要给同步资源先加锁，这把锁就是存在Java对象头里的，而Java对象头又是什么呢？
 我们以Hotspot虚拟机为例，<strong>Hotspot的对象头主要包括两部分数据：Mark Word（标记字段）、Klass Pointer（类型指针）</strong>。如下面的一个示例：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190903122107.png" alt="java object示意图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190903122107.png" alt="java object示意图"></p>
 <p>我们以64位虚拟机来说，object header的结构为：</p>
 <pre><code class="language-java">|------------------------------------------------------------------------------------------------------------|--------------------|
 |                                            Object Header (128 bits)                                        |        State       |
@@ -212,7 +212,7 @@ The thread decrements the entry count of the monitor associated with objectref. 
 <li>锁标志位信息</li>
 </ul>
 <p>这些信息都是与对象自身定义无关的数据，所以<code>Mark Word</code>被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据。它会根据对象的状态复用自己的存储空间，也就是说在运行期间<code>Mark Word</code>里存储的数据会随着锁标志位的变化而变化。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190903122601.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190903122601.png" alt=""></p>
 <h4 id="klass-point">Klass Point</h4>
 <p>Klass Point：对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。</p>
 <h3 id="monitor">Monitor</h3>
@@ -222,8 +222,8 @@ Monitor是线程私有的数据结构，每一个线程都有一个可用<code>m
 <p>synchronized最初实现同步的方式是<code>阻塞或唤醒一个Java线程需要操作系统切换CPU状态来完成，这种状态转换需要耗费处理器时间。如果同步代码块中的内容过于简单，状态转换消耗的时间有可能比用户代码执行的时间还要长</code>，这就是JDK 6之前synchronized效率低的原因。<strong>这种依赖于操作系统Mutex Lock所实现的锁我们称之为“重量级锁”</strong>，JDK 6中为了减少获得锁和释放锁带来的性能消耗，引入了“偏向锁”和“轻量级锁”。</p>
 <p>所以目前 <strong>锁一共有4种状态，级别从低到高依次是：无锁、偏向锁、轻量级锁和重量级锁。锁状态只能升级不能降级</strong>。</p>
 <p>下面是出四种锁状态对应的的Mark Word内容，然后再分别讲解四种锁状态的思路以及特点：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190903124139.png" alt=""></p>
-<p><img src="http://7niucdn.wenchao.ren/20190903122952.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190903124139.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190903122952.png" alt=""></p>
 <p>上下两幅图对照着看，我们就能够清楚的知道在不同的锁状态下，mack word区域存储的内容的不同了。</p>
 <h3 id="无锁">无锁</h3>
 <p>无锁没有对资源进行锁定，所有的线程都能访问并修改同一个资源，但同时只有一个线程能修改成功。</p>
@@ -247,7 +247,7 @@ Monitor是线程私有的数据结构，每一个线程都有一个可用<code>m
 <p>升级为重量级锁时，锁标志的状态值变为“10”，此时Mark Word中存储的是指向重量级锁的指针，此时等待锁的线程都会进入阻塞状态。</p>
 <p>整体的锁状态升级流程如下：</p>
 <p>无锁  -&gt;   偏向锁   -&gt; 轻量级锁   -&gt;    重量级锁</p>
-<p><img src="http://7niucdn.wenchao.ren/20190903124238.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190903124238.png" alt=""></p>
 <p>综上，<strong>偏向锁通过对比Mark Word解决加锁问题，避免执行CAS操作。而轻量级锁是通过用CAS操作和自旋来解决加锁问题，避免线程阻塞和唤醒而影响性能。重量级锁是将除了拥有锁的线程以外的线程都阻塞。</strong></p>
 <h2 id="参考资料">参考资料</h2>
 <ul>

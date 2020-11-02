@@ -114,4 +114,4 @@ A–>B–>C。当前项目为A，A依赖于B，B依赖于C。知道B在A项目�
 
 答案是： 当C是test或者provided时，C直接被丢弃，A不依赖C； 否则A依赖C，C的scope继承于B的scope。
 
-![scope的依赖传递](http://7niucdn.wenchao.ren/20190801125748.png)
+![scope的依赖传递](http://wenchao.ren/img/2020/11/20190801125748.png)

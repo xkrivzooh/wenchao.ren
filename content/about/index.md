@@ -28,7 +28,7 @@
 
 （这个公众号基本不怎么维护和使用）
 
-![xkrivzooh](http://7niucdn.wenchao.ren/qrcode_for_gh_7c155733c121_258.jpg)
+![xkrivzooh](http://wenchao.ren/img/2020/11/qrcode_for_gh_7c155733c121_258.jpg)
 
 ### 联系方式
 

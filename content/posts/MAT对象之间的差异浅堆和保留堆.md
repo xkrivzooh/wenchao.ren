@@ -17,7 +17,7 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
 
 In this article lets study the difference between them. Let’s study how are they calculated?
 
-![Shallow-heap-1.png](http://7niucdn.wenchao.ren/Shallow-heap-1.png)
+![Shallow-heap-1.png](http://wenchao.ren/img/2020/11/Shallow-heap-1.png)
 
 It’s easier to learn new concepts through example. Let’s say your application’s has object model as shown in Fig #1:
 
@@ -56,7 +56,7 @@ Object C is holding reference to objects F and G. So, if object C is garbage col
 
 Thus, retained heap size of C is 30 bytes as well
 
-![shallow-heap-2-1.png](http://7niucdn.wenchao.ren/shallow-heap-2-1.png)
+![shallow-heap-2-1.png](http://wenchao.ren/img/2020/11/shallow-heap-2-1.png)
 
 ## Retained Heap size of A
 
@@ -80,7 +80,7 @@ Retained heap size of D is 10 bytes only i.e. their shallow size only. Because D
 
 Now let’s make our study little bit more interesting, so that you will gain thorough understanding of shallow heap and retained heap size. Let’s have object H starts to hold reference to B in the example. Note object B is already referenced by object A. Now two guys A and H are holding references to object B. In this circumstance lets study what will happen to our retained heap calculation.
 
-![Shallow-heap-3-1.png](http://7niucdn.wenchao.ren/Shallow-heap-3-1.png)
+![Shallow-heap-3-1.png](http://wenchao.ren/img/2020/11/Shallow-heap-3-1.png)
 
 In this circumstance retained heap size of object A will go down to 40 bytes. Surprising? Puzzling? 🙂 continue reading on. If object A gets garbage collected, then there will be no more reference to objects C, F and G only. Thus, only objects C, F and G will be garbage collected. On the other hand, objects B, D and E will continue to live in memory, because H is holding active reference to B. Thus B, D and E will not be removed from memory even when A gets garbage collected.
 

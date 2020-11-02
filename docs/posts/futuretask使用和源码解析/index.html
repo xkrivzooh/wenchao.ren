@@ -113,7 +113,7 @@ Callable @FunctionalInterface public interface Callable&amp;lt;V&amp;gt; { /** *
                     </div>
                     <div class="post_content markdown"><p>本篇文章说一下<code>java.util.concurrent</code>中的<code>FutureTask</code>。 <code>FutureTask</code>是一个同步工具类，它实现了<code>Future</code>语义，表示了一种抽象的可生成结果的计算。在包括线程池在内的许多工具类中都会用到，弄懂它的实现将有利于我们更加深入地理解Java异步操作实现。</p>
 <p>下面是<code>FutureTask</code>的类图：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190304184638.png" alt="FutureTask类图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190304184638.png" alt="FutureTask类图"></p>
 <p>在分析它的源码之前, 我们需要先了解一些预备知识。本篇我们先来看看<code>FutureTask</code>中所使用到的接口：<code>Runnable</code>、<code>Callable</code>、<code>Future</code>、<code>RunnableFuture</code>以及所使用到的工具类<code>Executors</code>，<code>Unsafe</code>。</p>
 <h2 id="futuretask所使用到的接口">FutureTask所使用到的接口</h2>
 <h3 id="runnable">Runnable</h3>
@@ -429,7 +429,7 @@ public class FutureTaskDemo {
 </code></pre>
 <p>为确保不同线程对state修改的可见性，所以<code>state</code>是<code>volatile</code>类型。</p>
 <p>state属性是贯穿整个<code>FutureTask</code>的最核心的属性，该属性的值代表了任务在运行过程中的状态，随着任务的执行，状态将不断地进行转变，从上面的定义中可以看出，总共有7种状态：包括了1个初始态，2个中间态和4个终止态。虽说状态有这么多，但是状态的转换路径却只有四种：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190304202413.png" alt="FutureTask状态流转"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190304202413.png" alt="FutureTask状态流转"></p>
 <ul>
 <li>
 <p>任务的初始状态都是<code>NEW</code>, 这一点是构造函数保证的。</p>
@@ -479,7 +479,7 @@ public class FutureTaskDemo {
 private volatile WaitNode waiters;
 </code></pre>
 <p>事实上，它就是整个单向链表的头节点。综上，FutureTask中所使用的队列的结构如下：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190304230853.png" alt="FutureTask中所使用的队列的结构"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190304230853.png" alt="FutureTask中所使用的队列的结构"></p>
 <p>CAS操作大多数是用来改变状态的，在FutureTask中也不例外。我们一般在静态代码块中初始化需要CAS操作的属性的偏移量：</p>
 <pre><code class="language-java"> // Unsafe mechanics
     private static final sun.misc.Unsafe UNSAFE;
@@ -870,7 +870,7 @@ private volatile WaitNode waiters;
 <p>该方法用于判断任务是否被取消了。如果一个任务在正常执行完成之前被Cancel掉了, 则返回true</p>
 </blockquote>
 <p>再对比state的状态图:</p>
-<p><img src="http://7niucdn.wenchao.ren/20190304235513.png" alt="state的状态图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190304235513.png" alt="state的状态图"></p>
 <p>可见选取这三个状态作为判断依据是很合理的, 因为只有调用了<code>cancel</code>方法，才会使<code>state</code>状态进入这三种状态。</p>
 <h5 id="isdone">isDone()</h5>
 <p>与 isCancelled方法类似，<code>isDone</code>方法也是简单地通过state状态来判断。</p>

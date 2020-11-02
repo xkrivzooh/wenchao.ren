@@ -7,7 +7,7 @@ draft: false
 ---
 dubbo的线程模型设计的算是非常不错的了，值得我们学习。下图是dubbo的线程模型图：
 
-![dubbo线程模型图](http://7niucdn.wenchao.ren/20190807120617.png)
+![dubbo线程模型图](http://wenchao.ren/img/2020/11/20190807120617.png)
 
 ## IO线程和业务线程的选择原则
 

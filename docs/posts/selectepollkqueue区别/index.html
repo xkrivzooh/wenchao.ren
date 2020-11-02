@@ -116,12 +116,12 @@ struct pollfd { int fd; /* file descriptor */ short events; /* requested events 
                         <h2><a href='/posts/selectepollkqueue%E5%8C%BA%E5%88%AB/'>Select、poll、Epoll、KQueue区别</a></h2>
                     </div>
                     <div class="post_content markdown"><p>在早期的文章<a href="https://wenchao.ren/2019/03/unix-IO%E6%A8%A1%E5%9E%8B/">《unix IO模型》</a>中我们介绍了5种IO模型，如下图是几种IO模型的对比</p>
-<p><img src="http://7niucdn.wenchao.ren/20190327125753.png" alt="几种IO模型的对比"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190327125753.png" alt="几种IO模型的对比"></p>
 <p>从上面的图可以看出，从左到右，越往后，阻塞越少，理论上效率也就越优。</p>
 <p>其中<code>Select</code>对应的是第三种IO模型：<code>I/O Multiplexing IO多路复用模型</code>，而<code>epoll</code>与<code>kqueue</code>其实和<code>Select</code>一样也属于<code>I/O Multiplexing IO多路复用模型</code>，只是相比于select来说多了一些高级特性而已，可以看做拥有了第四种模型的某些特性，比如callback的回调机制。</p>
 <p>IO多路复用的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select，poll，epoll，kqueue这些个function会不断的轮询所负责的所有socket，当某个socket就绪（一般是读就绪或者写就绪），就通知用户进程。</p>
 <h2 id="io-multiplexing-io多路复用模型">I/O Multiplexing IO多路复用模型</h2>
-<p><img src="http://7niucdn.wenchao.ren/20190327124225.png" alt="I/O Multiplexing IO多路复用模型"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190327124225.png" alt="I/O Multiplexing IO多路复用模型"></p>
 <p><code>当用户进程调用了select，那么整个进程会被block</code>，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。</p>
 <p>所以，<code>I/O 多路复用的特点是通过一种机制一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪状态，select()函数就可以返回</code></p>
 <p>更详细的描述可以查看<a href="https://wenchao.ren/2019/03/unix-IO%E6%A8%A1%E5%9E%8B/#I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%EF%BC%88-IO-multiplexing%EF%BC%89">《/unix-IO模型/#I-O-多路复用（-IO-multiplexing）》</a></p>

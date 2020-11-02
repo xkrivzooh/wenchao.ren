@@ -87,7 +87,7 @@ public class TraditionalClient {
 这种操作看起来可能不会怎么消耗CPU，但是实际上它是低效的。因为传统的 Linux 操作系统的标准 I/O 接口是基于数据拷贝操作的，即 I/O 操作会导致数据在操作系统内核地址空间的缓冲区和应用程序地址空间定义的缓冲区之间进行传输。如下图：
 
 
-![Traditional data copying approach](http://7niucdn.wenchao.ren/20190314131146.png)
+![Traditional data copying approach](http://wenchao.ren/img/2020/11/20190314131146.png)
 
 - 数据首先被从磁盘读取到内核的`read buffer`中
 - 然后在从内核的`read buffer`中复制到应用程序的buffer中
@@ -97,7 +97,7 @@ public class TraditionalClient {
 
 然后其中涉及了4次上下文切换：
 
-![Traditional context switches](http://7niucdn.wenchao.ren/20190314131533.png)
+![Traditional context switches](http://wenchao.ren/img/2020/11/20190314131533.png)
 
 分析上面的描述，我们可以看到`kernel buffer`其实在这个过程中充当了一个`ahead cache`。之所以引入这个`kernel buffer`其实是在很多的情况下是可以减少磁盘 I/O 的操作，进而提升效率的。
 
@@ -196,9 +196,9 @@ Socket.send(socket, buf, len);
 可以被`transferTo()`替代。下面的图展示了使用`transferTo()`, 也就是zero copy技术后的流程：
 
 
-![ Data copy with transferTo()](http://7niucdn.wenchao.ren/20190314134601.png)
+![ Data copy with transferTo()](http://wenchao.ren/img/2020/11/20190314134601.png)
 
-![Context switching with transferTo()](http://7niucdn.wenchao.ren/20190314134614.png)
+![Context switching with transferTo()](http://wenchao.ren/img/2020/11/20190314134614.png)
 
 
 - `transferTo()`方法使文件内容被DMA引擎复制到读缓冲区中。 然后，内核将数据复制到与输出套接字关联的内核缓冲区中。
@@ -208,7 +208,7 @@ Socket.send(socket, buf, len);
 
 如果网卡支持`gather operation`，我们可以通过kernel进一步减少数据的拷贝操作。在2.4及以上版本的linux内核中，开发者修改了`socket buffer descriptor`来适应这一需求。这个方法不仅减少了context switch，还消除了和CPU有关的数据拷贝。使用层面的使用方法没有变，但是内部原理却发生了变化：
 
-![Data copies when transferTo() and gather operations are used](http://7niucdn.wenchao.ren/20190314134919.png)
+![Data copies when transferTo() and gather operations are used](http://wenchao.ren/img/2020/11/20190314134919.png)
 
 - `transferTo()`方法使文件内容被DMA引擎复制到内核缓冲区中。
 - 没有数据被复制到套接字缓冲区中。 相反，只有具有有关数据位置和长度信息的描述符才会附加到套接字缓冲区。 DMA引擎将数据直接从内核缓冲区传递到协议引擎，从而消除了剩余的最终CPU副本。

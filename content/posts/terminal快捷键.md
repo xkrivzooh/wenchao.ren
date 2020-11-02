@@ -8,7 +8,7 @@ draft: false
 
 ## 终端跳转解说图
 
-![bash-shortcut.jpg](http://7niucdn.wenchao.ren/bash-shortcut.jpg)
+![bash-shortcut.jpg](http://wenchao.ren/img/2020/11/bash-shortcut.jpg)
 
 ## 常用快捷键
 

@@ -83,7 +83,7 @@ public class Test {
 
 ### 一般流程图
 
-![线程池的一般流程图](http://7niucdn.wenchao.ren/20190830125745.png)
+![线程池的一般流程图](http://wenchao.ren/img/2020/11/20190830125745.png)
 
 ### newFixedThreadPool 流程图
 
@@ -99,7 +99,7 @@ public static ExecutorService newFixedThreadPool(int nThreads){
 }
 ```
 
-![newFixedThreadPool 流程图](http://7niucdn.wenchao.ren/20190830125825.png)
+![newFixedThreadPool 流程图](http://wenchao.ren/img/2020/11/20190830125825.png)
 
 ### newCacheThreadPool 流程图
 
@@ -116,7 +116,7 @@ public static ExecutorService newCachedThreadPool(){
 }
 ```
 
-![newCacheThreadPool 流程图](http://7niucdn.wenchao.ren/20190830125911.png)
+![newCacheThreadPool 流程图](http://wenchao.ren/img/2020/11/20190830125911.png)
 
 ### newSingleThreadPool 
 

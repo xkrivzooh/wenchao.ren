@@ -6,6 +6,9 @@
 
 #echo "regenerage hugo pages finished...."
 
+echo "start to pull latest info..."
+git pull
+
 echo "start to deploy......"
 git add *
 git add .

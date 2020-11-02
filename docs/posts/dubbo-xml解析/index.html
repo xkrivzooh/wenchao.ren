@@ -110,7 +110,7 @@ public class DubboNamespaceHandler extends NamespaceHandlerSupport { static { Ve
                     </div>
                     <div class="post_content markdown"><p>在之前的文章<a href="https://wenchao.ren/2019/08/%E5%A6%82%E4%BD%95%E5%9C%A8spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89xml%E6%A0%87%E7%AD%BE%E5%B9%B6%E8%A7%A3%E6%9E%90/">《如何在spring中自定义xml标签并解析》</a>中我用实际的例子展示了，如何在spring中自定义xml标签，同时如何解析这个xml标签。</p>
 <p>本篇文章主要来看看dubbo中对应的源代码</p>
-<p><img src="http://7niucdn.wenchao.ren/20190808004821.png" alt="dubbo xml解析相关的类"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190808004821.png" alt="dubbo xml解析相关的类"></p>
 <p>如上图所示，这些类就是dubbo解析xml的相关实现的核心类，核心原理已经在之前的文章中详细描述了，如果大家在阅读dubbo代码，想看某个element的解析类的话，可以在<code>DubboNamespaceHandler</code>中来找：</p>
 <pre><code class="language-java">public class DubboNamespaceHandler extends NamespaceHandlerSupport {
 

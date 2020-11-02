@@ -10,7 +10,7 @@ draft: false
 
 下面是`FutureTask`的类图：
 
-![FutureTask类图](http://7niucdn.wenchao.ren/20190304184638.png)
+![FutureTask类图](http://wenchao.ren/img/2020/11/20190304184638.png)
 
 在分析它的源码之前, 我们需要先了解一些预备知识。本篇我们先来看看`FutureTask`中所使用到的接口：`Runnable`、`Callable`、`Future`、`RunnableFuture`以及所使用到的工具类`Executors`，`Unsafe`。
 
@@ -345,7 +345,7 @@ public class FutureTaskDemo {
 
 state属性是贯穿整个`FutureTask`的最核心的属性，该属性的值代表了任务在运行过程中的状态，随着任务的执行，状态将不断地进行转变，从上面的定义中可以看出，总共有7种状态：包括了1个初始态，2个中间态和4个终止态。虽说状态有这么多，但是状态的转换路径却只有四种：
 
-![FutureTask状态流转](http://7niucdn.wenchao.ren/20190304202413.png)
+![FutureTask状态流转](http://wenchao.ren/img/2020/11/20190304202413.png)
 
 - 任务的初始状态都是`NEW`, 这一点是构造函数保证的。
 - 任务的终止状态有4种：
@@ -399,7 +399,7 @@ private volatile WaitNode waiters;
 
 事实上，它就是整个单向链表的头节点。综上，FutureTask中所使用的队列的结构如下：
 
-![FutureTask中所使用的队列的结构](http://7niucdn.wenchao.ren/20190304230853.png)
+![FutureTask中所使用的队列的结构](http://wenchao.ren/img/2020/11/20190304230853.png)
 
 CAS操作大多数是用来改变状态的，在FutureTask中也不例外。我们一般在静态代码块中初始化需要CAS操作的属性的偏移量：
 
@@ -856,7 +856,7 @@ Future接口对于isCancelled()方法的规范：
 
 再对比state的状态图:
 
-![state的状态图](http://7niucdn.wenchao.ren/20190304235513.png)
+![state的状态图](http://wenchao.ren/img/2020/11/20190304235513.png)
 
 可见选取这三个状态作为判断依据是很合理的, 因为只有调用了`cancel`方法，才会使`state`状态进入这三种状态。
 

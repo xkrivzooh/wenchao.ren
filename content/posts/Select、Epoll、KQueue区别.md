@@ -8,7 +8,7 @@ draft: false
 
 在早期的文章[《unix IO模型》](https://wenchao.ren/2019/03/unix-IO%E6%A8%A1%E5%9E%8B/)中我们介绍了5种IO模型，如下图是几种IO模型的对比
 
-![几种IO模型的对比](http://7niucdn.wenchao.ren/20190327125753.png)
+![几种IO模型的对比](http://wenchao.ren/img/2020/11/20190327125753.png)
 
 
 从上面的图可以看出，从左到右，越往后，阻塞越少，理论上效率也就越优。
@@ -20,7 +20,7 @@ IO多路复用的好处就在于单个process就可以同时处理多个网络�
 
 ## I/O Multiplexing IO多路复用模型
 
-![I/O Multiplexing IO多路复用模型](http://7niucdn.wenchao.ren/20190327124225.png)
+![I/O Multiplexing IO多路复用模型](http://wenchao.ren/img/2020/11/20190327124225.png)
 
 `当用户进程调用了select，那么整个进程会被block`，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。
 

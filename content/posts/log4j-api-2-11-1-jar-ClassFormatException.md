@@ -41,6 +41,6 @@ org.apache.tomcat.util.bcel.classfile.ClassFormatException: Invalid byte tag in 
 
 出现这个异常的原因是因为我们的服务器使用的是java8，而工程代码中依赖的`log4j-api-2.11.1.jar`有部分java9版本的字节码文件。
 
-![log4j-api-2.11.1.jar工程结构图](http://7niucdn.wenchao.ren/20190308171150.png)
+![log4j-api-2.11.1.jar工程结构图](http://wenchao.ren/img/2020/11/20190308171150.png)
 
 然后排查了发现`log4j-api-2.11.1.jar`是通过`elasticsearch`的`6.5.1`引入的。

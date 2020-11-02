@@ -18,13 +18,13 @@ wsearch:
 
 在Idea中使用Command+Shitf+F搜索`wsearch.zk.address`的时候是搜索不到的
 
-![](http://7niucdn.wenchao.ren/20191010190619.png)
+![](http://wenchao.ren/img/2020/11/20191010190619.png)
 
 就因为这个原因，导致我特别的厌烦yaml的配置。
 
 今天才发现原来在IDEA可以使用如下的方式搜索到。那就是使用Idea的Search everywhere功能。按2下shift，然后在搜索就好了：
 
-![](http://7niucdn.wenchao.ren/20191010190843.png)
+![](http://wenchao.ren/img/2020/11/20191010190843.png)
 
 发现在Stack Overflow也有人问这个问题[How to find specific property key in a yaml file using intellij idea?](https://stackoverflow.com/questions/50577033/how-to-find-specific-property-key-in-a-yaml-file-using-intellij-idea)
 

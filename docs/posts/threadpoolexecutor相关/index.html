@@ -205,7 +205,7 @@ public class Test {
 <li>当设置<code>allowCoreThreadTimeOut(true)</code>时，线程池中<code>corePoolSize</code>范围内的线程空闲时间达到<code>keepAliveTime</code>也将回收。</li>
 </ul>
 <h3 id="一般流程图">一般流程图</h3>
-<p><img src="http://7niucdn.wenchao.ren/20190830125745.png" alt="线程池的一般流程图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190830125745.png" alt="线程池的一般流程图"></p>
 <h3 id="newfixedthreadpool-流程图">newFixedThreadPool 流程图</h3>
 <pre><code class="language-java">public static ExecutorService newFixedThreadPool(int nThreads){
     return new ThreadPoolExecutor(
@@ -217,7 +217,7 @@ public class Test {
         );
 }
 </code></pre>
-<p><img src="http://7niucdn.wenchao.ren/20190830125825.png" alt="newFixedThreadPool 流程图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190830125825.png" alt="newFixedThreadPool 流程图"></p>
 <h3 id="newcachethreadpool-流程图">newCacheThreadPool 流程图</h3>
 <pre><code class="language-java">public static ExecutorService newCachedThreadPool(){
     return new ThreadPoolExecutor(
@@ -230,7 +230,7 @@ public class Test {
     );
 }
 </code></pre>
-<p><img src="http://7niucdn.wenchao.ren/20190830125911.png" alt="newCacheThreadPool 流程图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190830125911.png" alt="newCacheThreadPool 流程图"></p>
 <h3 id="newsinglethreadpool">newSingleThreadPool</h3>
 <pre><code class="language-java">public static ExecutorService newSingleThreadExecutor() {
         return 

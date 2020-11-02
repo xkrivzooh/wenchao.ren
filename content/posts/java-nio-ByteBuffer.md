@@ -7,7 +7,7 @@ draft: false
 ---
 Java NIO Buffers用于和NIO Channel交互。 我们从Channel中读取数据到buffers里，从Buffer把数据写入到Channels。Buffer本质上就是一块内存区，可以用来写入数据，并在稍后读取出来。这块内存被NIO Buffer包裹起来，对外提供一系列的读写方便开发的接口。java中`java.nio.Buffer`的常见实现类如下，不过我们这里只说一下`ByteBuffer`这个实现。
 
-![java中`java.nio.Buffer`的常见实现类](http://7niucdn.wenchao.ren/20190402200858.png)
+![java中`java.nio.Buffer`的常见实现类](http://wenchao.ren/img/2020/11/20190402200858.png)
 
 ## Buffer的重要属性
 
@@ -192,25 +192,25 @@ public static void main(String args[]){
 
 写模式下，往buffer里写一个字节，并把postion移动一位。写模式下，一般limit与capacity相等。
 
-![bytebuffer-put](http://7niucdn.wenchao.ren/20190402210214.png)
+![bytebuffer-put](http://wenchao.ren/img/2020/11/20190402210214.png)
 
 ### flip
 
 写完数据，需要开始读的时候，将postion复位到0，并将limit设为当前postion。 
 
-![bytebuffer-flip](http://7niucdn.wenchao.ren/20190402210241.png)
+![bytebuffer-flip](http://wenchao.ren/img/2020/11/20190402210241.png)
 
 ### get
 
 从buffer里读一个字节，并把postion移动一位。上限是limit，即写入数据的最后位置。 
 
-![bytebuffer-get](http://7niucdn.wenchao.ren/20190402210310.png)
+![bytebuffer-get](http://wenchao.ren/img/2020/11/20190402210310.png)
 
 ### clear
 
 将position置为0，并不清除buffer内容。
 
-![bytebuffer-clear](http://7niucdn.wenchao.ren/20190402210340.png)
+![bytebuffer-clear](http://wenchao.ren/img/2020/11/20190402210340.png)
 
 
 ## example

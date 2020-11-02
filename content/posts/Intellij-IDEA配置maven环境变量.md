@@ -41,6 +41,6 @@ draft: false
 其中的`'dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${JAVA_HOME}/lib/tools.jar @ line 133, column 16`提示我们需要一个绝对路径，那么就是${JAVA_HOME}
 没有被识别，我们可以在idea的maven中设置一下环境变量来解决这个事情:
 
-![IDEA为maven设置环境变量](http://7niucdn.wenchao.ren/20200604183613.png)
+![IDEA为maven设置环境变量](http://wenchao.ren/img/2020/11/20200604183613.png)
 
 保存之后在执行一下maven clean就会发现成功了。当然了你也可以设置全局环境变量来解决这个问题。

@@ -118,7 +118,7 @@ ClassLoader是什么 ClassLoader顾名思义就是用来加载Class的。它负�
                     </div>
                     <div class="post_content markdown"><p>在之前的文章<a href="https://wenchao.ren/2019/02/Java%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">《Java类的生命周期》</a>我们谈了一下类的生命周期。
 在这篇文章中，我们谈谈java的类加载器哪些事情。从下面的JVM架构图可以看到</p>
-<p><img src="http://7niucdn.wenchao.ren/20190227210846.png" alt="JVM架构图"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190227210846.png" alt="JVM架构图"></p>
 <p><code>class Loader subSystem</code>负责管理和维护java类的生命周期的前三个阶段:</p>
 <ul>
 <li>加载</li>
@@ -128,7 +128,7 @@ ClassLoader是什么 ClassLoader顾名思义就是用来加载Class的。它负�
 <p>当我们编写一个java的源文件后，我们对这个<code>xxx.java</code>编译会得到<code>xxx.class</code>的字节码文件，因为jvm只能运行字节码文件。为了能够使用这个class字节码文件，我们就会用到java中的<code>ClassLoader</code>。 而我们这篇文章就来说说java类加载器的那些事情。</p>
 <h2 id="classloader是什么">ClassLoader是什么</h2>
 <p><code>ClassLoader</code>顾名思义就是用来加载Class的。它负责将Class的字节码形式转换成内存形式的Class对象。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190228134654.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190228134654.png" alt=""></p>
 <p>类的加载方式比较灵活，我们最常用的加载方式有下面几种：</p>
 <ul>
 <li>一种是根据类的全路径名找到相应的class文件，然后从class文件中读取文件内容；</li>
@@ -251,7 +251,7 @@ null
     }
 </code></pre>
 <p>因此我们可以给出ClassLoader的继承关系图：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190228135113.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190228135113.png" alt=""></p>
 <h2 id="双亲委派模型">双亲委派模型</h2>
 <p>程序在运行过程中，遇到了一个未知的类，它会选择哪个 ClassLoader 来加载它呢？</p>
 <p>虚拟机的策略是: <strong>使用调用者Class对象的ClassLoader来加载当前未知的类。</strong></p>
@@ -366,7 +366,7 @@ null
 <p>换句话说，<strong>如果自定义类加载器，就必须重写findClass方法！</strong></p>
 <p>「双亲委派模型」是一种组织类加载器之间关系的一种规范,他的工作原理是:
 <code>如果一个类加载器收到了类加载的请求,它不会自己去尝试加载这个类,而是把这个请求委派给父类加载器去完成,这样层层递进,最终所有的加载请求都被传到最顶层的启动类加载器中,只有当父类加载器无法完成这个加载请求(它的搜索范围内没有找到所需的类)时,才会交给子类加载器去尝试加载.</code></p>
-<p><img src="http://7niucdn.wenchao.ren/20190228135220.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190228135220.png" alt=""></p>
 <p>从上面的分析我们可以知道：一般情况下，我们编写的java代码所有延迟加载的类都会由初始调用main方法的这个ClassLoader全全负责，它就是<code>AppClassLoader</code>。</p>
 <h3 id="为什么需要双亲委派模型">为什么需要双亲委派模型</h3>
 <p>比如<code>java.lang.Object</code>,它存放在<code>\jre\lib\rt.jar</code>中,它是所有java类的父类,因此无论哪个类加载都要加载这个类,最终所有的加载请求都汇总到顶层的启动类加载器中,因此<code>Object</code>类会由启动类加载器来加载,所以加载的都是同一个类,如果不使用双亲委派模型,由各个类加载器自行去加载的话,系统中就会出现不止一个<code>Object</code>类,应用程序就会全乱了</p>
@@ -381,7 +381,7 @@ null
 <h3 id="loadclass">loadClass()</h3>
 <p><code>loadClass()</code>方法是加载目标类的入口，在这个方法内部实现了「双亲委派模型」。它首先会查找当前 ClassLoader以及它的双亲里面是否已经加载了目标类，如果没有找到就会让双亲尝试加载，如果双亲都加载不了，就会调用<code>findClass()</code> 让自定义加载器自己来加载目标类。ClassLoader 的<code>findClass()</code>方法是需要子类来覆盖的，不同的加载器将使用不同的逻辑来获取目标类的字节码。拿到这个字节码之后再调用<code>defineClass()</code>方法将字节码转换成Class对象。</p>
 <p>下面这个图还是画的比较形象的：</p>
-<p><img src="http://7niucdn.wenchao.ren/20190228135927.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190228135927.png" alt=""></p>
 <p><code>ClassLoader.loadClass()</code>这是一个实例方法,需要一个ClassLoader对象来调用该方法,该方法将Class文件加载到内存时,并不会执行类的初始化,直到这个类第一次使用时才进行初始化.该方法因为需要得到一个ClassLoader对象,所以可以根据需要指定使用哪个类加载器.</p>
 <pre><code class="language-java">ClassLoader cl= …….;
 cl.loadClass(“com.wang.HelloWorld”);
@@ -587,7 +587,7 @@ Exception in thread &quot;main&quot; java.lang.ClassNotFoundException: [I
 <p>上述4个方法是<code>ClassLoader</code>类中的比较重要的方法，也是我们可能会经常用到的方法。</p>
 <p><code>SercureClassLoader</code>扩展了<code>ClassLoader</code>，新增了几个与使用相关的代码源(对代码源的位置及其证书的验证)和权限定义类验证(主要指对class源码的访问权限)的方法，一般我们不会直接跟这个类打交道，更多是与它的子类<code>URLClassLoader</code>有所关联.</p>
 <p>前面说过，<code>ClassLoader</code>是一个抽象类，很多方法是空的没有实现，比如 <code>findClass()、findResource()</code>等。而<code>URLClassLoader</code>这个实现类为这些方法提供了具体的实现，并新增了URLClassPath类协助取得Class字节码流等功能，在编写自定义类加载器时，如果没有太过于复杂的需求，可以直接继承URLClassLoader类，这样就可以避免自己去编写findClass()方法及其获取字节码流的方式，使自定义类加载器编写更加简洁。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190228141220.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190228141220.png" alt=""></p>
 <h2 id="class文件的显示加载与隐式加载的概念">class文件的显示加载与隐式加载的概念</h2>
 <ul>
 <li><strong>显示加载</strong> 指的是在代码中通过调用ClassLoader加载class对象，如直接使用<code>Class.forName(name)</code>或<code>this.getClass().getClassLoader().loadClass()</code>加载class对象。</li>
@@ -684,7 +684,7 @@ public class CustomerClassLoader extends ClassLoader {
 </code></pre>
 <h2 id="钻石依赖">钻石依赖</h2>
 <p>项目管理上有一个著名的概念叫着「钻石依赖」，是指软件依赖导致同一个软件包的两个版本需要共存而不能冲突。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190228141539.png" alt=""></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190228141539.png" alt=""></p>
 <p><code>maven</code>是这样解决钻石依赖的: 它会从多个冲突的版本中选择一个来使用，如果不同的版本之间兼容性很糟糕，那么程序将无法正常编译运行。Maven 这种形式叫「扁平化」依赖管理。</p>
 <p><strong>使用ClassLoader可以解决钻石依赖问题。不同版本的软件包使用不同的 ClassLoader 来加载，位于不同ClassLoader中名称一样的类实际上是不同的类。</strong></p>
 <p>我们通过下面的代码来验证这个问题：</p>

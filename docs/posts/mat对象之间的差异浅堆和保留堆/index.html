@@ -116,7 +116,7 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
 <li>Retained Heap</li>
 </ul>
 <p>In this article lets study the difference between them. Let’s study how are they calculated?</p>
-<p><img src="http://7niucdn.wenchao.ren/Shallow-heap-1.png" alt="Shallow-heap-1.png"></p>
+<p><img src="http://wenchao.ren/img/2020/11/Shallow-heap-1.png" alt="Shallow-heap-1.png"></p>
 <p>It’s easier to learn new concepts through example. Let’s say your application’s has object model as shown in Fig #1:</p>
 <ul>
 <li>Object A is holding reference to objects B and C.</li>
@@ -138,7 +138,7 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
 <p>= 10 bytes + 10 bytes + 10 bytes</p>
 <p>= 30 bytes</p>
 <p>Thus, retained heap size of C is 30 bytes as well</p>
-<p><img src="http://7niucdn.wenchao.ren/shallow-heap-2-1.png" alt="shallow-heap-2-1.png"></p>
+<p><img src="http://wenchao.ren/img/2020/11/shallow-heap-2-1.png" alt="shallow-heap-2-1.png"></p>
 <h2 id="retained-heap-size-of-a">Retained Heap size of A</h2>
 <p>Object A is holding reference to objects B and C, which in turn are holding references to objects D, E, F, G. Thus, if object A is garbage collected from memory, there will be no more reference to object B, C, D, E, F and G. With this understanding let’s do retained heap size calculation of A.</p>
 <p>Thus, retained heap size of A is:</p>
@@ -150,7 +150,7 @@ Eclipse MAT (Memory Analyzer Tool) is a powerful tool to analyze heap dumps. It 
 <p>Retained heap size of D is 10 bytes only i.e. their shallow size only. Because D don’t hold any active reference to any other objects. Thus, if D gets garbage collected no other objects will be removed from memory. As per the same explanation objects E, F and G’s retained heap size are also 10 bytes only.</p>
 <h2 id="lets-make-our-study-more-interesting">Let’s make our study more interesting</h2>
 <p>Now let’s make our study little bit more interesting, so that you will gain thorough understanding of shallow heap and retained heap size. Let’s have object H starts to hold reference to B in the example. Note object B is already referenced by object A. Now two guys A and H are holding references to object B. In this circumstance lets study what will happen to our retained heap calculation.</p>
-<p><img src="http://7niucdn.wenchao.ren/Shallow-heap-3-1.png" alt="Shallow-heap-3-1.png"></p>
+<p><img src="http://wenchao.ren/img/2020/11/Shallow-heap-3-1.png" alt="Shallow-heap-3-1.png"></p>
 <p>In this circumstance retained heap size of object A will go down to 40 bytes. Surprising? Puzzling? 🙂 continue reading on. If object A gets garbage collected, then there will be no more reference to objects C, F and G only. Thus, only objects C, F and G will be garbage collected. On the other hand, objects B, D and E will continue to live in memory, because H is holding active reference to B. Thus B, D and E will not be removed from memory even when A gets garbage collected.</p>
 <p>Thus, retained heap size of A is:</p>
 <p>= A’s shallow heap size + C’s shallow heap size + F’s shallow heap size + G’s shallow heap size</p>

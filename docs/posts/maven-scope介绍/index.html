@@ -192,7 +192,7 @@ provider scope的一个很好的用例是部署在某个容器（如tomcat）中
 <h2 id="scope的依赖传递">scope的依赖传递</h2>
 <p>A–&gt;B–&gt;C。当前项目为A，A依赖于B，B依赖于C。知道B在A项目中的scope，那么怎么知道C在A中的scope呢？</p>
 <p>答案是： 当C是test或者provided时，C直接被丢弃，A不依赖C； 否则A依赖C，C的scope继承于B的scope。</p>
-<p><img src="http://7niucdn.wenchao.ren/20190801125748.png" alt="scope的依赖传递"></p>
+<p><img src="http://wenchao.ren/img/2020/11/20190801125748.png" alt="scope的依赖传递"></p>
 </div>
                     <div class="post_footer">
                         

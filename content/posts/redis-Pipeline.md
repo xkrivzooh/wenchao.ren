@@ -17,7 +17,7 @@ draft: false
 即使服务端每秒能处理100k的请求量，那我们每秒最多也只能处理4个请求。如果使用的是本地环回接口，RTT 就短得多，但如如果需要连续执行多次写入，这也是一笔很大的开销。下面的图是传统的
 N次request-response的交互图：
 
-![传统的N次request-response的交互图](http://7niucdn.wenchao.ren/20190731125102.png)
+![传统的N次request-response的交互图](http://wenchao.ren/img/2020/11/20190731125102.png)
 
 > 一般情况下我们为了解决rtt耗时太长的问题，会采样批处理的解决方案，也就是将请求参数批量发给server端，server端处理完这些请求以后，在一次性返回结果。
 
@@ -27,7 +27,7 @@ Pipeline 并不是一种新的技术或机制，很多技术上都使用过。RT
 
 Pipeline 能将一组 Redis 命令进行组装，通过一次 RTT 传输给 Redis，再将这组 Redis 命令按照顺序执行并将结果返回给客户端。上图没有使用 Pipeline 执行了 N 条命令，整个过程需要 N 次 RTT。下图为使用 Pipeline 执行 N 条命令，整个过程仅需要 1 次 RTT：
 
-![Pipeline 示意图](http://7niucdn.wenchao.ren/20190731125414.png)
+![Pipeline 示意图](http://wenchao.ren/img/2020/11/20190731125414.png)
 
 ## Pipeline 基本使用
 
