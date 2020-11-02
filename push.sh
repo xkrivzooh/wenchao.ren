@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "regenerate hugo pages....."
+#echo "regenerate hugo pages....."
 
-hugo 
+#hugo 
 
-echo "regenerage hugo pages finished...."
+#echo "regenerage hugo pages finished...."
 
 echo "start to deploy......"
 git add *
