@@ -4,6 +4,10 @@ title = "被遗忘的博客"
 theme = "zozo"
 disqusShortname = "rollenholt"  ## disqus配置
 publishDir = "docs"  ##生成内容的目录，从public改为docs。因为GitHub pages好像只能选这个
+# include content marked as draft
+buildDrafts:                false
+# include content with publishdate in the future
+buildFuture:                true
 
 
 [taxonomies]
