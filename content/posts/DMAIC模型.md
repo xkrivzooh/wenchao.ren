@@ -5,6 +5,8 @@ draft: false
 tags: ['方法论']
 ---
 
+这篇文章主要说一下DMAIC模型。
+
 ## 参考资料
 
 - [MBA智库-DMAIC模型](https://wiki.mbalib.com/wiki/DMAIC%E6%A8%A1%E5%9E%8B)
