@@ -66,7 +66,7 @@ public class RunScriptExample {
 在`AviatorEvaluatorInstance`初始化的时候主要做了几件事情：
 
 - 填充默认的配置参数，也就是填充AviatorEvaluatorInstance#options。它是一个`IdentityHashMap`类型的实例。
-    - 程序存在`Options`枚举列举了目前版本所支持的所有的预定义的配置参数。
+    - 程序存在`Options`枚举列举了目前版本所支持的所有的预定义的配置参数。
         - 目前的配置参数的值有几种类型：
             - boolean
             - MathContext
@@ -74,15 +74,15 @@ public class RunScriptExample {
             - Set<Feature>
             - Set<Class<?>>
 - 加载所有预定义的语法特性（Syntax features）。会填充到`AviatorEvaluatorInstance#funcMap`中。语法特性集合是定义在`Options#FULL_FEATURE_SET`字段中的。
-    - 程序存在`Feature`枚举列举了目前版本所支持的所有的预定义的语法特性。
+    - 程序存在`Feature`枚举列举了目前版本所支持的所有的预定义的语法特性。
 - 加载所有的函数库
-    - system functions
-    - string functions
-    - math functions
-    - seq functions
-    - 加载内置的通过`aviatorscript`编写的函数，目前在`main/resources`目录下有一个`aviator.av`文件，里面定义了其他的一些seq functions。不过这部分的函数不光存储到上面的`AviatorEvaluatorInstance#funcMap`中，同时也存在了`AviatorEvaluatorInstance#internalLibFunctions`中，存储了2份。
+    - system functions
+    - string functions
+    - math functions
+    - seq functions
+    - 加载内置的通过`aviatorscript`编写的函数，目前在`main/resources`目录下有一个`aviator.av`文件，里面定义了其他的一些seq functions。不过这部分的函数不光存储到上面的`AviatorEvaluatorInstance#funcMap`中，同时也存在了`AviatorEvaluatorInstance#internalLibFunctions`中，存储了2份。
 - 加载内置module
-    - 目前内置module只有一个`IoModule`。其实就是将其中的方法作为一些内置函数供以后使用。然后module存在了`AviatorEvaluatorInstance#moduleCache`中
+    - 目前内置module只有一个`IoModule`。其实就是将其中的方法作为一些内置函数供以后使用。然后module存在了`AviatorEvaluatorInstance#moduleCache`中
 - 增加functionLoader。目前其实就是使用`ClassPathConfigFunctionLoader`。存储在了`AviatorEvaluatorInstance#functionLoaders`中
 
 ## AviatorScript脚本转换为JAVA代码
