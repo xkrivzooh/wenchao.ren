@@ -37,3 +37,30 @@ tags: ['asm']
 | Object m(int[] i) |([I)Ljava/lang/Object;|
 
 一旦知道了类型描述符如何工作，方法描述符的理解就容易了。例如，`(I)I`述一个方法，它接受一个 int 类型的参数，返回一个 int。
+
+## 借助ASM工具类实现
+
+可以借助asm中的`org.objectweb.asm.Type`来帮助我们获得类型描述符和方法描述符。
+
+```java
+import org.objectweb.asm.Type;
+
+import java.lang.reflect.Method;
+import java.util.Map;
+
+public class TypeSample {
+    public static void main(String[] args) throws Exception{
+        System.out.println(Type.getInternalName(String.class));//java/lang/String
+        System.out.println(Type.getInternalName(Map.class));//java/util/Map
+
+        String descriptor = Type.getDescriptor(String.class);
+        System.out.println(descriptor); //Ljava/lang/String;
+
+        System.out.println(Type.INT_TYPE.getDescriptor());//I
+
+        Method mainMathod = TypeSample.class.getDeclaredMethod("main", String[].class);
+        System.out.println(Type.getMethodDescriptor(mainMathod));//([Ljava/lang/String;)V
+    }
+}
+
+```
