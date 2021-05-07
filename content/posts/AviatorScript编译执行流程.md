@@ -67,12 +67,12 @@ public class RunScriptExample {
 
 - 填充默认的配置参数，也就是填充AviatorEvaluatorInstance#options。它是一个`IdentityHashMap`类型的实例。
     - 程序存在`Options`枚举列举了目前版本所支持的所有的预定义的配置参数。
-        - 目前的配置参数的值有几种类型：
-            - boolean
-            - MathContext
-            - int
-            - Set<Feature>
-            - Set<Class<?>>
+        - 目前的配置参数的值有几种类型：
+            - boolean
+            - MathContext
+            - int
+            - Set<Feature>
+            - Set<Class<?>>
 - 加载所有预定义的语法特性（Syntax features）。会填充到`AviatorEvaluatorInstance#funcMap`中。语法特性集合是定义在`Options#FULL_FEATURE_SET`字段中的。
     - 程序存在`Feature`枚举列举了目前版本所支持的所有的预定义的语法特性。
 - 加载所有的函数库
