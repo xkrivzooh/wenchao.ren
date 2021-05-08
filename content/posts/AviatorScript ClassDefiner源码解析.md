@@ -116,6 +116,13 @@ public native Class<?> defineAnonymousClass(Class<?> hostClass, byte[] data, Obj
 
 便于类卸载这一点对于AviatorScript这种可能需要大量动态生成很多class的框架来说，是具有非常大的吸引力的。当然了，官方文档也描述了，根据微基准测试，ClassLoader::defineClass比Unsafe::defineAnonymousClass慢得多。
 
+关于这块的优化，在AviatorScript的官方文档也有描述：
+
+[匿名类的卸载](https://www.yuque.com/boyan-avfmj/aviatorscript/ou23gy#PMc8K)
+
+> 对于 JDK7（目前兼容的最老 JDK 版本），默认情况下会为每一个 AviatorEvaluatorInstance 使用一个 ClassLoader 来定义并生成匿名类，这种情况下，类的卸载只会发生在所有类的引用都不存在的情况下，需要默认 ClassLoader 也被垃圾回收，因此仅调用 invalidateCache 是不够的，还需要调用 resetClassLoader() 才可以让某个脚本的编译结果被回收。
+>对于 JDK8 及以上版本， AviatorScript 会使用跟 Java Lambda 一样的生成机制来生成匿名类，这些类可以被正常 GC 回收，只需要对应的编译结果没有引用就可以，因此调用 invalidateCache 使得缓存失效即可。
+>在 IBM J9 或者其他 JDK 上，默认启用的是 classloader 模式，建议同 JDK7 。如果你强制设置了 aviator.preferClassloaderDefiner 环境变量为 true，也就是启用 classloader 定义模式，建议也是和 JDK7 一致。
 
 ## 参考资料
 
