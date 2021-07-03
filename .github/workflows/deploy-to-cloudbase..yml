@@ -29,7 +29,6 @@ jobs:
       - name: Build
         run: |
           hugo --minify
-      - name: Deploy
 
       # Deploy static to Tencent CloudBase
       - name: Deploy static to Tencent CloudBase
