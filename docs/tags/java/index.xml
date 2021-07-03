@@ -6,7 +6,73 @@
     <description>Recent content in java on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 03 Jun 2020 21:15:38 +0000</lastBuildDate><atom:link href="https://wenchao.ren/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 May 2021 14:11:09 +0800</lastBuildDate><atom:link href="https://wenchao.ren/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于Spring-statemachine的一些看法</title>
+      <link>https://wenchao.ren/posts/%E5%85%B3%E4%BA%8Espring-statemachine%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</link>
+      <pubDate>Tue, 11 May 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%85%B3%E4%BA%8Espring-statemachine%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</guid>
+      <description> 我们需要有状态的状态机么？
+ 昨天和今天再一次翻看了一下Spring-Statemachine项目的最新进展, 上一次看这个项目的文档还是几年前。 之所以之前关注这个项目主要有2个原因吧，第一个就是spring的project一般比较有质量保证，第二个是状态机本身是一个用途非常广泛的架构设计。所以这个项目一直让我 惦记着。
+然后昨天翻看完了一下Spring-Statemachine的文档，同时今天写了一个demo完整的模拟了一下在交易系统平台的业务背景下使用它来实现状态机。然后给我的感触就是这玩意真的不接地气。主要有下面几个原因:
+ Spring-Statemachine仅仅支持「有状态的状态机」，而不支持「无状态的状态机」。  这一点是我放弃将Spring-Statemachine引入我们现有的一个工程来重构代码的最主要原因。表面上来看，状态机理所当然是应该维持状态的。但是深入想一下，这种状态性并不是必须的，因为有状态，状态机的实例就不是线程安全的，而我们的应用服务器是分布式多线程的，所以在每一次状态机在接受请求的时候，都不得不重新 build 一个新的状态机实例。这种new instance per request 的做法，倘若状态机的构建很复杂，QPS 又很高的话，肯定会遇到性能问题。所以使得我产生了一个疑问，我们真的需要有状态的状态机么？   Spring-Statemachine本身支持的功能很多，但是这些工程我们基本不会用到。  支持的功能多，很多时候并不是一个优势。因为功能越多，使得框架本身的复杂度，学习成本也会上升。同时如果这些功能我们在未来可能会用到也还好，问题是用不到，比如它支持的UML Eclipse Papyrus modeling， Distributed state machine based on a Zookeeper等。感觉这类开源项目为了功能完备而把UML State Machine 上罗列的功能点都实现了。但是问题是很多都用不到。尤其是在互联网业务下，绝大多数时候状态的并行（parallel，fork，join）、子状态机都用不到，或者一般也会采样其他的方式来实现。   Spring-Statemachine的API逐渐往reactive方向靠拢，之前的传统API都开始标记过期，使得组内同学的学习成本会进一步提升。  基于这3个原因，我最终放弃了对Spring-Statemachine的关注。我们自己实现了一个功能简单但是完备的状态机。
+参考  给 DSL 开个脑洞：无状态的状态机 高德打车通用可编排订单状态机引擎设计 基于有限状态机与消息队列的三方支付系统补单实践 状态机在马蜂窝机票订单交易系统中的应用与优化实践  </description>
+    </item>
+    
+    <item>
+      <title>Error Prone的介绍和使用</title>
+      <link>https://wenchao.ren/posts/error-prone%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 12 Apr 2021 15:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/error-prone%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E4%BD%BF%E7%94%A8/</guid>
+      <description>Error Prone的介绍和使用
+今天在浏览GitHub的时候突然看到Google有一个项目Error Prone:
+ Catch common Java mistakes as compile-time errors
+ 官方网站：https://errorprone.info/
+Error Prone是什么？ 然后就翻看了一下官方文档了解了一下具体的作用。如果你之前没有了解过这个Error Prone，你可以把他对标为Snoar，FindBugs之类的静态代码分析工具就行。Error Prone就是Google研发的静态代码扫描工具，顾名思义，就是用于扫描Java各种易于出错的代码。
+Error Prone产生的背景 Google在这篇论文Lessons from Building Static Analysis Tools at Google
+ PDF Lessons from Building Static Analysis Tools at Google HTML Lessons from Building Static Analysis Tools at Google  中也提到了Google之前是如何做静态代码分析，以及Error Prone产生的一些原因。简单整理一下就是：
+ Google内部早期使用FindBugs作为自己的静态代码分析工具，然后FindBug这种工具一般是定时触发重发，然后生成一个仪表盘，但是问题是大家一般都不会主动去翻看这个仪表盘，因为这个仪表盘不会在开发人员的常规工作流程中，于是Google内部发起了一个FixIt的小活动，简单说就是来集中几天解决这些发现的代码问题，后来他们将FindBugs等分析工具和Code Review工作结合起来搞了一个小平台，但是当时的内部整合不太好，使得开发人员觉的难用，也不怎么信任这个整合平台了。
+ 于是了，Google内部觉的，这种静态代码分析工作应该是参与到持续继承中，而且最好要快速，频繁，参与到开发人员的常规工作中，并且最好不但要发现问题，还要告诉开发人员怎么修。于是了，Google参考了之前Clang的一个经验，将静态代码分析工作整合到了javac，也就是在编译期来做静态代码分析工作，于是后来就有了这篇文章提到的Error Prone。
+Error Prone的基本使用 我工作中一直使用的是Intellij+JDK8+Maven，所以参考官方文档https://errorprone.info/docs/installation，写了一个JDK8使用的小例子。下面贴一下核心代码。
+首先是pom.xml中的配置，核心在于maven-compiler-plugin插件的配置, 同时因为大家项目开发过程中一般会使用Lombok等annotation processor依赖，所以下面的实例代码中也展示了ErrorProne如何和Lombok等依赖整合。
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot; xsi:schemaLocation=&amp;quot;http://maven.apache.org/POM/4.0.0 https://maven.</description>
+    </item>
+    
+    <item>
+      <title>Java脚本的语法解析示例</title>
+      <link>https://wenchao.ren/posts/java%E8%84%9A%E6%9C%AC%E7%9A%84%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90%E7%A4%BA%E4%BE%8B/</link>
+      <pubDate>Thu, 05 Nov 2020 15:36:58 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E8%84%9A%E6%9C%AC%E7%9A%84%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90%E7%A4%BA%E4%BE%8B/</guid>
+      <description>早期搞了一个解析Java脚本的功能，其中有一处是需要解析Java语法，下面的代码贴了一下主要功能, 主要用到了tools中的一些类，但是代码使用tools.jar需要在maven中做一些额外配置：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.sun&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;tools&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.8&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;system&amp;lt;/scope&amp;gt; &amp;lt;systemPath&amp;gt;${JAVA_HOME}/lib/tools.jar&amp;lt;/systemPath&amp;gt; &amp;lt;/dependency&amp;gt;  上面的maven配置就是为了能够在代码中使用tools.jar中的类。
+import com.google.common.base.Charsets; import com.google.common.base.Joiner; import com.google.common.base.Preconditions; import com.google.common.base.Strings; import com.google.common.collect.Maps; import com.sun.tools.javac.file.JavacFileManager; import com.sun.tools.javac.parser.JavacParser; import com.sun.tools.javac.parser.ParserFactory; import com.sun.tools.javac.tree.JCTree; import com.sun.tools.javac.util.Context; import com.sun.tools.javac.util.Name; import org.slf4j.Logger; import org.slf4j.LoggerFactory; import org.springframework.util.CollectionUtils; import javax.tools.JavaFileManager; import java.nio.file.Files; import java.nio.file.Path; import java.util.List; import java.util.Map; public class JavaSourceCodeParser { private static final Logger logger = LoggerFactory.getLogger(JavaSourceCodeParser.class); private static final Joiner JOINER = Joiner.on(&amp;quot;\n&amp;quot;).skipNulls(); public static String parseFullyQualifiedClassName(String fileName, String scriptSourceCode) { Preconditions.</description>
+    </item>
+    
+    <item>
+      <title>Lombok中@Builder注解使用注意事项</title>
+      <link>https://wenchao.ren/posts/lombok%E4%B8%ADbuilder%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</link>
+      <pubDate>Thu, 05 Nov 2020 15:33:10 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/lombok%E4%B8%ADbuilder%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</guid>
+      <description>Lombok使用@Builder注解时，默认是不能反序列化的，因为没有默认构造函数，因此可以通过增加下面2个注解来解决问题：
+@NoArgsConstructor(access = AccessLevel.PUBLIC) @AllArgsConstructor(access = AccessLevel.PRIVATE) 
+示例代码：
+@Data @Builder @NoArgsConstructor(access = AccessLevel.PUBLIC) @AllArgsConstructor(access = AccessLevel.PRIVATE) public static class NamespaceItem { private String namespace; private Map&amp;lt;String, Set&amp;lt;String&amp;gt;&amp;gt; appOwners = Maps.newHashMap(); }  </description>
+    </item>
+    
+    <item>
+      <title>扫描指定package下面的类文件</title>
+      <link>https://wenchao.ren/posts/%E6%89%AB%E6%8F%8F%E6%8C%87%E5%AE%9Apackage%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%B1%BB%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Mon, 02 Nov 2020 20:00:11 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E6%89%AB%E6%8F%8F%E6%8C%87%E5%AE%9Apackage%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%B1%BB%E6%96%87%E4%BB%B6/</guid>
+      <description>下面的程序代码是使用Guava来完成操作的：
+@Test public void test_scan() throws Exception { //using guava ClassPath classPath = ClassPath.from(ClassUtils.getDefaultClassLoader()); ImmutableSet&amp;lt;ClassPath.ClassInfo&amp;gt; topLevelClasses = classPath.getTopLevelClasses(); for (ClassPath.ClassInfo topLevelClass : topLevelClasses) { if (topLevelClass.getPackageName().equals(&amp;quot;com.xxx.xxx.com.xxx.xxx.metadata&amp;quot;)) { Class&amp;lt;?&amp;gt; clazz = topLevelClass.load(); Entity annotation = AnnotationUtils.findAnnotation(clazz, Entity.class); if (annotation != null) { System.out.println(topLevelClass.toString()); } } } }  </description>
+    </item>
+    
     <item>
       <title>不在要Netty的Pinple的线程中乱设置拒绝策略</title>
       <link>https://wenchao.ren/posts/%E4%B8%8D%E5%9C%A8%E8%A6%81netty%E7%9A%84pinple%E7%9A%84%E7%BA%BF%E7%A8%8B%E4%B8%AD%E4%B9%B1%E8%AE%BE%E7%BD%AE%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5/</link>

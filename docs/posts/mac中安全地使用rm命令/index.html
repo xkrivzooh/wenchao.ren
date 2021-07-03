@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>Mac中安全地使用rm命令 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="之前好几次工作中不小心在mac的terminal中执行了rm -rf命令来删除文件然后发现需要恢复的情况。于是找了一下发现果然有前人遇到了 同样的问题并且给出了优雅的解决方案。
+ trash: CLI tool that moves files or folder to the trash
+ trash命令可以实现将文件(夹)移入废纸篓, 并且支持指定使用-F指定使用Finder来删除文件(这种方式支持放回原处操作)
+$ brew install trash $ trash -F [file-name]  因为我是使用zsh的，所以我添加下面的alias命令到我的.zshrc文件中
+alias rm=&amp;lsquo;trash -F&amp;rsquo;
+然后就可以在终端中正常的使用rm xxx或者rm -rf xx，操作后，就会发现被删除的文件存在mac的废纸篓中。可以还原。" />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/mac%E4%B8%AD%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8rm%E5%91%BD%E4%BB%A4/'>Mac中安全地使用rm命令</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>之前好几次工作中不小心在mac的terminal中执行了<code>rm -rf</code>命令来删除文件然后发现需要恢复的情况。于是找了一下发现果然有前人遇到了
+同样的问题并且给出了优雅的解决方案。</p>
+<blockquote>
+<p>trash: CLI tool that moves files or folder to the trash</p>
+</blockquote>
+<p><code>trash</code>命令可以实现将文件(夹)移入废纸篓, 并且支持指定使用-F指定使用Finder来删除文件(这种方式支持放回原处操作)</p>
+<pre><code class="language-shell">$ brew install trash 
+$ trash -F [file-name]
+</code></pre>
+<p>因为我是使用zsh的，所以我添加下面的alias命令到我的<code>.zshrc</code>文件中</p>
+<p>alias rm=&lsquo;trash -F&rsquo;</p>
+<p>然后就可以在终端中正常的使用<code>rm xxx</code>或者<code>rm -rf xx</code>，操作后，就会发现被删除的文件存在mac的废纸篓中。可以还原。</p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/">杂记</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+
+
+</body>
+
+</html>

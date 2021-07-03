@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>使用GitHub&#43;VPS做图床 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content="早期我是使用七牛做图床的，使用其实还是比较ok的，但是随着chrome的升级发现之前的图片加载不出来了。原因是出现ERR_SSL_VERSION_OR_CIPHER_MISMATCH。但是七牛的图床默认是http的，如果使用https是需要收费的。
+我分析了一下我的现状：
+ 大量使用GitHub 有自己的vps 博客图片公开，不需要私密 图片不能丢，最好数据可以自己维护  基于这几个原因，我采样了使用GitHub做图床。突然通过Picgo上传到GitHub的特定仓库上，并且给Picgo安装了rename插件： https://github.com/liuwave/picgo-plugin-super-prefix#readme 这个插件还是功能比较足够的，我的配置为：img/{y}/{m}/{timestamp}-{hash}-{origin}
+这样我就可以通过picgo来自动的将剪贴板中的图片上传到GitHub上。然后我又自己为GitHub的这个图床仓库设置了workflow。这样当有图片文件 被push到这个仓库的时候，workflow流程会自动的将图片文件夹通过rsync命令同步到vps的指定目录下。
+下面贴一下我的workflow的文件：
+# This is a basic workflow to help you get started with Actions name: sync to vps workflow # Controls when the action will run. Triggers the workflow on push events # but only for the master branch on: push: branches: - main # A workflow run is made up of one or more jobs that can run sequentially or in parallel jobs: # This workflow contains a single job called &amp;quot;build&amp;quot; build: # The type of runner that the job will run on runs-on: ubuntu-latest # Steps represent a sequence of tasks that will be executed as part of the job steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - uses: actions/checkout@v2 with: submodules: &#39;recursive&#39; # Use ssh-agent to cache ssh keys - uses: webfactory/ssh-agent@v0." />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/%E4%BD%BF%E7%94%A8github&#43;vps%E5%81%9A%E5%9B%BE%E5%BA%8A/'>使用GitHub&#43;VPS做图床</a></h2>
+                    </div>
+                    <div class="post_content markdown"><p>早期我是使用七牛做图床的，使用其实还是比较ok的，但是随着chrome的升级发现之前的图片加载不出来了。原因是出现<code>ERR_SSL_VERSION_OR_CIPHER_MISMATCH</code>。但是七牛的图床默认是http的，如果使用https是需要收费的。</p>
+<p>我分析了一下我的现状：</p>
+<ul>
+<li>大量使用GitHub</li>
+<li>有自己的vps</li>
+<li>博客图片公开，不需要私密</li>
+<li>图片不能丢，最好数据可以自己维护</li>
+</ul>
+<p>基于这几个原因，我采样了使用GitHub做图床。突然通过<code>Picgo</code>上传到GitHub的特定仓库上，并且给Picgo安装了rename插件：
+<a href="https://github.com/liuwave/picgo-plugin-super-prefix#readme">https://github.com/liuwave/picgo-plugin-super-prefix#readme</a>
+这个插件还是功能比较足够的，我的配置为：<code>img/{y}/{m}/{timestamp}-{hash}-{origin}</code></p>
+<p>这样我就可以通过picgo来自动的将剪贴板中的图片上传到GitHub上。然后我又自己为GitHub的这个图床仓库设置了<code>workflow</code>。这样当有图片文件
+被push到这个仓库的时候，workflow流程会自动的将图片文件夹通过<code>rsync</code>命令同步到vps的指定目录下。</p>
+<p>下面贴一下我的workflow的文件：</p>
+<pre><code class="language-yml"># This is a basic workflow to help you get started with Actions
+
+name: sync to vps workflow
+
+# Controls when the action will run. Triggers the workflow on push events
+# but only for the master branch
+on:
+  push:
+    branches:
+      - main
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called &quot;build&quot;
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      # Use ssh-agent to cache ssh keys
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: |
+            ${{ secrets.BLOG_DEPLOY_KEY }}
+      - name: Scan public keys
+        run: |
+          ssh-keyscan 域名 &gt;&gt; ~/.ssh/known_hosts
+      - name: sync imgs
+        run: |
+          rsync -av --delete img 用户名@域名:VPS路径
+</code></pre>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/">杂记</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+
+
+</body>
+
+</html>

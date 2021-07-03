@@ -6,7 +6,91 @@
     <description>Recent content in 杂记 on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2020 19:00:50 +0800</lastBuildDate><atom:link href="https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Apr 2021 14:11:09 +0800</lastBuildDate><atom:link href="https://wenchao.ren/tags/%E6%9D%82%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mac中安全地使用rm命令</title>
+      <link>https://wenchao.ren/posts/mac%E4%B8%AD%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8rm%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 12 Apr 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mac%E4%B8%AD%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8rm%E5%91%BD%E4%BB%A4/</guid>
+      <description>之前好几次工作中不小心在mac的terminal中执行了rm -rf命令来删除文件然后发现需要恢复的情况。于是找了一下发现果然有前人遇到了 同样的问题并且给出了优雅的解决方案。
+ trash: CLI tool that moves files or folder to the trash
+ trash命令可以实现将文件(夹)移入废纸篓, 并且支持指定使用-F指定使用Finder来删除文件(这种方式支持放回原处操作)
+$ brew install trash $ trash -F [file-name]  因为我是使用zsh的，所以我添加下面的alias命令到我的.zshrc文件中
+alias rm=&amp;lsquo;trash -F&amp;rsquo;
+然后就可以在终端中正常的使用rm xxx或者rm -rf xx，操作后，就会发现被删除的文件存在mac的废纸篓中。可以还原。</description>
+    </item>
+    
+    <item>
+      <title>为什么知道了这么多道理却依旧过不好这一生</title>
+      <link>https://wenchao.ren/posts/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9F%A5%E9%81%93%E4%BA%86%E8%BF%99%E4%B9%88%E5%A4%9A%E9%81%93%E7%90%86%E7%BC%BA%E4%BE%9D%E6%97%A7%E8%BF%87%E4%B8%8D%E5%A5%BD%E8%BF%99%E4%B8%80%E7%94%9F/</link>
+      <pubDate>Tue, 01 Dec 2020 00:08:59 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9F%A5%E9%81%93%E4%BA%86%E8%BF%99%E4%B9%88%E5%A4%9A%E9%81%93%E7%90%86%E7%BC%BA%E4%BE%9D%E6%97%A7%E8%BF%87%E4%B8%8D%E5%A5%BD%E8%BF%99%E4%B8%80%E7%94%9F/</guid>
+      <description>为什么知道了这么多道理，却依旧过不好这一生?
+ 这句话是网上一直比较流行的一句话，知乎和微博上也有很多人发出过这样的疑问，我曾经也翻看过关于这个问题的一些回答，之前有过一些零散的 想法，最近在加入美团之后，结合自己的所见所闻，在这里完整的梳理一下自己关于这个问题的思路吧。
+关于这个问题，我觉的答案是下面3个，并且优先级从高到底（或者说从上往下）应该是如下的：
+ 努力的目标是否合理且正确？ 是否长期坚持知行合一？ 是否自己摄入的知识还是太少，有没有持续学习？  下面简单分开说一下吧。
+努力的目标是否合理且正确 这一点其实包含好几层意思，首先需要有足够清晰的目标，并且目标是可以完成的，目标可以定的高一些，但是是努力一下有机会可以实现的，而不是 太高的目标以至于基本不可能实现的目标。另外这个目标要正确，这个正确怎么理解呢，首先应该是积极的向上的，不能是消极的。比如「想赚1000万」就是一个积极向上的目标，而像「想成为北京烟瘾最大的人」其实就是一个消极的目标。其次这个目标最好可量化，可量化的好处就是可以直观的检查我们的进度。比如「想成为有钱人」这个目标就没有量化，而「想赚1000万」就是一个可量化的指标。如果再有时间观念就更好了，比如「再5年内赚1000万」就是一个有时间观念并且积极的可量化的，并且有时效性的目标。
+长期坚持的知行合一 美团其实是一家很强调「方法论」的公司，但是我觉的比起强调方法论来说，它本质其实更加强调「知行合一」。他只是通过强调「方法论」来一定程度上约束员工践行「知行合一」这个理念。这一点无论是从员工的入职手册上，还是学城（美团内部WIKI），平时的PRD的目录大纲，项目复盘的目录大纲，王兴等高管的讲话都可以看出这一点。
+这一点也是我曾经呆过的几家公司没有沉淀下来的东西。比如之前在Qunar和便利蜂，公司的文化都很讲究务实和效率，这一点其实是CTO吴永强的风格。虽然我详细吴永强他个人一定有自己的一套做事方法论，而且他本人也确实践行的非常好，也影响了他身边的非常多的人，当然这一点也影响了我，毕竟我在两家公司加起来也干了快7年了。但是他并没有将这一套方法论沉淀下来，形成一种书面的，也可以普世（或者说适合公司内）传播的文档，然后公司层面通过这些文档来要求大家严格按照这些方法论来。
+反而美团我个人感觉在这一点上做的非常的好。它强调「基本功」，因为这是公司发展的现阶段所要求的。为什么之前Qunar期间他的「野路子」可以work的很好呢，是因为那段时间业务高速发展，大家属于「抢地盘」试或者说类似于「战争时期」，他那么干是为了效率，所以他这套东西是可以很好的运转起来，但是当进入存量时代时，类似于战争过后需要休养生息一样，战争期间的那一套机制就不是非常的合适了，这个时候就需要另外一套机制来搞了，这也就是为什么美团在这个阶段一直在强调的「注重基本功」的原因。
+持续学习 人和人的智商我赞同是有非常大的差距的，我也认同人和人的智商差距有时候比人和狗的差距还大。但是至少在我工作和学习的这些年中，我还没有 完全遇到那种可以100%无死角碾压我的人，或者说不需要100%无死角碾压，就是那种完全让我感觉我即便在怎么努力我也无法超越的人，至少我身边 是没有的。所以我想说的是，后天的努力对于绝大多数人来说，只要你够努力，还是追的上绝大多数人的，以大多数人的努力程度，还是轮不到拼天赋的。
+最后，希望我可以做到这3点。</description>
+    </item>
+    
+    <item>
+      <title>Mac登录工作居住证官网</title>
+      <link>https://wenchao.ren/posts/mac%E7%99%BB%E5%BD%95%E5%B7%A5%E4%BD%9C%E5%B1%85%E4%BD%8F%E8%AF%81%E5%AE%98%E7%BD%91/</link>
+      <pubDate>Tue, 17 Nov 2020 23:43:58 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mac%E7%99%BB%E5%BD%95%E5%B7%A5%E4%BD%9C%E5%B1%85%E4%BD%8F%E8%AF%81%E5%AE%98%E7%BD%91/</guid>
+      <description>曾经我以为在Mac平台下是无法正常进入ZF的工作居住证网站的，因为虽然正常登录了以后，但是会出现乱码： 后来无意发现网上的一个解决办法就是，正常使用浏览器（随便一个）登录工作居住证官网后，然后在新标签页打开下面的链接: http://219.232.200.39/uamsso/SSOSecService?sid=e10adc3949ba59abbe56e057f20f883e&amp;amp;LinkType=online&amp;amp;LinkID=666
+这样就可以正常的进入内部页面了，其他的一些关于工作居住证的操作都是OK的。真的是一个神奇的网站。在此感谢发现这个解决方案的同学。</description>
+    </item>
+    
+    <item>
+      <title>Best Wishes to Me</title>
+      <link>https://wenchao.ren/posts/best-wishes-to-me/</link>
+      <pubDate>Fri, 06 Nov 2020 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/best-wishes-to-me/</guid>
+      <description>今天（2021年11月6日），是我在便利蜂工作的第939天，同时也是我在便利蜂的Last day。
+虽然现在人的寿命越来越长，但是至少在我这一代来说，人的寿命满打满算下来也差不多是3万天(30000/365=82岁)左右。如果按照职业生涯来说，时间就更短了，我是13年7月本科毕业，当时我是22岁，很多人都说程序员这个行业是青春饭，35岁是一个坎，那么假设我的工作生涯很不幸运，在我35岁的时候被所谓的「优化」了，那么算下来我的职业生涯有13年。因此在便利蜂的这939天，其实是一段非常长的一个时间。只是很可惜，就这样吧，这段工作经历就到这里结束吧。
+在这段工作期间，我努力的迫使自己去尝试改变自己之前在Qunar期间发现的自己的问题，有一些问题已经慢慢的有所改善，比如沟通能力，但是还是有不少问题没有太大的变化，比如缺乏耐心，不细心，表达能力等。同时在这段期间我也努力去争取达成我从Qunar辞职之前对自己下一份工作所定下的期望目标，只是很可惜，最终未能如愿，虽然我努力了，但是在公司的发展洪流中，个人的努力所能起的影响实在是太小了，最终我以一个失败者的姿态退出了这片战场，同时也没有收到自己直属TL的祝福，虽然收到了同事，TL&amp;rsquo;s TL的以及TL&amp;rsquo;s TL&amp;rsquo;s TL（CTO）的祝福（也可能他们只是例行公事般的询问和祝福一下罢了），但是毕竟他们距离我较远，所以从这一点说，我确实是一个Loser。
+我不打算去说因为便利蜂的xxx原因使得我决定辞职，因为那些东西在我辞职的那一刻对我来说已经不重要了，重要的是我期望我在我剩下的这五六年内，通过自己的努力，所要取得的「成绩」是什么，以及为了取得这些成绩，我应该去做些什么？不过这些东西很多并不适合明确的公开写出来，所以也就不在这里书写了。
+虽然因为我的辞职，曾经的期权已经作废，但是我依旧会给便利蜂送去我的祝福，希望它发展的越来越好！至少这样可以证明我当年放弃Qunar和携程的部分股票，加入便利蜂的决定并不是那么的错误。
+或许若干年后便利蜂上市一飞冲天，我可能会留下悔恨的泪水，虽然我也不确定接下来的这份工作能具体干多久，是否能取得我预期的目标结果，但是我依旧会用我的热情和努力，去争取！
+我其实一直对自己还算是有比较清晰的认识，就如同我在自我介绍这里面说的一样：
+ 我其实是一个非常平庸并且慢热的人！
+ 其实我不光平庸，慢热，如果再加一句的话：我的运气其实相对也一般般。那么在这个前提下，我对自己也只能说一句：Best Wishes to Me！</description>
+    </item>
+    
+    <item>
+      <title>使用GitHub Actions自动化部署博客到vps</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github-actions%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0vps/</link>
+      <pubDate>Mon, 02 Nov 2020 19:39:26 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github-actions%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0vps/</guid>
+      <description>GitHub的Actions可以用来协助我们做一些自动化的事情。比如当博客仓库有提交时，自动将生成的html文件部署到vps机器上。 我主要是参考了文章：利用 GitHub Actions 自动部署 Hugo 博客到自建 VPS
+下面贴一下我的workflow配置：
+# This is a basic workflow to help you get started with Actions name: deploy to vps workflow # Controls when the action will run. Triggers the workflow on push events # but only for the master branch on: push: branches: - main # A workflow run is made up of one or more jobs that can run sequentially or in parallel jobs: # This workflow contains a single job called &amp;quot;build&amp;quot; build: # The type of runner that the job will run on runs-on: ubuntu-latest # Steps represent a sequence of tasks that will be executed as part of the job steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - uses: actions/checkout@v2 with: submodules: &#39;recursive&#39; # Use ssh-agent to cache ssh keys - uses: webfactory/ssh-agent@v0.</description>
+    </item>
+    
+    <item>
+      <title>使用GitHub&#43;VPS做图床</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github&#43;vps%E5%81%9A%E5%9B%BE%E5%BA%8A/</link>
+      <pubDate>Mon, 02 Nov 2020 13:37:13 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github&#43;vps%E5%81%9A%E5%9B%BE%E5%BA%8A/</guid>
+      <description>早期我是使用七牛做图床的，使用其实还是比较ok的，但是随着chrome的升级发现之前的图片加载不出来了。原因是出现ERR_SSL_VERSION_OR_CIPHER_MISMATCH。但是七牛的图床默认是http的，如果使用https是需要收费的。
+我分析了一下我的现状：
+ 大量使用GitHub 有自己的vps 博客图片公开，不需要私密 图片不能丢，最好数据可以自己维护  基于这几个原因，我采样了使用GitHub做图床。突然通过Picgo上传到GitHub的特定仓库上，并且给Picgo安装了rename插件： https://github.com/liuwave/picgo-plugin-super-prefix#readme 这个插件还是功能比较足够的，我的配置为：img/{y}/{m}/{timestamp}-{hash}-{origin}
+这样我就可以通过picgo来自动的将剪贴板中的图片上传到GitHub上。然后我又自己为GitHub的这个图床仓库设置了workflow。这样当有图片文件 被push到这个仓库的时候，workflow流程会自动的将图片文件夹通过rsync命令同步到vps的指定目录下。
+下面贴一下我的workflow的文件：
+# This is a basic workflow to help you get started with Actions name: sync to vps workflow # Controls when the action will run. Triggers the workflow on push events # but only for the master branch on: push: branches: - main # A workflow run is made up of one or more jobs that can run sequentially or in parallel jobs: # This workflow contains a single job called &amp;quot;build&amp;quot; build: # The type of runner that the job will run on runs-on: ubuntu-latest # Steps represent a sequence of tasks that will be executed as part of the job steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - uses: actions/checkout@v2 with: submodules: &#39;recursive&#39; # Use ssh-agent to cache ssh keys - uses: webfactory/ssh-agent@v0.</description>
+    </item>
+    
     <item>
       <title>从hexo迁移到hugo</title>
       <link>https://wenchao.ren/posts/%E4%BB%8Ehexo%E8%BF%81%E7%A7%BB%E5%88%B0hugo/</link>

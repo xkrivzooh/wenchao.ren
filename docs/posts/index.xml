@@ -6,7 +6,291 @@
     <description>Recent content in Posts on 被遗忘的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2020 19:00:50 +0800</lastBuildDate><atom:link href="https://wenchao.ren/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 May 2021 13:15:30 +0000</lastBuildDate><atom:link href="https://wenchao.ren/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>践行者的法则</title>
+      <link>https://wenchao.ren/posts/%E8%B7%B5%E8%A1%8C%E8%80%85%E7%9A%84%E6%B3%95%E5%88%99/</link>
+      <pubDate>Thu, 27 May 2021 13:15:30 +0000</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E8%B7%B5%E8%A1%8C%E8%80%85%E7%9A%84%E6%B3%95%E5%88%99/</guid>
+      <description>践行者的法则，其实就是是法则践行者所践行的法则。「法则践行者」这个词语也是我从理查德·泰普勒《极简工作法则: 如何成为领先的少数人》学习到的，本篇文章主要是整理一下相关的法则。
+我们每个人其实都做着两项工作，但大多数人只意识到其中一项，即你的手头工作：完成销售目标、减少故障时长、加快完善台账，诸如此类。与之相比，另一项工作则更笼统、更模糊：让组织有效运作。当大家觉得你能够掌控大局，解决关键症结，而不是只关注自己的一亩三分地时，你就已经脱颖而出了。但是要怎么做到呢，那就是践行这些法则。
+法则 法则1 知行合一、言行合一 法则2 认真思考自己在未来的职位上可能会遇到的问题，随时做好晋升的准备。 如果你没有为晋升做好准备，那么凭什么你会获得晋升的机会？即便给了你晋升的机会，那么你如何保证自己一定会晋升呢？
+同时你要自觉地思考当前工作的方方面面并做出改变。你需要改善以下两点：
+ 你做事的方式； 别人对你工作的认知  法则3 学会把事情做对，但是更要弄清楚哪些是对的事情。 首先需要明确，「做对的事情」比「把事情做对」要重要的更多。「把事情做对」这是一个能力问题，而能力问题是可以通过时间、学习来提升的。而「做对的事情」更多的是关于行动的目标、努力的方向是否是正确的，在做事情之前先确认它是一个对的事情。
+此法则需要跳出组织的局限，放眼全局，要了解外面世界的需求，了解它们的变化，认真思考组织该如何运作，才能继续生存繁荣。
+所以什么是对的事情呢？我觉的可以从下面2个方向来考虑：
+ 我们每个人其实都做着两项工作，但大多数人只意识到其中一项，即你的手头工作：完成销售目标、减少故障时长、加快完善台账，诸如此类。与之相比，另一项工作则更笼统、更模糊：让组织有效运作。当大家觉得你能够掌控大局，解决关键症结，而不是只关注自己的一亩三分地时，你就已经脱颖而出了。
+ 法则4 你的一切细节都会被审视。如果你想往上走，那你就必须「看上去就是对的那一型」 单单工作优秀、经验丰富远远不够，事实上你的一切细节都会被审视，无论是你的衣着、谈吐、举止、怎样和同事交谈、怎样在会议上发言都需要有所讲究。
+法则5 先人一步 先人一步就是要提前做好准备，比别人多想一步，比别人多准备一些等。
+法则6 别让人家看到你的努力 </description>
+    </item>
+    
+    <item>
+      <title>关于Spring-statemachine的一些看法</title>
+      <link>https://wenchao.ren/posts/%E5%85%B3%E4%BA%8Espring-statemachine%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</link>
+      <pubDate>Tue, 11 May 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E5%85%B3%E4%BA%8Espring-statemachine%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</guid>
+      <description> 我们需要有状态的状态机么？
+ 昨天和今天再一次翻看了一下Spring-Statemachine项目的最新进展, 上一次看这个项目的文档还是几年前。 之所以之前关注这个项目主要有2个原因吧，第一个就是spring的project一般比较有质量保证，第二个是状态机本身是一个用途非常广泛的架构设计。所以这个项目一直让我 惦记着。
+然后昨天翻看完了一下Spring-Statemachine的文档，同时今天写了一个demo完整的模拟了一下在交易系统平台的业务背景下使用它来实现状态机。然后给我的感触就是这玩意真的不接地气。主要有下面几个原因:
+ Spring-Statemachine仅仅支持「有状态的状态机」，而不支持「无状态的状态机」。  这一点是我放弃将Spring-Statemachine引入我们现有的一个工程来重构代码的最主要原因。表面上来看，状态机理所当然是应该维持状态的。但是深入想一下，这种状态性并不是必须的，因为有状态，状态机的实例就不是线程安全的，而我们的应用服务器是分布式多线程的，所以在每一次状态机在接受请求的时候，都不得不重新 build 一个新的状态机实例。这种new instance per request 的做法，倘若状态机的构建很复杂，QPS 又很高的话，肯定会遇到性能问题。所以使得我产生了一个疑问，我们真的需要有状态的状态机么？   Spring-Statemachine本身支持的功能很多，但是这些工程我们基本不会用到。  支持的功能多，很多时候并不是一个优势。因为功能越多，使得框架本身的复杂度，学习成本也会上升。同时如果这些功能我们在未来可能会用到也还好，问题是用不到，比如它支持的UML Eclipse Papyrus modeling， Distributed state machine based on a Zookeeper等。感觉这类开源项目为了功能完备而把UML State Machine 上罗列的功能点都实现了。但是问题是很多都用不到。尤其是在互联网业务下，绝大多数时候状态的并行（parallel，fork，join）、子状态机都用不到，或者一般也会采样其他的方式来实现。   Spring-Statemachine的API逐渐往reactive方向靠拢，之前的传统API都开始标记过期，使得组内同学的学习成本会进一步提升。  基于这3个原因，我最终放弃了对Spring-Statemachine的关注。我们自己实现了一个功能简单但是完备的状态机。
+参考  给 DSL 开个脑洞：无状态的状态机 高德打车通用可编排订单状态机引擎设计 基于有限状态机与消息队列的三方支付系统补单实践 状态机在马蜂窝机票订单交易系统中的应用与优化实践  </description>
+    </item>
+    
+    <item>
+      <title>状态机中的状态变更和消息通知的一致性常见解决办法</title>
+      <link>https://wenchao.ren/posts/%E7%8A%B6%E6%80%81%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%8F%98%E6%9B%B4%E5%92%8C%E6%B6%88%E6%81%AF%E9%80%9A%E7%9F%A5%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E5%B8%B8%E8%A7%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Mon, 10 May 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E7%8A%B6%E6%80%81%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%8F%98%E6%9B%B4%E5%92%8C%E6%B6%88%E6%81%AF%E9%80%9A%E7%9F%A5%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E5%B8%B8%E8%A7%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <description>一般在订单或者交易系统中，经常会使用到状态机来解决单据的状态流转问题。同时会设计到数据库的状态变更以及事件通知功能。此时就需要有一种机制来保证状态变更的行为和事件通知行为的一致性，也就是状态发生变更，事件必须通知出去。针对这种场景，一般我们有如下的几种做法:
+借助MQ的事务消息 使用rocketmq等支持的两阶段式消息提交方式  先向消息服务器发送一条预处理消息 当本地数据库变更提交之后、再向消息服务器发送一条确认发送的消息 如果本地数据库变更失败、则向消息服务器发送一条取消发送的消息 如果长时间没有向消息服务器发生确认发送的消息，消息系统则会回调一个提前约定的接口、来查看本地业务是否成功，以此决定是否真正发生消息  使用数据库事务方案保证 之所以把这种方式也归类到借助MQ的事务消息里面，主要是因为不少MQ也是基于这种方式实现的事务消息。比如Qunar公司之前开源的QMQ。他的原理就是：
+ 在业务数据库中创建一个message表，然后利用「对于MySQL中同一个实例里面的db，如果共享相同的Connection的话是可以在同一个事务里的」这一机制，在同一个事务内，执行业务操作，并将消息插入message表然后进行事务提交 向消息服务器发送消息 发送成功则删除掉当前表记录 对于没有发送成功的消息（也就是表里面没有被删除的记录），再由定时任务来轮询发送  使用数据库事务+定时任务轮询  创建一个消息发送表，将要发送的消息插入到该表中，同本地业务在一个数据库事务中进行提交 之后在由一个定时任务来轮询发送、直到发送成功后在删除当前表记录  数据对账 数据对账发现不一致时进行补偿处理、以此保证数据的最终一致。其实不管使用哪种方案来保证数据库状态变更和消息的一致，数据对账的方案都是&amp;quot;必须&amp;quot;要有的一种兜底方案。</description>
+    </item>
+    
+    <item>
+      <title>AviatorScript ClassDefiner源码解析</title>
+      <link>https://wenchao.ren/posts/aviatorscript-classdefiner%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Sat, 08 May 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/aviatorscript-classdefiner%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description>在AviatorScript的内部实现机制中，需要将AviatorScript脚本翻译为可执行的java代码，所以会设计到「类的动态生成」和「类的加载」这2个功能。 而其中关于「类的加载」这部分的功能是在com.googlecode.aviator.code.asm.ClassDefiner中实现的, 在ASMCodeGenerator中通过下面的方式来使用：
+Class&amp;lt;?&amp;gt; defineClass = ClassDefiner.defineClass(this.className, Expression.class, bytes, this.classLoader);  而这个defineClass方法的定义如下：
+public static final Class&amp;lt;?&amp;gt; defineClass(final String className, final Class&amp;lt;?&amp;gt; clazz, final byte[] bytes, final AviatorClassLoader classLoader) throws NoSuchFieldException, IllegalAccessException { if (!preferClassLoader &amp;amp;&amp;amp; DEFINE_CLASS_HANDLE != null) { try { Class&amp;lt;?&amp;gt; defineClass = (Class&amp;lt;?&amp;gt;) DEFINE_CLASS_HANDLE.invokeExact(clazz, bytes, EMPTY_OBJS); return defineClass; } catch (Throwable e) { // fallback to class loader mode. if (errorTimes++ &amp;gt; 10000) { preferClassLoader = true; } return defineClassByClassLoader(className, bytes, classLoader); } } else { return defineClassByClassLoader(className, bytes, classLoader); } }  因为上下文中preferClassLoader的定义是：</description>
+    </item>
+    
+    <item>
+      <title>AviatorScript编译执行流程</title>
+      <link>https://wenchao.ren/posts/aviatorscript%E7%BC%96%E8%AF%91%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Fri, 07 May 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/aviatorscript%E7%BC%96%E8%AF%91%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/</guid>
+      <description>本篇文章通过AviatorScript工程自带的一个示例，来简单说明一下AviatorScript的执行流程:
+ 初始化Aviator的核心数据结构 读取AviatorScript脚本内容，做语法树解析，并通过ASM翻译为java字节码，然后通过classLoader做类加载，构建Expression实例。 通过触发Exception#execute方法来触发脚本执行。  示例程序 本部分继续以下面的示例来说明，这个实例在AviatorScript的工程中可以找到:
+public class RunScriptExample { public static void main(final String[] args) throws Exception { // Enable java method invocation by reflection. AviatorEvaluator.getInstance() .setFunctionMissing(JavaMethodReflectionFunctionMissing.getInstance()); // You can trry to test every script in examples folder by changing the file name. Expression exp = AviatorEvaluator.getInstance().compileScript(&amp;quot;examples/hello.av&amp;quot;); exp.execute(); } }  在这个实例程序中，AviatorEvaluator.getInstance()是单例模式的一种实现，用来获取AviatorEvaluatorInstance实例。
+AviatorEvaluatorInstance初始化流程 在AviatorEvaluator中通过单例模式创建了AviatorEvaluatorInstance的实例。
+public static AviatorEvaluatorInstance newInstance() { return new AviatorEvaluatorInstance(); } private static class StaticHolder { private static AviatorEvaluatorInstance INSTANCE = new AviatorEvaluatorInstance(); }  下面是AviatorEvaluatorInstance的构造函数：</description>
+    </item>
+    
+    <item>
+      <title>hugo新写的文章展示不出来</title>
+      <link>https://wenchao.ren/posts/hugo%E6%96%B0%E5%86%99%E7%9A%84%E6%96%87%E7%AB%A0%E5%B1%95%E7%A4%BA%E4%B8%8D%E5%87%BA%E6%9D%A5/</link>
+      <pubDate>Fri, 23 Apr 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/hugo%E6%96%B0%E5%86%99%E7%9A%84%E6%96%87%E7%AB%A0%E5%B1%95%E7%A4%BA%E4%B8%8D%E5%87%BA%E6%9D%A5/</guid>
+      <description>最近因为在公司的笔记本上写博文，所以并不打算采用在terminal中使用hugo new的方式来生成新的博文模板，而是自己在vs code中 编写好之后然后手动在github的网页新增文件触发github actions的执行然后部署到vps上。
+遇到的问题 然后发现自己新写的文章居然展示不出来。排查了一下博文前面的头信息：
+--- title: &amp;quot;hugo新写的文章展示不出来&amp;quot; date: 2021-04-23T11:11:09+08:00 draft: false tags: [&#39;杂谈&#39;] ---  发现这些头信息的格式写的并没有问题，即便这个时间也没有任何的问题。
+解决过程 后来在网上搜到了这个文章：Hugo Post Missing (Hugo 博客文章缺失问题)。文章中提到了：
+ Hugo 是否会渲染一篇博文依赖该文章的发布时间。如果一个博文的发布时间比 Hugo 构建当前站点的时间还要晚，也就是 Hugo 认为博文的发布时间在未来，就不会渲染该篇博文。前面没有写时区的博文，就是被 Hugo 认为发布时间还未到，所以没有渲染出来。
+ 解决办法  第一种最简单的办法是修改文章头信息中的date时间为过去的时间 第二种就是强制Hugo渲染发布时间在未来的博文，这有两种办法：  第一个是在config.toml中加入以下设置：buildFuture = true 第二个是在hugo build博客的时候，加上 --buildFuture 选项    </description>
+    </item>
+    
+    <item>
+      <title>DMAIC模型</title>
+      <link>https://wenchao.ren/posts/dmaic%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Fri, 23 Apr 2021 11:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/dmaic%E6%A8%A1%E5%9E%8B/</guid>
+      <description>这篇文章主要说一下DMAIC模型。
+参考资料  MBA智库-DMAIC模型  什么是DMAIC模型？ DMAIC模型是实施6sigma的一套操作方法，通用电气公司总结了众多公司实施6sigma的经验,系统地提出了实施6sigma的DMAIC模型。DMAIC模型现在被广泛认可,认为这是实施6sigma更具操作性的模式，主要侧重在已有流程的质量改善方面。它的模型图如下：
+需要强调的是：DMAIC模型的应用是一个循环过程。关于DMAIC模型的实际应用，在上面推荐的资料中，有对应的案例。
+DMAIC模型每一项的说明 D(Define)——界定 界定是识别客户要求，确定影响客户满意度的关键因素，找准要解决的问题，比如：
+ 你们正在做什么？ 为什么要解决这个特别的问题？ 你们的顾客是谁？ 你们的顾客需求是什么？ 你们过去是怎样做这项工作的？ 现在改进这些工作将获得什么益处？ 为什么选择这个案例？ 要特别解决的问题是什么？ 解决这个问题的限制条件是什么？ 解决这个问题涉及的范围有多大？ 团队成员及其职责是什么？ DMAIC的各阶段的时间安排。  M(Measure) ——测量 量测是校准Y的测量系统，收集整理数据，为量化分析做好准备。通过量测使得量化管理成为可能，有了量测才使统计技术与方法的应用成为可能。为了获取真实、准确、可靠的数据，需要对量测的系统进行校准。数据收集还要求掌握一些数据收集的方法，如抽样技术、检查单检查表方法等。
+典型量测举例
+ 如果客户对供货时间不满意，你就需要收集过去若干次收到订单到发出货物的天数。 如一个大型生产制造商过去一个月在订单处理方面的DPMO是253 000 如一个冰箱制造商过去一年的包装清单的DPMO 是85 000 如一个大型商场过去一个月开发票的DPMO是67 000 如一个餐馆过去一个月账单的DPMO是57 000  A(Analyze)——分析 分析是运用多种统计技术方法找出存在问题的根本原因。影响产品质量和顾客满意度的因素很多，运用统计方法可找出影响顾客满意度的主要原因。
+常用统计分析工具：
+ 直方图 排列图 鱼骨图 散点图 控制图  I(Improve)——改进 改进是实现目标的关键步骤。
+改进是确定影响y的主要原因x，寻求x与y的关系，建立x的允许变动范围。结果与原因呈现出一个类似函数的模型，即：y=f(x1,x2,&amp;hellip;&amp;hellip;xp)+ε。其中y是因变量，x是自变量向量，是p个原因，称为自变量。ε是随机干扰项，也正是由于有这一项，此模型才真切地刻画出y与x有着密切的关联，但y又不能由x完全确定的这种奇特关系。模型就是一个系统，y是不可控制的随机变量，由系统产出的，也称为内生变量。x是一些可控制的确定性变量，也称为外生变量。ε是不可控的随机变量。如果x与y描述广告投入与销售量的关系，显然销售量y是不可控的，广告费用x是可控制的，对销售量y有影响的一些其它因素就是ε。
+相关分析、回归分析、试验设计、方差分析等都是改进步骤中的统计工具。当用统计方法找到了要改进的环节和方案之后，重要的是去实施它。这一过程中的困难往往是员工长期的习惯不会轻易转变。假如公司欲在各部门之间和部门内部跟踪节约资金，这时就要将实际花费与预算联系起来，或跟踪净节约资金、项目范围、项目结束时间等变量。通过正确跟踪数据，建立起回归模型，用回归模型进行预测和控制，使公司收益和顾客满意度达到最大。 改进这一步骤是实现目标的关键，它类似于六步法中的“优化你的工作流程”。
+C(Control)——控制 控制是将主要变量的偏差控制在许可范围。
+对流程进行一定的改进之后，下来的问题就是坚持避免“突然”回到旧的习惯和流程是控制的主要目的。6σ项目的成功依赖于那些始终坚持如一的人，控制过程中，流程中的每个环节的每个人都必须要有工作描述。没有工作描述和过程程序,就谈不上控制，任何流程的初期阶段都是至关重要的。在生产周期中纠正缺陷的成本:
+ 在初期发现一个缺陷，花费1美元 在设计中发现一个缺陷，花费10美元 在实验中发现一个缺陷，花费100美元 在现场发现一个缺陷，花费1000美元  </description>
+    </item>
+    
+    <item>
+      <title>java描述符</title>
+      <link>https://wenchao.ren/posts/java%E6%8F%8F%E8%BF%B0%E7%AC%A6/</link>
+      <pubDate>Thu, 22 Apr 2021 14:12:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E6%8F%8F%E8%BF%B0%E7%AC%A6/</guid>
+      <description>类型描述符 基元类型的描述符是单个字符:Z 表示 boolean，C 表示 char，B 表示 byte，S 表示 short， I 表示 int，F 表示 float，J 表示 long，D 表示 double。一个类类型的描述符是这个类的 内部名，前面加上字符 L，后面跟有一个分号。例如，String 的类型描述符为 Ljava/lang/String;。而一个数组类型的描述符是一个方括号后面跟有该数组元素类型的描述符。
+   Java类型 类型描述符     boolean Z   char C   byte B   short S   int I   float F   long J   double D   Object Ljava/lang/Object;   int[] [I   Object[][] [[Ljava/lang/Object;   String Ljava/lang/String;    方法描述符 方法描述符是一个类型描述符列表，它用一个字符串描述一个方法的参数类型和返回类型。 方法描述符以左括号开头，然后是每个形参的类型描述符，然后是一个右括号，接下来是返回类 型的类型描述符，如果该方法返回 void，则是 V(方法描述符中不包含方法的名字或参数名)。</description>
+    </item>
+    
+    <item>
+      <title>SWOT分析模型</title>
+      <link>https://wenchao.ren/posts/swot%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Thu, 22 Apr 2021 14:12:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/swot%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/</guid>
+      <description>参考资料  MBA智库-SWOT分析模型 MBA智库-高级SWOT分析法  SWOT分析模型简介 SWOT分析法（也称TOWS分析法、道斯矩阵）即态势分析法，20世纪80年代初由美国旧金山大学的管理学教授韦里克提出，经常被用于企业战略制定、竞争对手分析等场合。 主要包括分析企业的优势（Strengths）、劣势（Weaknesses）、机会（Opportunities）和威胁（Threats）。因此，SWOT分析实际上是将对企业内外部条件各方面内容进行综合和概括，进而分析组织的优劣势、面临的机会和威胁的一种方法。通过SWOT分析，可以帮助企业把资源和行动聚集在自己的强项和有最多机会的地方；并让企业的战略变得明朗。
+SWOT模型含义介绍 优劣势分析主要是着眼于企业自身的实力及其与竞争对手的比较，而机会和威胁分析将注意力放在外部环境的变化及对企业的可能影响上 。在分析时，应把所有的内部因素（即优劣势）集中在一起，然后用外部的力量来对这些因素进行评估。
+使用实例 举一个科尔尼SWOT分析得出战略的例子：
+SWOT模型的局限性 与很多其他的战略模型一样，SWOT模型已由麦肯锡提出很久了，带有时代的局限性。以前的企业可能比较关注成本、质量，现在的企业可能更强调组织流程。例如以前的电动打字机被印表机取代，该怎么转型？是应该做印表机还是其他与机电有关的产品？从SWOT分析来看，电动打字机厂商优势在机电，但是发展印表机又显得比较有机会。结果有的朝印表机发展，死得很惨；有的朝剃须刀生产发展很成功。这就要看，你要的是以机会为主的成长策略，还是要以能力为主的成长策略。SWOT没有考虑到企业改变现状的主动性，企业是可以通过寻找新的资源来创造企业所需要的优势，从而达到过去无法达成的战略目标。
+因此又有了更高级的POWER SWOT分析法。
+POWER SWOT分析法 POWER是个人经验（Personal experience）、规则（Order）、比重（Weighting）、重视细节（Emphasize detail）、权重排列（Rank and prioritize）的首字母缩写，这就是所谓的高级SWOT分析法。
+个人经验(Personal experience) 作为市场营销经理，你是如何运用SWOT分析法的呢?无非是将你的经验、技巧、知识、态度与信念结合起来。你的洞察力与自觉力将会对SWOT分析法产生影响。
+规则(Order) 优势或劣势，机会或威胁，市场营销经理经常会不由自主地把机会与优势、劣势与威胁的顺序搞混。这是因为内在优势与劣势和外在机会与威胁之间的分界线很难鉴定。举个例子，就说全球气温变暖与气温变化好了，人们会错将环境保护主义当作一种威胁而非潜在的机会。
+加权(weighting) 通常人们不会将SWOT分析法所包含的各种要素进行加权。某些要素肯定会比其他的要素更具争议性，因此你需要将所有的要素进行加权从而辨别出轻重缓急。你可以采用百分比的方法，比如威胁A=10％，威胁B=70％，威胁C=20％(总威胁为100％)。
+重视细节(Emphasize detail) SWOT分析法通常会忽略细节、推理和判断。人们想要寻找的往往是分析列表里面的几个单词而已，重视细节将极大地帮你决定如何最佳地评价与比较各种要素。
+等级与优先(Rank and prioritize) 一旦添加了细节并评价了要素，你便能够进入下一个步骤，即给SWOT分析法一些战略意义，例如你可以开始选择那些能够对你的营销策略产生最重要影响的要素。你将它们按照从高到低的词序进行排列，然后优先考虑那些排名最靠前的要素。比如说机会C=60％，机会A=25％，机会B=10‰那么你的营销计划就得首先着眼于机会C，然后是机会A，最后才是机会B。
+POWER STOP分析示例 举一例说明高级SWOT分析是如何进行的。某公司原来是做餐饮经营的，现在发现保健品市场是个很好投资机会，打算代理某一知名保健品在公司所在大区的独家代理。该公司做出了如下所示的较详细的SWOT分析。
+每个被分析项的分值和权重是如何确定的呢？总分又是怎样确定的呢？其实，确定每个被评判内容的分值和四大分析项目（SWOT）的分值并不是完全凭空想象出来的。这主要基于该行业竞争对手长期从事该行业经营和管理而形成的每项评判内容的重要性而设定的。但是，值得说明的是，每项分析内容的权重和分数是不同的。</description>
+    </item>
+    
+    <item>
+      <title>重视日报和周报</title>
+      <link>https://wenchao.ren/posts/%E9%87%8D%E8%A7%86%E6%97%A5%E6%8A%A5%E5%92%8C%E5%91%A8%E6%8A%A5/</link>
+      <pubDate>Thu, 22 Apr 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E9%87%8D%E8%A7%86%E6%97%A5%E6%8A%A5%E5%92%8C%E5%91%A8%E6%8A%A5/</guid>
+      <description>如果你们公司、项目组要求你们写日报或者周报，请不要抱怨，而且说实话大多数时候你抱怨了也没啥用，该写还得写。 所以转变一下思路，理性对待日报和周报。从我这些年的工作经验来看：「日报和周报其实是一个非常不错和有效的上下级沟通的工具，并且也是下级向上管理的一个不错的渠道」，所以建议认真对待日报和周报，不要把周报写成流水账之类的完全没有任何营养的文章。
+一般日报和周报都是三部分构成：
+ 第一部分：上周工作总结，项目进度 第二部分：下周的工作安排 第三部分：本周工作反思、问题总结等  大多数同学都会「完成任务试」的着重写第一部分，但是其实第一部分，我个人感觉反而是最不重要的，如果TL知道你在做什么，你甚至可以一笔带过，直接给出：「本周xxx进展顺利，在计划内」就完事了。应该将精力用在第二部分和第三部分上，第二部分可以让你锦上添花，给人一种做事有规划的感觉，第三部分会让你脱颖而出，这部分也是上级最喜欢看的地方，可以通过这部分来让上级了解你的想法，也是你和上级沟通，向上管理的绝佳位置。
+关于周报相关的逻辑，推荐下么的两篇文章，写的很不错。
+推荐资料  周报的逻辑（转） 周报的逻辑·续（转）  </description>
+    </item>
+    
+    <item>
+      <title>Error Prone的介绍和使用</title>
+      <link>https://wenchao.ren/posts/error-prone%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 12 Apr 2021 15:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/error-prone%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E4%BD%BF%E7%94%A8/</guid>
+      <description>Error Prone的介绍和使用
+今天在浏览GitHub的时候突然看到Google有一个项目Error Prone:
+ Catch common Java mistakes as compile-time errors
+ 官方网站：https://errorprone.info/
+Error Prone是什么？ 然后就翻看了一下官方文档了解了一下具体的作用。如果你之前没有了解过这个Error Prone，你可以把他对标为Snoar，FindBugs之类的静态代码分析工具就行。Error Prone就是Google研发的静态代码扫描工具，顾名思义，就是用于扫描Java各种易于出错的代码。
+Error Prone产生的背景 Google在这篇论文Lessons from Building Static Analysis Tools at Google
+ PDF Lessons from Building Static Analysis Tools at Google HTML Lessons from Building Static Analysis Tools at Google  中也提到了Google之前是如何做静态代码分析，以及Error Prone产生的一些原因。简单整理一下就是：
+ Google内部早期使用FindBugs作为自己的静态代码分析工具，然后FindBug这种工具一般是定时触发重发，然后生成一个仪表盘，但是问题是大家一般都不会主动去翻看这个仪表盘，因为这个仪表盘不会在开发人员的常规工作流程中，于是Google内部发起了一个FixIt的小活动，简单说就是来集中几天解决这些发现的代码问题，后来他们将FindBugs等分析工具和Code Review工作结合起来搞了一个小平台，但是当时的内部整合不太好，使得开发人员觉的难用，也不怎么信任这个整合平台了。
+ 于是了，Google内部觉的，这种静态代码分析工作应该是参与到持续继承中，而且最好要快速，频繁，参与到开发人员的常规工作中，并且最好不但要发现问题，还要告诉开发人员怎么修。于是了，Google参考了之前Clang的一个经验，将静态代码分析工作整合到了javac，也就是在编译期来做静态代码分析工作，于是后来就有了这篇文章提到的Error Prone。
+Error Prone的基本使用 我工作中一直使用的是Intellij+JDK8+Maven，所以参考官方文档https://errorprone.info/docs/installation，写了一个JDK8使用的小例子。下面贴一下核心代码。
+首先是pom.xml中的配置，核心在于maven-compiler-plugin插件的配置, 同时因为大家项目开发过程中一般会使用Lombok等annotation processor依赖，所以下面的实例代码中也展示了ErrorProne如何和Lombok等依赖整合。
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot; xsi:schemaLocation=&amp;quot;http://maven.apache.org/POM/4.0.0 https://maven.</description>
+    </item>
+    
+    <item>
+      <title>Mac中安全地使用rm命令</title>
+      <link>https://wenchao.ren/posts/mac%E4%B8%AD%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8rm%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 12 Apr 2021 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mac%E4%B8%AD%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8rm%E5%91%BD%E4%BB%A4/</guid>
+      <description>之前好几次工作中不小心在mac的terminal中执行了rm -rf命令来删除文件然后发现需要恢复的情况。于是找了一下发现果然有前人遇到了 同样的问题并且给出了优雅的解决方案。
+ trash: CLI tool that moves files or folder to the trash
+ trash命令可以实现将文件(夹)移入废纸篓, 并且支持指定使用-F指定使用Finder来删除文件(这种方式支持放回原处操作)
+$ brew install trash $ trash -F [file-name]  因为我是使用zsh的，所以我添加下面的alias命令到我的.zshrc文件中
+alias rm=&amp;lsquo;trash -F&amp;rsquo;
+然后就可以在终端中正常的使用rm xxx或者rm -rf xx，操作后，就会发现被删除的文件存在mac的废纸篓中。可以还原。</description>
+    </item>
+    
+    <item>
+      <title>为什么知道了这么多道理却依旧过不好这一生</title>
+      <link>https://wenchao.ren/posts/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9F%A5%E9%81%93%E4%BA%86%E8%BF%99%E4%B9%88%E5%A4%9A%E9%81%93%E7%90%86%E7%BC%BA%E4%BE%9D%E6%97%A7%E8%BF%87%E4%B8%8D%E5%A5%BD%E8%BF%99%E4%B8%80%E7%94%9F/</link>
+      <pubDate>Tue, 01 Dec 2020 00:08:59 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9F%A5%E9%81%93%E4%BA%86%E8%BF%99%E4%B9%88%E5%A4%9A%E9%81%93%E7%90%86%E7%BC%BA%E4%BE%9D%E6%97%A7%E8%BF%87%E4%B8%8D%E5%A5%BD%E8%BF%99%E4%B8%80%E7%94%9F/</guid>
+      <description>为什么知道了这么多道理，却依旧过不好这一生?
+ 这句话是网上一直比较流行的一句话，知乎和微博上也有很多人发出过这样的疑问，我曾经也翻看过关于这个问题的一些回答，之前有过一些零散的 想法，最近在加入美团之后，结合自己的所见所闻，在这里完整的梳理一下自己关于这个问题的思路吧。
+关于这个问题，我觉的答案是下面3个，并且优先级从高到底（或者说从上往下）应该是如下的：
+ 努力的目标是否合理且正确？ 是否长期坚持知行合一？ 是否自己摄入的知识还是太少，有没有持续学习？  下面简单分开说一下吧。
+努力的目标是否合理且正确 这一点其实包含好几层意思，首先需要有足够清晰的目标，并且目标是可以完成的，目标可以定的高一些，但是是努力一下有机会可以实现的，而不是 太高的目标以至于基本不可能实现的目标。另外这个目标要正确，这个正确怎么理解呢，首先应该是积极的向上的，不能是消极的。比如「想赚1000万」就是一个积极向上的目标，而像「想成为北京烟瘾最大的人」其实就是一个消极的目标。其次这个目标最好可量化，可量化的好处就是可以直观的检查我们的进度。比如「想成为有钱人」这个目标就没有量化，而「想赚1000万」就是一个可量化的指标。如果再有时间观念就更好了，比如「再5年内赚1000万」就是一个有时间观念并且积极的可量化的，并且有时效性的目标。
+长期坚持的知行合一 美团其实是一家很强调「方法论」的公司，但是我觉的比起强调方法论来说，它本质其实更加强调「知行合一」。他只是通过强调「方法论」来一定程度上约束员工践行「知行合一」这个理念。这一点无论是从员工的入职手册上，还是学城（美团内部WIKI），平时的PRD的目录大纲，项目复盘的目录大纲，王兴等高管的讲话都可以看出这一点。
+这一点也是我曾经呆过的几家公司没有沉淀下来的东西。比如之前在Qunar和便利蜂，公司的文化都很讲究务实和效率，这一点其实是CTO吴永强的风格。虽然我详细吴永强他个人一定有自己的一套做事方法论，而且他本人也确实践行的非常好，也影响了他身边的非常多的人，当然这一点也影响了我，毕竟我在两家公司加起来也干了快7年了。但是他并没有将这一套方法论沉淀下来，形成一种书面的，也可以普世（或者说适合公司内）传播的文档，然后公司层面通过这些文档来要求大家严格按照这些方法论来。
+反而美团我个人感觉在这一点上做的非常的好。它强调「基本功」，因为这是公司发展的现阶段所要求的。为什么之前Qunar期间他的「野路子」可以work的很好呢，是因为那段时间业务高速发展，大家属于「抢地盘」试或者说类似于「战争时期」，他那么干是为了效率，所以他这套东西是可以很好的运转起来，但是当进入存量时代时，类似于战争过后需要休养生息一样，战争期间的那一套机制就不是非常的合适了，这个时候就需要另外一套机制来搞了，这也就是为什么美团在这个阶段一直在强调的「注重基本功」的原因。
+持续学习 人和人的智商我赞同是有非常大的差距的，我也认同人和人的智商差距有时候比人和狗的差距还大。但是至少在我工作和学习的这些年中，我还没有 完全遇到那种可以100%无死角碾压我的人，或者说不需要100%无死角碾压，就是那种完全让我感觉我即便在怎么努力我也无法超越的人，至少我身边 是没有的。所以我想说的是，后天的努力对于绝大多数人来说，只要你够努力，还是追的上绝大多数人的，以大多数人的努力程度，还是轮不到拼天赋的。
+最后，希望我可以做到这3点。</description>
+    </item>
+    
+    <item>
+      <title>Mac登录工作居住证官网</title>
+      <link>https://wenchao.ren/posts/mac%E7%99%BB%E5%BD%95%E5%B7%A5%E4%BD%9C%E5%B1%85%E4%BD%8F%E8%AF%81%E5%AE%98%E7%BD%91/</link>
+      <pubDate>Tue, 17 Nov 2020 23:43:58 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/mac%E7%99%BB%E5%BD%95%E5%B7%A5%E4%BD%9C%E5%B1%85%E4%BD%8F%E8%AF%81%E5%AE%98%E7%BD%91/</guid>
+      <description>曾经我以为在Mac平台下是无法正常进入ZF的工作居住证网站的，因为虽然正常登录了以后，但是会出现乱码： 后来无意发现网上的一个解决办法就是，正常使用浏览器（随便一个）登录工作居住证官网后，然后在新标签页打开下面的链接: http://219.232.200.39/uamsso/SSOSecService?sid=e10adc3949ba59abbe56e057f20f883e&amp;amp;LinkType=online&amp;amp;LinkID=666
+这样就可以正常的进入内部页面了，其他的一些关于工作居住证的操作都是OK的。真的是一个神奇的网站。在此感谢发现这个解决方案的同学。</description>
+    </item>
+    
+    <item>
+      <title>Best Wishes to Me</title>
+      <link>https://wenchao.ren/posts/best-wishes-to-me/</link>
+      <pubDate>Fri, 06 Nov 2020 14:11:09 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/best-wishes-to-me/</guid>
+      <description>今天（2021年11月6日），是我在便利蜂工作的第939天，同时也是我在便利蜂的Last day。
+虽然现在人的寿命越来越长，但是至少在我这一代来说，人的寿命满打满算下来也差不多是3万天(30000/365=82岁)左右。如果按照职业生涯来说，时间就更短了，我是13年7月本科毕业，当时我是22岁，很多人都说程序员这个行业是青春饭，35岁是一个坎，那么假设我的工作生涯很不幸运，在我35岁的时候被所谓的「优化」了，那么算下来我的职业生涯有13年。因此在便利蜂的这939天，其实是一段非常长的一个时间。只是很可惜，就这样吧，这段工作经历就到这里结束吧。
+在这段工作期间，我努力的迫使自己去尝试改变自己之前在Qunar期间发现的自己的问题，有一些问题已经慢慢的有所改善，比如沟通能力，但是还是有不少问题没有太大的变化，比如缺乏耐心，不细心，表达能力等。同时在这段期间我也努力去争取达成我从Qunar辞职之前对自己下一份工作所定下的期望目标，只是很可惜，最终未能如愿，虽然我努力了，但是在公司的发展洪流中，个人的努力所能起的影响实在是太小了，最终我以一个失败者的姿态退出了这片战场，同时也没有收到自己直属TL的祝福，虽然收到了同事，TL&amp;rsquo;s TL的以及TL&amp;rsquo;s TL&amp;rsquo;s TL（CTO）的祝福（也可能他们只是例行公事般的询问和祝福一下罢了），但是毕竟他们距离我较远，所以从这一点说，我确实是一个Loser。
+我不打算去说因为便利蜂的xxx原因使得我决定辞职，因为那些东西在我辞职的那一刻对我来说已经不重要了，重要的是我期望我在我剩下的这五六年内，通过自己的努力，所要取得的「成绩」是什么，以及为了取得这些成绩，我应该去做些什么？不过这些东西很多并不适合明确的公开写出来，所以也就不在这里书写了。
+虽然因为我的辞职，曾经的期权已经作废，但是我依旧会给便利蜂送去我的祝福，希望它发展的越来越好！至少这样可以证明我当年放弃Qunar和携程的部分股票，加入便利蜂的决定并不是那么的错误。
+或许若干年后便利蜂上市一飞冲天，我可能会留下悔恨的泪水，虽然我也不确定接下来的这份工作能具体干多久，是否能取得我预期的目标结果，但是我依旧会用我的热情和努力，去争取！
+我其实一直对自己还算是有比较清晰的认识，就如同我在自我介绍这里面说的一样：
+ 我其实是一个非常平庸并且慢热的人！
+ 其实我不光平庸，慢热，如果再加一句的话：我的运气其实相对也一般般。那么在这个前提下，我对自己也只能说一句：Best Wishes to Me！</description>
+    </item>
+    
+    <item>
+      <title>Java脚本的语法解析示例</title>
+      <link>https://wenchao.ren/posts/java%E8%84%9A%E6%9C%AC%E7%9A%84%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90%E7%A4%BA%E4%BE%8B/</link>
+      <pubDate>Thu, 05 Nov 2020 15:36:58 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/java%E8%84%9A%E6%9C%AC%E7%9A%84%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90%E7%A4%BA%E4%BE%8B/</guid>
+      <description>早期搞了一个解析Java脚本的功能，其中有一处是需要解析Java语法，下面的代码贴了一下主要功能, 主要用到了tools中的一些类，但是代码使用tools.jar需要在maven中做一些额外配置：
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.sun&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;tools&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.8&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;system&amp;lt;/scope&amp;gt; &amp;lt;systemPath&amp;gt;${JAVA_HOME}/lib/tools.jar&amp;lt;/systemPath&amp;gt; &amp;lt;/dependency&amp;gt;  上面的maven配置就是为了能够在代码中使用tools.jar中的类。
+import com.google.common.base.Charsets; import com.google.common.base.Joiner; import com.google.common.base.Preconditions; import com.google.common.base.Strings; import com.google.common.collect.Maps; import com.sun.tools.javac.file.JavacFileManager; import com.sun.tools.javac.parser.JavacParser; import com.sun.tools.javac.parser.ParserFactory; import com.sun.tools.javac.tree.JCTree; import com.sun.tools.javac.util.Context; import com.sun.tools.javac.util.Name; import org.slf4j.Logger; import org.slf4j.LoggerFactory; import org.springframework.util.CollectionUtils; import javax.tools.JavaFileManager; import java.nio.file.Files; import java.nio.file.Path; import java.util.List; import java.util.Map; public class JavaSourceCodeParser { private static final Logger logger = LoggerFactory.getLogger(JavaSourceCodeParser.class); private static final Joiner JOINER = Joiner.on(&amp;quot;\n&amp;quot;).skipNulls(); public static String parseFullyQualifiedClassName(String fileName, String scriptSourceCode) { Preconditions.</description>
+    </item>
+    
+    <item>
+      <title>Lombok中@Builder注解使用注意事项</title>
+      <link>https://wenchao.ren/posts/lombok%E4%B8%ADbuilder%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</link>
+      <pubDate>Thu, 05 Nov 2020 15:33:10 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/lombok%E4%B8%ADbuilder%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</guid>
+      <description>Lombok使用@Builder注解时，默认是不能反序列化的，因为没有默认构造函数，因此可以通过增加下面2个注解来解决问题：
+@NoArgsConstructor(access = AccessLevel.PUBLIC) @AllArgsConstructor(access = AccessLevel.PRIVATE) 
+示例代码：
+@Data @Builder @NoArgsConstructor(access = AccessLevel.PUBLIC) @AllArgsConstructor(access = AccessLevel.PRIVATE) public static class NamespaceItem { private String namespace; private Map&amp;lt;String, Set&amp;lt;String&amp;gt;&amp;gt; appOwners = Maps.newHashMap(); }  </description>
+    </item>
+    
+    <item>
+      <title>扫描指定package下面的类文件</title>
+      <link>https://wenchao.ren/posts/%E6%89%AB%E6%8F%8F%E6%8C%87%E5%AE%9Apackage%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%B1%BB%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Mon, 02 Nov 2020 20:00:11 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E6%89%AB%E6%8F%8F%E6%8C%87%E5%AE%9Apackage%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%B1%BB%E6%96%87%E4%BB%B6/</guid>
+      <description>下面的程序代码是使用Guava来完成操作的：
+@Test public void test_scan() throws Exception { //using guava ClassPath classPath = ClassPath.from(ClassUtils.getDefaultClassLoader()); ImmutableSet&amp;lt;ClassPath.ClassInfo&amp;gt; topLevelClasses = classPath.getTopLevelClasses(); for (ClassPath.ClassInfo topLevelClass : topLevelClasses) { if (topLevelClass.getPackageName().equals(&amp;quot;com.xxx.xxx.com.xxx.xxx.metadata&amp;quot;)) { Class&amp;lt;?&amp;gt; clazz = topLevelClass.load(); Entity annotation = AnnotationUtils.findAnnotation(clazz, Entity.class); if (annotation != null) { System.out.println(topLevelClass.toString()); } } } }  </description>
+    </item>
+    
+    <item>
+      <title>使用GitHub Actions自动化部署博客到vps</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github-actions%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0vps/</link>
+      <pubDate>Mon, 02 Nov 2020 19:39:26 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github-actions%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0vps/</guid>
+      <description>GitHub的Actions可以用来协助我们做一些自动化的事情。比如当博客仓库有提交时，自动将生成的html文件部署到vps机器上。 我主要是参考了文章：利用 GitHub Actions 自动部署 Hugo 博客到自建 VPS
+下面贴一下我的workflow配置：
+# This is a basic workflow to help you get started with Actions name: deploy to vps workflow # Controls when the action will run. Triggers the workflow on push events # but only for the master branch on: push: branches: - main # A workflow run is made up of one or more jobs that can run sequentially or in parallel jobs: # This workflow contains a single job called &amp;quot;build&amp;quot; build: # The type of runner that the job will run on runs-on: ubuntu-latest # Steps represent a sequence of tasks that will be executed as part of the job steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - uses: actions/checkout@v2 with: submodules: &#39;recursive&#39; # Use ssh-agent to cache ssh keys - uses: webfactory/ssh-agent@v0.</description>
+    </item>
+    
+    <item>
+      <title>使用GitHub&#43;VPS做图床</title>
+      <link>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github&#43;vps%E5%81%9A%E5%9B%BE%E5%BA%8A/</link>
+      <pubDate>Mon, 02 Nov 2020 13:37:13 +0800</pubDate>
+      
+      <guid>https://wenchao.ren/posts/%E4%BD%BF%E7%94%A8github&#43;vps%E5%81%9A%E5%9B%BE%E5%BA%8A/</guid>
+      <description>早期我是使用七牛做图床的，使用其实还是比较ok的，但是随着chrome的升级发现之前的图片加载不出来了。原因是出现ERR_SSL_VERSION_OR_CIPHER_MISMATCH。但是七牛的图床默认是http的，如果使用https是需要收费的。
+我分析了一下我的现状：
+ 大量使用GitHub 有自己的vps 博客图片公开，不需要私密 图片不能丢，最好数据可以自己维护  基于这几个原因，我采样了使用GitHub做图床。突然通过Picgo上传到GitHub的特定仓库上，并且给Picgo安装了rename插件： https://github.com/liuwave/picgo-plugin-super-prefix#readme 这个插件还是功能比较足够的，我的配置为：img/{y}/{m}/{timestamp}-{hash}-{origin}
+这样我就可以通过picgo来自动的将剪贴板中的图片上传到GitHub上。然后我又自己为GitHub的这个图床仓库设置了workflow。这样当有图片文件 被push到这个仓库的时候，workflow流程会自动的将图片文件夹通过rsync命令同步到vps的指定目录下。
+下面贴一下我的workflow的文件：
+# This is a basic workflow to help you get started with Actions name: sync to vps workflow # Controls when the action will run. Triggers the workflow on push events # but only for the master branch on: push: branches: - main # A workflow run is made up of one or more jobs that can run sequentially or in parallel jobs: # This workflow contains a single job called &amp;quot;build&amp;quot; build: # The type of runner that the job will run on runs-on: ubuntu-latest # Steps represent a sequence of tasks that will be executed as part of the job steps: # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it - uses: actions/checkout@v2 with: submodules: &#39;recursive&#39; # Use ssh-agent to cache ssh keys - uses: webfactory/ssh-agent@v0.</description>
+    </item>
+    
     <item>
       <title>从hexo迁移到hugo</title>
       <link>https://wenchao.ren/posts/%E4%BB%8Ehexo%E8%BF%81%E7%A7%BB%E5%88%B0hugo/</link>

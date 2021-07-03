@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+	
+	
+	
+	<title>关于Spring-statemachine的一些看法 ｜ 被遗忘的博客</title>
+	
+    
+    
+    <meta name="description" content=" 我们需要有状态的状态机么？
+ 昨天和今天再一次翻看了一下Spring-Statemachine项目的最新进展, 上一次看这个项目的文档还是几年前。 之所以之前关注这个项目主要有2个原因吧，第一个就是spring的project一般比较有质量保证，第二个是状态机本身是一个用途非常广泛的架构设计。所以这个项目一直让我 惦记着。
+然后昨天翻看完了一下Spring-Statemachine的文档，同时今天写了一个demo完整的模拟了一下在交易系统平台的业务背景下使用它来实现状态机。然后给我的感触就是这玩意真的不接地气。主要有下面几个原因:
+ Spring-Statemachine仅仅支持「有状态的状态机」，而不支持「无状态的状态机」。  这一点是我放弃将Spring-Statemachine引入我们现有的一个工程来重构代码的最主要原因。表面上来看，状态机理所当然是应该维持状态的。但是深入想一下，这种状态性并不是必须的，因为有状态，状态机的实例就不是线程安全的，而我们的应用服务器是分布式多线程的，所以在每一次状态机在接受请求的时候，都不得不重新 build 一个新的状态机实例。这种new instance per request 的做法，倘若状态机的构建很复杂，QPS 又很高的话，肯定会遇到性能问题。所以使得我产生了一个疑问，我们真的需要有状态的状态机么？   Spring-Statemachine本身支持的功能很多，但是这些工程我们基本不会用到。  支持的功能多，很多时候并不是一个优势。因为功能越多，使得框架本身的复杂度，学习成本也会上升。同时如果这些功能我们在未来可能会用到也还好，问题是用不到，比如它支持的UML Eclipse Papyrus modeling， Distributed state machine based on a Zookeeper等。感觉这类开源项目为了功能完备而把UML State Machine 上罗列的功能点都实现了。但是问题是很多都用不到。尤其是在互联网业务下，绝大多数时候状态的并行（parallel，fork，join）、子状态机都用不到，或者一般也会采样其他的方式来实现。   Spring-Statemachine的API逐渐往reactive方向靠拢，之前的传统API都开始标记过期，使得组内同学的学习成本会进一步提升。  基于这3个原因，我最终放弃了对Spring-Statemachine的关注。我们自己实现了一个功能简单但是完备的状态机。
+参考  给 DSL 开个脑洞：无状态的状态机 高德打车通用可编排订单状态机引擎设计 基于有限状态机与消息队列的三方支付系统补单实践 状态机在马蜂窝机票订单交易系统中的应用与优化实践  " />
+    
+
+    
+    
+    <meta name="keywords" content="JAVA, Spring, IOT, KAFKA, python, mysql" />
+    
+
+	
+
+    <style type="text/css">
+    </style>
+
+    <link rel="shortcut icon" href="https://wenchao.ren/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://wenchao.ren/css/idea.css" />
+    <script src="https://wenchao.ren/js/highlight.min.js"></script>
+    <script src="https://wenchao.ren/js/highlightjs-line-numbers.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archive</a>
+            </li>
+            
+            <li>
+                <a href="/tags/">Tags</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://wenchao.ren">
+                    <span>被遗忘的博客</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title"></p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/xkrivzooh" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://weibo.com/AnotherRobot/home" title="weibo" target="_blank"><i class="ri-weibo-fill"></i></a>
+                
+                
+                <a href="https://wenchao.ren/index.xml" type="application/rss+xml" title="rss" target="_blank"><i
+                        class="ri-rss-fill"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/posts/%E5%85%B3%E4%BA%8Espring-statemachine%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/'>关于Spring-statemachine的一些看法</a></h2>
+                    </div>
+                    <div class="post_content markdown"><blockquote>
+<p>我们需要有状态的状态机么？</p>
+</blockquote>
+<p>昨天和今天再一次翻看了一下<a href="https://projects.spring.io/spring-statemachine/">Spring-Statemachine</a>项目的最新进展, 上一次看这个项目的文档还是几年前。
+之所以之前关注这个项目主要有2个原因吧，第一个就是spring的project一般比较有质量保证，第二个是状态机本身是一个用途非常广泛的架构设计。所以这个项目一直让我
+惦记着。</p>
+<p>然后昨天翻看完了一下Spring-Statemachine的文档，同时今天写了一个demo完整的模拟了一下在交易系统平台的业务背景下使用它来实现状态机。然后给我的感触就是这玩意真的不接地气。主要有下面几个原因:</p>
+<ul>
+<li>Spring-Statemachine仅仅支持「有状态的状态机」，而不支持「无状态的状态机」。
+<ul>
+<li>这一点是我放弃将Spring-Statemachine引入我们现有的一个工程来重构代码的最主要原因。表面上来看，状态机理所当然是应该维持状态的。但是深入想一下，这种状态性并不是必须的，因为有状态，状态机的实例就不是线程安全的，而我们的应用服务器是分布式多线程的，所以在每一次状态机在接受请求的时候，都不得不重新 build 一个新的状态机实例。这种<code>new instance per request </code>的做法，倘若状态机的构建很复杂，QPS 又很高的话，肯定会遇到性能问题。所以使得我产生了一个疑问，我们真的需要有状态的状态机么？</li>
+</ul>
+</li>
+<li>Spring-Statemachine本身支持的功能很多，但是这些工程我们基本不会用到。
+<ul>
+<li>支持的功能多，很多时候并不是一个优势。因为功能越多，使得框架本身的复杂度，学习成本也会上升。同时如果这些功能我们在未来可能会用到也还好，问题是用不到，比如它支持的<code>UML Eclipse Papyrus modeling</code>， <code>Distributed state machine based on a Zookeeper</code>等。感觉这类开源项目为了功能完备而把UML State Machine 上罗列的功能点都实现了。但是问题是很多都用不到。尤其是在互联网业务下，绝大多数时候状态的并行（parallel，fork，join）、子状态机都用不到，或者一般也会采样其他的方式来实现。</li>
+</ul>
+</li>
+<li>Spring-Statemachine的API逐渐往reactive方向靠拢，之前的传统API都开始标记过期，使得组内同学的学习成本会进一步提升。</li>
+</ul>
+<p>基于这3个原因，我最终放弃了对Spring-Statemachine的关注。我们自己实现了一个功能简单但是完备的状态机。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://www.infoq.cn/article/fhyjf3jhluwbqpbyg6oi">给 DSL 开个脑洞：无状态的状态机</a></li>
+<li><a href="https://mp.weixin.qq.com/s/0GfCOUEw4svvSQVoShjJDw">高德打车通用可编排订单状态机引擎设计</a></li>
+<li><a href="https://mp.weixin.qq.com/s/9Z-N3cfWu7oMVJsTDkbb-Q">基于有限状态机与消息队列的三方支付系统补单实践</a></li>
+<li><a href="https://www.cnblogs.com/mfwtech/p/10694199.html">状态机在马蜂窝机票订单交易系统中的应用与优化实践</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://wenchao.ren/tags/spring/">spring</a>
+                                    
+                                    <a href="https://wenchao.ren/tags/java/">java</a>
+                                    
+                                    <a href="https://wenchao.ren/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">系统设计</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"><div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "rollenholt" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script src="https://wenchao.ren/js/jquery-3.5.1.min.js"></script>
+<link href="https://wenchao.ren/css/fancybox.min.css" rel="stylesheet">
+<script src="https://wenchao.ren/js/fancybox.min.js"></script>
+<script src="https://wenchao.ren/js/zozo.js"></script>
+
+
+
+
+</body>
+
+</html>
