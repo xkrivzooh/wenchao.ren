@@ -32,7 +32,6 @@
 ### 联系方式
 
 - 邮箱：me#wenchao.ren
-- 微博: [https://weibo.com/AnotherRobot](https://weibo.com/AnotherRobot)
 - 之前的博客(已经废弃): [http://www.cnblogs.com/rollenholt/](http://www.cnblogs.com/rollenholt/)
 
 
