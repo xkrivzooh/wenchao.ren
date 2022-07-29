@@ -80,7 +80,7 @@ code {
     display: block;
     overflow-x: auto;
     color: #000;
-    font-size: large;
+    font-size: inherit;
     line-height: normal;
     /*background: #f7f7f7;*/
     background: #fff;
