@@ -51,7 +51,6 @@ Java 13 中的新底层实现，引入 `NioSocketImpl` 的实现用以替换 Soc
 通过这些更改，Java Socket API 将更易于维护，更好地维护将使套接字代码的可靠性得到改善。同时 NIO 实现也可以在基础层面完成，从而保持 Socket 和 ServerSocket 类层面上的不变。 
 
 ## JEP354: Switch 表达式扩展（预览功能）
-## JEP354: Switch 表达式扩展（预览功能）
 
 在 Java 12 中引入了 Switch 表达式作为预览特性，而在 Java 13 中对 Switch 表达式做了增强改进，在块中引入了 `yield` 语句来返回值，而不是使用 `break`。这意味着，Switch 表达式（返回值）应该使用 yield，而 Switch 语句（不返回值）应该使用 break，而在此之前，想要在 Switch 中返回内容，还是比较麻烦的，只不过目前还处于预览状态。 
 
