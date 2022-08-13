@@ -8,8 +8,16 @@
             <div class="post_page">
                 <div class="post animate__animated animate__fadeInDown">
                     <div class="post_title post_detail_title">
-                        <h2><a href='{{ .RelPermalink }}'>{{ .Title }}</a></h2>
+                        <h1><a href='{{ .RelPermalink }}'>{{ .Title }}</a></h1>
                     </div>
+
+                    <!-- TOC -->
+                    <div>
+                        <aside class="asideClass">
+                            {{ .TableOfContents }}
+                        </aside>
+                    </div>
+
                     <div class="post_content markdown">{{ .Content }}</div>
                     <div class="post_footer">
                         {{ with .Params.tags }}

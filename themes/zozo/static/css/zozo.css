@@ -770,3 +770,27 @@ pre code span {
   padding-left: 10px;
 }
 
+/*文章目录*/
+.asideClass {
+  font-weight: bolder;
+  background-color: rgb(244 245 245 / 50%);
+}
+
+#TableOfContents {
+  background-color: rgb(244 245 245 / 50%);
+  font-style: inherit;
+  font-size: inherit;
+  font-weight: bolder;
+}
+
+#TableOfContents ul li a {
+  color: #1e80ff;
+  opacity: 1;
+  -webkit-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+}
+
+
+
+
+

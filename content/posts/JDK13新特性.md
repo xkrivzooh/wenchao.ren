@@ -50,6 +50,92 @@ Java 13 中的新底层实现，引入 `NioSocketImpl` 的实现用以替换 Soc
 
 通过这些更改，Java Socket API 将更易于维护，更好地维护将使套接字代码的可靠性得到改善。同时 NIO 实现也可以在基础层面完成，从而保持 Socket 和 ServerSocket 类层面上的不变。 
 
+## JEP354: Switch 表达式扩展（预览功能）
+## JEP354: Switch 表达式扩展（预览功能）
+
+在 Java 12 中引入了 Switch 表达式作为预览特性，而在 Java 13 中对 Switch 表达式做了增强改进，在块中引入了 `yield` 语句来返回值，而不是使用 `break`。这意味着，Switch 表达式（返回值）应该使用 yield，而 Switch 语句（不返回值）应该使用 break，而在此之前，想要在 Switch 中返回内容，还是比较麻烦的，只不过目前还处于预览状态。 
+
+在 Java 13 之后，Switch 表达式中就多了一个关键字用于跳出 Switch 块的关键字 yield，主要用于返回一个值，*它和 return 的区别在于：return 会直接跳出当前循环或者方法，而 yield 只会跳出当前 Switch块，同时在使用 yield 时，需要有 default 条件*。 
+
+在 Java 12 之前，传统 Switch 语句写法为：
+
+```java
+private static String getText(int number) {
+    String result = "";
+    switch (number) {
+        case 1, 2:
+            result = "one or two";
+            break;
+        case 3:
+            result = "three";
+            break;
+        case 4, 5, 6:
+            result = "four or five or six";
+            break;
+        default:
+            result = "unknown";
+            break;
+    };
+    return result;
+}
+```
+
+在 Java 12 之后，关于 Switch 表达式的写法改进为如下：
+
+```java
+private static String getText(int number) {
+    String result = switch (number) {
+        case 1, 2 -> "one or two";
+        case 3 -> "three";
+        case 4, 5, 6 -> "four or five or six";
+        default -> "unknown";
+    };
+    return result;
+}
+```
+而在 Java 13 中，value break 语句不再被编译，而是用 yield 来进行值返回，上述写法被改为如下写法：
+
+```java
+private static String getText(int number) {
+    return switch (number) {
+        case 1, 2:
+            yield "one or two";
+        case 3:
+            yield "three";
+        case 4, 5, 6:
+            yield "four or five or six";
+        default:
+            yield "unknown";
+    };
+}
+```
+
+## 文本块
+
+一直以来，Java 语言在定义字符串的方式是有限的，字符串需要以双引号开头，以双引号结尾，这导致字符串不能够多行使用，而是需要通过换行转义或者换行连接符等方式来变通支持多行，但这样会增加编辑工作量，同时也会导致所在代码段难以阅读、难以维护。 
+
+Java 13 引入了文本块来解决多行文本的问题，文本块以三重双引号开头，并以同样的以三重双引号结尾终止，它们之间的任何内容都被解释为字符串的一部分，包括换行符，避免了对大多数转义序列的需要，并且它仍然是普通的 java.lang.String 对象，文本块可以在 Java 中可以使用字符串文字的任何地方使用，而与编译后的代码没有区别，还增强了 Java 程序中的字符串可读性。并且通过这种方式，可以更直观地表示字符串，可以支持跨越多行，而且不会出现转义的视觉混乱，将可以广泛提高 Java 类程序的可读性和可写性。 
+
+```java
+public String getNewPrettyPrintJson() {
+        return """
+               {
+                    "firstName": "Piotr",
+                    "lastName": "Mińkowski"
+               }
+               """;
+} 
+```
+
+文本块是作为预览功能引入到 Java 13 中的，这意味着它们不包含在相关的 Java 语言规范中，这样做的好处是方便用户测试功能并提供反馈，后续更新可以根据反馈来改进功能，或者必要时甚至删除该功能，如果该功能立即成为 Java SE 标准的一部分，则进行更改将变得更加困难。重要的是要意识到预览功能不是 beta 形式。 
+
+由于预览功能不是规范的一部分，因此有必要为编译和运行时明确启用它们。需要使用下面两个命令行参数来启用预览功能：
+
+```java
+$ javac --enable-preview --release 13 Example.java
+$ java --enable-preview Example
+```
+
 
 ## JEP350: 动态应用程序类-数据共享
 
@@ -81,4 +167,7 @@ $ java -XX:SharedArchiveFile=hello.jsa -cp helloworld.jar Hello
 ```
 上述就是在 Java 应用程序执行结束时动态进行类归档，并且在 Java 10 的基础上，将多条命令进行了简化，可以更加方便地使用类归档功能。
 
+## 参考资料
 
+- https://openjdk.org/projects/jdk/12/
+- https://openjdk.org/projects/jdk/13/
