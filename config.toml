@@ -9,6 +9,11 @@ buildDrafts = false
 # include content with publishdate in the future
 buildFuture = true
 
+enableEmoji = true
+
+#文章摘要，可以手动在内容编写时使用<!--more-->
+hasCJKLanguage = true
+summaryLength = 100
 
 [taxonomies]
   category = "categories"
@@ -24,8 +29,8 @@ buildFuture = true
   #footerSlogan = "My spiritual home"                                   # site's footer slogan  # 网站页脚标语
   keywords = ["JAVA","Spring","IOT", "KAFKA", "python", "mysql"]                                  # site's keywords  # 网站关键字
   description = "被遗忘的博客"                        # site's description  # 网站描述
-  enableMathJax = false                                                 # enable mathjax  # 是否使用mathjax（数学公式）
-  enableSummary = false                                                 # display the article summary  # 是否显示文章摘要
+  enableMathJax = true                                                 # enable mathjax  # 是否使用mathjax（数学公式）
+  enableSummary = true                                                 # display the article summary  # 是否显示文章摘要
   mainSections = ["posts","post"]
 
 
