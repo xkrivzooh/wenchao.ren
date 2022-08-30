@@ -36,7 +36,7 @@ summaryLength = 100
 [params.utteranc]         # utteranc is a comment system based on GitHub issues. see https://utteranc.es
   enable = true
   repo = "xkrivzooh/wenchao.ren"    # The repo to store comments
-  issueTerm = "pathname"
+  issueTerm = "title"
   theme = "github-light"
   crossorigin = "anonymous"
   label = "comment"
