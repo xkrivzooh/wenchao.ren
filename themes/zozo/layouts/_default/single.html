@@ -37,6 +37,8 @@
                 <!-- 评论系统 -->
                 {{ if .Site.Params.valine.enable }}
                 {{ partial "comments.html" . }}
+                {{ else if .Site.Params.utteranc.enable }}
+                {{ partial "utterances_comments.html" . }}
                 {{ else }}
                 <div class="doc_comments">{{ template "_internal/disqus.html" . }}</div>
                 {{ end }}
