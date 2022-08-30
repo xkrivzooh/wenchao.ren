@@ -1,3 +1,12 @@
+---
+title: "About"
+type: about 
+date: 2020-10-30T16:15:01+08:00
+hidden: true
+---
+
+
+
 # About
 
 欢迎访问这个被遗忘的站点
