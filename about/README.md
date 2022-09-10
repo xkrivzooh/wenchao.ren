@@ -2,6 +2,10 @@
 title: About
 index: false
 icon: creative
+sidebar: false
+contributors: false
+editLink: false
+pageInfo: false
 ---
 
 # About
