@@ -3,18 +3,19 @@ import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "https://vuepress-theme-hope-v2-demo.mrhope.site",
+  hostname: "https://wenchao.ren",
 
   author: {
-    name: "xKrivzooh",
-    url: "https://mrhope.site",
+    name: "xkrivzooh",
+    url: "https://wenchao.ren",
   },
 
+  //https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/icon.html#iconfont
   iconAssets: "iconfont",
 
   logo: "/logo.svg",
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "xkrivzooh/wenchao.ren",
 
   docsDir: "demo/src",
 
@@ -31,8 +32,8 @@ export default hopeTheme({
   pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
 
   blog: {
-    description: "xkrivzooh的博客",
-    intro: "/intro.html",
+    description: "我如同永不老去的时光,奔腾不停,只渴望在某一天能找到属于自己的辉煌,如同蜗牛终将爬上金字塔的塔顶,欣赏大地第一缕阳光,沐浴人间第一丝温暖",
+    intro: "/aboutMe.html",
     medias: {
       // Baidu: "https://example.com",
       // Bitbucket: "https://example.com",
@@ -110,4 +111,19 @@ export default hopeTheme({
       },
     },
   },
+
+  //主题色选择器 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/theme-color.html#%E4%B8%BB%E9%A2%98%E8%89%B2%E9%80%89%E6%8B%A9%E5%99%A8
+  themeColor: {
+    blue: "#2196f3",
+    red: "#f26d6d",
+    green: "#3eaf7c",
+    orange: "#fb9b5f",
+  },
+
+  //全屏按钮：https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/others.html#%E5%85%A8%E5%B1%8F%E6%8C%89%E9%92%AE
+  fullscreen: true,
+
+  //深色模式 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/darkmode.html
+  darkmode: "switch"
+
 });
