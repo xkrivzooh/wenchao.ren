@@ -1,6 +1,7 @@
 ---
-icon: lock
-data: 2022-09-10
+icon: page
+author: xkrivzooh
+date: 2022-09-11
 category:
   - post
 tag:
@@ -37,3 +38,4 @@ if (person instanceof Student) {
 ```
 
 asdas
+asda

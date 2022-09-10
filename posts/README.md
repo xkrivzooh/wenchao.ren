@@ -1,6 +1,7 @@
 ---
 title: Posts
-index: false
+index: true
+date: 2022-09-10
 icon: creative
 category:
   - post
@@ -8,6 +9,7 @@ sidebar: false
 contributors: false
 editLink: false
 pageInfo: false
+timeline: true
 ---
 
 ## 说明

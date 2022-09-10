@@ -32,6 +32,8 @@ export default hopeTheme({
   pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
 
   blog: {
+    name: "被遗忘的博客",
+    avatar: "/logo.svg",
     description: "我如同永不老去的时光,奔腾不停,只渴望在某一天能找到属于自己的辉煌,如同蜗牛终将爬上金字塔的塔顶,欣赏大地第一缕阳光,沐浴人间第一丝温暖",
     intro: "/aboutMe.html",
     medias: {
@@ -65,6 +67,9 @@ export default hopeTheme({
       // Youtube: "https://example.com",
       Zhihu: "https://zhihu.com",
     },
+    //默认每个分页的文章数
+    //https://vuepress-theme-hope.gitee.io/v2/zh/guide/blog/intro.html#%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%94%AF%E6%8C%81
+    articlePerPage: 10
   },
 
   encrypt: {
@@ -86,10 +91,11 @@ export default hopeTheme({
        * Using Giscus
        */
       provider: "Giscus",
-      repo: "vuepress-theme-hope/giscus-discussions",
-      repoId: "R_kgDOG_Pt2A",
+      repo: "xkrivzooh/wenchao.ren",
+      repoId: "MDEwOlJlcG9zaXRvcnkzODI1MTc3MTA",
       category: "Announcements",
-      categoryId: "DIC_kwDOG_Pt2M4COD69",
+      categoryId: "DIC_kwDOFszBzs4CRV8V",
+
 
       /**
        * Using Twikoo
@@ -104,6 +110,10 @@ export default hopeTheme({
       // serverURL: "https://vuepress-theme-hope-comment.vercel.app",
     },
 
+    feed: {
+      //https://vuepress-theme-hope.gitee.io/v2/zh/guide/advanced/feed.html
+      rss: true
+    },
     mdEnhance: {
       //https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/intro.html#%E5%90%AF%E7%94%A8-markdown-%E5%A2%9E%E5%BC%BA
       enableAll: false,
@@ -191,7 +201,16 @@ export default hopeTheme({
     // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/components.html
     components: [
         "Badge"
-    ]
+    ],
+
+    // 版权信息
+    // https://vuepress-theme-hope.gitee.io/v2/zh/guide/feature/copyright.html
+    copyright: {
+      global: true,
+      hostname: "https://wemchao.ren",
+      author: "xkrivzooh(https://wenchao.ren)",
+      triggerWords: 20
+    }
   },
 
   //主题色选择器 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/theme-color.html#%E4%B8%BB%E9%A2%98%E8%89%B2%E9%80%89%E6%8B%A9%E5%99%A8
@@ -209,5 +228,13 @@ export default hopeTheme({
   darkmode: "switch",
 
   //纯净模式 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/pure.html
-  pure: false
+  pure: false,
+
+  // 全局禁用是否展示编辑此页链接
+  // https://vuepress-theme-hope.gitee.io/v2/zh/guide/feature/meta.html#%E5%9F%BA%E4%BA%8E-git-%E7%9A%84%E4%BF%A1%E6%81%AF
+  editLink: false,
+
+  //全局禁用是否显示页面贡献者
+  // https://vuepress-theme-hope.gitee.io/v2/zh/guide/feature/meta.html#%E5%9F%BA%E4%BA%8E-git-%E7%9A%84%E4%BF%A1%E6%81%AF
+  contributors: false
 });
