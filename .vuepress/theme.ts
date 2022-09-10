@@ -1,4 +1,4 @@
-import { hopeTheme } from "vuepress-theme-hope";
+import {hopeTheme} from "vuepress-theme-hope";
 import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
@@ -105,11 +105,93 @@ export default hopeTheme({
     },
 
     mdEnhance: {
-      enableAll: true,
-      presentation: {
-        plugins: ["highlight", "math", "search", "notes", "zoom"],
-      },
+      //https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/intro.html#%E5%90%AF%E7%94%A8-markdown-%E5%A2%9E%E5%BC%BA
+      enableAll: false,
+
+      // 添加选项卡支持
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/tabs.html
+      tabs: true,
+
+      // 添加代码块分组支持
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/code-tabs.html#%E9%85%8D%E7%BD%AE
+      codetabs: true,
+
+      // 添加支持图表
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/chart.html
+      chart: false,
+      // 添加echarts支持
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/echarts.html
+      echarts: true,
+      // 添加Mermaid支持，类似plantuml的东西
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/mermaid.html
+      mermaid: true,
+      // 支持流程图
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/flowchart.html
+      flowchart: true,
+      // 添加tex语法支持（数学符号相关）
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/tex.html
+      tex: false,
+      // 启用下角标
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/sup-sub.html#%E9%85%8D%E7%BD%AE
+      sub: false,
+      // 启用上角标
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/sup-sub.html#%E9%85%8D%E7%BD%AE
+      sup: false,
+      // 前端代码示例演示支持
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/demo.html
+      demo: false,
+      // 支持任务列表
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/tasklist.html
+      tasklist: true,
+      // 启用图片标记
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/image.html#%E9%85%8D%E7%BD%AE
+      imageMark: true,
+      // 启用图片大小
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/image.html#%E9%85%8D%E7%BD%AE
+      imageSize: true,
+      // 支持导入其他文件
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/include.html#%E9%85%8D%E7%BD%AE
+      include: false,
+      // Markdown 元素添加属性
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/attrs.html
+      attrs: false,
+
+      // 支持幻灯片
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/presentation.html
+      presentation: false,
+      //presentation.plugins 接收一个字符串数组，可以自由配置是否启用一些预设的插件。
+      // presentation: {
+      //   plugins: ["highlight", "math", "search", "notes", "zoom"],
+      // },
+
+      // 支持标记
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/mark.html
+      mark: true,
+
+      // 样式化
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/stylize.html
+      stylize: [
+        // 选项
+      ],
+
+      // Markdown 文件支持脚注
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/footnote.html
+      footnote: false,
+
+      // 添加提示、注释、信息、注意、警告和详情自定义容器的支持
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/container.html
+      container: true,
+
+      // 自定义对齐
+      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/align.html
+      align: false,
     },
+
+    // 组件
+    // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/components.html
+    components: [
+        "Badge"
+    ]
   },
 
   //主题色选择器 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/theme-color.html#%E4%B8%BB%E9%A2%98%E8%89%B2%E9%80%89%E6%8B%A9%E5%99%A8
@@ -124,6 +206,8 @@ export default hopeTheme({
   fullscreen: true,
 
   //深色模式 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/darkmode.html
-  darkmode: "switch"
+  darkmode: "switch",
 
+  //纯净模式 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/pure.html
+  pure: false
 });
