@@ -157,6 +157,7 @@ $ curl http://[a-z].baidu.com
 
 ## curl 常见参数
 
+```shell
 - -#, --progress-bar Make curl display a simple progress bar instead of the more informational standard meter.
 - -b, --cookie <name=data> Supply cookie with request. If no =, then specifies the cookie file to use (see -c).
 - -c, --cookie-jar <file name> File to save response cookies to.
@@ -174,3 +175,5 @@ $ curl http://[a-z].baidu.com
 - -v, --verbose Provide more information (useful for debugging).
 - -w, --write-out <format> Make curl display information on stdout after a completed transfer. See man page for more details on available variables. Convenient way to force curl to append a newline to - output: -w "\n" (can add to ~/.curlrc).
 - -X, --request The request method to use.
+```
+

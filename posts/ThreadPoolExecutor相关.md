@@ -60,12 +60,13 @@ public class Test {
     - 如果设置`allowCoreThreadTimeOut(boolean value)`，则会作用于核心线程, 也就是说当设置`allowCoreThreadTimeOut(true)`时，线程池中`corePoolSize`范围内的线程空闲时间达到`keepAliveTime`也将回收
 - TimeUnit
     - 时间单位。可选的单位有分钟（MINUTES），秒（SECONDS），毫秒(MILLISECONDS) 等
-- BlockingQueue<Runnable>
+- BlockingQueue
     - 任务的阻塞队列，缓存将要执行的`Runnable`任务，由各线程轮询该任务队列获取任务执行。可以选择以下几个阻塞队列
         - `ArrayBlockingQueue`：是一个基于数组结构的有界阻塞队列，此队列按 FIFO（先进先出）原则对元素进行排序。
         - `LinkedBlockingQueue`：一个基于链表结构的阻塞队列，此队列按FIFO （先进先出） 排序元素，静态工厂方法`Executors.newFixedThreadPool()`使用了这个队列。
         - `SynchronousQueue`：一个不存储元素的阻塞队列。**每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态**，静态工厂方法`Executors.newCachedThreadPool`使用了这个队列。
         - `PriorityBlockingQueue`：一个具有优先级的无限阻塞队列。
+      
 - ThreadFactory
     - 线程创建的工厂。可以进行一些属性设置，比如线程名，优先级等等，有默认实现。
 - RejectedExecutionHandler

@@ -159,6 +159,6 @@ Hello, I am Bumblebee.
 ## 参考资料
 
 - [Introduction to the Service Provider Interfaces](https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html)
-- [Class ServiceLoader<S>](https://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html)
+- [Class ServiceLoader](https://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html)
 - [Java SPI例子](https://www.baeldung.com/java-spi)
 - 

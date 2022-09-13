@@ -366,7 +366,7 @@ scala> auth.select(explode($"books") as "book",
 |The Return of the Native|Thomas    |Hardy    |
 +------------------------+----------+---------+
 ```
-##Spark SQL</h2>
+## Spark SQL
 Spark SQL is a Spark module for structured data processing.We'll be focusing on window operations, which have been just introduced in Spark 2.0. They address sliding window operations.
 <em>For example, if you want to report the average peak temperature every day in the past seven days, then you are operating on a sliding window of seven days until today. Here is an example that computes average sales per month for the past three months. The data file contains 24 observations showing monthly sales for two products, P1 and P2.</em>
 The Catalyst optimizer contains libraries for representing trees and applying rules to transform the trees. These tree transformations are applied to create the most optimized logical and physical execution plans. In the final phase, it generates Java bytecode using a special feature of the Scala language called <strong>quasiquotes</strong>.
@@ -408,10 +408,10 @@ scala> monthlySales.select($"Product",$"Sales",$"Month",bround(f,2).alias("Movin
 |     P1|   34|    6|     30.0|
 +-------+-----+-----+---------+
 ```
-##Structured Streaming</h2>
+##Structured Streaming 
 Apache Spark 2.0 has the first version of the higher level stream processing API called the <strong>Structured Streaming</strong> engine. This scalable and fault-tolerant engine leans on the Spark SQL API to simplify the development of real-time, continuous big data applications. It is probably the first successful attempt in unifying the batch and streaming computation.
 At a technical level, Structured Streaming leans on the Spark SQL API, which extends DataFrames/Datasets,
-##The Spark streaming programming model</h2>
+##The Spark streaming programming model
 The idea is to treat the real-time data stream as a table that is continuously being appended
 Structured Streaming provides three output modes:
 
