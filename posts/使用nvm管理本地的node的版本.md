@@ -1,5 +1,6 @@
 ---
 icon: page
+sidebar: false
 author: xkrivzooh
 date: 2020-06-12
 category:

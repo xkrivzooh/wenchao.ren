@@ -4,11 +4,11 @@ import { sidebar } from "vuepress-theme-hope";
 export default sidebar({
     "/guide/": "structure",
 
-    "/posts/": "structure",
+    // "/posts/": "structure",
 
     // fallback
-    "/": [
-        "about" /* /about.html */,
-    ],
+    // "/": [
+    //     "about" /* /about.html */,
+    // ],
 
 });

@@ -2,6 +2,7 @@
 icon: page
 author: xkrivzooh
 date: 2021-04-22
+sidebar: false
 category:
   - post
 tag:

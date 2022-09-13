@@ -1,6 +1,7 @@
 ---
 icon: page
 author: xkrivzooh
+sidebar: false
 date: 2020-06-03
 category:
   - post
