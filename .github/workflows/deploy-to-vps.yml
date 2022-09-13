@@ -60,4 +60,4 @@ jobs:
 
       - name: Deploy
         run: |
-          rsync -av --delete .vuepress/dist ubuntu@wenchao.ren:/home/workspace/wenchao.ren/public
+          mv .vuepress/dist .vuepress/docs && rsync -av --delete .vuepress/docs ubuntu@wenchao.ren:/home/workspace/wenchao.ren/public
