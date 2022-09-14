@@ -1,5 +1,22 @@
 
+
 //设置默认主题色
 //文档地址：https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/theme-color.html#%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98%E8%89%B2
-$theme-color: #2196f3;
+$theme-color: #fb9b5f;
 
+//https://vuepress-theme-hope.gitee.io/v2/zh/config/style.html
+
+// font
+$font-family: 'SimSun, "Microsoft YaHei", Ubuntu, "Ubuntu Mono", sans-serif';
+$font-family-fancy: 'SimSun, "Microsoft YaHei", Ubuntu, "Ubuntu Mono", sans-serif';
+
+
+// code
+$font-family-code: '"Ubuntu Mono", Consolas, Monaco, "Andale Mono", monospace';
+$line-numbers-width: 2.5rem;
+
+
+
+// content
+$content-width: 70%;
+$home-page-width: 1160px;
