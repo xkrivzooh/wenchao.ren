@@ -6,6 +6,19 @@ export default navbar([
   // "/home",
   // { text: "使用指南", icon: "creative", link: "/guide/" },
   { text: "文章推荐专栏", icon: "creative", link: "/recommendedArticles/" },
+  {
+    text: "技术专栏",
+    icon: "book",
+    prefix: "/topics/",
+    children: [
+      {
+        text: "dubbo",
+        icon: "book",
+        prefix: "/topics/dubbo/",
+        link: "dubbo"
+      }
+    ]
+  },
   // {
   //   text: "博文",
   //   icon: "edit",

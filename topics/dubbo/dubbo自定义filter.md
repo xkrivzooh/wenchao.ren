@@ -1,10 +1,10 @@
 ---
-icon: page
+icon: book
 author: xkrivzooh
-sidebar: false
-date: 2019-02-12
+date: 2019-02-02
 category:
-  - post
+  - 专题
+  - dubbo
 tag:
   - dubbo
 ---

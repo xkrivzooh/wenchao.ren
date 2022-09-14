@@ -35,9 +35,9 @@ projects:
     link: /
 
   - icon: /logo.svg
-    name: 自定义项目
-    desc: 自定义详细介绍
-    link: /
+    name: 关于我
+    desc: 一个平庸的人
+    link: /aboutMe.md
 
 footer: <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备2022013263号-1</a>
 ---
