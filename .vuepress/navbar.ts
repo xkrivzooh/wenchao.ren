@@ -15,7 +15,7 @@ export default navbar([
         text: "dubbo",
         icon: "book",
         prefix: "/topics/dubbo/",
-        link: "dubbo"
+        link: "dubbo/"
       }
     ]
   },

@@ -1,11 +1,11 @@
 ---
 index: true
+date: 2022-09-15
 icon: book
 contributors: false
 editLink: false
 pageInfo: false
 timeline: true
-sidebar: true
 category:
   - 专题
   - dubbo
