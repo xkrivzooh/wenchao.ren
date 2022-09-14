@@ -5,6 +5,7 @@ export default navbar([
   "/",
   // "/home",
   // { text: "使用指南", icon: "creative", link: "/guide/" },
+  { text: "文章推荐专栏", icon: "creative", link: "/recommendedArticles/" },
   // {
   //   text: "博文",
   //   icon: "edit",
