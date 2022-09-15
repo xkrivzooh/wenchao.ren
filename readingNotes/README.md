@@ -6,10 +6,12 @@ editLink: false
 pageInfo: false
 timeline: true
 category:
-  - 专栏
+  - 读书笔记
+tag:
+  - 读书笔记
 ---
 
-# 专栏
+# 读书笔记
 
-这个目录下是一些比较体系化的专栏
+这个目录下是我的一些读书笔记
 

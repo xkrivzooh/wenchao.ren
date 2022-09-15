@@ -6,10 +6,12 @@ editLink: false
 pageInfo: false
 timeline: true
 category:
-  - 专栏
+  - 方法论
+tag:
+  - 方法论
 ---
 
-# 专栏
+# BeafQPS
 
-这个目录下是一些比较体系化的专栏
 
+BeafQPS

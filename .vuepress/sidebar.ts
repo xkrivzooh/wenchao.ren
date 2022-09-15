@@ -4,7 +4,9 @@ import { sidebar } from "vuepress-theme-hope";
 export default sidebar({
     "/guide/": "structure",
     "/recommendedArticles/": "structure",
-    "/topics/dubbo/": "structure"
+    "/topics/dubbo/": "structure",
+    "/readingNotes/jingzhunnuli/": "structure",
+    "/methodology/": "structure",
 
     // "/posts/": "structure",
 
