@@ -19,18 +19,23 @@ export default navbar([
             }
         ]
     },
+    // {
+    //     text: "读书笔记",
+    //     icon: "book",
+    //     prefix: "/readingNotes/",
+    //     children: [
+    //         {
+    //             text: "精准努力",
+    //             icon: "book",
+    //             prefix: "/readingNotes/jingzhunnuli/",
+    //             link: "jingzhunnuli/"
+    //         }
+    //     ]
+    // },
     {
-        text: "读书笔记",
+        text: "财富自由之路",
         icon: "book",
-        prefix: "/readingNotes/",
-        children: [
-            {
-                text: "精准努力",
-                icon: "book",
-                prefix: "/readingNotes/jingzhunnuli/",
-                link: "jingzhunnuli/"
-            }
-        ]
+        link: "/financialFreedom/"
     },
     {
         text: "方法论",
