@@ -1,20 +1,52 @@
 
+
 //设置默认主题色
 //文档地址：https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/theme-color.html#%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98%E8%89%B2
 $theme-color: #fb9b5f;
 
 //导航栏背景色
-$bg-color-float-blur: #ffffff;
+$bg-color-float-blur: (
+        light: #ffffff,
+        dark: rgba(37, 41, 52, 0.9),
+);
+
 //侧边栏背景色
-$bg-color-blur: #ffffff;
+$bg-color-blur: (
+        light: #ffffff,
+        dark: rgba(29, 32, 37, 0.9),
+);
+
+
 //文章列表等模块背景色
-$bg-color-float: #ffffff;
+$bg-color-float: (
+        light: #ffffff,
+        dark: #252934,
+);
+
 //其他背景色
-$bg-color-back: #ffffff;
-$bg-color: #ffffff;
+$bg-color-light: (
+        light: #ffffff,
+        dark: #252934,
+);
+
+
+$bg-color-back: (
+        light: #ffffff,
+        dark: #1d2025,
+);
+
+$bg-color: (
+        light: #ffffff,
+        dark: #1d2025,
+);
 
 //字体颜色
-$text-color: #000000;
+$text-color: (
+        light: #000000,
+        dark: #ffffff,
+);
+
+
 
 //https://vuepress-theme-hope.gitee.io/v2/zh/config/style.html
 
