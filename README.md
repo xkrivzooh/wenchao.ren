@@ -10,9 +10,9 @@ heroFullScreen: false
 tagline: 我如同永不老去的时光,奔腾不停,只渴望在某一天能找到属于自己的辉煌,如同蜗牛终将爬上金字塔的塔顶,欣赏大地第一缕阳光,沐浴人间第一丝温暖
 projects:
   - icon: project
-    name: 项目名称
-    desc: 项目详细描述
-    link: /
+    name: jSchema
+    desc: A schema designed and developed specifically for the Java language.
+    link: https://github.com/xkrivzooh/jSchema
 
   - icon: link
     name: 链接名称
