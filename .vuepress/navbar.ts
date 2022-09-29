@@ -87,4 +87,9 @@ export default navbar([
         icon: "creative",
         link: "/about/"
     },
+    {
+        text: "站内搜索",
+        icon: "creative",
+        link: "https://wenchao.ren/search.html"
+    },
 ]);
