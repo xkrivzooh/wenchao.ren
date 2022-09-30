@@ -5,10 +5,10 @@ export default navbar([
     "/",
     // "/home",
     // { text: "使用指南", icon: "creative", link: "/guide/" },
-    {text: "文章推荐专栏", icon: "creative", link: "/recommendedArticles/"},
+    {text: "文章推荐专栏", icon: "news", link: "/recommendedArticles/"},
     {
         text: "技术专栏",
-        icon: "book",
+        icon: "stack",
         prefix: "/topics/",
         children: [
             {
@@ -34,12 +34,12 @@ export default navbar([
     // },
     {
         text: "财富自由之路",
-        icon: "book",
+        icon: "strong",
         link: "/financialFreedom/"
     },
     {
         text: "方法论",
-        icon: "book",
+        icon: "light",
         link: "/methodology/"
     },
     // {
@@ -84,12 +84,13 @@ export default navbar([
     // },
     {
         text: "关于",
-        icon: "creative",
+        icon: "profile",
         link: "/about/"
     },
     {
         text: "站内搜索",
-        icon: "creative",
+        icon: "search",
         link: "https://wenchao.ren/search.html"
     },
 ]);
+
