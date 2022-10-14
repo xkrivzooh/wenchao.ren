@@ -24,3 +24,15 @@ code {
 a {
   color: #cf00ff;
 }
+
+//侧边栏字体大小
+.sidebar > .sidebar-links > li > .sidebar-link {
+  font-size: 1em;
+  line-height: 1;
+}
+
+
+//引用字体的颜色
+blockquote {
+  color: #1e8449;
+}
