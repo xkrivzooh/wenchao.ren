@@ -16,6 +16,12 @@ export default navbar([
                 icon: "book",
                 prefix: "/topics/dubbo/",
                 link: "dubbo/"
+            },
+            {
+                text: "LeetCode",
+                icon: "book",
+                prefix: "/topics/leetcode/",
+                link: "leetcode/"
             }
         ]
     },
