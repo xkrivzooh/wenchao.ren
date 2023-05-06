@@ -19,6 +19,8 @@ export default defineUserConfig({
   base: "/",
 
   theme,
+  //https://v2.vuepress.vuejs.org/reference/config.html#shouldprefetch
   shouldPrefetch: false,
-  shouldPreload: false,
+  //https://v2.vuepress.vuejs.org/reference/config.html#shouldpreload
+  shouldPreload: true,
 });
