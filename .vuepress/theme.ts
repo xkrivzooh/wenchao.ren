@@ -13,7 +13,7 @@ export default hopeTheme({
   //https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/icon.html#iconfont
   iconAssets: "iconfont",
 
-  logo: "/logo.svg",
+  logo: "/logo.jpg",
 
   repo: "xkrivzooh/wenchao.ren",
 
@@ -33,7 +33,7 @@ export default hopeTheme({
 
   blog: {
     name: "被遗忘的博客",
-    avatar: "/logo.svg",
+    avatar: "/logo.jpg",
     description: "我如同永不老去的时光,奔腾不停,只渴望在某一天能找到属于自己的辉煌,如同蜗牛终将爬上金字塔的塔顶,欣赏大地第一缕阳光,沐浴人间第一丝温暖",
     intro: "/aboutMe.html",
     medias: {
