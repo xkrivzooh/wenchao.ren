@@ -19,4 +19,6 @@ export default defineUserConfig({
   base: "/",
 
   theme,
+  shouldPrefetch: false,
+  shouldPreload: false,
 });
