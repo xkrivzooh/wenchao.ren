@@ -4,7 +4,7 @@ layout: Blog
 icon: home
 title: 博客主页
 bgImage: /math_banner_0_0.jpg
-heroImage: /logo.svg
+#heroImage: /logo.svg
 heroText: 被遗忘的博客
 heroFullScreen: false
 tagline: 我如同永不老去的时光,奔腾不停,只渴望在某一天能找到属于自己的辉煌,如同蜗牛终将爬上金字塔的塔顶,欣赏大地第一缕阳光,沐浴人间第一丝温暖
