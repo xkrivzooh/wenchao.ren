@@ -26,7 +26,7 @@ SIMD的全称是：Single Instruction Multiple Data
 
 SIMD（Single Instruction Multiple Data）指令集，指单指令多数据流技术，可用一组指令对多组数据通进行并行操作。SIMD指令可以在一个控制器上控制同时多个平行的处理微元，一次指令运算执行多个数据流，这样在很多时候可以提高程序的运算速度。SIMD指令在本质上非常类似一个向量处理器，可对控制器上的一组数据（又称“数据向量”） 同时分别执行相同的操作从而实现空间上的并行。SIMD是CPU实现DLP（Data Level Parallelism）的关键，DLP就是按照SIMD模式完成计算的。SSE和较早的MMX和 AMD的3DNow!都是SIMD指令集。它可以通过单指令多数据技术和单时钟周期并行处理多个浮点来有效地提高浮点运算速度。
 
-​![simd示例](https://wenchao.ren/img/2023/05/1684916416-db415d7d0c497a759685d8bdf1f7d385-202305241620048.png​)​
+![simd示例](https://wenchao.ren/img/2023/05/1684916416-db415d7d0c497a759685d8bdf1f7d385-202305241620048.png)
 
 如上图所示：
 
@@ -57,11 +57,11 @@ SIMD（Single Instruction Multiple Data）指令集，指单指令多数据流�
 
 ## 判断当前设备CPU的支持能力
 
-在命令行通过以下命令:`​ cat /proc/cpuinfo`​  在输出中查看flags一项，看是否包含avx、avx2等。
+在命令行通过以下命令:` cat /proc/cpuinfo` 在输出中查看flags一项，看是否包含avx、avx2等。
 
 ## Java中的SIMD
 
-jdk对SIMD支持代码，主要位于`jdk.incubator.vector`​这个package下面。相关API如下：[Uses of Package jdk.incubator.vector (Java SE 17 &amp; JDK 17) (oracle.com)](https://docs.oracle.com/en/java/javase/17/docs/api/jdk.incubator.vector/jdk/incubator/vector/package-use.html)
+jdk对SIMD支持代码，主要位于`jdk.incubator.vector`这个package下面。相关API如下：[Uses of Package jdk.incubator.vector (Java SE 17 &amp; JDK 17) (oracle.com)](https://docs.oracle.com/en/java/javase/17/docs/api/jdk.incubator.vector/jdk/incubator/vector/package-use.html)
 
 ‍
 
