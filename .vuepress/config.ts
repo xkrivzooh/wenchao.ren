@@ -1,12 +1,13 @@
-import { defineUserConfig } from "vuepress";
+import {defineUserConfig} from "vuepress";
 import theme from "./theme.js";
+import {docsearchPlugin} from "@vuepress/plugin-docsearch";
 
 export default defineUserConfig({
-  lang: "zh-CN",
-  title: "被遗忘的博客",
-  description: "被遗忘的博客, 记录一些学习记录、编程知识、架构设计、职场工作等",
+    lang: "zh-CN",
+    title: "被遗忘的博客",
+    description: "被遗忘的博客, 记录一些学习记录、编程知识、架构设计、职场工作等",
 
-  head: [['script', {}, `
+    head: [['script', {}, `
   var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -16,11 +17,20 @@ export default defineUserConfig({
     })();
   `]],
 
-  base: "/",
+    base: "/",
+    theme,
+    //https://v2.vuepress.vuejs.org/reference/config.html#shouldprefetch
+    shouldPrefetch: false,
+    //https://v2.vuepress.vuejs.org/reference/config.html#shouldpreload
+    shouldPreload: true,
 
-  theme,
-  //https://v2.vuepress.vuejs.org/reference/config.html#shouldprefetch
-  shouldPrefetch: false,
-  //https://v2.vuepress.vuejs.org/reference/config.html#shouldpreload
-  shouldPreload: true,
+    plugins: [
+        docsearchPlugin({
+            appId: '95S4QH1RY9',
+            apiKey: '8e52407f64681f185bcd1842febc536b',
+            indexName: 'wenchao.ren',
+        }),
+    ],
 });
+
+
