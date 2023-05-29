@@ -33,7 +33,8 @@ jobs:
           cache: pnpm
 
       - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+        #run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       # Use ssh-agent to cache ssh keys
       - uses: webfactory/ssh-agent@v0.4.1
