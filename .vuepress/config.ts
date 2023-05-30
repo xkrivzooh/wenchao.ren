@@ -26,9 +26,9 @@ export default defineUserConfig({
 
     plugins: [
         docsearchPlugin({
-            appId: '95S4QH1RY9',
-            apiKey: '8e52407f64681f185bcd1842febc536b',
-            indexName: 'wenchao.ren',
+            appId: '0W1V1MB9B4',
+            apiKey: 'c8d2cf79295f61543cbe0b9c220f0af2',
+            indexName: 'wenchao'
         }),
     ],
 });
