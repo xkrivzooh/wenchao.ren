@@ -80,7 +80,10 @@ export default hopeTheme({
 
   plugins: {
     blog: {
-      autoExcerpt: true,
+      //https://theme-hope.vuejs.press/zh/config/plugins/blog.html
+      //是否生成摘要。
+      excerpt: true,
+      excerptLength: 200
     },
 
     // 如果你不需要评论，可以直接删除 comment 配置，
@@ -115,8 +118,7 @@ export default hopeTheme({
       rss: true
     },
     mdEnhance: {
-      //https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/intro.html#%E5%90%AF%E7%94%A8-markdown-%E5%A2%9E%E5%BC%BA
-      enableAll: false,
+      //https://plugin-md-enhance.vuejs.press/zh/config.html
 
       // 添加选项卡支持
       // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/tabs.html
@@ -139,8 +141,8 @@ export default hopeTheme({
       // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/flowchart.html
       flowchart: true,
       // 添加tex语法支持（数学符号相关）
-      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/tex.html
-      tex: false,
+      // https://plugin-md-enhance.vuejs.press/zh/config.html#katex
+      katex: false,
       // 启用下角标
       // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/sup-sub.html#%E9%85%8D%E7%BD%AE
       sub: false,
@@ -154,11 +156,11 @@ export default hopeTheme({
       // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/tasklist.html
       tasklist: true,
       // 启用图片标记
-      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/image.html#%E9%85%8D%E7%BD%AE
-      imageMark: true,
+      // https://plugin-md-enhance.vuejs.press/zh/config.html#imgmark
+      imgMark: true,
       // 启用图片大小
-      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/image.html#%E9%85%8D%E7%BD%AE
-      imageSize: true,
+      // https://plugin-md-enhance.vuejs.press/zh/config.html#imgsize
+      imgSize: true,
       // 支持导入其他文件
       // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/include.html#%E9%85%8D%E7%BD%AE
       include: false,
@@ -199,26 +201,19 @@ export default hopeTheme({
 
     // 组件
     // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/components.html
-    components: [
-        "Badge"
-    ],
+    components: {
+      components: ["Badge"]
+    },
 
     // 版权信息
-    // https://vuepress-theme-hope.gitee.io/v2/zh/guide/feature/copyright.html
+    // https://theme-hope.vuejs.press/zh/guide/feature/copyright.html
     copyright: {
       global: true,
-      hostname: "https://wemchao.ren",
+      license: "私有版权协议：本站点所有内容，版权私有，除非明确授权，否则禁止一切形式的转载",
+      canonical: "https://wemchao.ren",
       author: "xkrivzooh(https://wenchao.ren)",
       triggerWords: 20
     }
-  },
-
-  //主题色选择器 https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/theme-color.html#%E4%B8%BB%E9%A2%98%E8%89%B2%E9%80%89%E6%8B%A9%E5%99%A8
-  themeColor: {
-    blue: "#2196f3",
-    red: "#f26d6d",
-    green: "#3eaf7c",
-    orange: "#fb9b5f",
   },
 
   //全屏按钮：https://vuepress-theme-hope.gitee.io/v2/zh/guide/interface/others.html#%E5%85%A8%E5%B1%8F%E6%8C%89%E9%92%AE
