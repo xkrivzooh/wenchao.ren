@@ -3,7 +3,7 @@ home: true
 layout: Blog
 icon: home
 title: 博客主页
-bgImage: /math_banner_0_0.jpg
+#bgImage: /math_banner_0_0.jpg
 #heroImage: /logo.svg
 heroText: 被遗忘的博客
 heroFullScreen: false

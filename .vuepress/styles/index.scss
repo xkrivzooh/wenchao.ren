@@ -22,7 +22,7 @@ code {
 }
 
 a {
-  color: #cf00ff;
+  color: #3822f7;
 }
 
 //侧边栏字体大小
@@ -35,4 +35,9 @@ a {
 //引用字体的颜色
 blockquote {
   color: #1e8449;
+}
+
+//主页文章列表去除box-shadow
+.article {
+  box-shadow: unset !important;
 }
