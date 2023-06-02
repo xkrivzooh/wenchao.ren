@@ -1,6 +1,6 @@
 ---
 home: true
-layout: Blog
+layout: BlogHome
 icon: home
 title: 博客主页
 #bgImage: /math_banner_0_0.jpg
