@@ -7,22 +7,10 @@ body {
   font-weight: 400;
 }
 
-//调整首页宽度
-.page.blog .blog-page-wrapper .blog-home {
-  flex: 1;
-  overflow: hidden;
-  //使用min-with覆盖原有样式的max-width
-  min-width: 70%;
-}
-
 //调整代码字体大小
 code {
   font-size: inherit;
   font-weight: inherit;
-}
-
-a {
-  color: #3822f7;
 }
 
 //侧边栏字体大小
@@ -38,6 +26,7 @@ blockquote {
 }
 
 //主页文章列表去除box-shadow
-.article {
+.vp-article-item {
   box-shadow: unset !important;
 }
+
