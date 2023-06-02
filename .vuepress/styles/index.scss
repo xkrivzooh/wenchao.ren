@@ -36,3 +36,8 @@ a {
 blockquote {
   color: #1e8449;
 }
+
+//主页文章列表去除box-shadow
+.article {
+  box-shadow: unset !important;
+}
