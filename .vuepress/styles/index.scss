@@ -9,16 +9,20 @@ body {
 
 //调整代码字体大小
 code {
-  font-size: medium;
+  //font-size: medium;
   font-weight: 400;
 }
 
+//导航栏字体
+.vp-nav-links > .nav-item > .nav-link{
+  font-weight: 600;
+}
+
 //侧边栏字体大小
-.sidebar > .sidebar-links > li > .sidebar-link {
+.vp-sidebar > .vp-sidebar-links > li > .vp-sidebar-link {
   font-size: 1em;
   line-height: 1;
 }
-
 
 //引用字体的颜色
 blockquote {

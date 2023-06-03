@@ -14,26 +14,6 @@ projects:
     desc: A schema designed and developed specifically for the Java language.
     link: https://github.com/xkrivzooh/jSchema
 
-  - icon: link
-    name: 链接名称
-    desc: 链接详细描述
-    link: /
-
-  - icon: book
-    name: 书籍名称
-    desc: 书籍详细描述
-    link: /
-
-  - icon: article
-    name: 文章名称
-    desc: 文章详细描述
-    link: /
-
-  - icon: friend
-    name: 伙伴名称
-    desc: 伙伴详细介绍
-    link: /
-
   - icon: /logo.svg
     name: 关于我
     desc: 一个平庸的人
