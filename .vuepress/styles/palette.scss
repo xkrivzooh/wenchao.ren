@@ -65,10 +65,11 @@ $line-numbers-width: 2.5rem;
 //https://theme-hope.vuejs.press/zh/config/style.html#%E5%B8%83%E5%B1%80%E8%AE%BE%E7%BD%AE
 //默认780px, 如果不调整的话，下面的设置不生效
 $content-width: '1000px';
-$sidebar-width: 'none';
 .vp-blog-main {
   max-width: 70%;
 }
+//优化一下侧边栏的位置
+$sidebar-width: 'none';
 
 
 
