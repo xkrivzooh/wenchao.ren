@@ -70,6 +70,7 @@ $content-width: '1000px';
 }
 //优化一下侧边栏的位置
 $sidebar-width: 'none';
+
 //由于设置了$sidebar-width: 'none'; 文章页面上下页位置有问题了，调整下
 .vp-page-nav {
   width: 55%;
