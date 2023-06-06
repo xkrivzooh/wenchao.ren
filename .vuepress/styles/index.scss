@@ -18,6 +18,19 @@ code {
   font-weight: 600;
 }
 
+.vp-nav-links > .nav-item > .dropdown-wrapper > .dropdown-title > .title {
+  font-size: 1em;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.vp-nav-links > .nav-item > .dropdown-wrapper > .dropdown-title > .nav-dropdown > .dropdown-item > .nav-link {
+  font-size: 1em;
+  line-height: 2.5;
+  font-weight: 600;
+}
+
+
 //侧边栏字体大小
 .vp-sidebar > .vp-sidebar-links > li > .vp-sidebar-link {
   font-size: 1em;
