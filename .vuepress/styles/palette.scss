@@ -77,3 +77,7 @@ $sidebar-width: 'none';
   margin-left: 20%;
 }
 
+//隐藏文章页的最后跟新时间展示
+.update-time {
+  display: none;
+}
