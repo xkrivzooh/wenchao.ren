@@ -15,7 +15,7 @@ Reactor 项目的主要工件是 `reactor-core`​ ，这是一个专注于 Reac
 
 Reactor 引入了可组合的反应类型，它实现了 ​`Publisher`​ ，但也提供了丰富的运算符词汇： ​`Flux`​ 和 ​`Mono`​ 。 ​`Flux`​ 对象表示 0..N 个项目的反应序列，而 ​`Mono`​ 对象表示单值或空 (0..1) 结果。
 
-这种区别将一些语义信息带入类型中，指示异步处理的粗略基数。例如，HTTP 请求仅产生一个响应，因此执行 `count`​ 操作没有多大意义。因此，将此类 HTTP 调用的结果表示为 `Mono<HttpResponse>`​ 比将其表示为 `Flux<HttpResponse>`​ 更有意义，因为它仅提供与零个或一个项目的上下文相关的运算符物品。更改处理的最大基数的运算符也会切换到相关类型。例如， count 运算符存在于 Flux 中，但它返回 Mono<Long> 。
+这种区别将一些语义信息带入类型中，指示异步处理的粗略基数。例如，HTTP 请求仅产生一个响应，因此执行 `count`​ 操作没有多大意义。因此，将此类 HTTP 调用的结果表示为 `Mono<HttpResponse>`​ 比将其表示为 `Flux<HttpResponse>`​ 更有意义，因为它仅提供与零个或一个项目的上下文相关的运算符物品。更改处理的最大基数的运算符也会切换到相关类型。例如， count 运算符存在于 Flux 中，但它返回 `Mono<Long>` 。
 
 
 ### ​`Flux`​ ，0-N 项的异步序列
@@ -27,7 +27,7 @@ Reactor 引入了可组合的反应类型，它实现了 ​`Publisher`​ ，�
 
 ​`Flux<T>`​ 是标准 `Publisher<T>`​ ，表示 0 到 N 个发出项目的异步序列，可以选择由完成信号或错误终止。与反应流规范中一样，这三种类型的信号转换为对下游订阅者的 `onNext`​ 、 `onComplete`​ 和 `onError`​ 方法的调用。
 
-有了这么多可能的信号范围，Flux是通用的响应式类型。请注意，所有事件，即使是终止事件，都是可选的：没有onNext事件但有一个onComplete事件表示一个空的有限序列，但是如果去掉onComplete，你就得到了一个无限的空序列（除了测试取消方面，不是特别有用）。同样，无限序列不一定是空的。例如，Flux.interval(Duration)会产生一个Flux<Long>，它是无限的，并从时钟发出定期的tick。​
+有了这么多可能的信号范围，Flux是通用的响应式类型。请注意，所有事件，即使是终止事件，都是可选的：没有onNext事件但有一个onComplete事件表示一个空的有限序列，但是如果去掉onComplete，你就得到了一个无限的空序列（除了测试取消方面，不是特别有用）。同样，无限序列不一定是空的。例如，Flux.interval(Duration)会产生一个`Flux<Long>`，它是无限的，并从时钟发出定期的tick。​
 
 ### ​`Mono`​ ，异步 0-1 结果
 
@@ -41,7 +41,7 @@ Reactor 引入了可组合的反应类型，它实现了 ​`Publisher`​ ，�
 
 ​`Mono`​ 仅提供可用于 `Flux`​ 的运算符子集，以及一些运算符（特别是那些将 `Mono`​ 与另一个 `Publisher`​ 。例如， `Mono#concatWith(Publisher)`​ 返回 `Flux`​ 而 `Mono#then(Mono)`​ 返回另一个 `Mono`​ 。
 
-请注意，您可以使用 Mono 来表示仅具有完成概念的无值异步流程（类似于 Runnable ）。要创建一个，您可以使用空的 Mono<Void> 。
+请注意，您可以使用 Mono 来表示仅具有完成概念的无值异步流程（类似于 Runnable ）。要创建一个，您可以使用空的 `Mono<Void>` 。
 
 ### 创建 Flux 或 Mono 并订阅它的简单方法
 
@@ -212,7 +212,7 @@ BaseSubscriber 还提供了 requestUnbounded() 方法来切换到无界模式（
 
 第一个请求来自订阅时的最终订阅者，但最直接的订阅方式都会立即触发 Long.MAX_VALUE 的无限请求：
 
-* subscribe() 及其大多数基于 lambda 的变体（具有 Consumer<Subscription> 的变体除外）
+* subscribe() 及其大多数基于 lambda 的变体（具有 `Consumer<Subscription>` 的变体除外）
 * block() 、 blockFirst() 和 blockLast()
 * 迭代 `toIterable()`​ 或 `toStream()`​
 
@@ -347,7 +347,7 @@ interface MyEventListener<T> {
 }
 ```
 
-您可以使用 create 将其桥接到 Flux<T> ：
+您可以使用 create 将其桥接到 `Flux<T>` ：
 
 ```java
 Flux<String> bridge = Flux.create(sink -> {
@@ -1142,7 +1142,7 @@ fluxView
 * many().unicast() ：与上面相同，但在第一个订阅者寄存器之前推送的数据被缓冲。
 * many().replay() ：一个接收器，它将向新订阅者重播指定历史大小的推送数据，然后继续实时推送新数据。
 * one() ：将向其订阅者播放单个元素的接收器
-* empty() ：一个接收器，仅向其订阅者播放终端信号（错误或完成），但仍然可以被视为 Mono<T> （注意通用类型 <T>
+* empty() ：一个接收器，仅向其订阅者播放终端信号（错误或完成），但仍然可以被视为 `Mono<T>` （注意通用类型 `<T>`
 
 #### Overview of Available Sinks
 
@@ -1208,4 +1208,4 @@ Sinks.one() 接受对这些方法中任何一个的一次调用，有效地生�
 
 ##### Sinks.empty()
 
-该方法直接构造一个简单的 Sinks.Empty<T> 实例。 Sinks 的这种风格类似于 Sinks.One<T> ，只是它不提供 emitValue 方法。结果，它只能生成一个完成为空或失败的 Mono 。尽管无法触发 onNext ，接收器仍然使用通用 <T> 进行类型化，因为它允许轻松组合和包含在需要特定类型的运算符链中。
+该方法直接构造一个简单的 `Sinks.Empty<T>` 实例。 Sinks 的这种风格类似于 `Sinks.One<T>` ，只是它不提供 emitValue 方法。结果，它只能生成一个完成为空或失败的 Mono 。尽管无法触发 onNext ，接收器仍然使用通用 `<T>` 进行类型化，因为它允许轻松组合和包含在需要特定类型的运算符链中。
