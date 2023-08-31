@@ -6,7 +6,6 @@ export default sidebar({
     "/recommendedArticles/": "structure",
     "/topics/dubbo/": "structure",
     "/topics/leetcode/": "structure",
-    // "/readingNotes/jingzhunnuli/": "structure",
     "/financialFreedom/financialStatements/": "structure",
     "/financialFreedom/others/": "structure",
     "/methodology/": "structure",

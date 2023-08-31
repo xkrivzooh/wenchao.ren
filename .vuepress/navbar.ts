@@ -26,12 +26,12 @@ export default navbar([
     },
     {
         text: "财富自由之路",
-        icon: "money",
+        icon: "strong",
         link: "/financialFreedom/",
         children: [
             {
                 text: "读懂财报",
-                icon: "financial_line",
+                icon: "strong",
                 prefix: "/financialFreedom/financialStatements/",
                 link: "financialStatements/"
             },
