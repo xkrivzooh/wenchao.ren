@@ -1,6 +1,6 @@
 import {navbar} from "vuepress-theme-hope";
 
-//导航栏的配置文档：https://vuepress-theme-hope.gitee.io/v2/zh/guide/layout/navbar.html
+//导航栏图标配置指南：https://theme-hope.vuejs.press/zh/guide/interface/icon.html
 export default navbar([
     "/",
     // "/home",
@@ -26,12 +26,12 @@ export default navbar([
     },
     {
         text: "财富自由之路",
-        icon: "strong",
+        icon: "state",
         prefix: "/financialFreedom/",
         children: [
             {
                 text: "读懂财报",
-                icon: "strong",
+                icon: "diagram",
                 prefix: "/financialFreedom/financialStatements",
                 link: "financialStatements/"
             },

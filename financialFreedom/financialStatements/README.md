@@ -1,7 +1,7 @@
 ---
 index: true
 date: 2023-08-31
-icon: idea
+icon: diagram
 contributors: false
 editLink: false
 pageInfo: false
