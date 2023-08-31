@@ -7,7 +7,8 @@ export default sidebar({
     "/topics/dubbo/": "structure",
     "/topics/leetcode/": "structure",
     // "/readingNotes/jingzhunnuli/": "structure",
-    "/financialFreedom/": "structure",
+    "/financialFreedom/financialStatements/": "structure",
+    "/financialFreedom/others/": "structure",
     "/methodology/": "structure",
 
     // "/posts/": "structure",
