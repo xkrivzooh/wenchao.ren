@@ -27,18 +27,18 @@ export default navbar([
     {
         text: "财富自由之路",
         icon: "strong",
-        link: "/financialFreedom/",
+        prefix: "/financialFreedom/",
         children: [
             {
                 text: "读懂财报",
                 icon: "strong",
-                prefix: "/financialFreedom/financialStatements/",
+                prefix: "/financialFreedom/financialStatements",
                 link: "financialStatements/"
             },
             {
                 text: "杂记",
                 icon: "others",
-                prefix: "/financialFreedom/others/",
+                prefix: "/financialFreedom/others",
                 link: "others/"
             }
         ]
