@@ -5,7 +5,6 @@ export default navbar([
     "/",
     // "/home",
     // { text: "使用指南", icon: "creative", link: "/guide/" },
-    {text: "文章推荐专栏", icon: "news", link: "/recommendedArticles/"},
     {
         text: "技术专栏",
         icon: "stack",
@@ -25,6 +24,26 @@ export default navbar([
             }
         ]
     },
+    {
+        text: "财富自由之路",
+        icon: "money",
+        link: "/financialFreedom/",
+        children: [
+            {
+                text: "读懂财报",
+                icon: "financial_line",
+                prefix: "/financialFreedom/financialStatements/",
+                link: "financialStatements/"
+            },
+            {
+                text: "杂记",
+                icon: "others",
+                prefix: "/financialFreedom/others/",
+                link: "others/"
+            }
+        ]
+    },
+    {text: "文章推荐专栏", icon: "news", link: "/recommendedArticles/"},
     // {
     //     text: "读书笔记",
     //     icon: "book",
@@ -38,11 +57,7 @@ export default navbar([
     //         }
     //     ]
     // },
-    {
-        text: "财富自由之路",
-        icon: "strong",
-        link: "/financialFreedom/"
-    },
+
     {
         text: "方法论",
         icon: "light",
@@ -93,10 +108,10 @@ export default navbar([
         icon: "profile",
         link: "/about/"
     },
-    {
-        text: "站内搜索",
-        icon: "search",
-        link: "https://wenchao.ren/search.html"
-    },
+    // {
+    //     text: "站内搜索",
+    //     icon: "search",
+    //     link: "https://wenchao.ren/search.html"
+    // },
 ]);
 
