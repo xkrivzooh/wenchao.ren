@@ -1,6 +1,7 @@
 import {defineUserConfig} from "vuepress";
 import theme from "./theme.js";
 import {docsearchPlugin} from "@vuepress/plugin-docsearch";
+import { rewardPlugin } from '@vuepress-denaro/vuepress-plugin-reward'
 
 export default defineUserConfig({
     lang: "zh-CN",
@@ -30,7 +31,23 @@ export default defineUserConfig({
             apiKey: 'c8d2cf79295f61543cbe0b9c220f0af2',
             indexName: 'wenchao'
         }),
+        rewardPlugin({
+            btnText : '打赏',
+            title : '给作者赏一杯咖啡吧',
+            subTitle : '您的支持将是我继续更新下去的动力',
+            rewardOption : [
+                {
+                    text: '微信',
+                    url: '/logo.jpg', // ddd your picture to docs/.vuepress/public
+                },
+                {
+                    text: '支付宝',
+                    url: '/logo.jpg', // ddd your picture to docs/.vuepress/public
+                },
+            ],
+        }),
     ],
 });
+
 
 
