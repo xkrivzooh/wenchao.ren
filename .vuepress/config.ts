@@ -38,11 +38,11 @@ export default defineUserConfig({
             rewardOption : [
                 {
                     text: '微信',
-                    url: '/logo.jpg', // ddd your picture to docs/.vuepress/public
+                    url: '/WeChatPay.png', // ddd your picture to docs/.vuepress/public
                 },
                 {
                     text: '支付宝',
-                    url: '/logo.jpg', // ddd your picture to docs/.vuepress/public
+                    url: '/AliPay.png', // ddd your picture to docs/.vuepress/public
                 },
             ],
         }),
