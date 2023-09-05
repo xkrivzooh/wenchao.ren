@@ -215,7 +215,7 @@ export default hopeTheme({
     copyright: {
       global: true,
       license: "私有版权协议：本站点所有内容，版权私有，除非明确授权，否则禁止一切形式的转载",
-      canonical: "https://wemchao.ren",
+      canonical: "https://wenchao.ren",
       author: "xkrivzooh(https://wenchao.ren)",
       triggerWords: 20
     }
