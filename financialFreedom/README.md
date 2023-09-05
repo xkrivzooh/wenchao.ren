@@ -1,6 +1,6 @@
 ---
 index: true
-icon: book
+icon: free
 contributors: false
 editLink: false
 pageInfo: false
