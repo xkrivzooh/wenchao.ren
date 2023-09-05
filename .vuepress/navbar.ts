@@ -26,9 +26,15 @@ export default navbar([
     },
     {
         text: "财富自由之路",
-        icon: "state",
+        icon: "free",
         prefix: "/financialFreedom/",
         children: [
+            {
+                text: "认知迭代",
+                icon: "light",
+                prefix: "/financialFreedom/cognitiveIteration",
+                link: "cognitiveIteration/"
+            },
             {
                 text: "读懂财报",
                 icon: "diagram",

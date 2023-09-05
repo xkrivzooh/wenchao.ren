@@ -5,6 +5,7 @@ export default sidebar({
     "/guide/": "structure",
     "/topics/dubbo/": "structure",
     "/topics/leetcode/": "structure",
+    "/financialFreedom/cognitiveIteration/": "structure",
     "/financialFreedom/financialStatements/": "structure",
     "/financialFreedom/others/": "structure",
     "/recommendedArticles/": "structure",
