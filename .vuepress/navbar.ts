@@ -6,25 +6,6 @@ export default navbar([
     // "/home",
     // { text: "使用指南", icon: "creative", link: "/guide/" },
     {
-        text: "技术专栏",
-        icon: "stack",
-        prefix: "/topics/",
-        children: [
-            {
-                text: "dubbo",
-                icon: "book",
-                prefix: "/topics/dubbo/",
-                link: "dubbo/"
-            },
-            {
-                text: "LeetCode",
-                icon: "book",
-                prefix: "/topics/leetcode/",
-                link: "leetcode/"
-            }
-        ]
-    },
-    {
         text: "财富自由之路",
         icon: "free",
         prefix: "/financialFreedom/",
@@ -49,7 +30,31 @@ export default navbar([
             }
         ]
     },
-    {text: "文章推荐专栏", icon: "news", link: "/recommendedArticles/"},
+    {
+        text: "技术专栏",
+        icon: "stack",
+        prefix: "/topics/",
+        children: [
+            {
+                text: "技术文章推荐专栏",
+                icon: "news",
+                prefix: "/topics/recommendedArticles/",
+                link: "recommendedArticles/"
+            },
+            {
+                text: "dubbo",
+                icon: "ability",
+                prefix: "/topics/dubbo/",
+                link: "dubbo/"
+            },
+            {
+                text: "LeetCode",
+                icon: "ability",
+                prefix: "/topics/leetcode/",
+                link: "leetcode/"
+            }
+        ]
+    },
     // {
     //     text: "读书笔记",
     //     icon: "book",
