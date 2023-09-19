@@ -5,7 +5,7 @@
 //修改页面字体显示样式
 body {
   font-weight: 400;
-  font-size: 15px;
+  font-size: 1.1rem;
 }
 
 //调整代码字体大小
@@ -14,27 +14,34 @@ code {
   font-weight: 400;
 }
 
+blockquote {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
 //导航栏字体
 .vp-nav-links > .nav-item > .nav-link{
   font-weight: 600;
+  font-size: 1.1em;
 }
 
 .vp-nav-links > .nav-item > .dropdown-wrapper > .dropdown-title > .title {
-  font-size: 1em;
+  font-size: 1.1em;
   line-height: 1;
   font-weight: 600;
 }
 
 .vp-nav-links > .nav-item > .dropdown-wrapper > .dropdown-title > .nav-dropdown > .dropdown-item > .nav-link {
-  font-size: 1em;
+  font-size: 1.1em;
   line-height: 2.5;
   font-weight: 600;
 }
 
-
 //侧边栏字体大小
 .vp-sidebar > .vp-sidebar-links > li > .vp-sidebar-link {
-  font-size: 15px;
+  font-size: 1.1em;
+  font-weight: 400;
   line-height: 1;
 }
 
@@ -46,4 +53,100 @@ blockquote {
 //主页文章列表去除box-shadow
 .vp-article-item {
   box-shadow: unset !important;
+}
+
+
+//文章标题
+.vp-page-title h1 {
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+//文章页和文章列表页标题
+h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+//文章列表页标题加粗
+.vp-article-title {
+  position: relative;
+  display: inline-block;
+  color: var(--text-color);
+  font-size: 3rem;
+  font-family: var(--font-family-heading);
+  line-height: 1.6;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+//主页个人信息介绍页-博客名
+.vp-blogger-name {
+  font-weight: 600;
+}
+
+//主页个人信息介绍页-博客描述
+.vp-blogger-description {
+  font-weight: 500;
+  font-size: 1.0rem;
+}
+
+//主页个人信息介绍页-文章数量
+.vp-blog-count {
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+//主页个人信息介绍页-标签选中时的背景色
+.vp-blog-type-button .icon-wrapper.active {
+  background: #b4c6d7;
+}
+
+
+//博客主页-project名称和描述
+.vp-project-name {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.vp-project-desc{
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+
+//打赏按钮加大
+.__DE__-reward-btn {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  height: 60px;
+  padding: 10px;
+  padding-left: 0;
+  display: inline-table;
+  font-size: 16px;
+  font-weight: 600;
+  color: #22979b;
+  cursor: pointer;
+  background-color: #c9f2f3;
+}
+
+.__DE__-reward-btn::after {
+  position: absolute;
+  top: 0;
+  left: -29px;
+  z-index: -1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 100%;
+  vertical-align: middle;
+  content: "¥";
+  font-size: 2.2em;
+  background-color: #c9f2f3;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+.__DE__-reward-btn > span {
+  font-size: 2em;
 }
