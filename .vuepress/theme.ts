@@ -160,17 +160,23 @@ export default hopeTheme({
       // 支持任务列表
       // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/tasklist.html
       tasklist: true,
+      // 启用 figure
+      //https://plugin-md-enhance.vuejs.press/zh/guide/image.html
+      figure: true,
+      // 启用图片懒加载
+      //https://plugin-md-enhance.vuejs.press/zh/guide/image.html
+      imgLazyload: true,
       // 启用图片标记
-      // https://plugin-md-enhance.vuejs.press/zh/config.html#imgmark
+      // https://plugin-md-enhance.vuejs.press/zh/guide/image.html
       imgMark: true,
       // 启用图片大小
-      // https://plugin-md-enhance.vuejs.press/zh/config.html#imgsize
+      // https://plugin-md-enhance.vuejs.press/zh/guide/image.html
       imgSize: true,
       // 支持导入其他文件
-      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/include.html#%E9%85%8D%E7%BD%AE
-      include: false,
+      //https://theme-hope.vuejs.press/zh/guide/markdown/include.html#%E9%85%8D%E7%BD%AE
+      include: true,
       // Markdown 元素添加属性
-      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/attrs.html
+      //https://plugin-md-enhance.vuejs.press/zh/guide/attrs.html
       attrs: false,
 
       // 支持幻灯片
@@ -182,7 +188,7 @@ export default hopeTheme({
       // },
 
       // 支持标记
-      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/mark.html
+      //https://theme-hope.vuejs.press/zh/guide/markdown/mark.html
       mark: true,
 
       // 样式化
@@ -200,14 +206,18 @@ export default hopeTheme({
       container: true,
 
       // 自定义对齐
-      // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/align.html
-      align: false,
+      // https://plugin-md-enhance.vuejs.press/zh/guide/align.html
+      align: true,
+
+      // 开启卡片支持
+      //https://plugin-md-enhance.vuejs.press/zh/guide/card.html
+      card: true,
     },
 
     // 组件
     // https://vuepress-theme-hope.gitee.io/v2/zh/guide/markdown/components.html
     components: {
-      components: ["Badge"]
+      components: ["Badge", "Share"]
     },
 
     // 版权信息
@@ -217,7 +227,7 @@ export default hopeTheme({
       license: "私有版权协议：本站点所有内容，版权私有，除非明确授权，否则禁止一切形式的转载",
       canonical: "https://wenchao.ren",
       author: "xkrivzooh(https://wenchao.ren)",
-      triggerWords: 20
+      triggerLength: 20
     }
   },
 

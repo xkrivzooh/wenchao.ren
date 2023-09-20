@@ -2,7 +2,7 @@
 icon: page
 author: xkrivzooh
 sidebar: false
-date: 2019-08-30
+date: 2023-09-30
 category:
   - post
 tag:
@@ -10,3 +10,7 @@ tag:
 ---
 
 # this is title
+
+
+
+<!-- @include: ../scaffolds/post_footer.md -->

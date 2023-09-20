@@ -78,3 +78,5 @@ sudo ntfs-3g /dev/disk0s3 /Volumes/ntfs -olocal -oallow_other -o auto_xattr
 
 - https://github.com/hoochanlon/Free-NTFS-for-Mac
 - https://github.com/hoochanlon/Free-NTFS-for-Mac/issues/9
+
+<!-- @include: ../scaffolds/post_footer.md -->
