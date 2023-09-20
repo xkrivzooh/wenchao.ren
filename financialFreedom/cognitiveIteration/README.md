@@ -19,4 +19,4 @@ tag:
 
 扫描如下二维码可以在手机上直接查看专栏内容哦。
 
-![麦完-认知迭代专栏](http://wenchao.ren/img/2023/09/1693934195-5328690a7194d87f309146e056de4cbf-%E8%AE%A4%E7%9F%A5%E8%BF%AD%E4%BB%A3.png)
+![麦完-认知迭代专栏](http://wenchao.ren/img/2023/09/1693934195-5328690a7194d87f309146e056de4cbf-%E8%AE%A4%E7%9F%A5%E8%BF%AD%E4%BB%A3.png =300x500)

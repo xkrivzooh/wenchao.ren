@@ -29,7 +29,7 @@ export default hopeTheme({
 
   displayFooter: true,
 
-  pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
+  pageInfo: ["Original", "Date", "Category", "Tag", "ReadingTime"],
 
   blog: {
     name: "被遗忘的博客",

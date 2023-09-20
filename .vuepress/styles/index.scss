@@ -79,6 +79,11 @@ h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
+.page-author-info {
+  display: none;
+  content-visibility: hidden;
+}
+
 //主页个人信息介绍页-博客名
 .vp-blogger-name {
   font-weight: 600;
