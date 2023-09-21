@@ -20,6 +20,6 @@
     "webpack": "^5.88.2"
   },
   "dependencies": {
-    "@vuepress-denaro/vuepress-plugin-reward": "1.1.1-beta.0"
+    "@vuepress-denaro/vuepress-plugin-reward": "1.2.1-beta.0"
   }
 }
