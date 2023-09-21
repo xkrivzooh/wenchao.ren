@@ -33,3 +33,5 @@ wsearch:
 
 发现在Stack Overflow也有人问这个问题[How to find specific property key in a yaml file using intellij idea?](https://stackoverflow.com/questions/50577033/how-to-find-specific-property-key-in-a-yaml-file-using-intellij-idea)
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

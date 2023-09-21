@@ -262,3 +262,5 @@ public class TransferToClient {
 - [Linux 中的零拷贝技术，第 1 部分](<https://www.ibm.com/developerworks/cn/linux/l-cn-zerocopy1/index.html>)
 - [Linux 中的零拷贝技术，第 2 部分](<https://www.ibm.com/developerworks/cn/linux/l-cn-zerocopy2/index.html>)
 - [Efficient data transfer through zero copy](https://developer.ibm.com/articles/j-zerocopy/)
+
+<!-- @include: ../scaffolds/post_footer.md -->

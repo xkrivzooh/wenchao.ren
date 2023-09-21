@@ -69,3 +69,5 @@ public class TypeSample {
 }
 
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

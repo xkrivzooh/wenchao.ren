@@ -15,3 +15,5 @@ tag:
 Java8中可以`Future future = CompletableFuture.completedFuture(value);`
 Guava中可以`Futures.immediateFuture(value)`
 Apache commons Lang中可以`Future<T> future = ConcurrentUtils.constantFuture(T myValue);`
+
+<!-- @include: ../scaffolds/post_footer.md -->

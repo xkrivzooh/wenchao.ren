@@ -83,3 +83,5 @@ This function is unsafe for statement-based replication. A warning is logged if 
 
 - [mysql sleep function](https://dev.mysql.com/**doc**/refman/8.0/en/miscellaneous-functions.html#function_sleep)
 - [Mysql Optimizer Hints](https://dev.mysql.com/doc/refman/8.0/en/optimizer-hints.html)
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -56,3 +56,5 @@ x
 ## 参考资料
 
 - [2019.2的更新内容](https://www.jetbrains.com/idea/whatsnew/)
+
+<!-- @include: ../scaffolds/post_footer.md -->

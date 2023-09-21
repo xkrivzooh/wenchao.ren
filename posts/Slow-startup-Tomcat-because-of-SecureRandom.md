@@ -47,3 +47,5 @@ INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRN
 - [How do I make Tomcat startup faster?](https://wiki.apache.org/tomcat/HowTo/FasterStartUp)
 - [JVM上的随机数与熵池策略](http://hongjiang.info/jvm-random-and-entropy-source/)
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

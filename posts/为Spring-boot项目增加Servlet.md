@@ -109,3 +109,5 @@ Please note that @ServletComponentScan will work only with embedded server:
 
 - [How can I register a secondary servlet with Spring Boot?](https://stackoverflow.com/questions/20915528/how-can-i-register-a-secondary-servlet-with-spring-boot)
 - [The @ServletComponentScan Annotation in Spring Boot](https://www.baeldung.com/spring-servletcomponentscan)
+
+<!-- @include: ../scaffolds/post_footer.md -->

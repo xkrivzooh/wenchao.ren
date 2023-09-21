@@ -19,3 +19,4 @@ tag:
 
 这个目录下是一些关于“财务自由之路”系列中的关于财报相关的一些文章
 
+<!-- @include: ../../scaffolds/post_footer.md -->

@@ -111,3 +111,5 @@ lts/erbium -> v12.18.0
 xkrivzooh in ~ λ node -v
 v12.18.0
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -38,3 +38,5 @@ class Message {
 
 }
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

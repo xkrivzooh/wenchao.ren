@@ -80,3 +80,5 @@ this.defaultEventExecutorGroup = new DefaultEventExecutorGroup(threadSize, threa
 
 也就是他的拒绝策略虽然也是`RejectedExecutionHandlers.reject()`，但是他的队列是无界的（Integer.MAX_VALUE，近乎无界），所以基本上在他OOM挂掉之前他一般不会触发这个rejeced。
 在排查这个问题的时候，我压根就不会觉的这个地方有问题，知道后来实在想不出有啥其他原因了，抓包分析发现问题果然出现在这里。
+
+<!-- @include: ../scaffolds/post_footer.md -->

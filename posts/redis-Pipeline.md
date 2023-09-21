@@ -88,3 +88,5 @@ public void mdel(List<String> keys){
 
 - [Using pipelining to speedup Redis queries](https://redis.io/topics/pipelining)
 - [lettuce _pipelining_and_command_flushing](https://lettuce.io/core/release/reference/#_pipelining_and_command_flushing)
+
+<!-- @include: ../scaffolds/post_footer.md -->

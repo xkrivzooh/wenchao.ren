@@ -241,3 +241,5 @@ socket设置为 NONBLOCK（非阻塞）就是告诉内核，当所请求的I/O�
 
 - [Linux下的I/O复用与epoll详解](https://www.cnblogs.com/lojunren/p/3856290.html)
 - [Linux Network IO Model、Socket IO Model - select、poll、epoll](https://www.cnblogs.com/LittleHann/p/3897910.html)
+
+<!-- @include: ../scaffolds/post_footer.md -->

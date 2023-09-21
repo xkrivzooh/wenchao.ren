@@ -38,3 +38,5 @@ tag:
 
 - [Role Based Access control](https://en.wikipedia.org/wiki/Role-based_access_control)
 - [标准RBAC模型由4个部件模型](http://blog.csdn.net/chjttony/article/details/6229078)
+
+<!-- @include: ../scaffolds/post_footer.md -->

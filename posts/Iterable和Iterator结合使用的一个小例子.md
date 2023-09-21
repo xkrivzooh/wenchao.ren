@@ -93,3 +93,5 @@ public class Array<T> implements Iterable<T> {
     }
 }
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

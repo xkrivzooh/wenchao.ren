@@ -48,3 +48,5 @@ Spring 依赖注入很简单，没什么值得细说的。但是我之前遇到�
 	    }
 	}
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

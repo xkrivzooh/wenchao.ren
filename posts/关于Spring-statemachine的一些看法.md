@@ -36,3 +36,5 @@ tag:
 - [高德打车通用可编排订单状态机引擎设计](https://mp.weixin.qq.com/s/0GfCOUEw4svvSQVoShjJDw)
 - [基于有限状态机与消息队列的三方支付系统补单实践](https://mp.weixin.qq.com/s/9Z-N3cfWu7oMVJsTDkbb-Q)
 - [状态机在马蜂窝机票订单交易系统中的应用与优化实践](https://www.cnblogs.com/mfwtech/p/10694199.html)
+
+<!-- @include: ../scaffolds/post_footer.md -->

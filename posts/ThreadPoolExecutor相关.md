@@ -150,3 +150,5 @@ public static ExecutorService newSingleThreadExecutor() {
 - `newSingleThreadExecutor`返回的`ExcutorService`在析构函数`finalize()`处会调用`shutdown()`
 - 如果我们没有对它调用shutdown()，那么可以确保它在被回收时调用`shutdown()`来终止线程。
 流程图略，请参考 newFiexdThreadPool，这里不再累赘。
+
+<!-- @include: ../scaffolds/post_footer.md -->

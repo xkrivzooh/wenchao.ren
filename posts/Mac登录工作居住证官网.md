@@ -17,3 +17,5 @@ tag:
 [http://219.232.200.39/uamsso/SSOSecService?sid=e10adc3949ba59abbe56e057f20f883e&LinkType=online&LinkID=666](http://219.232.200.39/uamsso/SSOSecService?sid=e10adc3949ba59abbe56e057f20f883e&LinkType=online&LinkID=666)
 
 这样就可以正常的进入内部页面了，其他的一些关于工作居住证的操作都是OK的。真的是一个神奇的网站。在此感谢发现这个解决方案的同学。
+
+<!-- @include: ../scaffolds/post_footer.md -->

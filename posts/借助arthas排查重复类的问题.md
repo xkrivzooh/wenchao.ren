@@ -78,3 +78,5 @@ class-info        com.fasterxml.jackson.databind.deser.impl.SetterlessProperty
  
 Affect(row-cnt:11) cost in 183 ms.
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -325,3 +325,5 @@ The corresponding schema of this enum B is expressed as follows:
 
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

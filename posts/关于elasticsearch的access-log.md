@@ -68,3 +68,5 @@ PUT /_cluster/settings
 这2个参数的值为1ms。这样基本使得所有的query和index请求可以有一个类access log的slow log。
 你也看到了，这其实是一个很low的办法。也会影响es的性能，但是目前确实在server段没有什么比较好的办法。虽然我们封装了elasticsearch的client，但是也存在一些其他语言的应用或者部分应用直连elasticsearch。
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

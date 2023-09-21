@@ -57,3 +57,5 @@ tag:
 上面的配置其实就是修改默认的连接参数，打开集群拓扑刷新功能。其中有几个比较重要的地方，redis的默认超时时间是1分钟，其实这个时间太长了，很多的时候几秒钟就可以了，我这里是改为了15秒。
 另外一个比较重要的参数就是`validateClusterNodeMembership`，这个大家一定要注意，默认这个属性是true的，也就是你的redis cluster集群增加一个redis节点，Lettuce默认是不信任这个节点的，
 因此在内网的情况下，我们基本上都要关闭这个功能。也就是：`validateClusterNodeMembership(false);`
+
+<!-- @include: ../scaffolds/post_footer.md -->

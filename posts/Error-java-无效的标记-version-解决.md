@@ -25,3 +25,5 @@ tag:
 而这个配置会和新版本的idea冲突。把pom中的这个配置删除就好了
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

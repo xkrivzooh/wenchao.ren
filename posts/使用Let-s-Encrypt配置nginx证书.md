@@ -23,3 +23,5 @@ sudo certbot --nginx
 sudo certbot renew --dry-run
 0 0 1 * * certbot renew --post-hook "/usr/sbin/nginx -s reload"
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

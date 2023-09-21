@@ -48,3 +48,5 @@ org.apache.tomcat.util.bcel.classfile.ClassFormatException: Invalid byte tag in 
 ![log4j-api-2.11.1.jar工程结构图](http://wenchao.ren/img/2020/11/20190308171150.png)
 
 然后排查了发现`log4j-api-2.11.1.jar`是通过`elasticsearch`的`6.5.1`引入的。
+
+<!-- @include: ../scaffolds/post_footer.md -->

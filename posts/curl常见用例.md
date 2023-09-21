@@ -178,3 +178,5 @@ $ curl http://[a-z].baidu.com
 - -X, --request The request method to use.
 ```
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

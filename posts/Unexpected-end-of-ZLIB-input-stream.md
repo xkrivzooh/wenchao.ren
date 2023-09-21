@@ -79,3 +79,5 @@ private byte[] buildRequestBody(List<LoggerEntity> loggerEntities) {
 	}
 ```
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

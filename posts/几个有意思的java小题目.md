@@ -139,3 +139,5 @@ public class Example {
 ## 参考文章：
 - [Java String 对 null 对象的容错处理](http://www.importnew.com/27601.html)
 - [深入java字符串常量池](https://blog.csdn.net/neweastsun/article/details/82728323)
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -28,3 +28,5 @@ tag:
 - 复制`id_rsa.pub`文件的内容到gitlab的`profile setting -> SSH keys -> Add an SSH key
 `
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

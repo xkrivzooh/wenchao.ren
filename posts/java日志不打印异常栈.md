@@ -78,3 +78,5 @@ java.lang.NullPointerException
 - 方法1：查看很早之前的日志，那个时候jit的优化还没生效
 - 方法2：重启服务，在重启的以后的一段时间内jit的优化也暂时不会生效
 - 方法3：配置参数`-XX:-OmitStackTraceInFastThrow`
+
+<!-- @include: ../scaffolds/post_footer.md -->

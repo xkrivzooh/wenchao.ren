@@ -163,3 +163,5 @@ Hello, I am Bumblebee.
 - [Class ServiceLoader](https://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html)
 - [Java SPI例子](https://www.baeldung.com/java-spi)
 - 
+
+<!-- @include: ../../scaffolds/post_footer.md -->

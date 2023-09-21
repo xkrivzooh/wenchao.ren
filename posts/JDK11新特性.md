@@ -289,3 +289,5 @@ Java 11 中包含了传输层安全性（TLS）1.3 规范（RFC 8446）的实现
 ## 参考资料
 
 - [Java Platform, Standard Edition Java Flight Recorder Runtime Guide](https://docs.oracle.com/javacomponents/jmc-5-5/jfr-runtime-guide/toc.htm)
+
+<!-- @include: ../scaffolds/post_footer.md -->

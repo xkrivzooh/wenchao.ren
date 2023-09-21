@@ -100,3 +100,5 @@ Thus, retained heap size of A will become 40 bytes. All other objects retained h
 
 Hope this article helped to clarify Shallow heap size and Retained heap size calculation in Eclipse MAT. You might also consider exploring HeapHero – another powerful heap dump analysis tool, which shows the amount of memory wasted due to inefficient programming practices such as duplication of objects, overallocation and underutilization of data structures, suboptimal data type definitions,….
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

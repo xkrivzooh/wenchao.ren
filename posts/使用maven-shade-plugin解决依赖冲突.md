@@ -61,3 +61,5 @@ pom.xml文件内容为:
 
 不过我是在同一个工程中搞多个maven module来弄的，因此本地测试时候，一般都需要专门搞一个测试工程，这个算是一个麻烦点。
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -60,3 +60,5 @@ jobs:
         run: |
           rsync -av --delete docs 用户@域名:路径
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

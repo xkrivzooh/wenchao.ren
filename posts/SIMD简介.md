@@ -71,3 +71,5 @@ jdk对SIMD支持代码，主要位于`jdk.incubator.vector`这个package下面�
 * [(26条消息) 一文读懂SIMD指令集 目前最全SSE/AVX介绍_simd sse_Axurq的博客-CSDN博客](https://blog.csdn.net/qq_32916805/article/details/117637192)
 * [是什么让.NET7的Min和Max方法性能暴增了45倍？ - InCerry - 博客园 (cnblogs.com)](https://www.cnblogs.com/InCerry/p/how_to_use_simd_improve_dotnet7_min_max_performance.html)
 * [JEP 338: Vector API (Incubator) --- JEP 338：矢量 API（孵化器） (openjdk.org)](https://openjdk.org/jeps/338)
+
+<!-- @include: ../scaffolds/post_footer.md -->

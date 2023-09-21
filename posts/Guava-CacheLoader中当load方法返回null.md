@@ -78,3 +78,5 @@ public class Test {
 
 所以一般出现的问题是使用方可能仅仅cache了`ExecutionException`，这样会导致异常cache不住。这是一个问题，在某些
 情况下会影响程序逻辑。需要注意一下。所以尽可能的使用`Optional`来封装结果
+
+<!-- @include: ../scaffolds/post_footer.md -->

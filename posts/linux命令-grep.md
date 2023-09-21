@@ -86,3 +86,5 @@ grep [OPTIONS] [-e PATTERN]...  [-f FILE]...  [FILE...]
     #查找空行
     grep ^$ logs.log
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -211,3 +211,5 @@ synchronized最初实现同步的方式是`阻塞或唤醒一个Java线程需要
 - [java object header](https://gist.github.com/arturmkrtchyan/43d6135e8a15798cc46c)
 - [Java性能 -- synchronized锁升级优化](http://zhongmingmao.me/2019/08/15/java-performance-synchronized-opt/)
 - [不可不说的Java“锁”事](https://tech.meituan.com/2018/11/15/java-lock.html)
+
+<!-- @include: ../scaffolds/post_footer.md -->

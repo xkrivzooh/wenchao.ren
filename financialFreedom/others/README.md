@@ -17,3 +17,4 @@ tag:
 
 这个目录下是一些关于“财务自由之路”的其他一些相关的文章
 
+<!-- @include: ../../scaffolds/post_footer.md -->

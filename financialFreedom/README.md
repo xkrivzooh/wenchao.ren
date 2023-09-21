@@ -17,5 +17,5 @@ tag:
 我也会在当我有孩子以后，会作为他的一些家庭教育的材料。
 
 
-
+<!-- @include: ../scaffolds/post_footer.md -->
 

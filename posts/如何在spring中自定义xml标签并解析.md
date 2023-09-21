@@ -25,3 +25,5 @@ tag:
 - 通常为每一个xsd:element都要注册一个BeanDefinitionParser。
 - `person-demo.xml`中的`<AnyStringYouWant:person name="name1" age="1"/>`中的`AnyStringYouWant`你可以随意替换
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

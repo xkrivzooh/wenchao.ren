@@ -25,3 +25,5 @@ tag:
 # Only allow connections from localhost
 bind-address = 127.0.0.1
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -15,3 +15,5 @@ tag:
 
 这个目录下是我觉的一些比较有用的方法论
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

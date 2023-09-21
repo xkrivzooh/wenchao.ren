@@ -28,3 +28,5 @@ public static class NamespaceItem {
 }
 ```
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

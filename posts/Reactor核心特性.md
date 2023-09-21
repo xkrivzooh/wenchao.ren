@@ -1209,3 +1209,5 @@ Sinks.one() 接受对这些方法中任何一个的一次调用，有效地生�
 ##### Sinks.empty()
 
 该方法直接构造一个简单的 `Sinks.Empty<T>` 实例。 Sinks 的这种风格类似于 `Sinks.One<T>` ，只是它不提供 emitValue 方法。结果，它只能生成一个完成为空或失败的 Mono 。尽管无法触发 onNext ，接收器仍然使用通用 `<T>` 进行类型化，因为它允许轻松组合和包含在需要特定类型的运算符链中。
+
+<!-- @include: ../scaffolds/post_footer.md -->

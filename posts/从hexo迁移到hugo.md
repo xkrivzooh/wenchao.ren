@@ -21,3 +21,5 @@ tag:
 历史的博客文章我会慢慢的迁移过来。
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

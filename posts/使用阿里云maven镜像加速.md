@@ -34,3 +34,5 @@ maven的配置为：打开maven的配置文件(windows机器一般在maven安装
 ## 参考资料：
 
 - [Maven镜像地址大全](https://blog.csdn.net/Hello_World_QWP/article/details/82459915)
+
+<!-- @include: ../scaffolds/post_footer.md -->

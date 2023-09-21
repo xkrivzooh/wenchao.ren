@@ -17,3 +17,5 @@ tag:
 
 这个目录下是一些LeetCode相关的技术专题。
 
+
+<!-- @include: ../../scaffolds/post_footer.md -->

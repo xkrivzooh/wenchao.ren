@@ -78,3 +78,5 @@ public native void putIntVolatile(Object obj, long offset, int value);
 
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

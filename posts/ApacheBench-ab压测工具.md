@@ -142,3 +142,5 @@ ab -n 1 -c 1 -p 'post.txt' -T 'application/x-www-form-urlencoded'   http://192.1
 
 - -p 用来做post数据的文件，这里此文件保存在ab同级目录下 
 - -T 设置content-type值
+
+<!-- @include: ../scaffolds/post_footer.md -->

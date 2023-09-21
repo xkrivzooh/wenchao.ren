@@ -68,3 +68,5 @@ tag:
 ## 参考资料
 
 - [Bash Shortcuts For Maximum Productivity](https://skorks.com/2009/09/bash-shortcuts-for-maximum-productivity/)
+
+<!-- @include: ../scaffolds/post_footer.md -->

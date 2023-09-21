@@ -1290,3 +1290,5 @@ FutureTask实现了Runnable和Future接口，它表示了一个带有任务状�
 
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

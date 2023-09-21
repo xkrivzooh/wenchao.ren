@@ -33,3 +33,5 @@ tag:
 
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

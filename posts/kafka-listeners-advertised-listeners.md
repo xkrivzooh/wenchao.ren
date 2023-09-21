@@ -92,3 +92,5 @@ string类型，默认值为`null`
 - [Kafka集群无法外网访问问题解决攻略](https://blog.csdn.net/fengcai19/article/details/54695874)
 - [Kafka Broker Advertised.Listeners属性的设置](http://www.javacoder.cn/?p=849)
 - [kafka问题解决：生产者消费者不能连接远程kafka集群](https://blog.csdn.net/maoyuanming0806/article/details/80555979)
+
+<!-- @include: ../scaffolds/post_footer.md -->

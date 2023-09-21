@@ -88,3 +88,5 @@ DMAIC模型是实施6sigma的一套操作方法，通用电气公司总结了众
 - 在现场发现一个缺陷，花费1000美元
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

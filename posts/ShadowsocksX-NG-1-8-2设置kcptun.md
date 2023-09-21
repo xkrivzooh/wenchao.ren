@@ -26,3 +26,5 @@ tag:
 
 参考资料
 - [1.8.2 kcptun 自带的和1.7.1不同，如何打开kcptun #926](https://github.com/shadowsocks/ShadowsocksX-NG/issues/926)
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -145,3 +145,5 @@ Array(1, 4, 5, 2, 3, 6)
 - [Sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix)
 - [Compressed Sparse Column Format (CSC)](http://www.scipy-lectures.org/advanced/scipy_sparse/csc_matrix.html)
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

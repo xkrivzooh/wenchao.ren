@@ -262,3 +262,5 @@ public class Demo {
     }
 }
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

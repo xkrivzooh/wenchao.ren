@@ -58,3 +58,5 @@ tag:
 ## 参考资料
 
 - [将 ELASTICSEARCH 写入速度优化到极限](https://www.easyice.cn/archives/207#translog_flush)
+
+<!-- @include: ../scaffolds/post_footer.md -->

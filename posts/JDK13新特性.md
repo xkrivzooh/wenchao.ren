@@ -175,3 +175,5 @@ $ java -XX:SharedArchiveFile=hello.jsa -cp helloworld.jar Hello
 
 - https://openjdk.org/projects/jdk/12/
 - https://openjdk.org/projects/jdk/13/
+
+<!-- @include: ../scaffolds/post_footer.md -->

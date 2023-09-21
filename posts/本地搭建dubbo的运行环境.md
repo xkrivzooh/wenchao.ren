@@ -340,3 +340,5 @@ Hello world, response from provider: 192.168.116.1:20880
 
 - [Zookeeper 注册中心安装](http://dubbo.apache.org/zh-cn/docs/admin/install/zookeeper.html)
 - [http://dubbo.apache.org/zh-cn/docs/admin/install/provider-demo.html](http://dubbo.apache.org/zh-cn/docs/admin/install/provider-demo.html)
+
+<!-- @include: ../scaffolds/post_footer.md -->

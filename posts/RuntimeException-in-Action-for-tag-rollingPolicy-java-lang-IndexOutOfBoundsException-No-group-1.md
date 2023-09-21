@@ -76,3 +76,5 @@ tag:
         </encoder>
     </appender>
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

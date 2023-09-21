@@ -67,3 +67,5 @@ jobs:
           rsync -av --delete img 用户名@域名:VPS路径
 ```
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

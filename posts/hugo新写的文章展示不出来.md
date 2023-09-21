@@ -40,3 +40,5 @@ tags: ['杂谈']
     - 第一个是在`config.toml`中加入以下设置：`buildFuture = true`
     - 第二个是在`hugo build`博客的时候，加上 `--buildFuture` 选项
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

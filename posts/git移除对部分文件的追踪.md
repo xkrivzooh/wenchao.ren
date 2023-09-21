@@ -17,3 +17,5 @@ tag:
 - 执行`git rm -r --cached 文件名`命令
 - 执行`gti commit` && `git push`提交修改
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

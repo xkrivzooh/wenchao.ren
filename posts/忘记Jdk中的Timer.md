@@ -33,3 +33,5 @@ tag:
 ## 结论
 
 虽然`Timer`是一个简单易用的定时任务工具，但是它存在很多缺陷，特别是在多个定时任务的情况下。因此，我们应该尽可能地使用`ScheduledExecutorService`来执行定时任务。`ScheduledExecutorService`是线程安全的，可以执行多个定时任务，并且提供了更多的灵活性。
+
+<!-- @include: ../scaffolds/post_footer.md -->

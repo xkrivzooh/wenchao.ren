@@ -29,3 +29,5 @@ WARNING:  no libwebkitgtk-1.0 detected, some features will be unavailable
 sudo wget ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/home:/matthewdva:/build:/EPEL:/el7/RHEL_7/x86_64/webkitgtk-2.4.9-1.el7.x86_64.rpm
 sudo yum install webkitgtk-2.4.9-1.el7.x86_64.rpm
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

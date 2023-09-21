@@ -22,3 +22,5 @@ tag:
                 }, 3000);
             }
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

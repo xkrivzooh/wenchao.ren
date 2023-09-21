@@ -143,3 +143,5 @@ public class XxxXMLLanguageDriver extends XMLLanguageDriver {
 可以看到作者也在纠结过，不过最终结论如同上面issues最终定论的：
 
 > The rule of thumb is: mark the data as data.
+
+<!-- @include: ../scaffolds/post_footer.md -->

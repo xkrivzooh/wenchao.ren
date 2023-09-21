@@ -26,3 +26,5 @@ git push -f origin master
 ## 参考资料
 
 - [push-existing-project-into-github](https://stackoverflow.com/questions/17291995/push-existing-project-into-github)
+
+<!-- @include: ../scaffolds/post_footer.md -->

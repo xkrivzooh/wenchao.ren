@@ -568,3 +568,5 @@ public class PdaiDeprecatedTest {
 - [Java 9 新特性概述](https://pdai.tech/md/java/java8up/java9.html#java-9-%E6%96%B0%E7%89%B9%E6%80%A7%E6%A6%82%E8%BF%B0)
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

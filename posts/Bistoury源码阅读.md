@@ -77,3 +77,5 @@ Bistoury Agent的核心类其实就是`qunar.tc.bistoury.agent.AgentClient`类�
 - RequestHandler 是一个非常重要的类，这个类是Agent收到来自BistouryProxy的最初始的入口类。
 - `ConnectionManagerHandler`
     - 这个类比较简单，继承了`ChannelDuplexHandler`, 覆盖了channel相关的生命周期方法，然后打了一些日志。
+
+<!-- @include: ../scaffolds/post_footer.md -->

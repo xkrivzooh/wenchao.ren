@@ -116,3 +116,5 @@ JDK12在新包`java.lang.invoke.constant`中定义了一系列基于值的符号
 ## JEP340: 移除多余ARM64实现 
 
 Java 12将只有一个ARM 64位实现（aarch64）。 目标是删除所有与arm64实现相关的代码，同时保留32位ARM端口和64位aarch64实现。 这将把重点转移到单个64位ARM实现，并消除维护两个实现所需的重复工作。 当前的JDK 11实现中有两个64位ARM实现。
+
+<!-- @include: ../scaffolds/post_footer.md -->

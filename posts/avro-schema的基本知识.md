@@ -157,3 +157,5 @@ fixed类型有如下属性：
 `Named types`和字段都可以有别名，比如可以针对一个Schema起一个write的别名也可以起一个read的别名，这既方便了模式演变，又可以处理不同的数据集。<br />
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

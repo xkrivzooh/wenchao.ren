@@ -133,3 +133,5 @@ public native Class<?> defineAnonymousClass(Class<?> hostClass, byte[] data, Obj
 ## 参考资料
 
 - [JEP 371: Hidden Classes](https://openjdk.java.net/jeps/371)
+
+<!-- @include: ../scaffolds/post_footer.md -->

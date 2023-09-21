@@ -78,3 +78,5 @@ Content-Encoding: gzip
 ## 参考资料
 
 - [Module ngx_http_gzip_module](http://nginx.org/en/docs/http/ngx_http_gzip_module.html)
+
+<!-- @include: ../scaffolds/post_footer.md -->

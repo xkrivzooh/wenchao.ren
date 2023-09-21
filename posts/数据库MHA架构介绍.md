@@ -58,3 +58,5 @@ MHA Node运行在每台MySQL服务器上，类似于Agent。主要作用有：
 - 提升一个slave为新master并记录binlog file和position。
 - 使其它的slave连接新的master进行复制。
 - 完成切换manager主进程OFFLINE
+
+<!-- @include: ../scaffolds/post_footer.md -->

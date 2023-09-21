@@ -69,3 +69,5 @@ sudo certbot renew --dry-run
 ## 参考资料
 
 - [How to stop using TLS-SNI-01 with Certbot](https://community.letsencrypt.org/t/how-to-stop-using-tls-sni-01-with-certbot/83210)
+
+<!-- @include: ../scaffolds/post_footer.md -->

@@ -163,3 +163,5 @@ mysql> show variables like '%expire_logs_days%';
 
 - flush logs 刷新日志
     - 当停止或重启服务器时，服务器会把日志文件记入下一个日志文件，Mysql会在重启时生成一个新的日志文件，文件序号递增；此外，如果日志文件超过max_binlog_size（默认值1G）系统变量配置的上限时，也会生成新的日志文件（在这里需要注意的是，如果你正使用大的事务，二进制日志还会超过max_binlog_size，不会生成新的日志文件，事务全写入一个二进制日志中,这种情况主要是为了保证事务的完整性）；日志被刷新时，新生成一个日志文件。
+
+<!-- @include: ../scaffolds/post_footer.md -->

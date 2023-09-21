@@ -309,3 +309,5 @@ bf.reserve urls 0.01 100
 - [Cardinality Estimation](https://mp.weixin.qq.com/s?__biz=MzIzODQyNjE1NA==&mid=2247484087&idx=1&sn=d589f49e23da6787058e6df2c1cf2826&chksm=e938c3f2de4f4ae4639bc58701aadf31f1bdd6ca959654da0c5ec55378bd2be9ffe4d9c72a2b&scene=21#wechat_redirect)
 - [google guava bloom filter包的坑](https://blog.csdn.net/inte_sleeper/article/details/11687707)
 - [ReBloom – Bloom Filter Datatype for Redis](https://redislabs.com/blog/rebloom-bloom-filter-datatype-redis/)
+
+<!-- @include: ../scaffolds/post_footer.md -->

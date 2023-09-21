@@ -56,3 +56,5 @@ public static String getCodeBase(Class<?> cls) {
     return location.getFile();
 }
 ```
+
+<!-- @include: ../../scaffolds/post_footer.md -->

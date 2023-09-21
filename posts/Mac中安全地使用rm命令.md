@@ -28,3 +28,5 @@ $ trash -F [file-name]
 alias rm='trash -F'
 
 然后就可以在终端中正常的使用`rm xxx`或者`rm -rf xx`，操作后，就会发现被删除的文件存在mac的废纸篓中。可以还原。
+
+<!-- @include: ../scaffolds/post_footer.md -->

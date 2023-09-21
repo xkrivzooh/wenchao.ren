@@ -463,3 +463,5 @@ Batch: 0
 +-----------------+
 ....
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

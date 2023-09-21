@@ -51,3 +51,5 @@ public class DubboNamespaceHandler extends NamespaceHandlerSupport {
 ## 推荐阅读
 
 - [《如何在spring中自定义xml标签并解析》](https://wenchao.ren/2019/08/%E5%A6%82%E4%BD%95%E5%9C%A8spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89xml%E6%A0%87%E7%AD%BE%E5%B9%B6%E8%A7%A3%E6%9E%90/)
+
+<!-- @include: ../../scaffolds/post_footer.md -->

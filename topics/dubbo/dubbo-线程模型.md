@@ -402,3 +402,5 @@ MultiMessageHandler
 ## 参考资料
 
 - [线程模型](http://dubbo.apache.org/zh-cn/docs/user/demos/thread-model.html)
+
+<!-- @include: ../../scaffolds/post_footer.md -->

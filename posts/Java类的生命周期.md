@@ -242,3 +242,5 @@ class InitClass{
 - [详解Java类的生命周期](https://mp.weixin.qq.com/s?__biz=MzIwMTY0NDU3Nw==&mid=2651935038&idx=1&sn=371a3720159f2f05bccb82884ded6e96&chksm=8d0f3e70ba78b7661a6549c8df6478864612d499e71ba4b5b2eba11215debbad6d8b2c0875dd&mpshare=1&scene=1&srcid=%23rd)
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

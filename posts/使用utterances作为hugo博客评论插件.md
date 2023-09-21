@@ -102,3 +102,5 @@ tag:
 至于这个`utterances`只支持github登录，这一点不是问题，因为访问我的博客的人基本也就是程序员，一般都会有github的账号，其他人也不会浏览到我的网站，所以这个不是问题。
 
 最后推荐你也试试。
+
+<!-- @include: ../scaffolds/post_footer.md -->

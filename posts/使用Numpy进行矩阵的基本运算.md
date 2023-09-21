@@ -241,3 +241,5 @@ print myMatrixCopy
 #矩阵的比较
 print myMatrix < myMatrix.T
 ```
+
+<!-- @include: ../scaffolds/post_footer.md -->

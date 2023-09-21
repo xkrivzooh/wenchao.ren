@@ -125,3 +125,5 @@ class ElasticsearchUncaughtExceptionHandler implements Thread.UncaughtExceptionH
 
 - [不规范ES前缀查询导致ES集群挂掉](https://daminger.github.io/2017/12/24/es-case-1/)
 - [模糊查询导致Elasticsearch服务宕机](https://www.jianshu.com/p/5db209e0fdbe)
+
+<!-- @include: ../scaffolds/post_footer.md -->

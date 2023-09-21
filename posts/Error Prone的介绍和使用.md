@@ -212,3 +212,5 @@ java: [ArrayToString] Calling toString on an array does not provide useful infor
 Sonar和FindBugs类似，Sonar和FindBugs做的也非常不错，里面的用例很足，都有不少的公司在用，**但是这种东西最大的问题是，需要开发人员有意识的去使用它**。所以在我呆过的qunar和美团，都是在开发环境的某一个阶段，比如项目提测之前，有一个Sonar等的代码检查阶段来做静态代码分析，然后CM同学会根据是否有阻断性问题来让不让项目提测。但是实际观察来看，很多项目都最终停止掉了代码检查，或者仅仅要求每次发布不新增`阻断性问题`，也算是一种变相妥协吧。
 
 而Google的这个Error Prone最大的优势就是整合到了javac中，这样开发人员相当于被强制必须FIX问题。所以最终具体用哪个，都还好，只要有意识的去用就是好同学。
+
+<!-- @include: ../scaffolds/post_footer.md -->

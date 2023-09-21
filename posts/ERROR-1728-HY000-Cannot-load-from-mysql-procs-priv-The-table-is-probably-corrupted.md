@@ -89,3 +89,5 @@ Checking if update is needed.
 ```
 
 然后重启mysql以后，在尝试创建用户，发现完美解决。
+
+<!-- @include: ../scaffolds/post_footer.md -->

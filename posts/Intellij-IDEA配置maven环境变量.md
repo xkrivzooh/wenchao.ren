@@ -49,3 +49,5 @@ tag:
 ![IDEA为maven设置环境变量](http://wenchao.ren/img/2020/11/20200604183613.png)
 
 保存之后在执行一下maven clean就会发现成功了。当然了你也可以设置全局环境变量来解决这个问题。
+
+<!-- @include: ../scaffolds/post_footer.md -->

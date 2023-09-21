@@ -149,3 +149,5 @@ public class JarVersionAttachFilter implements Filter {
 
 ## 参考资料
 - [dubbo官方文档-调用拦截扩展](http://dubbo.apache.org/zh-cn/docs/dev/impls/filter.html)
+
+<!-- @include: ../../scaffolds/post_footer.md -->

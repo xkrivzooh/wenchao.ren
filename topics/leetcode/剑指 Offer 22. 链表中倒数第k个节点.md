@@ -41,3 +41,4 @@ class Solution {
     }
 }
 ```
+<!-- @include: ../../scaffolds/post_footer.md -->

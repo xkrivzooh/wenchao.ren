@@ -40,3 +40,5 @@ The -F option can be used when the target process is not responding
 
 
 - [AttachNotSupportedException due to missing java_pid file in Attach API](https://stackoverflow.com/questions/5769877/attachnotsupportedexception-due-to-missing-java-pid-file-in-attach-api)
+
+<!-- @include: ../scaffolds/post_footer.md -->

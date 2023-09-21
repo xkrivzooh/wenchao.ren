@@ -333,3 +333,5 @@ try (MemorySegment segment = MemorySegment.allocateNative(200)) {
 ```
 
 关于堆外内存段的释放，Memory Access API 提供有显式和隐式 2 种方式，开发人员除了可以在程序中通过 `MemorySegment` 的 `close()`方法来显式释放所申请的内存资源外，还可以注册 `Cleaner` 清理器来实现资源的隐式释放，后者会在 GC 确定目标内存段不再可访问时，释放与之关联的堆外内存资源。 
+
+<!-- @include: ../scaffolds/post_footer.md -->

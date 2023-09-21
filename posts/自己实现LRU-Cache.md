@@ -125,3 +125,5 @@ public class LRUCache<K, V> {
 ## 参考资料
 
 - [Guava CachesExplained](https://github.com/google/guava/wiki/CachesExplained)
+
+<!-- @include: ../scaffolds/post_footer.md -->

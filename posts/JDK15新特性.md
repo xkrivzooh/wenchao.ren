@@ -228,3 +228,5 @@ final class GraduateStudent extends Student { }  //研究生
 
 Records 最早在 JDK 14 中成为预览特性，JDK 15 继续二次预览， 感觉没啥变化。
 
+
+<!-- @include: ../scaffolds/post_footer.md -->

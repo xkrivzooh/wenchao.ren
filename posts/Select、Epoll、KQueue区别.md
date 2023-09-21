@@ -174,3 +174,5 @@ kqueue与epoll非常相似，最初是2000年Jonathan Lemon在FreeBSD系统上�
 - [epoll 或者 kqueue 的原理是什么？](https://www.zhihu.com/question/20122137)
 
 
+
+<!-- @include: ../scaffolds/post_footer.md -->
