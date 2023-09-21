@@ -11,5 +11,7 @@
 
 ![微信](/WeChatPay.png "微信" =200x200)  ![支付宝](/AliPay.png "支付宝" =200x200)
 
+![](/weixingongzhonghao.png)
+
 :::
 
