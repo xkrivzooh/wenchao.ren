@@ -68,7 +68,11 @@ export default navbar([
     //         }
     //     ]
     // },
-
+    {
+        text: "公众号文章",
+        icon: "command",
+        link: "/gzh/"
+    },
     {
         text: "方法论",
         icon: "light",

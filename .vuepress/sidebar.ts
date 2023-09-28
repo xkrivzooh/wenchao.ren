@@ -10,6 +10,7 @@ export default sidebar({
     "/financialFreedom/financialStatements/": "structure",
     "/financialFreedom/others/": "structure",
     "/methodology/": "structure",
+    "/gzh/": "structure",
 
     // "/posts/": "structure",
 
