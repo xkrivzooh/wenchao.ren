@@ -81,3 +81,10 @@ $sidebar-width: 'none';
 .update-time {
   display: none;
 }
+
+//侧边栏内容过长的时候，自动换行
+.theme-container .vp-sidebar {
+    top: var(--navbar-height);
+    overflow: hidden;
+    width: 20%;
+}
